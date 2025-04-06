@@ -154,14 +154,17 @@ Custom Error Pages
 [actionLogsPage]: /demo-screenshots/Action%20Log%20List.png
 [laravelPulsePage]: /demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png
 
+## Live Demo
+https://demo.laradashboard.com
+
 ## Wanna talk with me
 Please mail me at - manirujjamanakash@gmail.com
 
 ## Premium Features
 Please visit at Lara Dashboard to get more premium moduels - https://laradashboard.com. Premium modules included CRM, HRM, Course Managements and so on.
 
-## Live Demo
-https://demo.laradashboard.com
+## Core modules
+- **User Avatar** - https://github.com/laradashboard/UserAvatar - A very simple module create an avatar for a user. Handle migration, entries/updates in user forms and so on. 
 
 ## Support
 If you like my work you may consider buying me a ☕ / 🍕
