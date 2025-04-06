@@ -1,0 +1,34 @@
+name: Deploy to Production Environment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-production:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Execute Deployment Commands on Production
+        run: |
+          ssh -p 65002 -o StrictHostKeyChecking=no u769668005@178.16.136.122 << 'EOF'
+          echo 'SSH connection successful'
+          cd domains/laradashboard.com/public_html/demo/ || exit
+          git pull origin main
+          /opt/alt/php83/usr/bin/php /usr/local/bin/composer2.phar install --no-interaction
+          /opt/alt/php83/usr/bin/php artisan migrate --force
+          /opt/alt/php83/usr/bin/php artisan optimize:clear
+          /opt/alt/php83/usr/bin/php artisan config:clear
+          /opt/alt/php83/usr/bin/php artisan cache:clear
+          nvm use v20.1.0
+          npm install
+          npm run build
+          EOF
