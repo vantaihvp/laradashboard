@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
@@ -28,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
     {
         if (env('REDIRECT_HTTPS')) {
             URL::forceScheme('https');
+        }
+
+        $settings = Setting::pluck('option_value', 'option_name')->toArray();
+        foreach ($settings as $key => $value) {
+            config(['settings.' . $key => $value]);
         }
 
         // Only allowed people can view the pulse.

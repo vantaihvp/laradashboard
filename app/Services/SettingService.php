@@ -11,7 +11,7 @@ class SettingService
     {
         return Setting::updateOrCreate(
             ['option_name' => $optionName],
-            ['option_value' => $optionValue, 'autoload' => $autoload]
+            ['option_value' => $optionValue ?? '', 'autoload' => $autoload]
         );
     }
 

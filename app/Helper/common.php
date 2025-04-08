@@ -36,3 +36,45 @@ function get_settings(int|bool|null $autoload = true): array
 {
     return app(App\Services\SettingService::class)->getSettings($autoload);
 }
+
+
+
+if (!function_exists('storeImageAndGetUrl')) {
+    function storeImageAndGetUrl($request, $fileName, $path)
+    {
+        if ($request->hasFile($fileName)) {
+            $uploadedFile = $request->file($fileName);
+            $fileName = $fileName.'.' . $uploadedFile->getClientOriginalExtension();
+            $targetPath = public_path($path);
+            if (!file_exists($targetPath)) {
+                mkdir($targetPath, 0777, true);
+            }
+            $uploadedFile->move($targetPath, $fileName);
+            return asset($path . '/' . $fileName);
+        }
+        return null;
+    }
+}
+
+
+
+
+
+
+
+if (!function_exists('deleteImageFromPublic')) {
+    function deleteImageFromPublic(string $imageUrl)
+    {
+        $urlParts = parse_url($imageUrl);
+        $filePath = ltrim($urlParts['path'], '/');
+        if (File::exists(public_path($filePath))) {
+            if (File::delete(public_path($filePath))) {
+                Log::info("File deleted successfully: " . $filePath);
+            } else {
+                Log::error("Failed to delete file: " . $filePath);
+            }
+        } else {
+            Log::warning("File does not exist: " . $filePath);
+        }
+    }
+}
