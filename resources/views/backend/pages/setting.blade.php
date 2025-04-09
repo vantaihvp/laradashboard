@@ -33,7 +33,7 @@
         <div class="space-y-6">
             <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
                 <div class="px-5 py-4 sm:px-6 sm:py-5">
-                    @include('components.tabs', [
+                    @include('backend.pages.settings.tabs', [
                         'tabs' => [
                             'profile' => [
                                 'title' => 'General Tab',
@@ -48,7 +48,7 @@
                             'contacts' => [
                                 'title' => 'Contacts',
                                 'content' => '<p>This is contacts content.</p>', // Static HTML content
-                            ],
+                            ]
                         ],
                     ])
 
