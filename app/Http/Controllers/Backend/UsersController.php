@@ -77,9 +77,12 @@ class UsersController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['user.edit']);
 
-        ld_do_action('user_edit_page_before');
-
         $user = User::findOrFail($id);
+
+        // Prevent editing of super admin in demo mode
+        $this->preventSuperAdminModification($user);
+
+        ld_do_action('user_edit_page_before');
 
         $user = ld_apply_filters('user_edit_page_before_with_user', $user);
 
@@ -94,13 +97,13 @@ class UsersController extends Controller
         $this->checkAuthorization(auth()->user(), ['user.edit']);
 
         $user = User::findOrFail($id);
+
+        // Prevent editing of super admin in demo mode
+        $this->preventSuperAdminModification($user);
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->save();
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }
@@ -126,6 +129,10 @@ class UsersController extends Controller
         $this->checkAuthorization(auth()->user(), ['user.delete']);
 
         $user = User::findOrFail($id);
+
+        // Prevent deletion of super admin in demo mode
+        $this->preventSuperAdminModification($user);
+
         $user = ld_apply_filters('user_delete_before', $user);
         $user->delete();
         $user = ld_apply_filters('user_delete_after', $user);
@@ -140,6 +147,11 @@ class UsersController extends Controller
 
     public function editProfile()
     {
+        $this->checkAuthorization(auth()->user(), ['profile.edit'], true);
+
+        // Prevent deletion of super admin in demo mode
+        $this->preventSuperAdminModification(auth()->user());
+
         $user = Auth::user();
 
         return view('backend.pages.profile.edit', compact('user'));
@@ -147,6 +159,11 @@ class UsersController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $this->checkAuthorization(auth()->user(), ['profile.edit'], true);
+
+        // Prevent deletion of super admin in demo mode
+        $this->preventSuperAdminModification(auth()->user());
+
         $user = Auth::user();
 
         $request->validate([

@@ -61,8 +61,16 @@
                             <tr class="{{ $loop->index + 1 != count($users) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
                                 <td class="px-5 py-4 sm:px-6">{{ $loop->index + 1 }}</td>
                                 <td class="px-5 py-4 sm:px-6 flex items-center md:min-w-[200px]">
-                                    <img src="{{ ld_apply_filters('user_list_page_avatar_item', $user->getGravatarUrl(40), $user) }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full mr-3">
-                                    {{ $user->name }}
+                                    <a data-tooltip-target="tooltip-user-{{ $user->id }}" href="{{ auth()->user()->canBeModified($user) ? route('admin.users.edit', $user->id) : '#' }}" class="flex items-center">
+                                        <img src="{{ ld_apply_filters('user_list_page_avatar_item', $user->getGravatarUrl(40), $user) }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full mr-3">
+                                        {{ $user->name }}
+                                    </a>
+                                    @if (auth()->user()->canBeModified($user))
+                                    <div id="tooltip-user-{{ $user->id }}" href="{{ route('admin.users.edit', $user->id) }}" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                        {{ __('Edit User') }}
+                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                    </div>
+                                    @endif
                                 </td>
                                 <td class="px-5 py-4 sm:px-6">{{ $user->email }}</td>
                                 <td class="px-5 py-4 sm:px-6">
@@ -74,7 +82,7 @@
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_before_action', '', $user) @endphp
                                 <td class="flex px-5 py-4 sm:px-6 text-center">
-                                    @if (auth()->user()->can('user.edit'))
+                                    @if (auth()->user()->canBeModified($user))
                                         <a data-tooltip-target="tooltip-edit-user-{{ $user->id }}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" href="{{ route('admin.users.edit', $user->id) }}">
                                             <i class="bi bi-pencil text-sm"></i>
                                         </a>
@@ -83,7 +91,7 @@
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                     @endif
-                                    @if (auth()->user()->can('user.delete'))
+                                    @if (auth()->user()->canBeModified($user, 'user.delete'))
                                         <a data-modal-target="delete-modal-{{ $user->id }}" data-modal-toggle="delete-modal-{{ $user->id }}" data-tooltip-target="tooltip-delete-user-{{ $user->id }}" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" href="javascript:void(0);">
                                             <i class="bi bi-trash text-sm"></i>
                                         </a>
