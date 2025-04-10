@@ -15,7 +15,7 @@
                     class="inline-block p-4 border-b-2 rounded-t-lg 
                hover:text-gray-600 hover:border-gray-300 
                dark:hover:text-gray-300
-               {{ $activeTab === $key ? 'text-purple-600 border-purple-600 dark:text-purple-500 dark:border-purple-500' : 'text-gray-500 border-transparent' }}"
+               {{ $activeTab == $key ? 'border-b-2 text-purple-600 border-purple-600 dark:text-purple-500 dark:border-purple-500' : 'text-gray-500 border-transparent' }}"
                     id="{{ $key }}-tab" data-tabs-target="#{{ $key }}" type="button" role="tab" data-tab="{{ $key }}"
                     aria-controls="{{ $key }}" aria-selected="{{ $activeTab === $key ? 'true' : 'false' }}">
                     {{ $tab['title'] }} 

@@ -74,14 +74,12 @@
                 const url = new URL(window.location);
                 url.pathname = `/admin/settings/${tabKey}`;  // Update the path dynamically
                 
-                // Push the new URL to the browser history (without reloading the page)
-                history.pushState(null, '', url);
-                
-                // Optional: Add code here to show the correct tab content based on the tab selection
-                // For example, hide/show tab contents depending on the selected tab
+                // Update the browser's location, causing the page to reload with the new URL
+                window.location.href = url.href;  // This causes the page to reload with the new URL
             });
         });
     });
 </script>
+
 
 @endpush
