@@ -36,18 +36,18 @@
                     @include('backend.pages.settings.tabs', [
                         'tabs' => [
                             'profile' => [
-                                'title' => 'General Tab',
+                                'title' => __('General Settings'),
                                 'view' => 'backend.pages.settings.general-tab',
                                 'data' => $settings,
                             ],
                             'settings' => [
-                                'title' => 'Content Tab',
+                                'title' => __('Content Settings'),
                                 'view' => 'backend.pages.settings.content-settings',
                                 'data' => $settings,
                             ],
-                            'contacts' => [
-                                'title' => 'Contacts',
-                                'content' => '<p>This is contacts content.</p>', // Static HTML content
+                            'others' => [
+                                'title' => 'More',
+                                'content' => '<p>This is a sample tab.</p>', // Static HTML content
                             ]
                         ],
                     ])
