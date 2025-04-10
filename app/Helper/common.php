@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Vite;
+use Illuminate\Support\Facades\Vite as ViteFacade;
+
 function get_module_asset_paths(): array
 {
     $paths = [];
@@ -56,12 +59,6 @@ if (!function_exists('storeImageAndGetUrl')) {
     }
 }
 
-
-
-
-
-
-
 if (!function_exists('deleteImageFromPublic')) {
     function deleteImageFromPublic(string $imageUrl)
     {
@@ -76,5 +73,19 @@ if (!function_exists('deleteImageFromPublic')) {
         } else {
             Log::warning("File does not exist: " . $filePath);
         }
+    }
+}
+
+
+if (! function_exists('module_vite_compile')) {
+    /**
+     * support for vite hot reload overriding manifest file.
+     */
+    function module_vite_compile(string $module, string $asset, ?string $hotFilePath = null, $manifestFile = '.vite/manifest.json'): Vite
+    {
+        return ViteFacade::useHotFile($hotFilePath ?: storage_path('vite.hot'))
+            ->useBuildDirectory($module)
+            ->useManifestFilename($manifestFile)
+            ->withEntryPoints([$asset]);
     }
 }

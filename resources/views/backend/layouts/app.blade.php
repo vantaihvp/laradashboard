@@ -10,9 +10,8 @@
     @yield('before_vite_build')
 
     @viteReactRefresh
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
-    @vite(get_module_asset_paths())
-    @yield('styles')
+    @vite(['resources/js/app.js', 'resources/css/app.css'], 'build')
+    @stack('styles')
     @yield('before_head')
 
     @php echo ld_apply_filters('admin_head', ''); @endphp
