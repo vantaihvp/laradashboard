@@ -20,7 +20,7 @@
 
             <div class=" flex gap-2">
                 <div class=" w-1/2">
-                    @if (config('settings.site_logo_lite') !== '')
+                    @if (config('settings.site_logo_lite') !== '' && !empty(config('settings.site_logo_lite')))
                         <img src="{{ config('settings.site_logo_lite') ?? '' }}" class=" h-50" alt="">
                     @endif
                     <div class=" w-full">
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class=" w-1/2">
-                    @if (config('settings.site_logo_dark') !== '')
+                    @if (config('settings.site_logo_dark') !== '' && !empty(config('settings.site_logo_dark')))
                         <img src="{{ config('settings.site_logo_dark') ?? '' }}" class=" h-50" alt="">
                     @endif
                     <div class=" w-full">
@@ -47,7 +47,7 @@
 
 
                 <div class=" w-1/2">
-                    @if (config('settings.site_icon') !== '')
+                    @if (config('settings.site_icon') !== ''  && !empty(config('settings.site_icon')))
                         <img src="{{ config('settings.site_icon') ?? '' }}" class=" h-50" alt="">
                     @endif
                     <div class=" w-full">
@@ -61,7 +61,7 @@
 
 
                 <div class=" w-1/2">
-                    @if (config('settings.site_favicon') !== '')
+                    @if (config('settings.site_favicon') !== '' && !empty(config('settings.site_favicon')))
                         <img src="{{ config('settings.site_favicon') ?? '' }}" class=" h-50" alt="">
                     @endif
                     <div class=" w-full">
