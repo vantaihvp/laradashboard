@@ -36,6 +36,11 @@ class LoginController extends Controller
      */
     public function showLoginForm(): Renderable
     {
+        // redirct back if already logged in.
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         $email = app()->environment('local') ? 'superadmin@example.com' : '';
         $password = app()->environment('local') ? '12345678' : '';
 
