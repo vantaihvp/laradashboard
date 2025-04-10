@@ -40,21 +40,17 @@
                                 'view' => 'backend.pages.settings.general-tab',
                                 'data' => $settings,
                             ],
-                            'settings' => [
+                            'content' => [
                                 'title' => __('Content Settings'),
                                 'view' => 'backend.pages.settings.content-settings',
                                 'data' => $settings,
-                            ],
-                            'others' => [
-                                'title' => 'More',
-                                'content' => '<p>This is a sample tab.</p>', // Static HTML content
                             ]
                         ],
                     ])
 
                 </div>
             </div>
-            
+
         </div>
 
     </div>
@@ -65,4 +61,27 @@
 @endif
 
 @push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all tab buttons
+        const tabButtons = document.querySelectorAll('[role="tab"]');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabKey = this.getAttribute('data-tab'); // Get the selected tab key
+                
+                // Construct the new URL with the selected tab in the path
+                const url = new URL(window.location);
+                url.pathname = `/admin/settings/${tabKey}`;  // Update the path dynamically
+                
+                // Push the new URL to the browser history (without reloading the page)
+                history.pushState(null, '', url);
+                
+                // Optional: Add code here to show the correct tab content based on the tab selection
+                // For example, hide/show tab contents depending on the selected tab
+            });
+        });
+    });
+</script>
+
 @endpush

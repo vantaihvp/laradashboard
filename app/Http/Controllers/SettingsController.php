@@ -13,7 +13,7 @@ class SettingsController extends Controller
         $this->settingService = $settingService;
     }
 
-    public function index()
+    public function index($tab= null)
     {
         $this->settingService->addSetting('app_name', 'Hello loser');
         $settings = \App\Models\Setting::all()->pluck('option_value', 'option_name')->toArray();
