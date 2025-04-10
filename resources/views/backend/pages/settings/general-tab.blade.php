@@ -124,41 +124,41 @@
                 </select>
             </div>
 
-            <!-- Header Navbar Background Color (Lite Mode) -->
+            <!-- Navbar Background Color (Lite Mode) -->
             <div class="flex gap-4">
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Navbar Background Color (Lite Mode)
+                        Navbar Background Color (Lite Mode)
                     </label>
                     <input type="color" name="navbar_bg_lite" value="{{ config('settings.navbar_bg_lite') ?? '' }}"
                         class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
                 </div>
 
-                <!-- Header Navbar Background Color (Dark Mode) -->
+                <!-- Navbar Background Color (Dark Mode) -->
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Navbar Background Color (Dark Mode)
+                        Navbar Background Color (Dark Mode)
                     </label>
                     <input type="color" name="navbar_bg_dark" value="{{ config('settings.navbar_bg_dark') ?? '' }}"
                         class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
                 </div>
             </div>
 
-            <!-- Header Navbar Text Color (Lite Mode) -->
+            <!-- Navbar Text Color (Lite Mode) -->
             <div class="flex gap-4">
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Navbar Text Color (Lite Mode)
+                        Navbar Text Color (Lite Mode)
                     </label>
                     <input type="color" name="navbar_text_lite"
                         value="{{ config('settings.navbar_text_lite') ?? '' }}"
                         class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
                 </div>
 
-                <!-- Header Navbar Text Color (Dark Mode) -->
+                <!-- Navbar Text Color (Dark Mode) -->
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Navbar Text Color (Dark Mode)
+                        Navbar Text Color (Dark Mode)
                     </label>
                     <input type="color" name="navbar_text_dark"
                         value="{{ config('settings.navbar_text_dark') ?? '' }}"
@@ -166,21 +166,21 @@
                 </div>
             </div>
 
-            <!-- Header Sidebar Background Color (Lite Mode) -->
+            <!-- Sidebar Background Color (Lite Mode) -->
             <div class="flex gap-4">
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Sidebar Background Color (Lite Mode)
+                        Sidebar Background Color (Lite Mode)
                     </label>
                     <input type="color" name="sidebar_bg_lite"
                         value="{{ config('settings.sidebar_bg_lite') ?? '' }}"
                         class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
                 </div>
 
-                <!-- Header Sidebar Background Color (Dark Mode) -->
+                <!-- Sidebar Background Color (Dark Mode) -->
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Sidebar Background Color (Dark Mode)
+                        Sidebar Background Color (Dark Mode)
                     </label>
                     <input type="color" name="sidebar_bg_dark"
                         value="{{ config('settings.sidebar_bg_dark') ?? '' }}"
@@ -188,21 +188,21 @@
                 </div>
             </div>
 
-            <!-- Header Sidebar Text Color (Lite Mode) -->
+            <!-- Sidebar Text Color (Lite Mode) -->
             <div class="flex gap-4">
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Sidebar Text Color (Lite Mode)
+                        Sidebar Text Color (Lite Mode)
                     </label>
                     <input type="color" name="sidebar_text_lite"
                         value="{{ config('settings.sidebar_text_lite') ?? '' }}"
                         class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
                 </div>
 
-                <!-- Header Sidebar Text Color (Dark Mode) -->
+                <!-- Sidebar Text Color (Dark Mode) -->
                 <div class="w-1/2">
                     <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Header Sidebar Text Color (Dark Mode)
+                        Sidebar Text Color (Dark Mode)
                     </label>
                     <input type="color" name="sidebar_text_dark"
                         value="{{ config('settings.sidebar_text_dark') ?? '' }}"

@@ -1,7 +1,10 @@
 @extends('backend.layouts.app')
 
-@section('title')
+{{-- @section('title')
     {{ __('Settings - ' . config('app.name')) }}
+@endsection --}}
+@section('title')
+    {{ __('Settings - ' . config('settings.app_name') !== '' ? config('settings.app_name') : config('app.name')) }}
 @endsection
 
 @php
@@ -35,7 +38,7 @@
                 <div class="px-5 py-4 sm:px-6 sm:py-5">
                     @include('backend.pages.settings.tabs', [
                         'tabs' => [
-                            'profile' => [
+                            'general' => [
                                 'title' => __('General Settings'),
                                 'view' => 'backend.pages.settings.general-tab',
                                 'data' => $settings,
