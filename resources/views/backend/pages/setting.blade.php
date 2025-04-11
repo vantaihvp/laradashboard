@@ -38,12 +38,10 @@
                             'general' => [
                                 'title' => __('General Settings'),
                                 'view' => 'backend.pages.settings.general-tab',
-                                'data' => $settings,
                             ],
                             'content' => [
                                 'title' => __('Content Settings'),
                                 'view' => 'backend.pages.settings.content-settings',
-                                'data' => $settings,
                             ]
                         ],
                     ])

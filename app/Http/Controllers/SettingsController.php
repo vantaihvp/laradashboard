@@ -15,16 +15,7 @@ class SettingsController extends Controller
 
     public function index($tab= null)
     {
-        $this->settingService->addSetting('app_name', 'Hello loser');
-        $settings = \App\Models\Setting::all()->pluck('option_value', 'option_name')->toArray();
-        
-
-        // $tabs = ld_add_filter('add_new_settings_tab',function($tabs) {
-        //     return $tabs;
-        // }, null);
-
-
-        return view('backend.pages.setting', compact('settings'));
+        return view('backend.pages.setting');
     }
 
     public function tabAdd(){
