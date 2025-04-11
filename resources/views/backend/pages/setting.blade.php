@@ -1,8 +1,5 @@
 @extends('backend.layouts.app')
 
-{{-- @section('title')
-    {{ __('Settings - ' . config('app.name')) }}
-@endsection --}}
 @section('title')
     {{ __('Settings - ' . config('settings.app_name') !== '' ? config('settings.app_name') : config('app.name')) }}
 @endsection
