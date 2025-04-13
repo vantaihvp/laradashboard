@@ -10,8 +10,17 @@ class EnvWriter
     {
         $path = base_path('.env');
         $file = file_get_contents($path);
-        \Log::info("Writing to .env file: $key=$value");
-        $file = preg_replace("/^$key=.*/m", "$key=$value", $file);
+
+        // Wrap the value in double quotes.
+        $formattedValue = "\"$value\"";
+
+        $file = preg_replace("/^$key=.*/m", "$key=$formattedValue", $file);
+
+        // If the key doesn't exist, append it
+        if (!preg_match("/^$key=/m", $file)) {
+            $file .= PHP_EOL . "$key=$formattedValue";
+        }
+
         file_put_contents($path, $file);
     }
 
@@ -34,7 +43,7 @@ class EnvWriter
 
         foreach ($keys as $key => $value) {
             if (array_key_exists($key, $availableKeys)) {
-                $this->write($availableKeys[$key], $value);
+                $this->write($availableKeys[$key], (string) $value);
             }
         }
     }
