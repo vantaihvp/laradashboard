@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Settings - ' . config('settings.app_name') !== '' ? config('settings.app_name') : config('app.name')) }}
+    {{ ucfirst($tab ?? '') . ' ' . __('Settings - ' . config('app.name')) }}
 @endsection
 
 @php
@@ -54,10 +54,6 @@
     </div>
 @endsection
 
-
-@if ($isActionLogExist)
-@endif
-
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -67,17 +63,16 @@
         tabButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const tabKey = this.getAttribute('data-tab'); // Get the selected tab key
-                
+
                 // Construct the new URL with the selected tab in the path
                 const url = new URL(window.location);
                 url.pathname = `/admin/settings/${tabKey}`;  // Update the path dynamically
-                
+
                 // Update the browser's location, causing the page to reload with the new URL
                 window.location.href = url.href;  // This causes the page to reload with the new URL
             });
         });
     });
 </script>
-
 
 @endpush
