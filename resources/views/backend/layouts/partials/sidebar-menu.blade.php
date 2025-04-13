@@ -1,4 +1,4 @@
-@php $user = Auth::guard('web')->user(); @endphp
+@php $user = Auth::user(); @endphp
 
 <nav>
     <div>
