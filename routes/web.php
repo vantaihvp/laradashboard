@@ -58,7 +58,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::delete('/admin/modules/{module}', [ModulesController::class, 'destroy'])->name('modules.delete');
 
 
-    Route::get('/settings/{tab?}', [SettingsController::class, 'index'])->name('settings.index');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
 
 })->middleware('auth');

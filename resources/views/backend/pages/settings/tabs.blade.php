@@ -26,9 +26,8 @@
     </ul>
 </div>
 <div id="default-styled-tab-content">
-
     @foreach ($tabs as $key => $tab)
-        <div class="hidden p-4 rounded-lg dark:bg-gray-800" id="{{ $key }}" role="tabpanel"
+        <div class="hidden pl-0 p-4 rounded-lg dark:bg-gray-800" id="{{ $key }}" role="tabpanel"
             aria-labelledby="{{ $key }}-tab">
             @if (isset($tab['view']))
                 @include($tab['view'], $tab['data'] ?? [])
