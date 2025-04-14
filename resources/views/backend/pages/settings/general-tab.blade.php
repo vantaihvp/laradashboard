@@ -81,44 +81,52 @@
     </div>
     <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
 
-        <!-- Theme Primary Color -->
-        <div class="flex gap-4">
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Theme Primary Color -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
                     {{ __('Theme Primary Color') }}
                 </label>
-                <div class="flex gap-2">
-                    <input type="color" name="theme_primary_color"
-                        value="{{ config('settings.theme_primary_color') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-primary" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-primary" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+                <div class="flex gap-2 items-center">
+                    <div class="relative">
+                        <input type="color" id="color-picker-theme_primary_color" name="theme_primary_color"
+                            value="{{ config('settings.theme_primary_color') ?? '' }}"
+                            class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                            data-tooltip-target="tooltip-theme_primary_color" onchange="syncColor('theme_primary_color')">
+                        <div id="tooltip-theme_primary_color" role="tooltip"
+                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                            {{ __('Choose color') }}
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
                     </div>
+                    <input type="text" id="input-theme_primary_color" name="theme_primary_color_text"
+                        value="{{ config('settings.theme_primary_color') ?? '#ffffff' }}"
+                        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                        placeholder="#ffffff" oninput="syncColor('theme_primary_color', true)">
                 </div>
             </div>
 
             <!-- Theme Secondary Color -->
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
                     {{ __('Theme Secondary Color') }}
                 </label>
-                <div class="flex gap-2">
-                    <input type="color" name="theme_secondary_color"
-                        value="{{ config('settings.theme_secondary_color') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-secondary" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-secondary" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+                <div class="flex gap-2 items-center">
+                    <div class="relative">
+                        <input type="color" id="color-picker-theme_secondary_color" name="theme_secondary_color"
+                            value="{{ config('settings.theme_secondary_color') ?? '' }}"
+                            class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                            data-tooltip-target="tooltip-theme_secondary_color" onchange="syncColor('theme_secondary_color')">
+                        <div id="tooltip-theme_secondary_color" role="tooltip"
+                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                            {{ __('Choose color') }}
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
                     </div>
+                    <input type="text" id="input-theme_secondary_color" name="theme_secondary_color_text"
+                        value="{{ config('settings.theme_secondary_color') ?? '#ffffff' }}"
+                        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                        placeholder="#ffffff" oninput="syncColor('theme_secondary_color', true)">
                 </div>
             </div>
         </div>
@@ -139,170 +147,220 @@
             </select>
         </div>
 
-        <!-- Navbar Background Color (Lite Mode) -->
-        <div class="flex gap-4">
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Navbar Background Color (Lite Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="navbar_bg_lite" value="{{ config('settings.navbar_bg_lite') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-navbar-lite" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-navbar-lite" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Lite Mode Colors -->
+            <div>
+                <h4 class="text-sm font-medium text-gray-700 dark:text-gray-400 mb-4">{{ __('Lite Mode Colors') }}</h4>
+
+                <!-- Navbar Background Color (Lite Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Navbar Background Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-navbar_bg_lite" name="navbar_bg_lite"
+                                value="{{ config('settings.navbar_bg_lite') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-navbar_bg_lite" onchange="syncColor('navbar_bg_lite')">
+                            <div id="tooltip-navbar_bg_lite" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-navbar_bg_lite" name="navbar_bg_lite_text"
+                            value="{{ config('settings.navbar_bg_lite') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('navbar_bg_lite', true)">
+                    </div>
+                </div>
+
+                <!-- Sidebar Background Color (Lite Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Sidebar Background Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-sidebar_bg_lite" name="sidebar_bg_lite"
+                                value="{{ config('settings.sidebar_bg_lite') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-sidebar_bg_lite" onchange="syncColor('sidebar_bg_lite')">
+                            <div id="tooltip-sidebar_bg_lite" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-sidebar_bg_lite" name="sidebar_bg_lite_text"
+                            value="{{ config('settings.sidebar_bg_lite') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('sidebar_bg_lite', true)">
+                    </div>
+                </div>
+
+                <!-- Navbar Text Color (Lite Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Navbar Text Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-navbar_text_lite" name="navbar_text_lite"
+                                value="{{ config('settings.navbar_text_lite') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-navbar_text_lite" onchange="syncColor('navbar_text_lite')">
+                            <div id="tooltip-navbar_text_lite" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-navbar_text_lite" name="navbar_text_lite_text"
+                            value="{{ config('settings.navbar_text_lite') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('navbar_text_lite', true)">
+                    </div>
+                </div>
+
+                <!-- Sidebar Text Color (Lite Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Sidebar Text Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-sidebar_text_lite" name="sidebar_text_lite"
+                                value="{{ config('settings.sidebar_text_lite') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-sidebar_text_lite" onchange="syncColor('sidebar_text_lite')">
+                            <div id="tooltip-sidebar_text_lite" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-sidebar_text_lite" name="sidebar_text_lite_text"
+                            value="{{ config('settings.sidebar_text_lite') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('sidebar_text_lite', true)">
                     </div>
                 </div>
             </div>
 
-            <!-- Navbar Background Color (Dark Mode) -->
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Navbar Background Color (Dark Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="navbar_bg_dark" value="{{ config('settings.navbar_bg_dark') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-navbar-dark" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-navbar-dark" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+            <!-- Dark Mode Colors -->
+            <div>
+                <h4 class="text-sm font-medium text-gray-700 dark:text-gray-400 mb-4">{{ __('Dark Mode Colors') }}</h4>
+
+                <!-- Navbar Background Color (Dark Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Navbar Background Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-navbar_bg_dark" name="navbar_bg_dark"
+                                value="{{ config('settings.navbar_bg_dark') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-navbar_bg_dark" onchange="syncColor('navbar_bg_dark')">
+                            <div id="tooltip-navbar_bg_dark" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-navbar_bg_dark" name="navbar_bg_dark_text"
+                            value="{{ config('settings.navbar_bg_dark') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('navbar_bg_dark', true)">
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Navbar Text Color (Lite Mode) -->
-        <div class="flex gap-4">
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Navbar Text Color (Lite Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="navbar_text_lite"
-                        value="{{ config('settings.navbar_text_lite') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-navbar-text-lite" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-navbar-text-lite" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+                <!-- Sidebar Background Color (Dark Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Sidebar Background Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-sidebar_bg_dark" name="sidebar_bg_dark"
+                                value="{{ config('settings.sidebar_bg_dark') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-sidebar_bg_dark" onchange="syncColor('sidebar_bg_dark')">
+                            <div id="tooltip-sidebar_bg_dark" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-sidebar_bg_dark" name="sidebar_bg_dark_text"
+                            value="{{ config('settings.sidebar_bg_dark') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('sidebar_bg_dark', true)">
                     </div>
                 </div>
-            </div>
 
-            <!-- Navbar Text Color (Dark Mode) -->
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Navbar Text Color (Dark Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="navbar_text_dark"
-                        value="{{ config('settings.navbar_text_dark') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-navbar-text-dark" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-navbar-text-dark" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+                <!-- Navbar Text Color (Dark Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Navbar Text Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-navbar_text_dark" name="navbar_text_dark"
+                                value="{{ config('settings.navbar_text_dark') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-navbar_text_dark" onchange="syncColor('navbar_text_dark')">
+                            <div id="tooltip-navbar_text_dark" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-navbar_text_dark" name="navbar_text_dark_text"
+                            value="{{ config('settings.navbar_text_dark') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('navbar_text_dark', true)">
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Sidebar Background Color (Lite Mode) -->
-        <div class="flex gap-4">
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Sidebar Background Color (Lite Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="sidebar_bg_lite"
-                        value="{{ config('settings.sidebar_bg_lite') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-sidebar-lite" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-sidebar-lite" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sidebar Background Color (Dark Mode) -->
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Sidebar Background Color (Dark Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="sidebar_bg_dark"
-                        value="{{ config('settings.sidebar_bg_dark') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-sidebar-dark" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-sidebar-dark" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar Text Color (Lite Mode) -->
-        <div class="flex gap-4">
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Sidebar Text Color (Lite Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="sidebar_text_lite"
-                        value="{{ config('settings.sidebar_text_lite') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-sidebar-text-lite" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-sidebar-text-lite" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sidebar Text Color (Dark Mode) -->
-            <div class="w-1/2">
-                <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                    {{ __('Sidebar Text Color (Dark Mode)') }}
-                </label>
-                <div class="flex gap-2">
-                    <input type="color" name="sidebar_text_dark"
-                        value="{{ config('settings.sidebar_text_dark') ?? '' }}"
-                        class="cursor-pointer h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                    <button data-tooltip-target="tooltip-clear-sidebar-text-dark" type="button" onclick="this.previousElementSibling.value = ''"
-                        class="px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">
-                        <i class="bi bi-x"></i>
-                    </button>
-                    <div id="tooltip-clear-sidebar-text-dark" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Clear color') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+                <!-- Sidebar Text Color (Dark Mode) -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                        {{ __('Sidebar Text Color') }}
+                    </label>
+                    <div class="flex gap-2 items-center">
+                        <div class="relative">
+                            <input type="color" id="color-picker-sidebar_text_dark" name="sidebar_text_dark"
+                                value="{{ config('settings.sidebar_text_dark') ?? '' }}"
+                                class="h-11 w-11 cursor-pointer dark:border-gray-700"
+                                data-tooltip-target="tooltip-sidebar_text_dark" onchange="syncColor('sidebar_text_dark')">
+                            <div id="tooltip-sidebar_text_dark" role="tooltip"
+                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                {{ __('Choose color') }}
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </div>
+                        <input type="text" id="input-sidebar_text_dark" name="sidebar_text_dark_text"
+                            value="{{ config('settings.sidebar_text_dark') ?? '#ffffff' }}"
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                            placeholder="#ffffff" oninput="syncColor('sidebar_text_dark', true)">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function syncColor(field, fromInput = false) {
+        const colorPicker = document.getElementById(`color-picker-${field}`);
+        const textInput = document.getElementById(`input-${field}`);
+        if (fromInput) {
+            colorPicker.value = textInput.value;
+        } else {
+            textInput.value = colorPicker.value;
+        }
+    }
+</script>
