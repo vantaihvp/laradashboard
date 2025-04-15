@@ -74,10 +74,10 @@
             tabButtons.forEach(button => {
                 const isActive = button.getAttribute('data-tab') === tabKey;
 
-                button.classList.toggle('text-purple-600', isActive);
-                button.classList.toggle('border-purple-600', isActive);
-                button.classList.toggle('dark:text-purple-500', isActive);
-                button.classList.toggle('dark:border-purple-500', isActive);
+                button.classList.toggle('text-blue-600', isActive);
+                button.classList.toggle('border-blue-600', isActive);
+                button.classList.toggle('dark:text-blue-500', isActive);
+                button.classList.toggle('dark:border-blue-500', isActive);
                 button.classList.toggle('text-gray-500', !isActive);
                 button.classList.toggle('border-transparent', !isActive);
             });

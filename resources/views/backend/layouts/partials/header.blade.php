@@ -1,6 +1,6 @@
-
-<header style="{{ config('settings.navbar_bg_lite') ? 'background-color:' . config('settings.navbar_bg_lite') : '' }}"
-    x-data="{ menuToggle: false }"
+<header id="appHeader" data-bg-lite="{{ config('settings.navbar_bg_lite') }}"
+    data-bg-dark="{{ config('settings.navbar_bg_dark') }}"
+    style="background-color: {{ config('settings.navbar_bg_lite') }}" x-data="{ menuToggle: false }"
     class="sticky top-0 flex w-full border-gray-200  lg:border-b dark:border-gray-800 dark:bg-gray-900">
     <div class="flex grow flex-col items-center justify-between lg:flex-row lg:px-6">
         <div
@@ -29,7 +29,7 @@
             <div class="flex items-center gap-2 2xsm:gap-3">
                 <!-- Dark Mode Toggler -->
                 @php echo ld_apply_filters('dark_mode_toggler_before_button', ''); @endphp
-                <button
+                <button id="darkModeToggle"
                     class="hover:text-dark-900 relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
                     @click.prevent="darkMode = !darkMode">
                     <svg class="hidden dark:block" width="20" height="20" viewBox="0 0 20 20" fill="none"
