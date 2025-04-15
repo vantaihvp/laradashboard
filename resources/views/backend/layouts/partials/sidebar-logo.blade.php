@@ -1,8 +1,23 @@
-<!-- Sidebar -->
-<aside style="{{ config('settings.sidebar_bg_lite')? 'background-color:'.config('settings.sidebar_bg_lite'):'' }}"
+<aside
     :class="sidebarToggle ? 'translate-x-0 lg:w-[85px]' : '-translate-x-full'"
-    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r {{ config('settings.sidebar_bg_lite') ?'': 'bg-gray-800' }} px-5 border-gray-800 dark:bg-gray-900 lg:static lg:translate-x-0"
+    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r {{ config('settings.sidebar_bg_lite') ? '' : 'bg-gray-800' }} px-5 border-gray-800 dark:bg-gray-900 lg:static lg:translate-x-0"
+    id="appSidebar"
+    x-data="{
+        init() {
+            this.updateBg();
+            const observer = new MutationObserver(() => this.updateBg());
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        },
+        updateBg() {
+            const htmlHasDark = document.documentElement.classList.contains('dark');
+            const liteBg = '{{ config('settings.sidebar_bg_lite') }}';
+            const darkBg = '{{ config('settings.sidebar_bg_dark') }}';
+            this.$el.style.backgroundColor = htmlHasDark ? darkBg : liteBg;
+        }
+    }"
+    x-init="init()"
 >
+
     <!-- Sidebar Header -->
     <div
         :class="sidebarToggle ? 'justify-center' : 'justify-between'"

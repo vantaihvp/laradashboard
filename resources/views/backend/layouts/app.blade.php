@@ -27,7 +27,6 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
         </div>
     </div>
     <!-- End Preloader -->
-
     <!-- Page Wrapper -->
     <div class="flex h-screen overflow-hidden">
         @include('backend.layouts.partials.sidebar-logo')
