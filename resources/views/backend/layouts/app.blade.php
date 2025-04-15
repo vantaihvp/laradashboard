@@ -55,14 +55,12 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
             const html = document.documentElement;
             const darkModeToggle = document.getElementById('darkModeToggle');
             const header = document.getElementById('appHeader');
-            const liteBg = header?.getAttribute('data-bg-lite');
-            const darkBg = header?.getAttribute('data-bg-dark');
+
     
             // Update header background based on current mode
             function updateHeaderBg() {
                 if (!header) return;
                 const isDark = html.classList.contains('dark');
-                header.style.backgroundColor = isDark ? darkBg : liteBg;
             }
     
             // nitialize dark mode
@@ -87,7 +85,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     e.preventDefault();
                     const isDark = html.classList.toggle('dark');
                     localStorage.setItem('darkMode', isDark);
-                    updateHeaderBg(); // update immediately
+                    updateHeaderBg();
                 });
             }
         });
