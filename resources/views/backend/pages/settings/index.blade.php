@@ -67,28 +67,44 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get all tab buttons
+    document.addEventListener('DOMContentLoaded', function () {
         const tabButtons = document.querySelectorAll('[role="tab"]');
 
+        function setActiveTab(tabKey) {
+            tabButtons.forEach(button => {
+                const isActive = button.getAttribute('data-tab') === tabKey;
+
+                button.classList.toggle('text-purple-600', isActive);
+                button.classList.toggle('border-purple-600', isActive);
+                button.classList.toggle('dark:text-purple-500', isActive);
+                button.classList.toggle('dark:border-purple-500', isActive);
+                button.classList.toggle('text-gray-500', !isActive);
+                button.classList.toggle('border-transparent', !isActive);
+            });
+
+            // Optional: Show/hide corresponding tab content
+            document.querySelectorAll('[role="tabpanel"]').forEach(panel => {
+                panel.style.display = panel.id === tabKey ? 'block' : 'none';
+            });
+        }
+
+        // Handle click
         tabButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const tabKey = this.getAttribute('data-tab'); // Get the selected tab key
-
-                // Append the parameter to the URL bar as tab=tabKey.
+            button.addEventListener('click', function () {
+                const tabKey = this.getAttribute('data-tab');
                 const url = new URL(window.location);
-                url.searchParams.set('tab', tabKey); // Set the tab parameter in the URL
-                window.history.pushState({}, '', url); // Update the URL without reloading the page
+                url.searchParams.set('tab', tabKey);
+                window.history.pushState({}, '', url);
 
-                // Construct the new URL with the selected tab in the path
-                // const url = new URL(window.location);
-                // url.pathname = `/admin/settings/${tabKey}`;  // Update the path dynamically
-
-                // Update the browser's location, causing the page to reload with the new URL
-                // window.location.href = url.href;  // This causes the page to reload with the new URL
+                setActiveTab(tabKey);
             });
         });
+
+        // On page load, set active tab from URL
+        const urlTab = new URL(window.location).searchParams.get('tab') || 'general';
+        setActiveTab(urlTab);
     });
 </script>
+
 
 @endpush
