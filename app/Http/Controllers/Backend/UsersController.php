@@ -21,7 +21,7 @@ class UsersController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['user.view']);
 
-        // Search functionality
+        // Search functionality.
         $query = User::query();
         $search = request()->input('search');
         if ($search) {
@@ -31,7 +31,7 @@ class UsersController extends Controller
         }
 
         return view('backend.pages.users.index', [
-            'users' => $query->latest()->paginate(10),
+            'users' => $query->latest()->paginate(config('settings.default_pagination') ?? 10),
         ]);
     }
 

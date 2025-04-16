@@ -8,6 +8,11 @@ class EnvWriter
 {
     public function write($key, $value)
     {
+        // If the value didn't change, don't write it to the file.
+        if ($this->get($key) === $value) {
+            return;
+        }
+
         $path = base_path('.env');
         $file = file_get_contents($path);
 
