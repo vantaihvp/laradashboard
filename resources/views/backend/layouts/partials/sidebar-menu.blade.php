@@ -20,8 +20,8 @@
 
 
     <div>
-        <h3 class="mb-4 text-xs uppercase leading-[20px] text-blue-400">
-            MENU
+        <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+            {{ __('Menu') }}
         </h3>
 
         <ul class="flex flex-col gap-4 mb-6">
@@ -32,7 +32,7 @@
                         <i class="bi bi-grid text-xl text-center"></i>
          
                         <span :style="`color: ${textColor}`">
-                            Dashboard
+                            {{ __('Dashboard') }}
                         </span>
                     </a>
                 </li>
@@ -45,7 +45,7 @@
                         class="menu-item group w-full text-left {{ Route::is('admin.roles.*') ? 'menu-item-active' : 'menu-item-inactive text-white' }}"
                         type="button" onclick="toggleSubmenu('roles-submenu')">
                         <i class="bi bi-shield-check text-xl text-center"></i>
-                        <span :style="`color: ${textColor}`">Roles & Permissions</span>
+                        <span :style="`color: ${textColor}`">{{ __('Roles & Permissions') }}</span>
                         <i class="bi bi-chevron-down ml-auto"></i>
                     </button>
                     <ul id="roles-submenu"
@@ -54,7 +54,7 @@
                             <li>
                                 <a href="{{ route('admin.roles.index') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.roles.index') || Route::is('admin.roles.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                                    Roles
+                                    {{ __('Roles') }}
                                 </a>
                             </li>
                         @endif
@@ -62,7 +62,7 @@
                             <li>
                                 <a href="{{ route('admin.roles.create') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.roles.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                                    New Role
+                                    {{ __('New Role') }}
                                 </a>
                             </li>
                         @endif
@@ -86,7 +86,7 @@
                             <li>
                                 <a href="{{ route('admin.users.index') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.users.index') || Route::is('admin.users.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                                    Users
+                                    {{ __('Users') }}
                                 </a>
                             </li>
                         @endif
@@ -94,7 +94,7 @@
                             <li>
                                 <a href="{{ route('admin.users.create') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.users.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                                    New User
+                                    {{ __('New User') }}
                                 </a>
                             </li>
                         @endif
@@ -108,7 +108,7 @@
                     <a href="{{ route('admin.modules.index') }}"
                         class="menu-item group {{ Route::is('admin.modules.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
                         <i class="bi bi-box text-xl text-center"></i>
-                        <span :style="`color: ${textColor}`">Modules</span>
+                        <span :style="`color: ${textColor}`">{{ __('Modules') }}</span>
                     </a>
                 </li>
             @endif
@@ -120,7 +120,7 @@
                         class="menu-item group w-full text-left menu-item-inactive text-white {{ Route::is('actionlog.*') ? 'menu-item-active' : 'menu-item-inactive text-white' }}"
                         type="button" onclick="toggleSubmenu('monitoring-submenu')">
                         <i class="bi bi-activity text-xl text-center"></i>
-                        <span :style="`color: ${textColor}`">Monitoring</span>
+                        <span :style="`color: ${textColor}`">{{ __('Monitoring') }}</span>
                         <i class="bi bi-chevron-down ml-auto"></i>
                     </button>
                     <ul id="monitoring-submenu"
@@ -129,7 +129,7 @@
                             <li>
                                 <a href="{{ route('actionlog.index') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('actionlog.index') ? 'menu-item-active' : 'menu-item-inactive text-white' }}">
-                                    Action Logs
+                                    {{ __('Action Logs') }}
                                 </a>
                             </li>
                         @endif
@@ -138,7 +138,7 @@
                             <li>
                                 <a href="{{ route('pulse') }}" class="block px-4 py-2 rounded-lg menu-item-inactive"
                                     target="_blank">
-                                    Laravel Pulse
+                                    {{ __('Laravel Pulse') }}
                                 </a>
                             </li>
                         @endif
@@ -152,7 +152,7 @@
     <!-- Others Group -->
     <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
-            More
+            {{ __('More') }}
         </h3>
 
         <ul class="flex flex-col gap-4 mb-6">
@@ -162,7 +162,7 @@
                     class="menu-item group w-full text-left {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
                     <i class="bi bi-gear text-xl text-center dark:text-white/90"></i>
                     <span class="dark:text-white/90" :class="sidebarToggle ? 'lg:hidden' : ''" :style="`color: ${textColor}`">
-                        Settings
+                        {{ __('Settings') }}
                     </span>
                 </a>
             </li>
@@ -172,7 +172,7 @@
                     <button type="submit" class="menu-item group w-full text-left">
                         <i class="bi bi-box-arrow-right text-xl text-center dark:text-white/90"></i>
                         <span class=" dark:text-white/90" :class="sidebarToggle ? 'lg:hidden' : ''" :style="`color: ${textColor}`">
-                            Logout
+                            {{ __('Logout') }}
                         </span>
                     </button>
                 </form>
