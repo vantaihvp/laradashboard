@@ -21,7 +21,7 @@ class SettingsSeeder extends Seeder
             ['option_name' => 'app_name', 'option_value' => 'Lara Dashboard'],
 
             // theme colors.
-            ['option_name' => 'theme_primary_color', 'option_value' => '#7592ff'],
+            ['option_name' => 'theme_primary_color', 'option_value' => '#635bff'],
             ['option_name' => 'theme_secondary_color', 'option_value' => '#1f2937'],
 
             // Sidebar colors
