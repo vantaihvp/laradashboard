@@ -35,8 +35,8 @@
                         </div>
                     </div>
                     <div class="mt-6 flex justify-start gap-4">
-                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600">Save</button>
-                        <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-white">Cancel</a>
+                        <button type="submit" class="btn-primary">Save</button>
+                        <a href="{{ route('admin.dashboard') }}" class="btn-default">Cancel</a>
                     </div>
                 </form>
             </div>
