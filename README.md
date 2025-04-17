@@ -128,6 +128,16 @@ https://devsenv.com/tutorials/laravel-role-permission-management-system-full-exa
 **Upload Module**
 ![alt text][moduleCreatePage]
 
+### Settings Pages
+**General Settings**
+![alt text][generalSettingsImage]
+
+**Site Appearance**
+![alt text][siteAppearanceImage]
+
+**Content Settings**
+![alt text][contentSettingsImage]
+
 ### Monitoring Pages
 **Action Logs**
 ![alt text][actionLogsPage]
@@ -153,6 +163,9 @@ Custom Error Pages
 [moduleCreatePage]: /demo-screenshots/Upload%20Module.png
 [actionLogsPage]: /demo-screenshots/Action%20Log%20List.png
 [laravelPulsePage]: /demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png
+[generalSettingsImage]: /demo-screenshots/Settings-General.png "General Settings Page"
+[siteAppearanceImage]: /demo-screenshots/Settings-Site-Appearance.png "Site Appearance Page"
+[contentSettingsImage]: /demo-screenshots/Settings-Content.png "Content Settings Page"
 
 ## Live Demo
 https://demo.laradashboard.com
