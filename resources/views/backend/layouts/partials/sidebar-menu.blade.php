@@ -156,7 +156,7 @@
         </h3>
 
         <ul class="flex flex-col gap-4 mb-6">
-            <!-- Logout Menu Item -->
+            @if ($user->can('settings.edit'))
             <li class="menu-item-inactive rounded-md ">
                 <a href="{{ route('admin.settings.index') }}" type="submit"
                     class="menu-item group w-full text-left {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
@@ -166,6 +166,9 @@
                     </span>
                 </a>
             </li>
+            @endif
+
+            <!-- Logout Menu Item -->
             <li class="menu-item-inactive rounded-md ">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

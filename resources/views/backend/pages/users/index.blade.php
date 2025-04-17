@@ -127,6 +127,15 @@
                                             </div>
                                         </div>
                                     @endif
+                                    @if (auth()->user()->can('user.login_as'))
+                                        <a data-tooltip-target="tooltip-login-as-user-{{ $user->id }}" class="btn-warning !p-3" href="{{ route('admin.users.login-as', $user->id) }}">
+                                            <i class="bi bi-box-arrow-in-right text-sm"></i>
+                                        </a>
+                                        <div id="tooltip-login-as-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                            {{ __('Login as') }} {{ $user->name }}
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        </div>
+                                    @endif
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_after_action', '', $user) @endphp
                             </tr>

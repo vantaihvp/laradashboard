@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use App\Enums\ActionType;
+use App\Http\Controllers\Controller;
 use App\Services\CacheService;
 use App\Services\EnvWriter;
 use App\Services\SettingService;
@@ -22,12 +23,10 @@ class SettingsController extends Controller
 
     public function index($tab = null): Renderable
     {
-        return view('backend.pages.settings.index', compact("tab"));
-    }
+        $this->checkAuthorization(auth()->user(), ['settings.view']);
 
-    public function tabAdd()
-    {
-        return "";
+        $tab = $tab ?? request()->input('tab', 'general');
+        return view('backend.pages.settings.index', compact("tab"));
     }
 
     public function store(Request $request)

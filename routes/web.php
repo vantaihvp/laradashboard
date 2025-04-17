@@ -7,7 +7,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ModulesController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
-use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\Backend\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +42,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     // Settings Routes.
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
+
+    // Login as.
+    Route::get('users/{id}/login-as', [UsersController::class, 'loginAs'])->name('users.login-as');
 });
 
 /**

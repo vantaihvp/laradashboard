@@ -750,28 +750,28 @@ span.flatpickr-weekday,
 }
 
 /* General CSS for common library */
-.btn-base {
-  @apply text-white hover:opacity-90 scale-95 hover:scale-100 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center;
-}
-
 .btn {
-  @apply btn-base focus:ring-blue-300 dark:focus:ring-blue-800;
+  @apply text-white hover:opacity-90 scale-95 hover:scale-100 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center focus:ring-blue-300 dark:focus:ring-blue-800;
 }
 
 .btn-primary {
-  @apply btn-base bg-primary focus:ring-blue-300 dark:focus:ring-blue-800;
+  @apply text-white hover:opacity-90 scale-95 hover:scale-100 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-primary focus:ring-blue-300 dark:focus:ring-blue-800;
 }
 
 .btn-danger {
-  @apply btn-base bg-red-500 focus:ring-red-300 dark:focus:ring-red-800;
+  @apply text-white hover:opacity-90 scale-95 hover:scale-100 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-red-500 focus:ring-red-300 dark:focus:ring-red-800;
 }
 
 .btn-success {
-  @apply btn-base bg-green-500 focus:ring-green-300 dark:focus:ring-green-800;
+  @apply text-white hover:opacity-90 scale-95 hover:scale-100 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-green-500 focus:ring-green-300 dark:focus:ring-green-800;
 }
 
 .btn-default {
-  @apply btn-base text-slate-900 dark:text-white bg-slate-200 dark:bg-slate-800 focus:ring-green-300 dark:focus:ring-green-800;
+  @apply hover:opacity-90 scale-95 hover:scale-100 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center text-slate-900 dark:text-white bg-slate-200 dark:bg-slate-800 focus:ring-green-300 dark:focus:ring-green-800;
+}
+
+.btn-warning {
+  @apply text-white hover:opacity-90 scale-95 hover:scale-100 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-orange-500 focus:ring-orange-300 dark:focus:ring-orange-800;
 }
 
 /* General CSS for common library */

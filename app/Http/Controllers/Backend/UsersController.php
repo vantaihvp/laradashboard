@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
@@ -150,7 +151,7 @@ class UsersController extends Controller
         $this->checkAuthorization(auth()->user(), ['profile.edit'], true);
 
         // Prevent deletion of super admin in demo mode
-        $this->preventSuperAdminModification(auth()->user());
+        $this->preventSuperAdminModification(auth()->user(), ['profile.edit']);
 
         $user = Auth::user();
 
@@ -162,7 +163,7 @@ class UsersController extends Controller
         $this->checkAuthorization(auth()->user(), ['profile.edit'], true);
 
         // Prevent deletion of super admin in demo mode
-        $this->preventSuperAdminModification(auth()->user());
+        $this->preventSuperAdminModification(auth()->user(), ['profile.edit']);
 
         $user = Auth::user();
 
@@ -187,5 +188,19 @@ class UsersController extends Controller
         $this->storeActionLog(ActionType::UPDATED, ['profile' => $user]);
 
         return redirect()->route('profile.edit');
+    }
+
+    public function loginAs(int $id): RedirectResponse
+    {
+        $this->checkAuthorization(auth()->user(), ['user.login_as']);
+
+        $user = User::findOrFail($id);
+
+        Session::put('original_user_id', auth()->id());
+        Auth::login($user);
+
+        session()->flash('success', __('You are now logged in as :name.', ['name' => $user->name]));
+
+        return redirect()->route('admin.dashboard');
     }
 }
