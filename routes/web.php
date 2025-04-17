@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ModulesController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\SettingsController;
+use App\Http\Controllers\Backend\ProfilesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +52,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
  * Profile routes.
  */
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth']], function () {
-    Route::get('/edit', [UsersController::class, 'editProfile'])->name('edit');
-    Route::put('/update', [UsersController::class, 'updateProfile'])->name('update');
+    Route::get('/edit', [ProfilesController::class, 'edit'])->name('edit');
+    Route::put('/update', [ProfilesController::class, 'update'])->name('update');
 });
