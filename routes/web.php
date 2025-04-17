@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ProfilesController;
+use App\Http\Controllers\Backend\UserLoginAsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +33,6 @@ Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlo
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('roles', RolesController::class);
-    Route::resource('users', UsersController::class);
 
     // Modules Routes.
     Route::get('/modules', [ModulesController::class, 'index'])->name('modules.index');
@@ -44,8 +44,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
 
-    // Login as.
-    Route::get('users/{id}/login-as', [UsersController::class, 'loginAs'])->name('users.login-as');
+    // Login as & Switch back
+    Route::resource('users', UsersController::class);
+    Route::get('users/{id}/login-as', [UserLoginAsController::class, 'loginAs'])->name('users.login-as');
+    Route::post('users/switch-back', [UserLoginAsController::class, 'switchBack'])->name('users.switch-back');
 });
 
 /**

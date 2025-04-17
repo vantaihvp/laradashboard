@@ -23,7 +23,7 @@ class SettingsController extends Controller
 
     public function index($tab = null): Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['settings.view']);
+        $this->checkAuthorization(auth()->user(), ['settings.edit']);
 
         $tab = $tab ?? request()->input('tab', 'general');
         return view('backend.pages.settings.index', compact("tab"));
@@ -31,6 +31,8 @@ class SettingsController extends Controller
 
     public function store(Request $request)
     {
+        $this->checkAuthorization(auth()->user(), ['settings.edit']);
+
         $fields = $request->all();
         $uploadPath = 'uploads/settings';
 

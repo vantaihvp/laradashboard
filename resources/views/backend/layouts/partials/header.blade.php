@@ -1,4 +1,4 @@
-<header id="appHeader" 
+<header id="appHeader"
 
 x-data="{
     menuToggle: false,
@@ -21,8 +21,8 @@ x-data="{
     },
     updateColor() {
         this.isDark = document.documentElement.classList.contains('dark');
-        this.textColor = this.isDark 
-            ? '{{ config('settings.navbar_text_dark') }}' 
+        this.textColor = this.isDark
+            ? '{{ config('settings.navbar_text_dark') }}'
             : '{{ config('settings.navbar_text_lite') }}';
     }
 }"
@@ -135,6 +135,22 @@ x-init="init()"
                             Logout
                         </button>
                     </form>
+
+                    @if (session()->has('original_user_id'))
+                        @php
+                            $originalUser = \App\Models\User::find(session('original_user_id'));
+                        @endphp
+                        @if ($originalUser)
+                            <form method="POST" action="{{ route('admin.users.switch-back') }}" class="inline">
+                                @csrf
+                                <button type="submit"
+                                    class="group flex items-center gap-3 rounded-lg px-3 py-2 text-theme-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 mt-1 w-full">
+                                    <i class="bi bi-arrow-left"></i>
+                                    {{ __('Switch back to') }} {{ $originalUser->name }}
+                                </button>
+                            </form>
+                        @endif
+                    @endif
                 </div>
                 <!-- Dropdown End -->
             </div>

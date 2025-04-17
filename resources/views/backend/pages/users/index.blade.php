@@ -127,7 +127,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if (auth()->user()->can('user.login_as'))
+                                    @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)
                                         <a data-tooltip-target="tooltip-login-as-user-{{ $user->id }}" class="btn-warning !p-3" href="{{ route('admin.users.login-as', $user->id) }}">
                                             <i class="bi bi-box-arrow-in-right text-sm"></i>
                                         </a>

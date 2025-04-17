@@ -10,7 +10,6 @@ use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -51,7 +50,7 @@ class UsersController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['user.create']);
 
-        $user = new User;
+        $user = new User();
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;
@@ -144,19 +143,5 @@ class UsersController extends Controller
         ld_do_action('user_delete_after', $user);
 
         return back();
-    }
-
-    public function loginAs(int $id): RedirectResponse
-    {
-        $this->checkAuthorization(auth()->user(), ['user.login_as']);
-
-        $user = User::findOrFail($id);
-
-        Session::put('original_user_id', auth()->id());
-        Auth::login($user);
-
-        session()->flash('success', __('You are now logged in as :name.', ['name' => $user->name]));
-
-        return redirect()->route('admin.dashboard');
     }
 }
