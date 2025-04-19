@@ -1,6 +1,10 @@
 @extends('backend.auth.layouts.app')
 
-@section('content')
+@section('title')
+    {{ __('Confirm Password') }} | {{ config('app.name') }}
+@endsection
+
+@section('admin-content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

@@ -12,7 +12,7 @@
         </h1>
     </div>
     <div>
-        <form action="{{ route('password.update') }}" method="POST">
+        <form action="{{ route('admin.password.reset.submit') }}" method="POST">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
             <div class="space-y-5">
