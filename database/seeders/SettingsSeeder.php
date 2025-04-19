@@ -25,15 +25,17 @@ class SettingsSeeder extends Seeder
             ['option_name' => 'theme_secondary_color', 'option_value' => '#1f2937'],
 
             // Sidebar colors
-            ['option_name' => 'sidebar_bg_lite', 'option_value' => '#1f2937'],
-            ['option_name' => 'sidebar_bg_dark', 'option_value' => '#1f2937'],
+            ['option_name' => 'sidebar_bg_lite', 'option_value' => '#171f2e'],
+            ['option_name' => 'sidebar_bg_dark', 'option_value' => '#171f2e'],
 
             ['option_name' => 'sidebar_text_lite', 'option_value' => '#ffffff'],
             ['option_name' => 'sidebar_text_dark', 'option_value' => '#ffffff'],
 
             // Navbar colors
             ['option_name' => 'navbar_bg_lite', 'option_value' => '#ffffff'],
-            ['option_name' => 'navbar_bg_dark', 'option_value' => '#1f2937'],
+            ['option_name' => 'navbar_bg_dark', 'option_value' => '#171f2e'],
+            ['option_name' => 'navbar_text_lite', 'option_value' => '#000000'],
+            ['option_name' => 'navbar_text_dark', 'option_value' => '#ffffff'],
 
             // Text colors
             ['option_name' => 'text_color_lite', 'option_value' => '#212529'],
