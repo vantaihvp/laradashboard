@@ -83,23 +83,41 @@ git remote set-url origin git@github.com:laradashboard/laradashboard.git
 1. Login using Super Admin Credential -
     1. Email - `superadmin@example.com`
     1. Password - `12345678`
-2. Create User
-3. Create Role
-4. Assign Permission to Roles
-5. Assign Multiple Role to an User
-6. Check by login with the new credentials.
-7. If you've not enough permission to do any task, you'll get a warning message.
-8. Dashboard with Beautiful chart integrated
-9. Module Based Development - Custom Module Add/Enable/Disable/Delete
-10. Monitoring - Logging of every action of your application
-10. Monitoring - Laravel Pulse
+1. Forget password - Password forget and reset will work if email is setupped properly
+1. Create User
+1. Create Role
+1. Assign Permission to Roles
+1. Assign Multiple Role to an User
+1. Check by login with the new credentials.
+1. If you've not enough permission to do any task, you'll get a warning message.
+1. Dashboard with Beautiful chart integrated
+1. Module Based Development - Custom Module Add/Enable/Disable/Delete
+1. Monitoring - Logging of every action of your application
+1. Monitoring - Laravel Pulse
 
-## Learn More & Discussion
-https://devsenv.com/tutorials/laravel-role-permission-management-system-full-example-with-source-code
+## Email setup
+You can use mailtrap to test emails easily - https://mailtrap.io/ (first need to create mailtrap account and and can )
+
+```bash
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=mailtrap-username
+MAIL_PASSWORD=mailtrap-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=youremail@example.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+## Documentation
+https://laradashboard.com/docs/
 
 ### Login & Dashboard Page
 **Login Page**
 ![alt text][userLoginImage]
+
+**Forget password Page (Dark mode)**
+![alt text][userForgetPasswordImage]
 
 **Dashboard Page Lite Mode**
 ![alt text][dashboardImage]
@@ -158,6 +176,7 @@ Custom Error Pages
 [userListImage]:  /demo-screenshots/Users%20List.png "5-Laravel-Users-Manage" 
 [userCreateImage]: /demo-screenshots/User%20Create.png "6-Laravel-User-Create"
 [userLoginImage]: /demo-screenshots/login.png "7-Login-Page"
+[userForgetPasswordImage]: /demo-screenshots/Forget-password.png "Forget Password"
 [errorPageImage]: /demo-screenshots/Custom%20Error%20Pages.png "8 - Error Page Handling"
 [moduleListPage]: /demo-screenshots/Module%20List.png
 [moduleCreatePage]: /demo-screenshots/Upload%20Module.png
@@ -169,6 +188,9 @@ Custom Error Pages
 
 ## Live Demo
 https://demo.laradashboard.com
+
+## Articles
+- How to setup - https://devsenv.com/tutorials/laravel-role-permission-management-system-full-example-with-source-code
 
 ## Wanna talk with me
 Please mail me at - manirujjamanakash@gmail.com
