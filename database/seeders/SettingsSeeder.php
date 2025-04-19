@@ -34,7 +34,7 @@ class SettingsSeeder extends Seeder
             // Navbar colors
             ['option_name' => 'navbar_bg_lite', 'option_value' => '#ffffff'],
             ['option_name' => 'navbar_bg_dark', 'option_value' => '#171f2e'],
-            ['option_name' => 'navbar_text_lite', 'option_value' => '#000000'],
+            ['option_name' => 'navbar_text_lite', 'option_value' => '#374151'],
             ['option_name' => 'navbar_text_dark', 'option_value' => '#ffffff'],
 
             // Text colors
