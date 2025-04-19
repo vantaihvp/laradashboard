@@ -26,12 +26,16 @@ class ModulesController extends Controller
      */
     public function index()
     {
+        $this->checkAuthorization(auth()->user(), ['module.view']);
+
         $modules = $this->getModules();
         return view('backend.pages.modules.index', compact('modules'));
     }
 
     public function upload(Request $request)
     {
+        $this->checkAuthorization(auth()->user(), ['module.create']);
+
         $request->validate([
             'module' => 'required|file|mimes:zip',
         ]);
@@ -155,6 +159,8 @@ class ModulesController extends Controller
 
     public function destroy(string $module)
     {
+        $this->checkAuthorization(auth()->user(), ['module.delete']);
+
         // Find the module in the system.
         $moduleData = ModuleFacade::find(strtolower($module));
 
