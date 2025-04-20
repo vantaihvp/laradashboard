@@ -1,3 +1,4 @@
+@php echo ld_apply_filters('settings_appearance_tab_before_section_start', '') @endphp
 <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] mt-4">
     <div class="px-5 py-4 sm:px-6 sm:py-5">
         <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
@@ -278,7 +279,9 @@
             </div>
         </div>
     </div>
+    @php echo ld_apply_filters('settings_appearance_tab_before_section_end', '') @endphp
 </div>
+@php echo ld_apply_filters('settings_appearance_tab_after_section_end', '') @endphp
 
 <script>
     function syncColor(field, fromInput = false) {

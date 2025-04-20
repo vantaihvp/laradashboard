@@ -1,3 +1,4 @@
+@php echo ld_apply_filters('settings_content_tab_before_section_start', '') @endphp
 <div
     class="rounded-2xl border border-gray-200 dark:border-gray-800 dark:bg-white/[0.03]"
 >
@@ -26,4 +27,6 @@
             </div>
         </div>
     </div>
+    @php echo ld_apply_filters('settings_content_tab_before_section_end', '') @endphp
 </div>
+@php echo ld_apply_filters('settings_content_tab_after_section_end', '') @endphp
