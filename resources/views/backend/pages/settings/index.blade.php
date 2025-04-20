@@ -37,7 +37,7 @@
                         @csrf
                         @include('backend.layouts.partials.messages')
                         @include('backend.pages.settings.tabs', [
-                            'tabs' => [
+                            'tabs' => ld_apply_filters('settings_tabs', [
                                 'general' => [
                                     'title' => __('General Settings'),
                                     'view' => 'backend.pages.settings.general-tab',
@@ -54,7 +54,7 @@
                                     'title' => __('Integrations'),
                                     'view' => 'backend.pages.settings.integration-settings',
                                 ],
-                            ],
+                            ]),
                         ])
 
                         <!-- Submit Button -->
