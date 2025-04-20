@@ -94,13 +94,9 @@ class EnvWriter
 
                     // Normalize the current value by stripping surrounding quotes
                     $normalizedCurrentValue = trim($currentValue, '"');
-                    \Log::info("Current value for $envKey: $normalizedCurrentValue");
-                    \Log::info("Old value for $envKey: $currentValue");
-                    \Log::info("New value for $envKey: $value");
 
                     // Skip writing if the normalized value hasn't changed or is null
                     if ($normalizedCurrentValue === (string) $value || $value === null) {
-                        \Log::info("Skipping write for $envKey");
                         continue;
                     }
 
