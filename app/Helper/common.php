@@ -15,39 +15,42 @@ function get_module_asset_paths(): array
     return $paths;
 }
 
+function handle_ld_setting(string $method, ...$parameters): mixed
+{
+    return app(App\Services\SettingService::class)->{$method}(...$parameters);
+}
+
 function add_setting(string $optionName, mixed $optionValue, bool $autoload = false): void
 {
-    app(App\Services\SettingService::class)->addSetting($optionName, $optionValue, $autoload);
+    handle_ld_setting('addSetting', $optionName, $optionValue, $autoload);
 }
 
 function update_setting(string $optionName, mixed $optionValue, ?bool $autoload = null): bool
 {
-    return app(App\Services\SettingService::class)->updateSetting($optionName, $optionValue, $autoload);
+    return handle_ld_setting('updateSetting', $optionName, $optionValue, $autoload);
 }
 
 function delete_setting(string $optionName): bool
 {
-    return app(App\Services\SettingService::class)->deleteSetting($optionName);
+    return handle_ld_setting('deleteSetting', $optionName);
 }
 
 function get_setting(string $optionName): mixed
 {
-    return app(App\Services\SettingService::class)->getSetting($optionName);
+    return handle_ld_setting('getSetting', $optionName);
 }
 
 function get_settings(int|bool|null $autoload = true): array
 {
-    return app(App\Services\SettingService::class)->getSettings($autoload);
+    return handle_ld_setting('getSettings', $autoload);
 }
-
-
 
 if (!function_exists('storeImageAndGetUrl')) {
     function storeImageAndGetUrl($request, $fileName, $path)
     {
         if ($request->hasFile($fileName)) {
             $uploadedFile = $request->file($fileName);
-            $fileName = $fileName.'.' . $uploadedFile->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $uploadedFile->getClientOriginalExtension();
             $targetPath = public_path($path);
             if (!file_exists($targetPath)) {
                 mkdir($targetPath, 0777, true);
@@ -77,7 +80,7 @@ if (!function_exists('deleteImageFromPublic')) {
 }
 
 
-if (! function_exists('module_vite_compile')) {
+if (!function_exists('module_vite_compile')) {
     /**
      * support for vite hot reload overriding manifest file.
      */
