@@ -155,6 +155,9 @@ https://laradashboard.com/docs/
 **Content Settings**
 ![alt text][contentSettingsImage]
 
+**Integration Settings**
+![alt text][integrationsSettingsImage]
+
 ### Monitoring Pages
 **Action Logs**
 ![alt text][actionLogsPage]
@@ -184,6 +187,7 @@ Custom Error Pages
 [generalSettingsImage]: /demo-screenshots/Settings-General.png "General Settings Page"
 [siteAppearanceImage]: /demo-screenshots/Settings-Site-Appearance.png "Site Appearance Page"
 [contentSettingsImage]: /demo-screenshots/Settings-Content.png "Content Settings Page"
+[integrationsSettingsImage]: /demo-screenshots/Settings-Google-Analytics.png "Integrations Settings Page"
 
 ## Live Demo
 https://demo.laradashboard.com

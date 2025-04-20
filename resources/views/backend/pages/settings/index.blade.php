@@ -49,7 +49,11 @@
                                 'content' => [
                                     'title' => __('Content Settings'),
                                     'view' => 'backend.pages.settings.content-settings',
-                                ]
+                                ],
+                                'integrations' => [
+                                    'title' => __('Integrations'),
+                                    'view' => 'backend.pages.settings.integration-settings',
+                                ],
                             ],
                         ])
 

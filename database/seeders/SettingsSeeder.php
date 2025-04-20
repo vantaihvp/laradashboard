@@ -50,6 +50,8 @@ class SettingsSeeder extends Seeder
 
             // Additional default settings can be added here
             ['option_name' => 'default_pagination', 'option_value' => '10'],
+            ['option_name' => 'google_tag_manager_script', 'option_value' => ''],
+            ['option_name' => 'google_analytics_script', 'option_value' => ''],
         ]);
     }
 }

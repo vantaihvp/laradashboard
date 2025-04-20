@@ -21,6 +21,10 @@
         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
     :class="{ 'dark bg-gray-900': darkMode === true }"
 >
+    @if (!empty(config('settings.google_analytics_script')))
+        {!! config('settings.google_analytics_script') !!}
+    @endif
+
     <!-- Preloader -->
     <div
         x-show="loaded"

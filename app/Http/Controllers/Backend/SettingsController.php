@@ -31,9 +31,16 @@ class SettingsController extends Controller
 
     public function store(Request $request)
     {
+        // Restrict specific fields in demo mode.
+        if (env('DEMO_MODE', false)) {
+            $restrictedFields = ld_apply_filters('settings_restricted_fields', ['app_name', 'google_analytics_script']);
+            $fields = $request->except($restrictedFields);
+        } else {
+            $fields = $request->all();
+        }
+
         $this->checkAuthorization(auth()->user(), ['settings.edit']);
 
-        $fields = $request->all();
         $uploadPath = 'uploads/settings';
 
         foreach ($fields as $fieldName => $fieldValue) {
