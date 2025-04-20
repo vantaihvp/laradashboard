@@ -16,13 +16,41 @@ class CacheService
     {
         try {
             $this->clearConfigCache();
+        } catch (\Throwable $th) {
+            $this->storeActionLog(ActionType::EXCEPTION, ['config_cache_error' => $th->getMessage()]);
+        }
+
+        try {
             $this->clearRouteCache();
+        } catch (\Throwable $th) {
+            $this->storeActionLog(ActionType::EXCEPTION, ['route_cache_error' => $th->getMessage()]);
+        }
+
+        try {
             $this->clearViewCache();
+        } catch (\Throwable $th) {
+            $this->storeActionLog(ActionType::EXCEPTION, ['view_cache_error' => $th->getMessage()]);
+        }
+
+        try {
             $this->clearApplicationCache();
         } catch (\Throwable $th) {
-            $this->storeActionLog(ActionType::EXCEPTION, [
-                'cache' => $th->getMessage(),
-            ]);
+            $this->storeActionLog(ActionType::EXCEPTION, ['application_cache_error' => $th->getMessage()]);
+        }
+    }
+
+    public function clearNecessaryCaches(): void
+    {
+        try {
+            $this->clearConfigCache();
+        } catch (\Throwable $th) {
+            $this->storeActionLog(ActionType::EXCEPTION, ['config_cache_error' => $th->getMessage()]);
+        }
+
+        try {
+            $this->clearRouteCache();
+        } catch (\Throwable $th) {
+            $this->storeActionLog(ActionType::EXCEPTION, ['route_cache_error' => $th->getMessage()]);
         }
     }
 

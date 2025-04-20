@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\ActionType;
+use App\Traits\HasActionLogTrait;
+
 class EnvWriter
 {
+    use HasActionLogTrait;
+
     public function write($key, $value)
     {
         // If the value didn't change, don't write it to the file.
@@ -26,7 +31,15 @@ class EnvWriter
             $file .= PHP_EOL . "$key=$formattedValue";
         }
 
-        file_put_contents($path, $file);
+        // Use file locking to prevent race conditions
+        $fp = fopen($path, 'c+');
+        if (flock($fp, LOCK_EX)) {
+            ftruncate($fp, 0);
+            fwrite($fp, $file);
+            fflush($fp);
+            flock($fp, LOCK_UN);
+        }
+        fclose($fp);
     }
 
     public function get($key)
@@ -58,5 +71,65 @@ class EnvWriter
         return ld_apply_filters('available_keys', [
             'app_name' => 'APP_NAME',
         ]);
+    }
+
+    public function batchWriteKeysToEnvFile(array $keys): void
+    {
+        try {
+            $availableKeys = $this->getAvailableKeys();
+
+            if (empty($keys) || empty($availableKeys)) {
+                return;
+            }
+
+            $path = base_path('.env');
+            $file = file_get_contents($path);
+
+            $changesMade = false;
+
+            foreach ($keys as $key => $value) {
+                if (array_key_exists($key, $availableKeys)) {
+                    $envKey = $availableKeys[$key];
+                    $currentValue = $this->get($envKey);
+
+                    // Normalize the current value by stripping surrounding quotes
+                    $normalizedCurrentValue = trim($currentValue, '"');
+                    \Log::info("Current value for $envKey: $normalizedCurrentValue");
+                    \Log::info("Old value for $envKey: $currentValue");
+                    \Log::info("New value for $envKey: $value");
+
+                    // Skip writing if the normalized value hasn't changed or is null
+                    if ($normalizedCurrentValue === (string) $value || $value === null) {
+                        \Log::info("Skipping write for $envKey");
+                        continue;
+                    }
+
+                    $formattedValue = "\"$value\"";
+                    $file = preg_replace("/^$envKey=.*/m", "$envKey=$formattedValue", $file);
+
+                    if (!preg_match("/^$envKey=/m", $file)) {
+                        $file .= PHP_EOL . "$envKey=$formattedValue";
+                    }
+
+                    $changesMade = true;
+                }
+            }
+
+            // Write to the file only if changes were made
+            if ($changesMade) {
+                $fp = fopen($path, 'c+');
+                if (flock($fp, LOCK_EX)) {
+                    ftruncate($fp, 0);
+                    fwrite($fp, $file);
+                    fflush($fp);
+                    flock($fp, LOCK_UN);
+                }
+                fclose($fp);
+            }
+        } catch (\Throwable $th) {
+            $this->storeActionLog(ActionType::EXCEPTION, [
+                'env_update_error' => $th->getMessage(),
+            ]);
+        }
     }
 }

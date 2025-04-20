@@ -108,6 +108,4 @@
         setActiveTab(urlTab);
     });
 </script>
-
-
 @endpush

@@ -46,13 +46,11 @@ class SettingsController extends Controller
             }
         }
 
-        $this->maybeWriteKeysToEnvFile($request);
+        $this->envWriter->batchWriteKeysToEnvFile($fields);
 
         $this->storeActionLog(ActionType::UPDATED, [
             'settings' => $fields,
         ]);
-
-        $this->cacheService->clearCache();
 
         return redirect()->back()->with('success', 'Settings saved successfully.');
     }
