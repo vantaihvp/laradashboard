@@ -14,17 +14,19 @@ User Edit - {{ config('app.name') }}
                 <ol class="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
                     <li>
                         <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-1.5">
-                            Home
+                            {{ __('Home') }}
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('admin.users.index') }}" class="inline-flex items-center gap-1.5">
-                            Users
+                            {{ __('Users') }}
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>
-                    <li class="text-gray-800 dark:text-white" x-text="pageName">Edit User</li>
+                    <li class="text-gray-800 dark:text-white" x-text="pageName">
+                        {{ __('Edit User') }}
+                    </li>
                 </ol>
             </nav>
         </div>
@@ -60,10 +62,10 @@ User Edit - {{ config('app.name') }}
                         <div>
                             <label for="roles" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Assign Roles') }}</label>
                             <div class="space-y-2">
-                                @foreach ($roles as $role)
+                                @foreach ($roles as $id => $name)
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="roles[]" id="role_{{ $role->id }}" value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'checked' : '' }} class="h-4 w-4 text-brand-500 border-gray-300 rounded focus:ring-brand-400 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-brand-500">
-                                        <label for="role_{{ $role->id }}" class="ml-2 text-sm text-gray-700 dark:text-gray-400">{{ $role->name }}</label>
+                                        <input type="checkbox" name="roles[]" id="role_{{ $id }}" value="{{ $name }}" {{ $user->roles->pluck('id')->contains($id) ? 'checked' : '' }} class="h-4 w-4 text-brand-500 border-gray-300 rounded focus:ring-brand-400 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-brand-500">
+                                        <label for="role_{{ $id }}" class="ml-2 text-sm text-gray-700 dark:text-gray-400">{{ ucfirst($name) }}</label>
                                     </div>
                                 @endforeach
                             </div>

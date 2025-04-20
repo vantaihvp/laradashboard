@@ -35,12 +35,38 @@
                     'placeholder' => __('Search by name or email'),
                 ])
 
-                @if (auth()->user()->can('user.edit'))
-                    <a href="{{ route('admin.users.create') }}" class="btn-primary">
-                        <i class="bi bi-plus-circle mr-2"></i>
-                        {{ __('New User') }}
-                    </a>
-                @endif
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center justify-center">
+                        <button id="roleDropdownButton" data-dropdown-toggle="roleDropdown" class="btn-default flex items-center justify-center gap-2" type="button">
+                            <i class="bi bi-sliders"></i>
+                            {{ __('Filter by Role') }}
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div id="roleDropdown" class="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                            <ul class="space-y-2">
+                                <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded"
+                                    onclick="handleRoleFilter('')">
+                                    {{ __('All Roles') }}
+                                </li>
+                                @foreach ($roles as $id => $name)
+                                    <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded {{ $name === request('role') ? 'bg-gray-200 dark:bg-gray-600' : '' }}"
+                                        onclick="handleRoleFilter('{{ $name }}')">
+                                        {{ ucfirst($name) }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+
+                    @if (auth()->user()->can('user.edit'))
+                        <a href="{{ route('admin.users.create') }}" class="btn-primary">
+                            <i class="bi bi-plus-circle mr-2"></i>
+                            {{ __('New User') }}
+                        </a>
+                    @endif
+                </div>
             </div>
             <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
                 @include('backend.layouts.partials.messages')
@@ -156,4 +182,14 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        function handleRoleFilter(value) {
+            let currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('role', value);
+            window.location.href = currentUrl.toString();
+        }
+    </script>
+@endpush
 @endsection

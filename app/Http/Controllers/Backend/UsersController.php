@@ -8,30 +8,27 @@ use App\Enums\ActionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Services\UserService;
+use App\Services\RolesService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly RolesService $rolesService
+    ) {
+    }
+
     public function index(): Renderable
     {
         $this->checkAuthorization(auth()->user(), ['user.view']);
 
-        // Search functionality.
-        $query = User::query();
-        $search = request()->input('search');
-        if ($search) {
-            $query->where('name', 'like', "%{$search}%")
-                ->orWhere('username', 'like', "%{$search}%")
-                ->orWhere('email', 'like', "%{$search}%");
-        }
-
         return view('backend.pages.users.index', [
-            'users' => $query->latest()->paginate(config('settings.default_pagination') ?? 10),
+            'users' => $this->userService->getUsers(),
+            'roles' => $this->rolesService->getRolesDropdown(),
         ]);
     }
 
@@ -42,7 +39,7 @@ class UsersController extends Controller
         ld_do_action('user_create_page_before');
 
         return view('backend.pages.users.create', [
-            'roles' => Role::all(),
+            'roles' => $this->rolesService->getRolesDropdown(),
         ]);
     }
 
@@ -88,7 +85,7 @@ class UsersController extends Controller
 
         return view('backend.pages.users.edit', [
             'user' => $user,
-            'roles' => Role::all(),
+            'roles' => $this->rolesService->getRolesDropdown(),
         ]);
     }
 
@@ -128,7 +125,7 @@ class UsersController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['user.delete']);
 
-        $user = User::findOrFail($id);
+        $user = $this->userService->getUserById($id);
 
         // Prevent deletion of super admin in demo mode
         $this->preventSuperAdminModification($user);
