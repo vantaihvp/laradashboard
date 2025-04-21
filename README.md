@@ -16,6 +16,17 @@ password - 12345678
 - Laravel Modules - https://laravelmodules.com/docs/12/getting-started/introduction
 - Laravel Events (A WordPress like action/filter hooks) - https://github.com/tormjens/eventy
 
+## Changelog
+**[v1.0.0] - 2025-04-21**
+- **Feature - Forget Password Management**: Enhanced the forget password functionality for better reliability and user experience.
+- **Feature - Settings Management**: Added comprehensive settings management features, including API support.
+- **Enhancement - Role-Based Access Control (RBAC) Improvements**: Improved authorization mechanisms and role-based access control.
+- **Feature - Admin Impersonation**: Administrators can now log in as other users and switch back to their original accounts seamlessly.
+- **Enhancement - UI/UX Enhancements**: Updated the role create/edit form for a more intuitive and user-friendly experience.
+- **Enhancement - User Profile and Management Enhancements**: Refactored user-related operations to utilize `UserService` and `RolesService` for better separation of concerns and maintainability.
+- **Docs - Documentation and Configuration Updates**:
+  - Updated `.env.example` to include a `GITHUB_LINK` variable for improved project visibility.
+
 ## Versions:
 - Laravel `7.x` & PHP -`7.x`
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/Laravel7.x
@@ -35,7 +46,10 @@ password - 12345678
 
 - Laravel `12.x` & Module & Action Log integration
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/Laravel12.x-module-logs
- 
+
+- v1.0.0 - Settings, Forget password and lots of refactorring
+    - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.0.0
+
 ## Project Setup
 **Clone and Go Project**
 ```console
