@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Users - Admin Panel') }}
+    {{ __('Users') }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
@@ -10,7 +10,7 @@
     <div x-data="{ pageName: 'Users' }">
         <!-- Page Header -->
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">Users</h2>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Users') }}</h2>
             <nav>
                 <ol class="flex items-center gap-1.5">
                     <li>
@@ -19,7 +19,7 @@
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">Users</li>
+                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Users') }}</li>
                 </ol>
             </nav>
         </div>
@@ -29,18 +29,44 @@
     <div class="space-y-6">
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
-                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Users</h3>
+                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Users') }}</h3>
 
                 @include('backend.partials.search-form', [
                     'placeholder' => __('Search by name or email'),
                 ])
 
-                @if (auth()->user()->can('user.edit'))
-                    <a href="{{ route('admin.users.create') }}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                        <i class="bi bi-plus-circle mr-2"></i>
-                        {{ __('New User') }}
-                    </a>
-                @endif
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center justify-center">
+                        <button id="roleDropdownButton" data-dropdown-toggle="roleDropdown" class="btn-default flex items-center justify-center gap-2" type="button">
+                            <i class="bi bi-sliders"></i>
+                            {{ __('Filter by Role') }}
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div id="roleDropdown" class="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                            <ul class="space-y-2">
+                                <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded"
+                                    onclick="handleRoleFilter('')">
+                                    {{ __('All Roles') }}
+                                </li>
+                                @foreach ($roles as $id => $name)
+                                    <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded {{ $name === request('role') ? 'bg-gray-200 dark:bg-gray-600' : '' }}"
+                                        onclick="handleRoleFilter('{{ $name }}')">
+                                        {{ ucfirst($name) }}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+
+                    @if (auth()->user()->can('user.edit'))
+                        <a href="{{ route('admin.users.create') }}" class="btn-primary">
+                            <i class="bi bi-plus-circle mr-2"></i>
+                            {{ __('New User') }}
+                        </a>
+                    @endif
+                </div>
             </div>
             <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
                 @include('backend.layouts.partials.messages')
@@ -81,22 +107,22 @@
                                     @endforeach
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_before_action', '', $user) @endphp
-                                <td class="flex px-5 py-4 sm:px-6 text-center">
+                                <td class="flex px-5 py-4 sm:px-6 text-center gap-1">
                                     @if (auth()->user()->canBeModified($user))
-                                        <a data-tooltip-target="tooltip-edit-user-{{ $user->id }}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" href="{{ route('admin.users.edit', $user->id) }}">
+                                        <a data-tooltip-target="tooltip-edit-user-{{ $user->id }}" class="btn-default !p-3" href="{{ route('admin.users.edit', $user->id) }}">
                                             <i class="bi bi-pencil text-sm"></i>
                                         </a>
                                         <div id="tooltip-edit-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                            Edit User
+                                            {{ __('Edit User') }}
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                     @endif
                                     @if (auth()->user()->canBeModified($user, 'user.delete'))
-                                        <a data-modal-target="delete-modal-{{ $user->id }}" data-modal-toggle="delete-modal-{{ $user->id }}" data-tooltip-target="tooltip-delete-user-{{ $user->id }}" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" href="javascript:void(0);">
+                                        <a data-modal-target="delete-modal-{{ $user->id }}" data-modal-toggle="delete-modal-{{ $user->id }}" data-tooltip-target="tooltip-delete-user-{{ $user->id }}" class="btn-danger !p-3" href="javascript:void(0);">
                                             <i class="bi bi-trash text-sm"></i>
                                         </a>
                                         <div id="tooltip-delete-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                            Delete User
+                                            {{ __('Delete User') }}
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
 
@@ -113,18 +139,27 @@
                                                     <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                     </svg>
-                                                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this user?</h3>
+                                                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{{ __('Are you sure you want to delete this user?') }}</h3>
                                                     <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
                                                         @method('DELETE')
                                                         @csrf
 
                                                         <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                                                            Yes, Confirm
+                                                            {{ __('Yes, Confirm') }}
                                                         </button>
-                                                        <button data-modal-hide="delete-modal-{{ $user->id }}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+                                                        <button data-modal-hide="delete-modal-{{ $user->id }}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{{ __('No, cancel') }}</button>
                                                     </form>
                                                 </div>
                                             </div>
+                                        </div>
+                                    @endif
+                                    @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)
+                                        <a data-tooltip-target="tooltip-login-as-user-{{ $user->id }}" class="btn-warning !p-3" href="{{ route('admin.users.login-as', $user->id) }}">
+                                            <i class="bi bi-box-arrow-in-right text-sm"></i>
+                                        </a>
+                                        <div id="tooltip-login-as-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                            {{ __('Login as') }} {{ $user->name }}
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                     @endif
                                 </td>
@@ -147,4 +182,14 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        function handleRoleFilter(value) {
+            let currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('role', value);
+            window.location.href = currentUrl.toString();
+        }
+    </script>
+@endpush
 @endsection
