@@ -95,7 +95,7 @@ git remote set-url origin git@github.com:laradashboard/laradashboard.git
 1. Monitoring - Laravel Pulse
 
 ## Email setup
-You can use mailtrap to test emails easily - https://mailtrap.io/ (first need to create mailtrap account and and can )
+You can use mailtrap to test emails easily - https://mailtrap.io/ (first need to create mailtrap account and can )
 
 ```bash
 MAIL_MAILER=smtp
