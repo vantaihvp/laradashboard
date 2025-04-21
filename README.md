@@ -82,7 +82,7 @@ git remote set-url origin git@github.com:laradashboard/laradashboard.git
 1. Login using Super Admin Credential -
     1. Email - `superadmin@example.com`
     1. Password - `12345678`
-1. Forget password - Password forget and reset will work if email is setupped properly
+1. Forget password - Password forget and reset will work if email is set up properly
 1. Create User
 1. Create Role
 1. Assign Permission to Roles
