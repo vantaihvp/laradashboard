@@ -48,7 +48,7 @@
                 stroke-width="1.5"
             ></path>
         </svg>
-        Filter
+        {{ __('Filter') }}
     </button>
 
     <!-- Dropdown menu -->
@@ -71,7 +71,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2">Last 12 Months</span>
+                    <span class="ml-2"> {{ __('Last 12 Months') }}</span>
                 </a>
             </li>
             <li>
@@ -85,7 +85,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2">This Year</span>
+                    <span class="ml-2"> {{ __('This Year') }}</span>
                 </a>
             </li>
             <li>
@@ -99,7 +99,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2">Last Year</span>
+                    <span class="ml-2"> {{ __('Last Year') }}</span>
                 </a>
             </li>
             <li>
@@ -113,7 +113,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2">Last 30 Days</span>
+                    <span class="ml-2"> {{ __('Last 30 Days') }}</span>
                 </a>
             </li>
             <li>
@@ -127,7 +127,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2">Last 7 Days</span>
+                    <span class="ml-2"> {{ __('Last 7 Days') }}</span>
                 </a>
             </li>
             <li>
@@ -141,7 +141,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2">This Month</span>
+                    <span class="ml-2"> {{ __('This Month') }}</span>
                 </a>
             </li>
         </ul>

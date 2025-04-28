@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-Dashboard Page - {{ config('app.name') }}
+{{ __('Dashboard Page') }} - {{ config('app.name') }}
 @endsection
 
 @section('before_vite_build')
@@ -27,9 +27,9 @@ Dashboard Page - {{ config('app.name') }}
 
                     <div class="mt-5 flex items-end justify-between">
                         <div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400"
-                                >Users</span
-                            >
+                            <span class="text-sm text-gray-500 dark:text-gray-400">
+                                {{ __('Users') }}
+                            </span>
                             <h4
                                 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90"
                             >
@@ -50,7 +50,7 @@ Dashboard Page - {{ config('app.name') }}
                     <div class="mt-5 flex items-end justify-between">
                         <div>
                             <span class="text-sm text-gray-500 dark:text-gray-400">
-                                Roles
+                                {{ __('Roles') }}
                             </span>
                             <h4
                                 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90"
@@ -72,7 +72,7 @@ Dashboard Page - {{ config('app.name') }}
                     <div class="mt-5 flex items-end justify-between">
                         <div>
                             <span class="text-sm text-gray-500 dark:text-gray-400">
-                                Permissions
+                                {{ __('Permissions') }}
                             </span>
                             <h4
                                 class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90"

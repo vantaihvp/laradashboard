@@ -5,7 +5,7 @@
 >
     <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
-            User Growth Report
+            {{ __("User Growth Report") }}
         </h3>
 
         @include('components.filters.date-filter', ['currentFilter' => $currentFilter])

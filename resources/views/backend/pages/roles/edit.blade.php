@@ -1,19 +1,19 @@
 @extends('backend.layouts.app')
 
 @section('title')
-Edit Role - Admin Panel
+{{ __('Edit Role') }} - {{ __('Admin Panel') }}
 @endsection
 
 @section('admin-content')
 
-<div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-    <div x-data="{ pageName: `Edit Role`}">
+<div class="p-4 mx-auto max-w-[var(--breakpoint-2xl)] md:p-6">
+    <div x-data="{ pageName: `{{ __('Edit Role') }}`}">
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
             <h2
                 class="text-xl font-semibold text-gray-800 dark:text-white/90"
                 x-text="pageName"
             >
-                Edit Role
+                {{ __('Edit Role') }}
             </h2>
 
             <nav>
@@ -23,7 +23,7 @@ Edit Role - Admin Panel
                             class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
                             href="{{ route('admin.dashboard') }}"
                         >
-                            Home
+                            {{ __('Home') }}
                             <i class="bi bi-chevron-right "></i>
                         </a>
                     </li>
@@ -32,7 +32,7 @@ Edit Role - Admin Panel
                             class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
                             href="{{ route('admin.roles.index') }}"
                         >
-                            Roles
+                            {{ __('Roles') }}
                             <i class="bi bi-chevron-right "></i>
                         </a>
                     </li>
@@ -40,7 +40,7 @@ Edit Role - Admin Panel
                         class="text-sm text-gray-800 dark:text-white/90"
                         x-text="pageName"
                     >
-                        Edit Role
+                        {{ __('Edit Role') }}
                     </li>
                 </ol>
             </nav>
@@ -51,7 +51,7 @@ Edit Role - Admin Panel
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div class="px-5 py-4 sm:px-6 sm:py-5">
             <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                Edit Role - {{ $role->name }}
+                {{ __('Edit Role') }} - {{ $role->name }}
             </h3>
           </div>
           <div class="p-5 space-y-6 border-t border-gray-100 dark:border-gray-800 sm:p-6">
@@ -63,14 +63,14 @@ Edit Role - Admin Panel
             @method('PUT')
             @csrf
             <div class="w-full mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Role Name</label>
+                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">{{ __('Role Name') }}</label>
                 <div class="relative">
-                    <input required autofocus name="name" value="{{ $role->name }}" type="text" placeholder="Enter a Role Name" class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800">
+                    <input required autofocus name="name" value="{{ $role->name }}" type="text" placeholder="{{ __('Enter a Role Name') }}" class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800">
                 </div>
             </div>
 
             <div class="mb-4">
-                <label for="permissions" class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">Permissions</label>
+                <label for="permissions" class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">{{ __('Permissions') }}</label>
                 <div class="mb-2">
                     <input
                         type="checkbox"
@@ -79,7 +79,7 @@ Edit Role - Admin Panel
                         value="1"
                         {{ App\Models\User::roleHasPermissions($role, $all_permissions) ? 'checked' : '' }}
                     />
-                    <label for="checkPermissionAll" class="text-sm text-gray-700 dark:text-gray-400">Select All</label>
+                    <label for="checkPermissionAll" class="text-sm text-gray-700 dark:text-gray-400">{{ __('Select All') }}</label>
                 </div>
                 <hr class="mb-4" />
                 @php $i = 1; @endphp
@@ -88,7 +88,7 @@ Edit Role - Admin Panel
                     <div class="basis-1/3">
                         <label
                             for="{{ $i }}Management" class="capitalize flex items-center text-sm font-medium text-gray-700 cursor-pointer select-none dark:text-gray-400"
-                            title="Toggle all permissions in this group"
+                            title="{{ __('Toggle all permissions in this group') }}"
                             id="role-{{ $i }}-management-checkbox"
                             onclick="checkPermissionByGroup('role-{{ $i }}-management-checkbox', this)"
                         >
@@ -126,8 +126,8 @@ Edit Role - Admin Panel
             </div>
 
             <div class="mt-6 flex justify-start gap-4">
-                <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600">Save</button>
-                <a href="{{ route('admin.roles.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-white">Cancel</a>
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600">{{ __('Save') }}</button>
+                <a href="{{ route('admin.roles.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 dark:bg-gray-700 dark:text-white">{{ __('Cancel') }}</a>
             </div>
         </form>
           </div>
