@@ -20,6 +20,12 @@
 
 <body x-data="{ page: 'ecommerce', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }" x-init="darkMode = JSON.parse(localStorage.getItem('darkMode'));
 $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{ 'dark bg-gray-900': darkMode === true }">
+    @if (!empty(config('settings.google_tag_manager_script')))
+        {!! config('settings.google_tag_manager_script') !!}
+    @endif
+    @if (!empty(config('settings.google_analytics_script')))
+        {!! config('settings.google_analytics_script') !!}
+    @endif
     <!-- Preloader -->
     <div x-show="loaded" x-init="window.addEventListener('DOMContentLoaded', () => { setTimeout(() => loaded = false, 500) })"
         class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
@@ -55,13 +61,13 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
             const darkModeToggle = document.getElementById('darkModeToggle');
             const header = document.getElementById('appHeader');
 
-    
+
             // Update header background based on current mode
             function updateHeaderBg() {
                 if (!header) return;
                 const isDark = html.classList.contains('dark');
             }
-    
+
             // nitialize dark mode
             const savedDarkMode = localStorage.getItem('darkMode');
             if (savedDarkMode === 'true') {
@@ -73,7 +79,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     html.classList.add('dark');
                 }
             }
-    
+
             updateHeaderBg();
 
             const observer = new MutationObserver(updateHeaderBg);
@@ -89,8 +95,8 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
             }
         });
     </script>
-    
-    
+
+
 
 </body>
 

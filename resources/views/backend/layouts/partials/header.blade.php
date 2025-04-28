@@ -1,4 +1,4 @@
-<header id="appHeader" 
+<header id="appHeader"
 
 x-data="{
     menuToggle: false,
@@ -21,8 +21,8 @@ x-data="{
     },
     updateColor() {
         this.isDark = document.documentElement.classList.contains('dark');
-        this.textColor = this.isDark 
-            ? '{{ config('settings.navbar_text_dark') }}' 
+        this.textColor = this.isDark
+            ? '{{ config('settings.navbar_text_dark') }}'
             : '{{ config('settings.navbar_text_lite') }}';
     }
 }"
@@ -72,6 +72,13 @@ x-init="init()"
                     </svg>
                 </button>
                 @php ld_apply_filters('dark_mode_toggler_after_button', '') @endphp
+
+                @if (env('GITHUB_LINK'))
+                    <a href="{{ env('GITHUB_LINK') }}" target="_blank"
+                        class="hover:text-dark-900 relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white">
+                        <i class="bi bi-github text-xl"></i>
+                    </a>
+                @endif
             </div>
 
             <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
@@ -135,6 +142,22 @@ x-init="init()"
                             {{ __('Logout') }}
                         </button>
                     </form>
+
+                    @if (session()->has('original_user_id'))
+                        @php
+                            $originalUser = \App\Models\User::find(session('original_user_id'));
+                        @endphp
+                        @if ($originalUser)
+                            <form method="POST" action="{{ route('admin.users.switch-back') }}" class="inline">
+                                @csrf
+                                <button type="submit"
+                                    class="group flex items-center gap-3 rounded-lg px-3 py-2 text-theme-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 mt-1 w-full">
+                                    <i class="bi bi-arrow-left"></i>
+                                    {{ __('Switch back to') }} {{ $originalUser->name }}
+                                </button>
+                            </form>
+                        @endif
+                    @endif
                 </div>
                 <!-- Dropdown End -->
             </div>

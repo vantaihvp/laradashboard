@@ -21,19 +21,21 @@ class SettingsSeeder extends Seeder
             ['option_name' => 'app_name', 'option_value' => 'Lara Dashboard'],
 
             // theme colors.
-            ['option_name' => 'theme_primary_color', 'option_value' => '#7592ff'],
+            ['option_name' => 'theme_primary_color', 'option_value' => '#635bff'],
             ['option_name' => 'theme_secondary_color', 'option_value' => '#1f2937'],
 
             // Sidebar colors
-            ['option_name' => 'sidebar_bg_lite', 'option_value' => '#1f2937'],
-            ['option_name' => 'sidebar_bg_dark', 'option_value' => '#1f2937'],
+            ['option_name' => 'sidebar_bg_lite', 'option_value' => '#171f2e'],
+            ['option_name' => 'sidebar_bg_dark', 'option_value' => '#171f2e'],
 
             ['option_name' => 'sidebar_text_lite', 'option_value' => '#ffffff'],
             ['option_name' => 'sidebar_text_dark', 'option_value' => '#ffffff'],
 
             // Navbar colors
             ['option_name' => 'navbar_bg_lite', 'option_value' => '#ffffff'],
-            ['option_name' => 'navbar_bg_dark', 'option_value' => '#1f2937'],
+            ['option_name' => 'navbar_bg_dark', 'option_value' => '#171f2e'],
+            ['option_name' => 'navbar_text_lite', 'option_value' => '#374151'],
+            ['option_name' => 'navbar_text_dark', 'option_value' => '#ffffff'],
 
             // Text colors
             ['option_name' => 'text_color_lite', 'option_value' => '#212529'],
@@ -48,6 +50,8 @@ class SettingsSeeder extends Seeder
 
             // Additional default settings can be added here
             ['option_name' => 'default_pagination', 'option_value' => '10'],
+            ['option_name' => 'google_tag_manager_script', 'option_value' => ''],
+            ['option_name' => 'google_analytics_script', 'option_value' => ''],
         ]);
     }
 }

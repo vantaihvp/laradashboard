@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
 use App\Enums\ActionType;
+use App\Http\Controllers\Controller;
 use App\Services\CacheService;
 use App\Services\EnvWriter;
 use App\Services\SettingService;
@@ -22,17 +23,24 @@ class SettingsController extends Controller
 
     public function index($tab = null): Renderable
     {
-        return view('backend.pages.settings.index', compact("tab"));
-    }
+        $this->checkAuthorization(auth()->user(), ['settings.edit']);
 
-    public function tabAdd()
-    {
-        return "";
+        $tab = $tab ?? request()->input('tab', 'general');
+        return view('backend.pages.settings.index', compact("tab"));
     }
 
     public function store(Request $request)
     {
-        $fields = $request->all();
+        // Restrict specific fields in demo mode.
+        if (env('DEMO_MODE', false)) {
+            $restrictedFields = ld_apply_filters('settings_restricted_fields', ['app_name', 'google_analytics_script']);
+            $fields = $request->except($restrictedFields);
+        } else {
+            $fields = $request->all();
+        }
+
+        $this->checkAuthorization(auth()->user(), ['settings.edit']);
+
         $uploadPath = 'uploads/settings';
 
         foreach ($fields as $fieldName => $fieldValue) {
@@ -45,13 +53,11 @@ class SettingsController extends Controller
             }
         }
 
-        $this->maybeWriteKeysToEnvFile($request);
+        $this->envWriter->batchWriteKeysToEnvFile($fields);
 
         $this->storeActionLog(ActionType::UPDATED, [
             'settings' => $fields,
         ]);
-
-        // $this->cacheService->clearCache();
 
         return redirect()->back()->with('success', 'Settings saved successfully.');
     }

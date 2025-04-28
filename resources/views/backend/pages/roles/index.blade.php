@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Roles - Admin Panel') }}
+    {{ __('Roles') }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
@@ -31,11 +31,11 @@
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Roles') }}</h3>
 
                 @include('backend.partials.search-form', [
-                    'placeholder' => __('Search by name'),
+                    'placeholder' => __('Search by role name'),
                 ])
 
                 @if (auth()->user()->can('role.create'))
-                    <a href="{{ route('admin.roles.create') }}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-3 py-2 text-center">
+                    <a href="{{ route('admin.roles.create') }}" class="btn-primary">
                         <i class="bi bi-plus-circle mr-2"></i>
                         {{ __('New Role') }}
                     </a>
@@ -56,17 +56,42 @@
                         @forelse ($roles as $role)
                             <tr class="{{ $loop->index + 1 != count($roles) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
                                 <td class="px-5 py-4 sm:px-6">{{ $loop->index + 1 }}</td>
-                                <td class="px-5 py-4 sm:px-6">{{ $role->name }}</td>
                                 <td class="px-5 py-4 sm:px-6">
-                                    @foreach ($role->permissions as $permission)
-                                        <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">
-                                            {{ $permission->name }}
-                                        </span>
-                                    @endforeach
+                                    {{ $role->name }}
+
+                                    <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                        {{ __('Total Permissions:') }} {{ $role->permissions->count() }}
+                                    </div>
                                 </td>
-                                <td class="px-5 py-4 sm:px-6 text-center flex items-center justify-center">
+                                <td class="px-5 py-4 sm:px-6">
+                                    <div x-data="{ showAll: false }">
+                                        <div>
+                                            @foreach ($role->permissions->take(7) as $permission)
+                                                <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">
+                                                    {{ $permission->name }}
+                                                </span>
+                                            @endforeach
+                                            <template x-if="showAll">
+                                                <div>
+                                                    @foreach ($role->permissions->skip(7) as $permission)
+                                                        <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">
+                                                            {{ $permission->name }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            </template>
+                                        </div>
+                                        @if ($role->permissions->count() > 7)
+                                            <button @click="showAll = !showAll" class="text-primary text-sm mt-2">
+                                                <span x-show="!showAll">+{{ $role->permissions->count() - 7 }} {{ __('more') }}</span>
+                                                <span x-show="showAll">{{ __('Show less') }}</span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td class="px-5 py-4 sm:px-6 text-center flex items-center justify-center gap-1">
                                     @if (auth()->user()->can('role.edit'))
-                                        <a data-tooltip-target="tooltip-edit-role-{{ $role->id }}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 py-2 text-center mx-1 mb-2" href="{{ route('admin.roles.edit', $role->id) }}">
+                                        <a data-tooltip-target="tooltip-edit-role-{{ $role->id }}" class="btn-default !p-3" href="{{ route('admin.roles.edit', $role->id) }}">
                                             <i class="bi bi-pencil text-sm"></i>
                                         </a>
                                         <div id="tooltip-edit-role-{{ $role->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
@@ -76,7 +101,7 @@
                                     @endif
 
                                     @if (auth()->user()->can('role.delete'))
-                                        <a data-modal-target="delete-modal-{{ $role->id }}" data-modal-toggle="delete-modal-{{ $role->id }}" data-tooltip-target="tooltip-delete-role-{{ $role->id }}" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-3 py-2 text-center mx-1 mb-2" href="javascript:void(0);">
+                                        <a data-modal-target="delete-modal-{{ $role->id }}" data-modal-toggle="delete-modal-{{ $role->id }}" data-tooltip-target="tooltip-delete-role-{{ $role->id }}" class="btn-danger !p-3" href="javascript:void(0);">
                                             <i class="bi bi-trash text-sm"></i>
                                         </a>
                                         <div id="tooltip-delete-role-{{ $role->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
@@ -105,9 +130,7 @@
                                                             <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                                                 {{ __('Yes, Confirm') }}
                                                             </button>
-                                                            <button data-modal-hide="delete-modal-{{ $role->id }}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                                                {{ __('No, cancel') }}
-                                                            </button>
+                                                            <button data-modal-hide="delete-modal-{{ $role->id }}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{{ __('No, cancel') }}</button>
                                                         </form>
                                                     </div>
                                                 </div>

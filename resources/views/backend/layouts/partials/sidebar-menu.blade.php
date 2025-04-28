@@ -20,8 +20,8 @@
 
 
     <div>
-        <h3 class="mb-4 text-xs uppercase leading-[20px] text-blue-400">
-            MENU
+        <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+            {{ __('Menu') }}
         </h3>
 
         <ul class="flex flex-col gap-4 mb-6">
@@ -51,7 +51,7 @@
                             <li>
                                 <a href="{{ route('admin.roles.index') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.roles.index') || Route::is('admin.roles.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                                    Roles{{ __('Roles') }}
+                                    {{ __('Roles') }}
                                 </a>
                             </li>
                         @endif
@@ -149,11 +149,11 @@
     <!-- Others Group -->
     <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
-            More
+            {{ __('More') }}
         </h3>
 
         <ul class="flex flex-col gap-4 mb-6">
-            <!-- Logout Menu Item -->
+            @if ($user->can('settings.edit'))
             <li class="menu-item-inactive rounded-md ">
                 <a href="{{ route('admin.settings.index') }}" type="submit"
                     class="menu-item group w-full text-left {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
@@ -161,6 +161,9 @@
                     <span class="dark:text-white/90" :style="`color: ${textColor}`">{{ __('Settings') }}</span>
                 </a>
             </li>
+            @endif
+
+            <!-- Logout Menu Item -->
             <li class="menu-item-inactive rounded-md ">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

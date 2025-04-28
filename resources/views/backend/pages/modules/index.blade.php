@@ -17,7 +17,7 @@
                 @if(count($modules) > 0)
                     <button
                         @click="showUploadArea = !showUploadArea"
-                        class="ml-4 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 btn-upload-module"
+                        class="ml-4 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:opacity-90 transition-all btn-upload-module"
                     >
                         <i class="bi bi-cloud-upload mr-2"></i>
                         {{ __('Upload Module') }}
@@ -44,7 +44,7 @@
                 {{ __('Drag and drop your module file here, or') }}
                 <button
                     @click="$refs.uploadModule.click()"
-                    class="text-blue-500 underline hover:text-blue-600"
+                    class="text-primary underline hover:text-blue-600"
                 >
                     {{ __('browse') }}
                 </button>
@@ -67,7 +67,7 @@
         <p class="mt-4 text-gray-600 dark:text-gray-400">{{ __('Drag and drop your module file here, or') }}</p>
         <button
             @click="$refs.uploadModule.click()"
-            class="mt-4 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+            class="mt-4 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-600"
         >
             <i class="bi bi-cloud-upload mr-2"></i>
             {{ __('Upload') }}
