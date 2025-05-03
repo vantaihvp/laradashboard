@@ -118,7 +118,7 @@
                         </tbody>
                     </table>
 
-                    <div class="mt-4">
+                    <div class="my-4 px-4 sm:px-6">
                         {{ $actionLogs->links() }}
                     </div>
                 </div>

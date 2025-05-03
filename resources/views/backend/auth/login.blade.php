@@ -57,42 +57,17 @@
                     </span>
                   </div>
                 </div>
-                <!-- Checkbox -->
-                <div class="flex items-center justify-between">
-                  <div x-data="{ checkboxToggle: false }">
-                    <label for="checkboxLabelOne" class="flex items-center text-sm font-normal text-gray-700 cursor-pointer select-none dark:text-gray-400">
-                      <div class="relative">
-                        <input type="checkbox" id="checkboxLabelOne" class="sr-only" @change="checkboxToggle = !checkboxToggle" :checked="checkboxToggle" name="remember" />
-                        <div :class="checkboxToggle ? 'border-brand-500 bg-brand-500' : 'bg-transparent border-gray-300 dark:border-gray-700'" class="mr-3 flex h-5 w-5 items-center justify-center rounded-md border-[1.25px] bg-transparent border-gray-300 dark:border-gray-700">
-                          <span :class="checkboxToggle ? '' : 'opacity-0'" class="opacity-0">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7" stroke="white" stroke-width="1.94437" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                          </span>
-                        </div>
-                      </div>
-                      Keep me logged in
-                    </label>
-                  </div>
-                  <a href="{{ route('password.request') }}" class="text-sm text-brand-500 hover:text-brand-600 dark:text-brand-400">Forgot password?</a>
-                </div>
-                <!-- Button -->
-                <div>
-                  <button type="submit" class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
-                    Sign In
-                    <i class="bi bi-box-arrow-in-right ml-2"></i>
-                  </button>
-                </div>
-                @if (env('DEMO_MODE', true))
-                <div class="relative">
-                  <button type="button" id="fill-demo-credentials" class="absolute top-0 right-0 px-3 py-1 text-xs font-medium text-white bg-gray-500 rounded shadow hover:bg-gray-600">
-                    Fill with Demo
-                    <i class="bi bi-key-fill"></i>
-                  </button>
-                </div>
-                @endif
-              </div>
-            </form>
+                {{ __('Remember me') }}
+              </label>
+            </div>
+            <a href="{{ route('admin.password.request') }}" class="text-sm text-brand-500 hover:text-brand-600 dark:text-brand-400">{{ __('Forgot password?') }}</a>
+          </div>
+          <!-- Button -->
+          <div>
+            <button type="submit" class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+              {{ __('Sign In') }}
+              <i class="bi bi-box-arrow-in-right ml-2"></i>
+            </button>
           </div>
           @if (env('DEMO_MODE', true))
           <div class="relative">
@@ -107,7 +82,6 @@
     </div>
 </div>
 @endsection
-
 @if (env('DEMO_MODE', true))
     @push('scripts')
         <script>
@@ -115,7 +89,6 @@
               console.log('clicked');
                 document.getElementById('email').value = 'superadmin@example.com';
                 document.querySelector('input[name="password"]').value = '12345678';
-
                 // Submit the form.
                 document.querySelector('form').submit();
             });
