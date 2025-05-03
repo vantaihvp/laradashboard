@@ -15,25 +15,26 @@
             <nav>
                 <ol class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <li>
-                        <a href="{{ route('admin.dashboard') }}" class="hover:text-gray-800 dark:hover:text-white">
+                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.dashboard') }}">
                             {{ __('Home') }}
+                            <i class="bi bi-chevron-right"></i>
                         </a>
                         <i class="bi bi-chevron-right"></i>
                     </li>
                     <li>
-                        <a href="{{ route('admin.roles.index') }}" class="hover:text-gray-800 dark:hover:text-white">
+                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.roles.index') }}">
                             {{ __('Roles') }}
+                            <i class="bi bi-chevron-right"></i>
                         </a>
                         <i class="bi bi-chevron-right"></i>
                     </li>
-                    <li class="text-gray-800 dark:text-white">
+                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">
                         {{ __('New Role') }}
                     </li>
                 </ol>
             </nav>
         </div>
     </div>
-
     <div class="space-y-8">
         <!-- Role Details Section -->
         <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">

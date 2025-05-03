@@ -6,6 +6,13 @@
 
 @section('admin-content')
 
+<div class="p-4 mx-auto max-w-[var(--breakpoint-2xl)] md:p-6">
+    <div x-data="{ pageName: `{{ __('Edit Role') }}`}">
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <h2
+                class="text-xl font-semibold text-gray-800 dark:text-white/90"
+                x-text="pageName"
+            >
 <div class="p-6 mx-auto max-w-7xl">
     <div x-data="{ pageName: `{{ __('Edit Role') }}`}">
         <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
@@ -27,14 +34,16 @@
                         </a>
                         <i class="bi bi-chevron-right"></i>
                     </li>
-                    <li class="text-gray-800 dark:text-white">
+                    <li
+                        class="text-sm text-gray-800 dark:text-white/90"
+                        x-text="pageName"
+                    >
                         {{ __('Edit Role') }}
                     </li>
                 </ol>
             </nav>
         </div>
     </div>
-
     <div class="space-y-8">
         <!-- Role Details Section -->
         <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
@@ -58,7 +67,6 @@
                 </form>
             </div>
         </div>
-
         <!-- Permissions Section -->
         <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
             <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
@@ -76,6 +84,7 @@
                 <hr class="mb-6">
                 @php $i = 1; @endphp
                 @foreach ($permission_groups as $group)
+
                 <div class="mb-6">
                     <div class="flex items-center mb-2">
                         <input type="checkbox" id="{{ $i }}Management" class="mr-2" {{ App\Models\User::roleHasPermissions($role, App\Models\User::getpermissionsByGroupName($group->name)) ? 'checked' : '' }}>

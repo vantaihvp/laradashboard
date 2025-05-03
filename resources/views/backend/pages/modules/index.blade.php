@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Modules - ' . config('settings.app_name') !== '' ? config('settings.app_name') : config('app.name')) }}
+    {{ __('Modules') }} - {{ config('settings.app_name') !== '' ? config('settings.app_name') : config('app.name') }}
 @endsection
 
 @section('admin-content')
@@ -9,10 +9,10 @@
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
     @include('backend.layouts.partials.messages')
 
-    <div x-data="{ pageName: 'Modules', showUploadArea: false }">
+    <div x-data="{ pageName: '{{ __('Modules') }}', showUploadArea: false }">
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">
-                Modules
+                {{ __('Modules') }}
 
                 @if(count($modules) > 0)
                     <button
@@ -32,7 +32,7 @@
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">Modules</li>
+                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Modules') }}</li>
                 </ol>
             </nav>
         </div>
@@ -64,13 +64,13 @@
         <svg class="w-16 h-16 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
-        <p class="mt-4 text-gray-600 dark:text-gray-400">Drag and drop your module file here, or</p>
+        <p class="mt-4 text-gray-600 dark:text-gray-400">{{ __('Drag and drop your module file here, or') }}</p>
         <button
             @click="$refs.uploadModule.click()"
             class="mt-4 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-600"
         >
             <i class="bi bi-cloud-upload mr-2"></i>
-            Upload
+            {{ __('Upload') }}
         </button>
         <form action="{{ route('admin.modules.upload') }}" method="POST" enctype="multipart/form-data" class="hidden">
             @csrf
@@ -119,14 +119,14 @@
                     </div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">{{ $module['description'] }}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                        Tags:
+                        {{ __('Tags:') }}
                         @foreach ($module['tags'] as $tag)
                             <span class="inline-block px-2 py-1 text-xs font-medium text-white bg-gray-400 rounded-full mr-1 mb-1">{{ $tag }}</span>
                         @endforeach
                     </p>
                     <div class="mt-4 flex items-center justify-between">
                         <span class="text-sm font-medium {{ $module['status'] ? 'text-green-500' : 'text-red-500' }}">
-                            {{ $module['status'] ? 'Enabled' : 'Disabled' }}
+                            {{ $module['status'] ? __('Enabled') : __('Disabled') }}
                         </span>
                     </div>
                 </div>
@@ -141,7 +141,9 @@
                             <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>
-                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this module?</h3>
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                {{ __('Are you sure you want to delete this module?') }}
+                            </h3>
                             <form x-ref="deleteForm{{ $module['name'] }}" action="{{ route('admin.modules.delete', $module['name']) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -173,7 +175,7 @@
         .then(data => {
             if (data.success) {
                 const button = event.target;
-                button.textContent = data.status ? 'Disable' : 'Enable';
+                button.textContent = data.status ? '{{ __("Disable") }}' : '{{ __("Enable") }}';
                 button.classList.toggle('bg-green-500', data.status);
                 button.classList.toggle('bg-red-500', !data.status);
             } else {

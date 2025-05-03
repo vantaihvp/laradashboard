@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-{{ __('Action Logs - ' . config('app.name') ) }}
+{{ __('Action Logs - ' . config('app.name')) }}
 @endsection
 
 @php
@@ -9,21 +9,21 @@
 @endphp
 @section('admin-content')
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-        <div x-data="{ pageName: 'Action Logs' }">
+        <div x-data="{ pageName: {{ __('Action Logs') }} }">
             <!-- Page Header -->
             <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">Action Logs</h2>
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Action Logs') }}</h2>
 
                 <nav>
                     <ol class="flex items-center gap-1.5">
                         <li>
                             <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
                                 href="{{ route('admin.dashboard') }}">
-                                Home
+                                {{ __('Home') }}
                                 <i class="bi bi-chevron-right"></i>
                             </a>
                         </li>
-                        <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">Action Logs</li>
+                        <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Action Logs') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -33,7 +33,7 @@
         <div class="space-y-6">
             <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
                 <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
-                    <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Action Logs</h3>
+                    <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Action Logs') }}</h3>
                     @include('backend.partials.search-form', [
                         'placeholder' => __('Search by title or type'),
                     ])
@@ -50,12 +50,12 @@
                             <ul class="space-y-2">
                                 <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded"
                                     onclick="handleSelect('')">
-                                    All
+                                    {{ __('All') }}
                                 </li>
                                 @foreach (\App\Enums\ActionType::cases() as $type)
                                     <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded {{ $type->value === request('type') ? 'bg-gray-200 dark:bg-gray-600' : '' }}"
                                         onclick="handleSelect('{{ $type->value }}')">
-                                        {{ ucfirst($type->value) }}
+                                        {{ __(ucfirst($type->value)) }}
                                     </li>
                                 @endforeach
                             </ul>
@@ -89,14 +89,12 @@
                                     <td class="px-5 py-4 sm:px-6 text-left">
                                         {{ $log->user->name . ' (' . $log->user->username . ')' ?? '' }}</td>
                                     <td class="px-5 py-4 sm:px-6 text-left">
-                                        <!-- Button to open the modal -->
                                         <button id="expand-btn-{{ $log->id }}" class="text-blue-500 text-sm mt-2"
                                             data-modal-target="json-modal-{{ $log->id }}"
                                             data-modal-toggle="json-modal-{{ $log->id }}">
-                                            Expand JSON
+                                            {{ __('Expand JSON') }}
                                         </button>
 
-                                        <!-- Pass the $log variable to the JsonModal component -->
                                         <x-action-log-modal :log="$log" />
                                     </td>
 

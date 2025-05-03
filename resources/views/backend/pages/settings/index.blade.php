@@ -7,23 +7,24 @@
 @php
     $isActionLogExist = false;
 @endphp
+
 @section('admin-content')
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-        <div x-data="{ pageName: 'Settings' }">
+        <div x-data="{ pageName: '{{ __('Settings') }}' }">
             <!-- Page Header -->
             <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">Settings</h2>
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Settings') }}</h2>
 
                 <nav>
                     <ol class="flex items-center gap-1.5">
                         <li>
                             <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
                                 href="{{ route('admin.dashboard') }}">
-                                Home
+                                {{ __('Home') }}
                                 <i class="bi bi-chevron-right"></i>
                             </a>
                         </li>
-                        <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">Settings</li>
+                        <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Settings') }}</li>
                     </ol>
                 </nav>
             </div>
