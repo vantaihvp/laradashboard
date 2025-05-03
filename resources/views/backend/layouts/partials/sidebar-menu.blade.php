@@ -114,7 +114,7 @@
             @if ($user->can('pulse.view') || $user->can('actionlog.view'))
                 <li>
                     <button
-                        class="menu-item group w-full text-left menu-item-inactive {{ Route::is('actionlog.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
+                        class="menu-item group w-full text-left {{ Route::is('actionlog.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" onclick="toggleSubmenu('monitoring-submenu')">
                         <i class="bi bi-activity text-xl text-center"></i>
                         <span :style="`color: ${textColor}`">{{ __('Monitoring') }}</span>
@@ -167,9 +167,9 @@
             <li class="menu-item-inactive rounded-md ">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="menu-item group w-full text-left">
+                    <button type="submit" class="menu-item group w-full text-left menu-item-inactive">
                         <i class="bi bi-box-arrow-right text-xl text-center dark:text-white/90"></i>
-                        <span class=" dark:text-white/90" :class="sidebarToggle ? 'lg:hidden' : ''" :style="`color: ${textColor}`">
+                        <span class=" dark:text-white/90" :style="`color: ${textColor}`">
                             {{ __('Logout') }}
                         </span>
                     </button>
