@@ -24,6 +24,6 @@ class ActionLogModal extends Component
      */
     public function render(): View
     {
-        return view('backend.pages.actionlog.actionlog-modal');
+        return view('backend.pages.action-logs.partials.detail-modal');
     }
 }
