@@ -122,7 +122,7 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
-
+    'demo_mode' => filter_var(env('DEMO_MODE', true), FILTER_VALIDATE_BOOLEAN),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
