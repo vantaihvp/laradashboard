@@ -82,10 +82,14 @@ class RolesController extends Controller
         $this->checkAuthorization(auth()->user(), ['role.edit']);
 
         $role = Role::findById($id);
-        if (config('app.demo_mode') == true && $role->name == 'superadmin') return back();
+
         if (!$role) {
             session()->flash('error', 'Role not found.');
+            return back();
+        }
 
+        if (config('app.demo_mode') == true && $role->name == 'superadmin'){
+            session()->flash('error', 'The Super Admin role can not be modified.');
             return back();
         }
 
@@ -108,10 +112,14 @@ class RolesController extends Controller
         $this->checkAuthorization(auth()->user(), ['role.delete']);
 
         $role = Role::findById($id);
-        if (config('app.demo_mode') == true && $role->name == 'superadmin') return back();
+
         if (!$role) {
             session()->flash('error', 'Role not found.');
+            return back();
+        }
 
+        if (config('app.demo_mode') == true && $role->name == 'superadmin'){
+            session()->flash('error', 'The Super Admin role can not be deleted.');
             return back();
         }
 

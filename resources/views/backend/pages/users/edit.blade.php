@@ -98,9 +98,7 @@
                             {!! ld_apply_filters('after_username_field', '', $user) !!}
                         </div>
                         <div class="mt-6 flex justify-start gap-4">
-                            @if (config('app.demo_mode') == false)
-                                <button type="submit" class="btn-primary">{{ __('Save') }}</button>
-                            @endif
+                            <button type="submit" class="btn-primary">{{ __('Save') }}</button>
                             <a href="{{ route('admin.users.index') }}" class="btn-default">{{ __('Cancel') }}</a>
                         </div>
                     </form>
