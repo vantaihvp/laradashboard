@@ -125,6 +125,7 @@ class UsersController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['user.delete']);
 
+        if (config('app.demo_mode') == true) return back();
         $user = $this->userService->getUserById($id);
 
         // Prevent deletion of super admin in demo mode
