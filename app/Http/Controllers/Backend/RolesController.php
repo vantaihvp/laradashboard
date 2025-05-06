@@ -82,6 +82,7 @@ class RolesController extends Controller
         $this->checkAuthorization(auth()->user(), ['role.edit']);
 
         $role = Role::findById($id);
+        if (config('app.demo_mode') == true && $role->name == 'superadmin') return back();
         if (!$role) {
             session()->flash('error', 'Role not found.');
 
@@ -107,6 +108,7 @@ class RolesController extends Controller
         $this->checkAuthorization(auth()->user(), ['role.delete']);
 
         $role = Role::findById($id);
+        if (config('app.demo_mode') == true && $role->name == 'superadmin') return back();
         if (!$role) {
             session()->flash('error', 'Role not found.');
 

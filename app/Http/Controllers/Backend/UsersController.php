@@ -92,7 +92,6 @@ class UsersController extends Controller
     public function update(UserRequest $request, int $id): RedirectResponse
     {
         $this->checkAuthorization(auth()->user(), ['user.edit']);
-        if (config('app.demo_mode') == true) return back();
         $user = User::findOrFail($id);
 
         // Prevent editing of super admin in demo mode
@@ -124,8 +123,6 @@ class UsersController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $this->checkAuthorization(auth()->user(), ['user.delete']);
-
-        if (config('app.demo_mode') == true) return back();
         $user = $this->userService->getUserById($id);
 
         // Prevent deletion of super admin in demo mode
