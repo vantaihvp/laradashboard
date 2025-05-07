@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'growath' => 'User',
+    'growath' => 'ব্যবহারকারী বৃদ্ধি',
 ];

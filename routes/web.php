@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ProfilesController;
 use App\Http\Controllers\Backend\UserLoginAsController;
+use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,3 +58,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth'
     Route::get('/edit', [ProfilesController::class, 'edit'])->name('edit');
     Route::put('/update', [ProfilesController::class, 'update'])->name('update');
 });
+
+
+Route::get('/locale/{lang}', [LocaleController::class, 'switch'])->name('locale.switch');
+

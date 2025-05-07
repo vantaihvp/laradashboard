@@ -29,8 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        App::setLocale(config('app.locale'));
-        
+
         if (env('REDIRECT_HTTPS')) {
             URL::forceScheme('https');
         }
