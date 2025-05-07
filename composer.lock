@@ -9027,6 +9027,8 @@
     "platform": {
         "php": "^8.3"
     },
+
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
+
 }

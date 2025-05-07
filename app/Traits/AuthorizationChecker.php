@@ -6,6 +6,7 @@ namespace App\Traits;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 trait AuthorizationChecker
 {
@@ -31,6 +32,7 @@ trait AuthorizationChecker
      * Prevent modification of the super admin in demo mode.
      *
      * @param  User  $user
+     * @param  string|array $additionalPermission
      */
     public function preventSuperAdminModification(User|Authenticatable $user = null, $additionalPermission = 'user.edit'): void
     {
@@ -42,10 +44,17 @@ trait AuthorizationChecker
     public function canBeModified(User $user, $additionalPermission = 'user.edit'): bool
     {
         $isSuperAdmin = $user->email === 'superadmin@example.com' || $user->username === 'superadmin';
-        if (env('DEMO_MODE', false) && $isSuperAdmin) {
+        if (config('app.demo_mode') && $isSuperAdmin) {
             return false;
         }
 
         return auth()->user()->can($additionalPermission);
+    }
+
+    public function preventSuperAdminRoleModification(Role $role, string $action = 'modified')
+    {
+        if (config('app.demo_mode') && $role->name == 'superadmin') {
+            abort(403, "The Super Admin role can not be {$action}.");
+        }
     }
 }

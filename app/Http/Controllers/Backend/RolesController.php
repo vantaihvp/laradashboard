@@ -82,11 +82,13 @@ class RolesController extends Controller
         $this->checkAuthorization(auth()->user(), ['role.edit']);
 
         $role = Role::findById($id);
+
         if (!$role) {
             session()->flash('error', 'Role not found.');
-
             return back();
         }
+
+        $this->preventSuperAdminRoleModification($role, 'modified');
 
         $permissions = $request->input('permissions');
         if (!empty($permissions)) {
@@ -107,11 +109,13 @@ class RolesController extends Controller
         $this->checkAuthorization(auth()->user(), ['role.delete']);
 
         $role = Role::findById($id);
+
         if (!$role) {
             session()->flash('error', 'Role not found.');
-
             return back();
         }
+
+        $this->preventSuperAdminRoleModification($role, 'deleted');
 
         $role->delete();
         $this->storeActionLog(ActionType::DELETED, ['role' => $role]);

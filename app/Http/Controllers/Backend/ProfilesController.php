@@ -17,9 +17,6 @@ class ProfilesController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['profile.edit'], true);
 
-        // Prevent modification of super admin in demo mode.
-        $this->preventSuperAdminModification(auth()->user(), ['profile.edit']);
-
         $user = Auth::user();
 
         return view('backend.pages.profile.edit', compact('user'));
