@@ -14,7 +14,8 @@
             403
         </h1>
 
-        <p class="mt-2">
+        <p class="mt-2 bg-red-100 p-4">
+            <i class="bi bi-exclamation-circle-fill"></i>&nbsp;
             {{ $exception->getMessage() }}
         </p>
 

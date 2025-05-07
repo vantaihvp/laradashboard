@@ -25,7 +25,7 @@
                 if (successMessage) {
                     successMessage.remove();
                 }
-            }, 2000);
+            }, 3000);
         });
     </script>
 @endif

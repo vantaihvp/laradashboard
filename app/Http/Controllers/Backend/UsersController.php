@@ -76,9 +76,6 @@ class UsersController extends Controller
 
         $user = User::findOrFail($id);
 
-        // Prevent editing of super admin in demo mode
-        $this->preventSuperAdminModification($user);
-
         ld_do_action('user_edit_page_before');
 
         $user = ld_apply_filters('user_edit_page_before_with_user', $user);
@@ -92,7 +89,6 @@ class UsersController extends Controller
     public function update(UserRequest $request, int $id): RedirectResponse
     {
         $this->checkAuthorization(auth()->user(), ['user.edit']);
-
         $user = User::findOrFail($id);
 
         // Prevent editing of super admin in demo mode
@@ -124,7 +120,6 @@ class UsersController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $this->checkAuthorization(auth()->user(), ['user.delete']);
-
         $user = $this->userService->getUserById($id);
 
         // Prevent deletion of super admin in demo mode
