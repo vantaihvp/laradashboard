@@ -88,10 +88,7 @@ class RolesController extends Controller
             return back();
         }
 
-        if (config('app.demo_mode') == true && $role->name == 'superadmin'){
-            session()->flash('error', 'The Super Admin role can not be modified.');
-            return back();
-        }
+        $this->preventSuperAdminRoleModification($role, 'modified');
 
         $permissions = $request->input('permissions');
         if (!empty($permissions)) {
@@ -118,10 +115,7 @@ class RolesController extends Controller
             return back();
         }
 
-        if (config('app.demo_mode') == true && $role->name == 'superadmin'){
-            session()->flash('error', 'The Super Admin role can not be deleted.');
-            return back();
-        }
+        $this->preventSuperAdminRoleModification($role, 'deleted');
 
         $role->delete();
         $this->storeActionLog(ActionType::DELETED, ['role' => $role]);
