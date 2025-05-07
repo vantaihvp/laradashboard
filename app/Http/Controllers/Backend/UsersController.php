@@ -76,9 +76,6 @@ class UsersController extends Controller
 
         $user = User::findOrFail($id);
 
-        // Prevent editing of super admin in demo mode
-        $this->preventSuperAdminModification($user);
-
         ld_do_action('user_edit_page_before');
 
         $user = ld_apply_filters('user_edit_page_before_with_user', $user);
