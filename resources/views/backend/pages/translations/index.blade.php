@@ -35,8 +35,8 @@
                         <select id="language-select"
                                 class="h-11 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
                                 onchange="updateLocation()">
-                            @foreach($languages as $code => $name)
-                                <option value="{{ $code }}" {{ $selectedLang === $code ? 'selected' : '' }}>{{ $name }}</option>
+                            @foreach($languages as $code => $language)
+                                <option value="{{ $code }}" {{ $selectedLang === $code ? 'selected' : '' }}>{{ $language['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -91,7 +91,7 @@
                                             {{ __('English Text') }}
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">
-                                            {{ $languages[$selectedLang] }} {{ __('Translation') }}
+                                            {{ $languages[$selectedLang]['name'] ?? ucfirst($selectedLang) }} {{ __('Translation') }}
                                         </th>
                                     </tr>
                                 </thead>

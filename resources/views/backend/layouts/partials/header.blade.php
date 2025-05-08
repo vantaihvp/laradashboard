@@ -81,47 +81,7 @@ x-init="init()"
                 @endif
             </div>
 
-            @php
-                $currentLocale = app()->getLocale();
-                $lang = get_languages()[$currentLocale] ?? [
-                    'name' => strtoupper($currentLocale),
-                    'icon' => '/images/flags/default.svg',
-                ];
-            @endphp
-
-            <button id="dropdownUsersButton" data-dropdown-toggle="dropdownUsers" data-dropdown-placement="bottom"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 "
-                type="button">
-                <img src="{{ $lang['icon'] }}" alt="{{ $lang['name'] }} flag" height="20" width="20"
-                    class="mr-2" />
-                {{ $lang['name'] }}
-
-                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 10 6">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 4 4 4-4" />
-                </svg>
-            </button>
-
-
-
-            <div id="dropdownUsers" class="z-10 hidden bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                <ul class="overflow-y-auto text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUsersButton">
-
-
-                    @foreach (get_languages() as $code => $lang)
-                        <li>
-                            <a href="{{ route('locale.switch', $code) }}"
-                                class="flex px-2 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <img src="{{ $lang['icon'] }}" alt="{{ $lang['name'] }} flag" height="20"
-                                    width="20" class="mr-2" />
-                                {{ $lang['name'] }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-
+            @include('backend.layouts.partials.locale-switcher')
 
             <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
                 <a class="flex items-center text-gray-700 dark:text-gray-400" href="#"

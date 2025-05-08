@@ -103,6 +103,6 @@ if (!function_exists('get_languages')) {
      */
     function get_languages(): array
     {
-        return app(LanguageService::class)->getAllLang();
+        return app(LanguageService::class)->getActiveLanguages();
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Enums\ActionType;
 use App\Http\Controllers\Controller;
+use App\Services\LanguageService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,13 +18,7 @@ class TranslationController extends Controller
     /**
      * Available languages
      */
-    protected array $languages = [
-        'en' => 'English',
-        'bn' => 'Bengali',
-        'es' => 'Spanish',
-        'fr' => 'French',
-        'de' => 'German',
-    ];
+    protected array $languages = [];
 
     /**
      * Common translation groups
@@ -35,6 +30,14 @@ class TranslationController extends Controller
         'passwords' => 'Passwords',
         'validation' => 'Validation',
     ];
+
+    /**
+     * Constructor
+     */
+    public function __construct(private readonly LanguageService $languageService)
+    {
+        $this->languages = $this->languageService->getActiveLanguages();
+    }
 
     /**
      * Display translation management interface.
@@ -89,14 +92,16 @@ class TranslationController extends Controller
         // Save translations
         $this->saveTranslations($lang, $translations, $group);
 
+        $languageName = $this->languages[$lang] ?? ucfirst($lang);
+
         $this->storeActionLog(ActionType::UPDATED, [
-            'translations' => "Updated {$this->languages[$lang]} translations for group '{$group}'",
+            'translations' => "Updated {$languageName} translations for group '{$group}'",
             'count' => count($translations)
         ]);
 
         return redirect()
             ->route('admin.translations.index', ['lang' => $lang, 'group' => $group])
-            ->with('success', "Translations for {$this->languages[$lang]} ({$group}) have been updated successfully.");
+            ->with('success', "Translations for {$languageName} ({$group}) have been updated successfully.");
     }
 
     /**
