@@ -60,6 +60,12 @@ class TranslationController extends Controller
         // Get available translation files for both languages
         $availableGroups = $this->getAvailableTranslationGroups($selectedLang);
 
+        // Get all available languages from the service
+        $allLanguages = $this->languageService->getLanguageNames();
+
+        // Calculate translation statistics
+        $translationStats = $this->calculateTranslationStats($translations, $enTranslations, $selectedGroup);
+
         return view('backend.pages.translations.index', compact(
             'languages',
             'groups',
@@ -67,8 +73,172 @@ class TranslationController extends Controller
             'translations',
             'selectedLang',
             'selectedGroup',
-            'availableGroups'
+            'availableGroups',
+            'allLanguages',
+            'translationStats'
         ));
+    }
+
+    /**
+     * Calculate statistics for translation progress
+     */
+    protected function calculateTranslationStats(array $translations, array $enTranslations, string $group): array
+    {
+        $totalKeys = 0;
+        $nonEmptyTranslations = 0;
+
+        if ($group === 'json') {
+            $totalKeys = count($enTranslations);
+
+            foreach ($translations as $key => $value) {
+                if (isset($enTranslations[$key]) && !empty(trim((string)$value))) {
+                    $nonEmptyTranslations++;
+                }
+            }
+        } else {
+            $totalKeys = $this->countTotalKeys($enTranslations);
+            $nonEmptyTranslations = $this->countNonEmptyTranslations($translations, $enTranslations);
+        }
+
+        $missingTranslations = $totalKeys - $nonEmptyTranslations;
+        $progressPercentage = $totalKeys > 0 ? ($nonEmptyTranslations / $totalKeys * 100) : 0;
+
+        return [
+            'totalKeys' => $totalKeys,
+            'translated' => $nonEmptyTranslations,
+            'missing' => $missingTranslations,
+            'percentage' => $progressPercentage
+        ];
+    }
+
+    /**
+     * Count non-empty translations recursively in nested arrays
+     */
+    protected function countNonEmptyTranslations(array $translationArray, array $enArray): int
+    {
+        $count = 0;
+        foreach ($enArray as $key => $value) {
+            if (is_array($value)) {
+                // Recurse into nested arrays
+                if (isset($translationArray[$key]) && is_array($translationArray[$key])) {
+                    $count += $this->countNonEmptyTranslations($translationArray[$key], $value);
+                }
+            } else if (isset($translationArray[$key]) && !empty(trim((string)$translationArray[$key]))) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * Count total keys recursively in nested arrays
+     */
+    protected function countTotalKeys(array $array): int
+    {
+        $count = 0;
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $count += $this->countTotalKeys($value);
+            } else {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * Create a new language translation file.
+     */
+    public function create(Request $request): RedirectResponse
+    {
+        $this->checkAuthorization(auth()->user(), ['translations.edit']);
+
+        $request->validate([
+            'language_code' => 'required|string|max:10',
+            'group' => 'required|string|max:30',
+        ]);
+
+        $lang = $request->input('language_code');
+        $group = $request->input('group');
+
+        // Check if language already exists
+        if ($group === 'json' && File::exists(resource_path("lang/{$lang}.json"))) {
+            return redirect()
+                ->route('admin.translations.index', ['lang' => $lang, 'group' => $group])
+                ->with('error', "Language file for {$lang} already exists.");
+        }
+
+        if ($group !== 'json' && File::exists(resource_path("lang/{$lang}/{$group}.php"))) {
+            return redirect()
+                ->route('admin.translations.index', ['lang' => $lang, 'group' => $group])
+                ->with('error', "Translation group {$group} for {$lang} already exists.");
+        }
+
+        // Create language file based on group
+        if ($group === 'json') {
+            // Copy from English or create new
+            if (File::exists(resource_path("lang/en.json"))) {
+                // Read English JSON file
+                $englishContent = File::get(resource_path("lang/en.json"));
+                $englishTranslations = json_decode($englishContent, true) ?: [];
+
+                // Create a new array with the same keys but empty values
+                $emptyTranslations = [];
+                foreach ($englishTranslations as $key => $value) {
+                    $emptyTranslations[$key] = "";
+                }
+
+                // Save the new JSON file with empty values
+                File::put(
+                    resource_path("lang/{$lang}.json"),
+                    json_encode($emptyTranslations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+                );
+            } else {
+                // Create empty JSON file
+                File::put(resource_path("lang/{$lang}.json"), '{}');
+            }
+        } else {
+            // Create group file
+            if (File::exists(resource_path("lang/en/{$group}.php"))) {
+                // If English exists, copy structure but with empty values
+                $enTranslations = include(resource_path("lang/en/{$group}.php"));
+                $emptyTranslations = $this->createEmptyTranslations($enTranslations);
+                $this->createGroupTranslationFile($lang, $group, $emptyTranslations);
+            } else {
+                // Create with default translations but with empty values
+                $defaultTranslations = $this->getDefaultTranslationsForGroup($group);
+                $emptyTranslations = $this->createEmptyTranslations($defaultTranslations);
+                $this->createGroupTranslationFile($lang, $group, $emptyTranslations);
+            }
+        }
+
+        $languageName = $this->languageService->getLanguageNameByLocale($lang);
+
+        $this->storeActionLog(ActionType::CREATED, [
+            'translations' => "Created new translation file for {$languageName}, group: {$group}",
+        ]);
+
+        return redirect()
+            ->route('admin.translations.index', ['lang' => $lang, 'group' => $group])
+            ->with('success', "New language {$languageName} ({$group}) has been added successfully.");
+    }
+
+    /**
+     * Recursively create array with same keys but empty values
+     */
+    protected function createEmptyTranslations(array $translations): array
+    {
+        $result = [];
+
+        foreach ($translations as $key => $value) {
+            if (is_array($value)) {
+                $result[$key] = $this->createEmptyTranslations($value);
+            } else {
+                $result[$key] = '';
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -92,16 +262,39 @@ class TranslationController extends Controller
         // Save translations
         $this->saveTranslations($lang, $translations, $group);
 
-        $languageName = $this->languages[$lang] ?? ucfirst($lang);
+        $languageName = $this->languages[$lang]['name'] ?? ucfirst($lang);
+
+        // Count translations properly, accounting for nested arrays
+        $translationCount = $group === 'json'
+            ? count($translations)
+            : $this->countTranslationsRecursively($translations);
 
         $this->storeActionLog(ActionType::UPDATED, [
             'translations' => "Updated {$languageName} translations for group '{$group}'",
-            'count' => count($translations)
+            'count' => $translationCount
         ]);
 
         return redirect()
             ->route('admin.translations.index', ['lang' => $lang, 'group' => $group])
             ->with('success', "Translations for {$languageName} ({$group}) have been updated successfully.");
+    }
+
+    /**
+     * Count translations recursively, including nested arrays
+     */
+    protected function countTranslationsRecursively(array $translations): int
+    {
+        $count = 0;
+
+        foreach ($translations as $translation) {
+            if (is_array($translation)) {
+                $count += $this->countTranslationsRecursively($translation);
+            } else {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     /**

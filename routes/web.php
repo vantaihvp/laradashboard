@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     // Translation Routes
     Route::get('/translations', [TranslationController::class, 'index'])->name('translations.index');
     Route::post('/translations', [TranslationController::class, 'update'])->name('translations.update');
+    Route::post('/translations/create', [TranslationController::class, 'create'])->name('translations.create');
 
     // Login as & Switch back
     Route::resource('users', UsersController::class);

@@ -13,6 +13,15 @@
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">
                     {{ __('Translation Management') }}
                 </h2>
+
+                <div class="flex gap-2">
+                    @if(auth()->user()->can('translations.edit'))
+                        <button data-modal-target="add-language-modal" data-modal-toggle="add-language-modal" class="btn-primary">
+                            <i class="bi bi-plus-circle mr-2"></i>{{ __('Add Language') }}
+                        </button>
+                    @endif
+                </div>
+
                 <nav>
                     <ol class="flex items-center gap-1.5">
                         <li>
@@ -59,12 +68,12 @@
 
                 <div class="mb-4">
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                        {{ __('Total Keys:') }} <span class="font-medium">{{ count($enTranslations) }}</span> |
-                        {{ __('Translated:') }} <span class="font-medium">{{ count($translations) }}</span> |
-                        {{ __('Missing:') }} <span class="font-medium">{{ count($enTranslations) - count(array_intersect_key($translations, $enTranslations)) }}</span>
+                        {{ __('Total Keys:') }} <span class="font-medium">{{ $translationStats['totalKeys'] }}</span> |
+                        {{ __('Translated:') }} <span class="font-medium">{{ $translationStats['translated'] }}</span> |
+                        {{ __('Missing:') }} <span class="font-medium">{{ $translationStats['missing'] }}</span>
                     </p>
                     <div class="h-3 w-full bg-gray-200 rounded-full dark:bg-gray-700">
-                        <div class="h-3 bg-blue-600 rounded-full" style="width: {{ count($enTranslations) > 0 ? (count($translations) / count($enTranslations) * 100) : 0 }}%"></div>
+                        <div class="h-3 bg-blue-600 rounded-full" style="width: {{ $translationStats['percentage'] }}%"></div>
                     </div>
                 </div>
 
@@ -184,6 +193,8 @@
             </div>
         </div>
     </div>
+
+    @include('backend.pages.translations.create')
 
     @push('scripts')
     <script>
