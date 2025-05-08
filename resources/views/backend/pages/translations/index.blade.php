@@ -14,14 +14,6 @@
                     {{ __('Translation Management') }}
                 </h2>
 
-                <div class="flex gap-2">
-                    @if(auth()->user()->can('translations.edit'))
-                        <button data-modal-target="add-language-modal" data-modal-toggle="add-language-modal" class="btn-primary">
-                            <i class="bi bi-plus-circle mr-2"></i>{{ __('Add Language') }}
-                        </button>
-                    @endif
-                </div>
-
                 <nav>
                     <ol class="flex items-center gap-1.5">
                         <li>
@@ -36,33 +28,43 @@
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-md mb-6 dark:bg-gray-800">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center mb-6 gap-4">
-                    <div class="flex items-center">
-                        <label for="language-select" class="mr-4 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('Language:') }}
-                        </label>
-                        <select id="language-select"
-                                class="h-11 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
-                                onchange="updateLocation()">
-                            @foreach($languages as $code => $language)
-                                <option value="{{ $code }}" {{ $selectedLang === $code ? 'selected' : '' }}>{{ $language['name'] }}</option>
-                            @endforeach
-                        </select>
+                <div class="flex flex-col sm:flex-row mb-6 gap-4 justify-between">
+                    <div class="flex items-start sm:items-center gap-4">
+                        <div class="flex items-center">
+                            <label for="language-select" class="mr-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ __('Language:') }}
+                            </label>
+                            <select id="language-select"
+                                    class="h-11 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                                    onchange="updateLocation()">
+                                @foreach($languages as $code => $language)
+                                    <option value="{{ $code }}" {{ $selectedLang === $code ? 'selected' : '' }}>{{ $language['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="flex items-center">
+                            <label for="group-select" class="mr-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {{ __('Translation Group:') }}
+                            </label>
+                            <select id="group-select"
+                                    class="h-11 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                                    onchange="updateLocation()">
+                                @foreach($availableGroups as $group)
+                                    <option value="{{ $group }}" {{ $selectedGroup === $group ? 'selected' : '' }}>
+                                        {{ $groups[$group] ?? ucfirst($group) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="flex items-center">
-                        <label for="group-select" class="mr-4 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('Translation Group:') }}
-                        </label>
-                        <select id="group-select"
-                                class="h-11 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
-                                onchange="updateLocation()">
-                            @foreach($availableGroups as $group)
-                                <option value="{{ $group }}" {{ $selectedGroup === $group ? 'selected' : '' }}>
-                                    {{ $groups[$group] ?? ucfirst($group) }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="place-items-end mt-4 sm:mt-0">
+                        @if(auth()->user()->can('translations.edit'))
+                            <button data-modal-target="add-language-modal" data-modal-toggle="add-language-modal" class="btn-primary">
+                                <i class="bi bi-plus-circle mr-2"></i>{{ __('New Language') }}
+                            </button>
+                        @endif
                     </div>
                 </div>
 
