@@ -1,6 +1,6 @@
 <?php
 
 return [
-  'failed' => 'These credentials do not match our records.',
-  'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+  'failed' => 'এই শংসাপত্রগুলি আমাদের রেকর্ডের সাথে মেলে না।',
+  'throttle' => 'লগইন প্রচেষ্টা অনেক বেশি। দয়া করে আবার চেষ্টা করুন :seconds সেকেন্ডের মধ্যে।',
 ];
