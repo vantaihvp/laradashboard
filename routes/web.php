@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ProfilesController;
+use App\Http\Controllers\Backend\TranslationController;
 use App\Http\Controllers\Backend\UserLoginAsController;
 use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     // Settings Routes.
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
+
+    // Translation Routes
+    Route::get('/translations', [TranslationController::class, 'index'])->name('translations.index');
+    Route::post('/translations', [TranslationController::class, 'update'])->name('translations.update');
 
     // Login as & Switch back
     Route::resource('users', UsersController::class);
