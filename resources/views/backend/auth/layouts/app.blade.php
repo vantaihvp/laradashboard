@@ -74,7 +74,7 @@
                             <img src="/images/logo/lara-dashboard-dark.png" alt="Logo">
                           </a>
                           <p class="text-center text-gray-400 dark:text-white/60">
-                            Free and Open-Source Laravel Admin Dashboard Template
+                            {{ __('Free and Open-Source Laravel Admin Dashboard Template') }}
                           </p>
                         </div>
                       </div>

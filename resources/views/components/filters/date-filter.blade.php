@@ -6,7 +6,7 @@
         {{ ucfirst(str_replace("_", " ", $currentFilter)) }}
     </span>
 
-    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="btn-primary flex items-center justify-center gap-2" type="button ">
+    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="btn-primary flex items-center justify-center gap-2" type="button">
         <i class="bi bi-sliders"></i>
         {{ __('Filter') }}
         <i class="bi bi-chevron-down"></i>
