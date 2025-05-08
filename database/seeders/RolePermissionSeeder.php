@@ -25,12 +25,10 @@ class RolePermissionSeeder extends Seeder
     {
         // Permission List as array.
         $permissions = [
-
             [
                 'group_name' => 'dashboard',
                 'permissions' => [
                     'dashboard.view',
-                    'dashboard.edit',
                 ],
             ],
             [
@@ -93,21 +91,18 @@ class RolePermissionSeeder extends Seeder
             [
                 'group_name' => 'settings',
                 'permissions' => [
+                    'settings.view',
                     'settings.edit',
                 ],
             ],
+            [
+                'group_name' => 'translations',
+                'permissions' => [
+                    'translations.view',
+                    'translations.edit',
+                ],
+            ],
         ];
-
-        // Create and Assign Permissions
-        // for ($i = 0; $i < count($permissions); $i++) {
-        //     $permissionGroup = $permissions[$i]['group_name'];
-        //     for ($j = 0; $j < count($permissions[$i]['permissions']); $j++) {
-        //         // Create Permission
-        //         $permission = Permission::create(['name' => $permissions[$i]['permissions'][$j], 'group_name' => $permissionGroup]);
-        //         $roleSuperAdmin->givePermissionTo($permission);
-        //         $permission->assignRole($roleSuperAdmin);
-        //     }
-        // }
 
         // Do same for the admin guard for tutorial purposes.
         $user = User::where('username', 'superadmin')->first();

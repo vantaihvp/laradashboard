@@ -153,18 +153,39 @@
         </h3>
 
         <ul class="flex flex-col gap-4 mb-6">
-            @if ($user->can('settings.edit'))
-            <li class="menu-item-inactive rounded-md ">
-                <a href="{{ route('admin.settings.index') }}" type="submit"
-                    class="menu-item group w-full text-left {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
+            @if ($user->can('settings.edit') || $user->can('translations.view'))
+            <li>
+                <button
+                    class="menu-item group w-full text-left {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
+                    type="button" onclick="toggleSubmenu('settings-submenu')">
                     <i class="bi bi-gear text-xl text-center dark:text-white/90"></i>
                     <span class="dark:text-white/90" :style="`color: ${textColor}`">{{ __('Settings') }}</span>
-                </a>
+                    <i class="bi bi-chevron-down ml-auto"></i>
+                </button>
+                <ul id="settings-submenu"
+                    class="submenu {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
+                    @if ($user->can('settings.edit'))
+                        <li>
+                            <a href="{{ route('admin.settings.index') }}"
+                                class="block px-4 py-2 rounded-lg {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                {{ __('General Settings') }}
+                            </a>
+                        </li>
+                    @endif
+                    @canany(['translations.view', 'translations.edit'])
+                        <li>
+                            <a href="{{ route('admin.translations.index') }}"
+                                class="block px-4 py-2 rounded-lg {{ Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                {{ __('Translations') }}
+                            </a>
+                        </li>
+                    @endcanany
+                </ul>
             </li>
             @endif
 
             <!-- Logout Menu Item -->
-            <li class="menu-item-inactive rounded-md ">
+            <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="menu-item group w-full text-left menu-item-inactive">
