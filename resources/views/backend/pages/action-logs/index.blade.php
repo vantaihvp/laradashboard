@@ -48,8 +48,8 @@
                         <!-- Dropdown menu -->
                         <div id="dropdown" class="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
                             <ul class="space-y-2">
-                                <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded"
-                                    onclick="handleSelect('')">
+                                <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600    px-2 py-1 rounded"
+                                 onclick="handleSelect('')">
                                     {{ __('All') }}
                                 </li>
                                 @foreach (\App\Enums\ActionType::cases() as $type)
@@ -84,7 +84,7 @@
                             @forelse ($actionLogs as $log)
                                 <tr class="{{ $loop->index + 1 != count($actionLogs) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
                                     <td class="px-5 py-4 sm:px-6 text-left">{{ $loop->index + 1 }}</td>
-                                    <td class="px-5 py-4 sm:px-6 text-left capitalize">{{ $log->type }}</td>
+                                <td class="px-5 py-4 sm:px-6 text-left">{{ __(ucfirst($log->type)) }}</td>
                                     <td class="px-5 py-4 sm:px-6 text-left">{{ $log->title }}</td>
                                     <td class="px-5 py-4 sm:px-6 text-left">
                                         {{ $log->user->name . ' (' . $log->user->username . ')' ?? '' }}</td>

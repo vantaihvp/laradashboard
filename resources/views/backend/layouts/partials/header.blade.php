@@ -81,6 +81,8 @@ x-init="init()"
                 @endif
             </div>
 
+            @include('backend.layouts.partials.locale-switcher')
+
             <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
                 <a class="flex items-center text-gray-700 dark:text-gray-400" href="#"
                     @click.prevent="dropdownOpen = ! dropdownOpen">

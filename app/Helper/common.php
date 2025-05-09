@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Vite as ViteFacade;
+use App\Services\LanguageService;
 
 function get_module_asset_paths(): array
 {
@@ -90,5 +91,18 @@ if (!function_exists('module_vite_compile')) {
             ->useBuildDirectory($module)
             ->useManifestFilename($manifestFile)
             ->withEntryPoints([$asset]);
+    }
+}
+
+
+if (!function_exists('get_languages')) {
+    /**
+     * Get the list of available languages with their flags.
+     *
+     * @return array
+     */
+    function get_languages(): array
+    {
+        return app(LanguageService::class)->getActiveLanguages();
     }
 }

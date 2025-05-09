@@ -3,10 +3,10 @@
     <span
         class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-gray-700 dark:text-gray-200"
     >
-        {{ ucfirst(str_replace("_", " ", $currentFilter)) }}
+        {{ __(ucfirst(str_replace("_", " ", $currentFilter))) }}
     </span>
 
-    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="btn-primary flex items-center justify-center gap-2" type="button ">
+    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="btn-primary flex items-center justify-center gap-2" type="button">
         <i class="bi bi-sliders"></i>
         {{ __('Filter') }}
         <i class="bi bi-chevron-down"></i>
@@ -25,14 +25,14 @@
                 <a
                     href="{{
                         route('admin.dashboard')
-                    }}?chart_filter_period=last_12_months"
+                    }}?chart_filter_period=last_12_Months"
                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white {{
                         $currentFilter === 'last_12_months'
                             ? 'bg-blue-100 dark:bg-gray-600'
                             : ''
                     }}"
                 >
-                    <span class="ml-2"> {{ __('Last 12 Months') }}</span>
+                    <span class="ml-2"> {{ __('Last 12 months') }}</span>
                 </a>
             </li>
             <li>
@@ -46,7 +46,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2"> {{ __('This Year') }}</span>
+                    <span class="ml-2"> {{ __('This year') }}</span>
                 </a>
             </li>
             <li>
@@ -60,7 +60,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2"> {{ __('Last Year') }}</span>
+                    <span class="ml-2"> {{ __('Last year') }}</span>
                 </a>
             </li>
             <li>
@@ -74,7 +74,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2"> {{ __('Last 30 Days') }}</span>
+                    <span class="ml-2"> {{ __('Last 30 days') }}</span>
                 </a>
             </li>
             <li>
@@ -88,7 +88,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2"> {{ __('Last 7 Days') }}</span>
+                    <span class="ml-2"> {{ __('Last 7 days') }}</span>
                 </a>
             </li>
             <li>
@@ -102,7 +102,7 @@
                             : ''
                     }}"
                 >
-                    <span class="ml-2"> {{ __('This Month') }}</span>
+                    <span class="ml-2"> {{ __('This month') }}</span>
                 </a>
             </li>
         </ul>
