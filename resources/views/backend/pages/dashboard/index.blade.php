@@ -16,34 +16,41 @@
         <div class="grid grid-cols-12 gap-4 md:gap-6">
             <div class="col-span-12 space-y-6">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6">
-                    @include('backend.pages.dashboard.card',[
+                    @include('backend.pages.dashboard.card', [
                         'icon' => asset('images/icons/user.svg'),
                         'test' => __('Users'),
                         'number' => $total_users,
                         'bg' => '#635BFF',
-                        'class' => 'bg-white col-span-4'
+                        'class' => 'bg-white col-span-4',
                     ])
-                    @include('backend.pages.dashboard.card',[
+                    @include('backend.pages.dashboard.card', [
                         'icon' => asset('images/icons/user.svg'),
                         'test' => __('Roles'),
                         'number' => $total_roles,
                         'bg' => '#00D7FF',
-                        'class' => 'bg-white col-span-4'
+                        'class' => 'bg-white col-span-4',
                     ])
-                    @include('backend.pages.dashboard.card',[
+                    @include('backend.pages.dashboard.card', [
                         'icon' => asset('images/icons/user.svg'),
                         'test' => __('Permissions'),
                         'number' => $total_permissions,
                         'bg' => '#FF4D96',
-                        'class' => 'bg-white col-span-4'
+                        'class' => 'bg-white col-span-4',
                     ])
                 </div>
             </div>
         </div>
 
         <div class="mt-6">
-            <!-- User growth chart. -->
-            @include('components.charts.user-growth-chart')
+            <div class="grid grid-cols-12 gap-4 md:gap-6">
+                <div class="col-span-12">
+                    <div class="grid grid-cols-12 gap-4 md:gap-6">
+                        <div class="col-span-12 md:col-span-8">
+                            @include('backend.pages.dashboard.user-groawth')
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
