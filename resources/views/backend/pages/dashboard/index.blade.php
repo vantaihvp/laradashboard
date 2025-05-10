@@ -48,6 +48,9 @@
                         <div class="col-span-12 md:col-span-8">
                             @include('backend.pages.dashboard.user-groawth')
                         </div>
+                        <div class="col-span-12 md:col-span-4">
+                            @include('backend.pages.dashboard.user-pie-chart')
+                        </div>
                     </div>
                 </div>
             </div>
