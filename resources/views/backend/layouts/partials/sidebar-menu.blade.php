@@ -1,22 +1,19 @@
 @php $user = Auth::user(); @endphp
-<nav
-    x-data="{
-        isDark: document.documentElement.classList.contains('dark'),
-        textColor: '',
-        init() {
-            this.updateColor();
-            const observer = new MutationObserver(() => this.updateColor());
-            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-        },
-        updateColor() {
-            this.isDark = document.documentElement.classList.contains('dark');
-            this.textColor = this.isDark 
-                ? '{{ config('settings.sidebar_text_dark') }}' 
-                : '{{ config('settings.sidebar_text_lite') }}';
-        }
-    }"
-    x-init="init()"
->
+<nav x-data="{
+    isDark: document.documentElement.classList.contains('dark'),
+    textColor: '',
+    init() {
+        this.updateColor();
+        const observer = new MutationObserver(() => this.updateColor());
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    },
+    updateColor() {
+        this.isDark = document.documentElement.classList.contains('dark');
+        this.textColor = this.isDark ?
+            '{{ config('settings.sidebar_text_dark') }}' :
+            '{{ config('settings.sidebar_text_lite') }}';
+    }
+}" x-init="init()">
 
 
     <div>
@@ -27,10 +24,10 @@
         <ul class="flex flex-col gap-4 mb-6">
             @if ($user->can('dashboard.view'))
                 <li>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a :style="`color: ${textColor}`" href="{{ route('admin.dashboard') }}"
                         class="menu-item group {{ Route::is('admin.dashboard') ? 'menu-item-active' : 'menu-item-inactive' }}">
                         <i class="bi bi-grid text-xl text-center"></i>
-                        <span :style="`color: ${textColor}`">{{ __('Dashboard') }}</span>
+                        <span>{{ __('Dashboard') }}</span>
                     </a>
                 </li>
             @endif
@@ -38,10 +35,10 @@
 
             @if ($user->can('role.create') || $user->can('role.view') || $user->can('role.edit') || $user->can('role.delete'))
                 <li>
-                    <button
+                    <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.roles.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" onclick="toggleSubmenu('roles-submenu')">
-                        <i class="bi bi-shield-check text-xl text-center"></i>
+                        <img src="{{ asset('images/icons/key.svg') }}" alt="Roles Icon" class="dark:invert">
                         <span :style="`color: ${textColor}`"> {{ __('Roles & Permissions') }}</span>
                         <i class="bi bi-chevron-down ml-auto"></i>
                     </button>
@@ -49,7 +46,7 @@
                         class="submenu {{ Route::is('admin.roles.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
                         @if ($user->can('role.view'))
                             <li>
-                                <a href="{{ route('admin.roles.index') }}"
+                                <a :style="`color: ${textColor}`" href="{{ route('admin.roles.index') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.roles.index') || Route::is('admin.roles.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('Roles') }}
                                 </a>
@@ -57,7 +54,7 @@
                         @endif
                         @if ($user->can('role.create'))
                             <li>
-                                <a href="{{ route('admin.roles.create') }}"
+                                <a :style="`color: ${textColor}`" href="{{ route('admin.roles.create') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.roles.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('New Role') }}
                                 </a>
@@ -70,18 +67,18 @@
 
             @if ($user->can('user.create') || $user->can('user.view') || $user->can('user.edit') || $user->can('user.delete'))
                 <li>
-                    <button
+                    <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.users.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" onclick="toggleSubmenu('users-submenu')">
-                        <i class="bi bi-person text-xl text-center"></i>
-                        <span :style="`color: ${textColor}`">{{ __('User') }}</span>
+                        <img src="{{ asset('images/icons/user.svg') }}" alt="Roles Icon" class="dark:invert">
+                        <span>{{ __('User') }}</span>
                         <i class="bi bi-chevron-down ml-auto"></i>
                     </button>
                     <ul id="users-submenu"
                         class="submenu {{ Route::is('admin.users.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
                         @if ($user->can('user.view'))
                             <li>
-                                <a href="{{ route('admin.users.index') }}"
+                                <a :style="`color: ${textColor}`" href="{{ route('admin.users.index') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.users.index') || Route::is('admin.users.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('Users') }}
                                 </a>
@@ -89,7 +86,7 @@
                         @endif
                         @if ($user->can('user.create'))
                             <li>
-                                <a href="{{ route('admin.users.create') }}"
+                                <a :style="`color: ${textColor}`" href="{{ route('admin.users.create') }}"
                                     class="block px-4 py-2 rounded-lg {{ Route::is('admin.users.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('New User') }}
                                 </a>
@@ -102,10 +99,10 @@
 
             @if ($user->can('module.view'))
                 <li>
-                    <a href="{{ route('admin.modules.index') }}"
+                    <a :style="`color: ${textColor}`" href="{{ route('admin.modules.index') }}"
                         class="menu-item group {{ Route::is('admin.modules.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                        <i class="bi bi-box text-xl text-center"></i>
-                        <span :style="`color: ${textColor}`">{{ __('Modules') }}</span>
+                        <img src="{{ asset('images/icons/three-dice.svg') }}" alt="Roles Icon" class="dark:invert">
+                        <span>{{ __('Modules') }}</span>
                     </a>
                 </li>
             @endif
@@ -113,11 +110,11 @@
 
             @if ($user->can('pulse.view') || $user->can('actionlog.view'))
                 <li>
-                    <button
+                    <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('actionlog.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" onclick="toggleSubmenu('monitoring-submenu')">
-                        <i class="bi bi-activity text-xl text-center"></i>
-                        <span :style="`color: ${textColor}`">{{ __('Monitoring') }}</span>
+                        <img src="{{ asset('images/icons/tv.svg') }}" alt="Roles Icon" class="dark:invert">
+                        <span>{{ __('Monitoring') }}</span>
                         <i class="bi bi-chevron-down ml-auto"></i>
                     </button>
                     <ul id="monitoring-submenu"
@@ -148,49 +145,50 @@
 
     <!-- Others Group -->
     <div>
-        <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+        <h3 :style="`color: ${textColor}`" class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
             {{ __('More') }}
         </h3>
 
         <ul class="flex flex-col gap-4 mb-6">
             @if ($user->can('settings.edit') || $user->can('translations.view'))
-            <li>
-                <button
-                    class="menu-item group w-full text-left {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
-                    type="button" onclick="toggleSubmenu('settings-submenu')">
-                    <i class="bi bi-gear text-xl text-center dark:text-white/90"></i>
-                    <span class="dark:text-white/90" :style="`color: ${textColor}`">{{ __('Settings') }}</span>
-                    <i class="bi bi-chevron-down ml-auto"></i>
-                </button>
-                <ul id="settings-submenu"
-                    class="submenu {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
-                    @if ($user->can('settings.edit'))
-                        <li>
-                            <a href="{{ route('admin.settings.index') }}"
-                                class="block px-4 py-2 rounded-lg {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                                {{ __('General Settings') }}
-                            </a>
-                        </li>
-                    @endif
-                    @canany(['translations.view', 'translations.edit'])
-                        <li>
-                            <a href="{{ route('admin.translations.index') }}"
-                                class="block px-4 py-2 rounded-lg {{ Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                                {{ __('Translations') }}
-                            </a>
-                        </li>
-                    @endcanany
-                </ul>
-            </li>
+                <li>
+                    <button :style="`color: ${textColor}`"
+                        class="menu-item group w-full text-left {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
+                        type="button" onclick="toggleSubmenu('settings-submenu')">
+                        <img src="{{ asset('images/icons/settings.svg') }}" alt="Roles Icon" class="dark:invert">
+                        <span>{{ __('Settings') }}</span>
+                        <i class="bi bi-chevron-down ml-auto"></i>
+                    </button>
+                    <ul id="settings-submenu"
+                        class="submenu {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
+                        @if ($user->can('settings.edit'))
+                            <li>
+                                <a :style="`color: ${textColor}`" href="{{ route('admin.settings.index') }}"
+                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    {{ __('General Settings') }}
+                                </a>
+                            </li>
+                        @endif
+                        @canany(['translations.view', 'translations.edit'])
+                            <li>
+                                <a :style="`color: ${textColor}`" href="{{ route('admin.translations.index') }}"
+                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    {{ __('Translations') }}
+                                </a>
+                            </li>
+                        @endcanany
+                    </ul>
+                </li>
             @endif
 
             <!-- Logout Menu Item -->
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="menu-item group w-full text-left menu-item-inactive">
-                        <i class="bi bi-box-arrow-right text-xl text-center dark:text-white/90"></i>
-                        <span class=" dark:text-white/90" :style="`color: ${textColor}`">
+                    <button :style="`color: ${textColor}`" type="submit"
+                        class="menu-item group w-full text-left menu-item-inactive">
+                        <img src="{{ asset('images/icons/logout.svg') }}" alt="Roles Icon" class="dark:invert">
+                        <span>
                             {{ __('Logout') }}
                         </span>
                     </button>

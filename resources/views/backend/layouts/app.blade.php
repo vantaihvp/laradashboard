@@ -56,7 +56,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
 
     @stack('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const html = document.documentElement;
             const darkModeToggle = document.getElementById('darkModeToggle');
             const header = document.getElementById('appHeader');
@@ -83,10 +83,13 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
             updateHeaderBg();
 
             const observer = new MutationObserver(updateHeaderBg);
-            observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+            observer.observe(html, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
 
             if (darkModeToggle) {
-                darkModeToggle.addEventListener('click', function (e) {
+                darkModeToggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     const isDark = html.classList.toggle('dark');
                     localStorage.setItem('darkMode', isDark);

@@ -1,6 +1,6 @@
 <aside
     :class="sidebarToggle ? 'translate-x-0 lg:w-[85px]' : '-translate-x-full'"
-    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r {{ config('settings.sidebar_bg_lite') ? '' : 'bg-gray-800' }} px-5 border-gray-800 dark:bg-gray-900 lg:static lg:translate-x-0"
+    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r {{ config('settings.sidebar_bg_lite') ? '' : 'bg-gray-800' }} px-5 dark:bg-gray-900 lg:static lg:translate-x-0"
     id="appSidebar"
     x-data="{
         init() {
@@ -27,7 +27,7 @@
             <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
                 <img
                     class="dark:hidden"
-                    src="{{ config('settings.site_logo_lite') ?? '/images/logo/lara-dashboard-dark.png' }}"
+                    src="{{ config('settings.site_logo_lite') ?? asset('images/logo/lara-dashboard.png') }}"
                     alt="Logo"
                 />
                 <img
