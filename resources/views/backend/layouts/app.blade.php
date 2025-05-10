@@ -8,6 +8,8 @@
     <title>@yield('title', config('app.name'))</title>
 
     <link rel="icon" href="{{ config('settings.site_favicon') ?? asset('favicon.ico') }}" type="image/x-icon">
+
+    @include('backend.layouts.partials.theme-colors')
     @yield('before_vite_build')
 
     @viteReactRefresh
