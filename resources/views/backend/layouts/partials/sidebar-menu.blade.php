@@ -17,8 +17,6 @@
     }"
     x-init="init()"
 >
-
-
     <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
             {{ __('Menu') }}

@@ -1,3 +1,13 @@
+<a id="readme-top"></a>
+
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![Unlicense License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 <img width="100%" alt="Lara Dashboard" src="https://github.com/user-attachments/assets/c56009a4-718f-43dc-bd1e-caad5417b05b"  />
 
 **Lara Dashboard** - A project which manages Role, Permissions and every actions of your Laravel application. A complete solution for Role based Access Control in Laravel with Tailwind CSS integrated with all starting features including dark/lite mode, charts, tables, logs, forms and so on...
@@ -15,6 +25,16 @@ password - 12345678
 - Tailwind CSS >= 4.x
 - Laravel Modules - https://laravelmodules.com/docs/12/getting-started/introduction
 - Laravel Events (A WordPress like action/filter hooks) - https://github.com/tormjens/eventy
+
+### Built With
+
+* [![PHP][PHP.com]][PHP-url]
+* [![JavaScript][JavaScript.com]][JavaScript-url]
+* [![MySQL][MySQL.com]][MySQL-url]
+* [![Laravel][Laravel.com]][Laravel-url]
+* [![Tailwind CSS][TailwindCSS.com]][TailwindCSS-url]
+* [![Alpine JS][AlpineJS.com]][AlpineJS-url]
+* [![React][React.js]][React-url]
 
 ## Changelog
 **[v1.0.0] - 2025-04-21**
@@ -206,17 +226,20 @@ Custom Error Pages
 ## Live Demo
 https://demo.laradashboard.com
 
-## Articles
-- How to setup - https://devsenv.com/tutorials/laravel-role-permission-management-system-full-example-with-source-code
-
-## Wanna talk with me
-Please mail me at - manirujjamanakash@gmail.com
-
 ## Premium Features
 Please visit at Lara Dashboard to get more premium moduels - https://laradashboard.com. Premium modules included CRM, HRM, Course Managements and so on.
 
 ## Core modules
 - **User Avatar** - https://github.com/laradashboard/UserAvatar - A very simple module create an avatar for a user. Handle migration, entries/updates in user forms and so on. 
+
+## Contributing
+
+Want to contribute? Fork the project, make your changes, and submit a pull request. Even small improvements to documentation are appreciated!
+
+### Top contributors:
+<a href="https://github.com/laradashboard/laradashboard/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=laradashboard/laradashboard" alt="contrib.rocks image" />
+</a>
 
 ## Support
 If you like my work you may consider buying me a ☕ / 🍕
@@ -225,5 +248,51 @@ If you like my work you may consider buying me a ☕ / 🍕
     Go to Patreon
 </a>
 
-## Contribution
-Contribution is open. Create Pull-request and I'll add it to the project if it's good enough.
+## Contact
+
+Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) - manirujjamanakash@gmail.com
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/laradashboard/laradashboard.svg?style=for-the-badge
+[contributors-url]: https://github.com/laradashboard/laradashboard/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/laradashboard/laradashboard.svg?style=for-the-badge
+[forks-url]: https://github.com/laradashboard/laradashboard/network/members
+[stars-shield]: https://img.shields.io/github/stars/laradashboard/laradashboard.svg?style=for-the-badge
+[stars-url]: https://github.com/laradashboard/laradashboard/stargazers
+[issues-shield]: https://img.shields.io/github/issues/laradashboard/laradashboard.svg?style=for-the-badge
+[issues-url]: https://github.com/laradashboard/laradashboard/issues
+[license-shield]: https://img.shields.io/github/license/laradashboard/laradashboard.svg?style=for-the-badge
+[license-url]: https://github.com/laradashboard/laradashboard/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/maniruzzamanakash
+[product-screenshot]: images/screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
+[Vue-url]: https://vuejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Angular-url]: https://angular.io/
+[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
+[Svelte-url]: https://svelte.dev/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[JQuery-url]: https://jquery.com
+[PHP.com]: https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white
+[PHP-url]: https://www.php.net
+[JavaScript.com]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+[JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[MySQL.com]: https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white
+[MySQL-url]: https://www.mysql.com
+[TailwindCSS.com]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[TailwindCSS-url]: https://tailwindcss.com
+[AlpineJS.com]: https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=black
+[AlpineJS-url]: https://alpinejs.dev
