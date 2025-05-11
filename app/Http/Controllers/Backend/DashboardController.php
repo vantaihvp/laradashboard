@@ -12,11 +12,13 @@ use Spatie\Permission\Models\Role;
 
 class DashboardController extends Controller
 {
+    public function __construct(private readonly UserChartService $userChartService)
+    {
+    }
+
     public function index()
     {
         $this->checkAuthorization(auth()->user(), ['dashboard.view']);
-
-        $chartFilterPeriod = request()->get('chart_filter_period', 'last_12_months');
 
         return view(
             'backend.pages.dashboard.index',
@@ -24,7 +26,9 @@ class DashboardController extends Controller
                 'total_users' => User::count(),
                 'total_roles' => Role::count(),
                 'total_permissions' => Permission::count(),
-                'user_growth_data' => app()->make(UserChartService::class)->getUserGrowthData($chartFilterPeriod)->getData(true),
+                'user_growth_data' => $this->userChartService->getUserGrowthData(
+                    request()->get('chart_filter_period', 'last_12_months')
+                )->getData(true),
             ]
         );
     }
