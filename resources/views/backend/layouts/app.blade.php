@@ -17,6 +17,12 @@
     @stack('styles')
     @yield('before_head')
 
+    @if (!empty(config('settings.global_custom_css')))
+    <style>
+        {!! config('settings.global_custom_css') !!}
+    </style>
+    @endif
+    
     @php echo ld_apply_filters('admin_head', ''); @endphp
 </head>
 
@@ -128,5 +134,11 @@ x-init="
             }
         });
     </script>
+    
+    @if (!empty(config('settings.global_custom_js')))
+    <script>
+        {!! config('settings.global_custom_js') !!}
+    </script>
+    @endif
 </body>
 </html>

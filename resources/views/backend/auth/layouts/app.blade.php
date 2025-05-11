@@ -13,6 +13,13 @@
 
     @viteReactRefresh
     @vite(['resources/js/app.js', 'resources/css/app.css'])
+    
+    @if (!empty(config('settings.global_custom_css')))
+    <style>
+        {!! config('settings.global_custom_css') !!}
+    </style>
+    @endif
+    
     @yield('styles')
 </head>
 
@@ -101,6 +108,12 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     </div>
 
     @stack('scripts')
+    
+    @if (!empty(config('settings.global_custom_js')))
+    <script>
+        {!! config('settings.global_custom_js') !!}
+    </script>
+    @endif
 </body>
 
 </html>
