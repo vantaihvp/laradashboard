@@ -306,6 +306,9 @@ layer(base);
 .app-sidebar-minified .menu-item .menu-item-icon {
   margin-left: 10px;
 }
+.menu-item .menu-item-arrow {
+  margin-right: 10px;
+}
 .sidebar:hover {
   width: 290px;
 }

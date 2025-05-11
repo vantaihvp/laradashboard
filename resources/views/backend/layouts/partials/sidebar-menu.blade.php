@@ -51,8 +51,7 @@
                         type="button" @click="toggleSubmenu('roles-submenu')">
                         <img src="{{ asset('images/icons/key.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text" :style="`color: ${textColor}`"> {{ __('Roles & Permissions') }}</span>
-                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
-                           :class="submenus['roles-submenu'] ? 'rotate-180' : ''"></i>
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['roles-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="roles-submenu"
                         x-show="submenus['roles-submenu']"
@@ -85,8 +84,7 @@
                         type="button" @click="toggleSubmenu('users-submenu')">
                         <img src="{{ asset('images/icons/user.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text">{{ __('User') }}</span>
-                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
-                           :class="submenus['users-submenu'] ? 'rotate-180' : ''"></i>
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['users-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="users-submenu"
                         x-show="submenus['users-submenu']"
@@ -130,8 +128,7 @@
                         type="button" @click="toggleSubmenu('monitoring-submenu')">
                         <img src="{{ asset('images/icons/tv.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text">{{ __('Monitoring') }}</span>
-                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
-                           :class="submenus['monitoring-submenu'] ? 'rotate-180' : ''"></i>
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['monitoring-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="monitoring-submenu"
                         x-show="submenus['monitoring-submenu']"
@@ -174,8 +171,7 @@
                         type="button" @click="toggleSubmenu('settings-submenu')">
                         <img src="{{ asset('images/icons/settings.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text">{{ __('Settings') }}</span>
-                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
-                           :class="submenus['settings-submenu'] ? 'rotate-180' : ''"></i>
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['settings-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="settings-submenu"
                         x-show="submenus['settings-submenu']"
