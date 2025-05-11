@@ -1,6 +1,6 @@
 <aside
     :class="sidebarToggle ? 'translate-x-0 lg:w-[85px] app-sidebar-minified' : '-translate-x-full'"
-    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r {{ config('settings.sidebar_bg_lite') ? '' : 'bg-gray-800' }} px-5 border-gray-900 dark:bg-gray-900 lg:static lg:translate-x-0"
+    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r {{ config('settings.sidebar_bg_lite') ? '' : 'bg-gray-800' }} dark:border-gray-900 dark:bg-gray-900 lg:static lg:translate-x-0"
     id="appSidebar"
     x-data="{
         isHovered: false,
@@ -23,26 +23,26 @@
     <!-- Sidebar Header -->
     <div
         :class="sidebarToggle && !isHovered ? 'justify-center' : 'justify-between'"
-        class="justify-center flex items-center gap-2 sidebar-header py-6"
+        class="justify-center flex items-center gap-2 sidebar-header py-5 px-5"
     >
         <a href="{{ route('admin.dashboard') }}">
             <span class="logo" :class="sidebarToggle && !isHovered ? 'hidden' : ''">
                 <img
-                    class="dark:hidden"
+                    class="dark:hidden max-h-[50px]"
                     src="{{ config('settings.site_logo_lite') ?? asset('images/logo/lara-dashboard.png') }}"
-                    alt="Logo"
+                    alt="{{ config('app.name') }}"
                 />
                 <img
-                    class="hidden dark:block"
+                    class="hidden dark:block max-h-[50px]"
                     src="{{ config('settings.site_logo_dark') ?? '/images/logo/lara-dashboard-dark.png' }}"
-                    alt="Logo"
+                    alt="{{ config('app.name') }}"
                 />
             </span>
             <img
                 class="logo-icon w-20 lg:w-12"
                 :class="sidebarToggle && !isHovered ? 'lg:block' : 'hidden'"
                 src="{{ config('settings.site_icon') ?? '/images/logo/icon.png' }}"
-                alt="Logo"
+                alt="{{ config('app.name') }}"
             />
         </a>
     </div>

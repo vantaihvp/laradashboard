@@ -6,10 +6,10 @@
         </div>
         <div>
             <button type="button" data-tooltip-target="data-tooltip" data-tooltip-placement="bottom"
+                onclick="window.location.href='{{ route('admin.users.index') }}'"
                 class="hidden sm:inline-flex items-center justify-center text-gray-500 w-8 h-8 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm">
                 <img src="{{ asset('/images/icons/move.svg') }}">
             </button>
-
         </div>
     </div>
 
@@ -22,8 +22,6 @@
 
     <!-- Donut Chart -->
     <div class="" id="donut-chart"></div>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

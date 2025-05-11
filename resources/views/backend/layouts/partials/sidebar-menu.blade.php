@@ -27,30 +27,30 @@
     x-init="init()"
 >
     <div>
-        <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+        <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400 px-5">
             {{ __('Menu') }}
         </h3>
 
-        <ul class="flex flex-col gap-4 mb-6">
+        <ul class="flex flex-col mb-6">
             @if ($user->can('dashboard.view'))
-                <li>
+                <li class="hover:menu-item-active">
                     <a :style="`color: ${textColor}`" href="{{ route('admin.dashboard') }}"
                         class="menu-item group {{ Route::is('admin.dashboard') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                        <i class="bi bi-grid text-xl text-center"></i>
-                        <span>{{ __('Dashboard') }}</span>
+                        <img src="{{ asset('images/icons/dashboard.svg') }}" alt="Dashboard" class="menu-item-icon dark:invert">
+                        <span class="menu-item-text">{{ __('Dashboard') }}</span>
                     </a>
                 </li>
             @endif
             @php echo ld_apply_filters('sidebar_menu_after_dashboard', '') @endphp
 
             @if ($user->can('role.create') || $user->can('role.view') || $user->can('role.edit') || $user->can('role.delete'))
-                <li x-data>
+                <li x-data class="hover:menu-item-active">
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.roles.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" @click="toggleSubmenu('roles-submenu')">
-                        <img src="{{ asset('images/icons/key.svg') }}" alt="Roles Icon" class="dark:invert">
-                        <span :style="`color: ${textColor}`"> {{ __('Roles & Permissions') }}</span>
-                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300" 
+                        <img src="{{ asset('images/icons/key.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
+                        <span class="menu-item-text" :style="`color: ${textColor}`"> {{ __('Roles & Permissions') }}</span>
+                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
                            :class="submenus['roles-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="roles-submenu"
@@ -78,13 +78,13 @@
             @php echo ld_apply_filters('sidebar_menu_after_roles', '') @endphp
 
             @if ($user->can('user.create') || $user->can('user.view') || $user->can('user.edit') || $user->can('user.delete'))
-                <li x-data>
+                <li x-data class="hover:menu-item-active">
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.users.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" @click="toggleSubmenu('users-submenu')">
-                        <img src="{{ asset('images/icons/user.svg') }}" alt="Roles Icon" class="dark:invert">
-                        <span>{{ __('User') }}</span>
-                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300"
+                        <img src="{{ asset('images/icons/user.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
+                        <span class="menu-item-text">{{ __('User') }}</span>
+                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
                            :class="submenus['users-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="users-submenu"
@@ -112,24 +112,24 @@
             @php echo ld_apply_filters('sidebar_menu_after_users', '') @endphp
 
             @if ($user->can('module.view'))
-                <li>
+                <li class="hover:menu-item-active">
                     <a :style="`color: ${textColor}`" href="{{ route('admin.modules.index') }}"
                         class="menu-item group {{ Route::is('admin.modules.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                        <img src="{{ asset('images/icons/three-dice.svg') }}" alt="Roles Icon" class="dark:invert">
-                        <span>{{ __('Modules') }}</span>
+                        <img src="{{ asset('images/icons/three-dice.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
+                        <span class="menu-item-text">{{ __('Modules') }}</span>
                     </a>
                 </li>
             @endif
             @php echo ld_apply_filters('sidebar_menu_after_modules', '') @endphp
 
             @if ($user->can('pulse.view') || $user->can('actionlog.view'))
-                <li x-data>
+                <li x-data class="hover:menu-item-active">
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('actionlog.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" @click="toggleSubmenu('monitoring-submenu')">
-                        <img src="{{ asset('images/icons/tv.svg') }}" alt="Roles Icon" class="dark:invert">
-                        <span>{{ __('Monitoring') }}</span>
-                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300"
+                        <img src="{{ asset('images/icons/tv.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
+                        <span class="menu-item-text">{{ __('Monitoring') }}</span>
+                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
                            :class="submenus['monitoring-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="monitoring-submenu"
@@ -161,19 +161,19 @@
 
     <!-- Others Group -->
     <div>
-        <h3 :style="`color: ${textColor}`" class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+        <h3 :style="`color: ${textColor}`" class="mb-4 text-xs uppercase leading-[20px] text-gray-400 px-5">
             {{ __('More') }}
         </h3>
 
-        <ul class="flex flex-col gap-4 mb-6">
+        <ul class="flex flex-col mb-6">
             @if ($user->can('settings.edit') || $user->can('translations.view'))
-                <li x-data>
+                <li x-data class="hover:menu-item-active">
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" @click="toggleSubmenu('settings-submenu')">
-                        <img src="{{ asset('images/icons/settings.svg') }}" alt="Roles Icon" class="dark:invert">
-                        <span>{{ __('Settings') }}</span>
-                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300"
+                        <img src="{{ asset('images/icons/settings.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
+                        <span class="menu-item-text">{{ __('Settings') }}</span>
+                        <i class="menu-item-arrow bi bi-chevron-down ml-auto transition-transform duration-300"
                            :class="submenus['settings-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="settings-submenu"
@@ -200,15 +200,13 @@
             @endif
 
             <!-- Logout Menu Item -->
-            <li>
+            <li class="hover:menu-item-active">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button :style="`color: ${textColor}`" type="submit"
                         class="menu-item group w-full text-left menu-item-inactive">
-                        <img src="{{ asset('images/icons/logout.svg') }}" alt="Roles Icon" class="dark:invert">
-                        <span>
-                            {{ __('Logout') }}
-                        </span>
+                        <img src="{{ asset('images/icons/logout.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
+                        <span class="menu-item-text">{{ __('Logout') }}</span>
                     </button>
                 </form>
             </li>

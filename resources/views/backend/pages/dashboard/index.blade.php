@@ -18,24 +18,27 @@
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6">
                     @include('backend.pages.dashboard.card', [
                         'icon' => asset('images/icons/user.svg'),
-                        'test' => __('Users'),
+                        'label' => __('Users'),
                         'number' => $total_users,
                         'bg' => '#635BFF',
                         'class' => 'bg-white col-span-4',
+                        'url' => route('admin.users.index'),
                     ])
                     @include('backend.pages.dashboard.card', [
                         'icon' => asset('images/icons/user.svg'),
-                        'test' => __('Roles'),
+                        'label' => __('Roles'),
                         'number' => $total_roles,
                         'bg' => '#00D7FF',
                         'class' => 'bg-white col-span-4',
+                        'url' => route('admin.roles.index'),
                     ])
                     @include('backend.pages.dashboard.card', [
                         'icon' => asset('images/icons/user.svg'),
-                        'test' => __('Permissions'),
+                        'label' => __('Permissions'),
                         'number' => $total_permissions,
                         'bg' => '#FF4D96',
                         'class' => 'bg-white col-span-4',
+                        'url' => route('admin.roles.index'),
                     ])
                 </div>
             </div>
