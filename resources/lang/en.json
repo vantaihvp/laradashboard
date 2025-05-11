@@ -227,5 +227,21 @@
     "User has been created.": "User has been created.",
     "User has been updated.": "User has been updated.",
     "User has been deleted.": "User has been deleted.",
-    "Successfully Logged in!": "Successfully Logged in!"
+    "Successfully Logged in!": "Successfully Logged in!",
+    "No, cancel": "No, cancel",
+    "more": "more",
+    "Are you sure you want to delete this user?": "Are you sure you want to delete this user?",
+    "Delete User": "Delete User",
+    "Login as": "Login as",
+    "Switch back to": "Switch back to",
+    "User Create": "User Create",
+    "User Edit": "User Edit",
+    "Password (Optional)": "Password (Optional)",
+    "Confirm Password (Optional)": "Confirm Password (Optional)",
+    "Drag and drop your module file here, or": "Drag and drop your module file here, or",
+    "browse": "browse",
+    "to select a file.": "to select a file.",
+    "Tags:": "Tags:",
+    "Are you sure you want to delete this module?": "Are you sure you want to delete this module?",
+    "No, Cancel": "No, Cancel"
 }

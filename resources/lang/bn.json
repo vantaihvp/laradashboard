@@ -227,5 +227,21 @@
     "User has been created.": "ব্যবহারকারী তৈরি করা হয়েছে।",
     "User has been updated.": "ব্যবহারকারী আপডেট করা হয়েছে।",
     "User has been deleted.": "ব্যবহারকারী মুছে ফেলা হয়েছে।",
-    "Successfully Logged in!": "সফলভাবে লগ ইন করেছেন!"
+    "Successfully Logged in!": "সফলভাবে লগ ইন করেছেন!",
+    "No, cancel": "না, বাতিল করুন",
+    "more": "আরও",
+    "Are you sure you want to delete this user?": "আপনি কি নিশ্চিত যে আপনি এই ব্যবহারকারীকে মুছতে চান?",
+    "Delete User": "ব্যবহারকারী মুছুন",
+    "Login as": "হিসাবে লগইন করুন",
+    "Switch back to": "ফিরে যান",
+    "User Create": "ব্যবহারকারী তৈরি করুন",
+    "User Edit": "ব্যবহারকারী সম্পাদনা",
+    "Password (Optional)": "পাসওয়ার্ড (ঐচ্ছিক)",
+    "Confirm Password (Optional)": "পাসওয়ার্ড নিশ্চিত করুন (ঐচ্ছিক)",
+    "Drag and drop your module file here, or": "আপনার মডিউল ফাইল এখানে টেনে আনুন বা",
+    "browse": "ব্রাউজ করুন",
+    "to select a file.": "একটি ফাইল নির্বাচন করতে।",
+    "Tags:": "ট্যাগসমূহ:",
+    "Are you sure you want to delete this module?": "আপনি কি নিশ্চিত যে আপনি এই মডিউলটি মুছতে চান?",
+    "No, Cancel": "না, বাতিল করুন"
 }
