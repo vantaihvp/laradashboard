@@ -26,6 +26,7 @@
         }
     }"
     x-init="init()"
+    class="transition-all duration-300 ease-in-out"
 >
     <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400 px-5">
@@ -51,11 +52,17 @@
                         type="button" @click="toggleSubmenu('roles-submenu')">
                         <img src="{{ asset('images/icons/key.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text" :style="`color: ${textColor}`"> {{ __('Roles & Permissions') }}</span>
-                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['roles-submenu'] ? 'rotate-180' : ''">
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300" :class="submenus['roles-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="roles-submenu"
                         x-show="submenus['roles-submenu']"
-                        class="submenu pl-12 mt-2 space-y-2">
+                        x-transition:enter="transition-all ease-in-out duration-300"
+                        x-transition:enter-start="opacity-0 max-h-0"
+                        x-transition:enter-end="opacity-100 max-h-[500px]"
+                        x-transition:leave="transition-all ease-in-out duration-300"
+                        x-transition:leave-start="opacity-100 max-h-[500px]"
+                        x-transition:leave-end="opacity-0 max-h-0"
+                        class="submenu pl-12 mt-2 space-y-2 overflow-hidden">
                         @if ($user->can('role.view'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.roles.index') }}"
@@ -84,11 +91,17 @@
                         type="button" @click="toggleSubmenu('users-submenu')">
                         <img src="{{ asset('images/icons/user.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text">{{ __('User') }}</span>
-                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['users-submenu'] ? 'rotate-180' : ''">
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300" :class="submenus['users-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="users-submenu"
                         x-show="submenus['users-submenu']"
-                        class="submenu pl-12 mt-2 space-y-2">
+                        x-transition:enter="transition-all ease-in-out duration-300"
+                        x-transition:enter-start="opacity-0 max-h-0"
+                        x-transition:enter-end="opacity-100 max-h-[500px]"
+                        x-transition:leave="transition-all ease-in-out duration-300"
+                        x-transition:leave-start="opacity-100 max-h-[500px]"
+                        x-transition:leave-end="opacity-0 max-h-0"
+                        class="submenu pl-12 mt-2 space-y-2 overflow-hidden">
                         @if ($user->can('user.view'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.users.index') }}"
@@ -128,11 +141,17 @@
                         type="button" @click="toggleSubmenu('monitoring-submenu')">
                         <img src="{{ asset('images/icons/tv.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text">{{ __('Monitoring') }}</span>
-                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['monitoring-submenu'] ? 'rotate-180' : ''">
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300" :class="submenus['monitoring-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="monitoring-submenu"
                         x-show="submenus['monitoring-submenu']"
-                        class="submenu pl-12 mt-2 space-y-2">
+                        x-transition:enter="transition-all ease-in-out duration-300"
+                        x-transition:enter-start="opacity-0 max-h-0"
+                        x-transition:enter-end="opacity-100 max-h-[500px]"
+                        x-transition:leave="transition-all ease-in-out duration-300"
+                        x-transition:leave-start="opacity-100 max-h-[500px]"
+                        x-transition:leave-end="opacity-0 max-h-0"
+                        class="submenu pl-12 mt-2 space-y-2 overflow-hidden">
                         @if ($user->can('actionlog.view'))
                             <li>
                                 <a href="{{ route('actionlog.index') }}"
@@ -171,11 +190,17 @@
                         type="button" @click="toggleSubmenu('settings-submenu')">
                         <img src="{{ asset('images/icons/settings.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text">{{ __('Settings') }}</span>
-                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert" :class="submenus['settings-submenu'] ? 'rotate-180' : ''">
+                        <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300" :class="submenus['settings-submenu'] ? 'rotate-180' : ''">
                     </button>
                     <ul id="settings-submenu"
                         x-show="submenus['settings-submenu']"
-                        class="submenu pl-12 mt-2 space-y-2">
+                        x-transition:enter="transition-all ease-in-out duration-300"
+                        x-transition:enter-start="opacity-0 max-h-0"
+                        x-transition:enter-end="opacity-100 max-h-[500px]"
+                        x-transition:leave="transition-all ease-in-out duration-300"
+                        x-transition:leave-start="opacity-100 max-h-[500px]"
+                        x-transition:leave-end="opacity-0 max-h-0"
+                        class="submenu pl-12 mt-2 space-y-2 overflow-hidden">
                         @if ($user->can('settings.edit'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.settings.index') }}"

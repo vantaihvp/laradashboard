@@ -1,6 +1,6 @@
 <aside
     :class="sidebarToggle ? 'translate-x-0 lg:w-[85px] app-sidebar-minified' : '-translate-x-full'"
-    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r {{ config('settings.sidebar_bg_lite') ? '' : 'bg-gray-800' }} dark:border-gray-900 dark:bg-gray-900 lg:static lg:translate-x-0"
+    class="sidebar fixed left-0 top-0 z-10 flex h-screen w-[290px] flex-col overflow-y-hidden border-r transition-all duration-300 ease-in-out {{ config('settings.sidebar_bg_lite') ? '' : 'bg-gray-800' }} dark:border-gray-900 dark:bg-gray-900 lg:static lg:translate-x-0"
     id="appSidebar"
     x-data="{
         isHovered: false,
@@ -28,10 +28,10 @@
     <!-- Sidebar Header -->
     <div
         :class="sidebarToggle && !isHovered ? 'justify-center' : 'justify-between'"
-        class="justify-center flex items-center gap-2 sidebar-header py-5 px-5 h-[100px]"
+        class="justify-center flex items-center gap-2 sidebar-header py-5 px-5 h-[100px] transition-all duration-300"
     >
         <a href="{{ route('admin.dashboard') }}">
-            <span class="logo" :class="sidebarToggle && !isHovered ? 'hidden' : ''">
+            <span class="logo transition-opacity duration-300" :class="sidebarToggle && !isHovered ? 'hidden opacity-0' : 'opacity-100'">
                 <img
                     class="dark:hidden max-h-[80px]"
                     src="{{ config('settings.site_logo_lite') ?? asset('images/logo/lara-dashboard.png') }}"
@@ -44,8 +44,8 @@
                 />
             </span>
             <img
-                class="logo-icon w-20 lg:w-12"
-                :class="sidebarToggle && !isHovered ? 'lg:block' : 'hidden'"
+                class="logo-icon w-20 lg:w-12 transition-opacity duration-300"
+                :class="sidebarToggle && !isHovered ? 'lg:block opacity-100' : 'hidden opacity-0'"
                 src="{{ config('settings.site_icon') ?? '/images/logo/icon.png' }}"
                 alt="{{ config('app.name') }}"
             />
