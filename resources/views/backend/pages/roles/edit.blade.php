@@ -7,32 +7,24 @@
 @section('admin-content')
 
 <div class="p-4 mx-auto max-w-[var(--breakpoint-2xl)] md:p-6">
-    <div x-data="{ pageName: `{{ __('Edit Role') }}`}">
-        <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white" x-text="pageName">
-                {{ __('Edit Role') }}
-            </h2>
-
+    <div x-data="{ pageName: '{{ __('Edit Role') }}' }">
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Edit Role') }}</h2>
             <nav>
-                <ol class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <ol class="flex items-center gap-1.5">
                     <li>
-                        <a href="{{ route('admin.dashboard') }}" class="hover:text-gray-800 dark:hover:text-white">
+                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.dashboard') }}">
                             {{ __('Home') }}
+                            <i class="bi bi-chevron-right"></i>
                         </a>
-                        <i class="bi bi-chevron-right"></i>
                     </li>
                     <li>
-                        <a href="{{ route('admin.roles.index') }}" class="hover:text-gray-800 dark:hover:text-white">
+                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.roles.index') }}">
                             {{ __('Roles') }}
+                            <i class="bi bi-chevron-right"></i>
                         </a>
-                        <i class="bi bi-chevron-right"></i>
                     </li>
-                    <li
-                        class="text-sm text-gray-800 dark:text-white/90"
-                        x-text="pageName"
-                    >
-                        {{ __('Edit Role') }}
-                    </li>
+                    <li class="text-sm text-gray-800 dark:text-white/90">{{ __('Edit Role') }}</li>
                 </ol>
             </nav>
         </div>

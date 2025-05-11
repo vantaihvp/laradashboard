@@ -3,8 +3,10 @@
 <div class="rounded-xl shadow-sm p-4 py-6 z-1 dark:bg-slate-800">
     <!-- Header Section -->
     <div class="flex justify-between items-center">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white">User Growth Report</h3>
-        <div class="flex gap-2">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+            {{ __('User Growth') }}
+        </h3>
+        <div class="flex gap-2 items-center">
             <span
                 class="bg-indigo-100 text-indigo-900 px-4 py-2 rounded-full text-sm">
                 {{ __(ucfirst(str_replace('_', ' ', $currentFilter))) }}

@@ -11,10 +11,8 @@
 @section('admin-content')
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
         <div x-data="{ pageName: '{{ __('Settings') }}' }">
-            <!-- Page Header -->
             <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Settings') }}</h2>
-
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Settings') }}</h2>
                 <nav>
                     <ol class="flex items-center gap-1.5">
                         <li>
@@ -24,7 +22,7 @@
                                 <i class="bi bi-chevron-right"></i>
                             </a>
                         </li>
-                        <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Settings') }}</li>
+                        <li class="text-sm text-gray-800 dark:text-white/90">{{ __('Settings') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -82,10 +80,10 @@
             tabButtons.forEach(button => {
                 const isActive = button.getAttribute('data-tab') === tabKey;
 
-                button.classList.toggle('text-blue-600', isActive);
-                button.classList.toggle('border-blue-600', isActive);
-                button.classList.toggle('dark:text-blue-500', isActive);
-                button.classList.toggle('dark:border-blue-500', isActive);
+                button.classList.toggle('text-primary', isActive);
+                button.classList.toggle('border-primary', isActive);
+                button.classList.toggle('dark:text-primary', isActive);
+                button.classList.toggle('dark:border-primary', isActive);
                 button.classList.toggle('text-gray-500', !isActive);
                 button.classList.toggle('border-transparent', !isActive);
             });

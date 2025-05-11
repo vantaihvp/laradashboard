@@ -6,31 +6,24 @@
 
 @section('admin-content')
 <div class="p-6 mx-auto max-w-7xl">
-    <div x-data="{ pageName: `{{ __('New Role') }}`}">
-        <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white" x-text="pageName">
-                {{ __('New Role') }}
-            </h2>
-
+    <div x-data="{ pageName: '{{ __('New Role') }}' }">
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('New Role') }}</h2>
             <nav>
-                <ol class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <ol class="flex items-center gap-1.5">
                     <li>
                         <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.dashboard') }}">
                             {{ __('Home') }}
                             <i class="bi bi-chevron-right"></i>
                         </a>
-                        <i class="bi bi-chevron-right"></i>
                     </li>
                     <li>
                         <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.roles.index') }}">
                             {{ __('Roles') }}
                             <i class="bi bi-chevron-right"></i>
                         </a>
-                        <i class="bi bi-chevron-right"></i>
                     </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">
-                        {{ __('New Role') }}
-                    </li>
+                    <li class="text-sm text-gray-800 dark:text-white/90">{{ __('New Role') }}</li>
                 </ol>
             </nav>
         </div>

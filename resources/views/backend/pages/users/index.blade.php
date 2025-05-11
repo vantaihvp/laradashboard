@@ -8,9 +8,8 @@
 
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
     <div x-data="{ pageName: {{ __('Users') }} }">
-        <!-- Page Header -->
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Users') }}</h2>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Users') }}</h2>
             <nav>
                 <ol class="flex items-center gap-1.5">
                     <li>
@@ -19,7 +18,7 @@
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Users') }}</li>
+                    <li class="text-sm text-gray-800 dark:text-white/90">{{ __('Users') }}</li>
                 </ol>
             </nav>
         </div>

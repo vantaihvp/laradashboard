@@ -8,7 +8,6 @@
     <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <!-- Theme Primary Color -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
                     {{ __('Theme Primary Color') }}
@@ -57,7 +56,6 @@
             </div>
         </div>
 
-        <!-- Default Mode -->
         <div class="flex">
             <div class="md:basis-1/2">
                 <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">

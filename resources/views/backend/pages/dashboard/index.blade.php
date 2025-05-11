@@ -13,6 +13,12 @@
 
 @section('admin-content')
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+        <div x-data="{ pageName: '{{ __('Dashboard') }}' }">
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Dashboard') }}</h2>
+            </div>
+        </div>
+
         <div class="grid grid-cols-12 gap-4 md:gap-6">
             <div class="col-span-12 space-y-6">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6">
