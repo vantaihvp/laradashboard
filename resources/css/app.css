@@ -299,12 +299,20 @@ layer(base);
 .app-sidebar-minified .submenu {
   display: none;
 }
-.app-sidebar-minified .menu-item .menu-item-text,
-.app-sidebar-minified .menu-item .menu-item-arrow {
-  display: none;
+@media (min-width: 1024px) {
+  .app-sidebar-minified .menu-item .menu-item-text,
+  .app-sidebar-minified .menu-item .menu-item-arrow {
+    display: none;
+  }
+  .app-sidebar-minified .menu-item .menu-item-icon {
+    margin-left: 10px;
+  }
 }
-.app-sidebar-minified .menu-item .menu-item-icon {
-  margin-left: 10px;
+@media (max-width: 1023px) {
+  .app-sidebar-minified .menu-item .menu-item-text,
+  .app-sidebar-minified .menu-item .menu-item-arrow {
+    display: inline-block;
+  }
 }
 .menu-item .menu-item-arrow {
   margin-right: 10px;
