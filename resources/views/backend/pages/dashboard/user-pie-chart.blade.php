@@ -1,5 +1,5 @@
 <!-- filepath: g:\Development\Maniruzzaman Akash\laradashboard\resources\views\backend\pages\dashboard\user-pie-chart.blade.php -->
-<div class="w-full bg-white rounded-xl shadow-sm dark:bg-gray-800 p-4 ">
+<div class="w-full bg-white rounded-xl shadow-sm dark:bg-slate-800 p-4 ">
     <div class="flex justify-between">
         <div class="flex justify-center items-center">
             <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Users History</h5>

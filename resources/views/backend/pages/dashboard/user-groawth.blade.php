@@ -1,6 +1,6 @@
 @php $currentFilter = request()->get('chart_filter_period', 'last_12_months'); @endphp
 
-<div class="rounded-xl shadow-sm p-4 z-1">
+<div class="rounded-xl shadow-sm p-4 py-6 z-1 dark:bg-slate-800">
     <!-- Header Section -->
     <div class="flex justify-between items-center">
         <h3 class="text-lg font-medium text-gray-900 dark:text-white">User Growth Report</h3>
