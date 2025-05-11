@@ -22,6 +22,8 @@
         {!! config('settings.global_custom_css') !!}
     </style>
     @endif
+
+    @include('backend.layouts.partials.integration-scripts')
     
     @php echo ld_apply_filters('admin_head', ''); @endphp
 </head>
@@ -40,12 +42,7 @@ x-init="
     $watch('sidebarToggle', value => localStorage.setItem('sidebarToggle', JSON.stringify(value)))
 " 
 :class="{ 'dark bg-gray-900': darkMode === true }">
-    @if (!empty(config('settings.google_tag_manager_script')))
-        {!! config('settings.google_tag_manager_script') !!}
-    @endif
-    @if (!empty(config('settings.google_analytics_script')))
-        {!! config('settings.google_analytics_script') !!}
-    @endif
+
     <!-- Preloader -->
     <div x-show="loaded" x-init="window.addEventListener('DOMContentLoaded', () => { setTimeout(() => loaded = false, 500) })"
         class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
