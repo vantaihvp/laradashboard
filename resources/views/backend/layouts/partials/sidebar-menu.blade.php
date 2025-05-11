@@ -7,7 +7,8 @@
             'roles-submenu': {{ Route::is('admin.roles.*') ? 'true' : 'false' }},
             'users-submenu': {{ Route::is('admin.users.*') ? 'true' : 'false' }},
             'monitoring-submenu': {{ Route::is('actionlog.*') ? 'true' : 'false' }},
-            'settings-submenu': {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'true' : 'false' }}
+            'settings-submenu': {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'true' : 'false' }},
+            'crm-submenu': {{ Route::is('admin.crm.*') ? 'true' : 'false' }}
         },
         toggleSubmenu(id) {
             this.submenus[id] = !this.submenus[id];
