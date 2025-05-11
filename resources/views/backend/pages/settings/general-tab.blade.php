@@ -28,7 +28,7 @@
             <div>
                 <div class="mt-2">
                     @if (config('settings.site_logo_lite') !== '' && !empty(config('settings.site_logo_lite')))
-                        <img src="{{ config('settings.site_logo_lite') ?? '' }}" alt="" class="bg-gray-200 p-2 dark:bg-gray-800">
+                        <img src="{{ config('settings.site_logo_lite') ?? '' }}" alt="" class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
                     @endif
                     <div class="w-full mt-2">
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
@@ -41,7 +41,7 @@
 
                 <div class="mt-2">
                     @if (config('settings.site_logo_dark') !== '' && !empty(config('settings.site_logo_dark')))
-                        <img src="{{ config('settings.site_logo_dark') ?? '' }}" alt="" class="bg-gray-200 p-2 dark:bg-gray-800">
+                        <img src="{{ config('settings.site_logo_dark') ?? '' }}" alt="" class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
                     @endif
                     <div class="w-full mt-4">
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
@@ -57,7 +57,7 @@
             <div>
                 <div class="mt-2">
                     @if (config('settings.site_icon') !== '' && !empty(config('settings.site_icon')))
-                        <img src="{{ config('settings.site_icon') ?? '' }}" alt="">
+                        <img src="{{ config('settings.site_icon') ?? '' }}" alt="" class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
                     @endif
                     <div class="w-full">
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
@@ -70,7 +70,7 @@
 
                 <div class="mt-2">
                     @if (config('settings.site_favicon') !== '' && !empty(config('settings.site_favicon')))
-                        <img src="{{ config('settings.site_favicon') ?? '' }}" alt="">
+                        <img src="{{ config('settings.site_favicon') ?? '' }}" alt="" class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
                     @endif
                     <div class="w-full mt-4">
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
