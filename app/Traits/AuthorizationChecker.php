@@ -37,13 +37,13 @@ trait AuthorizationChecker
     public function preventSuperAdminModification(User|Authenticatable $user = null, $additionalPermission = 'user.edit'): void
     {
         if ($user && !$this->canBeModified($user, $additionalPermission)) {
-            abort(403, 'Super Admin cannot be modified in demo mode.');
+            abort(403, 'Superadmin cannot be modified in demo mode.');
         }
     }
 
     public function canBeModified(User $user, $additionalPermission = 'user.edit'): bool
     {
-        $isSuperAdmin = $user->email === 'superadmin@example.com' || $user->username === 'superadmin';
+        $isSuperAdmin = $user->email === 'superadmin@example.com' || $user->username === 'Superadmin';
         if (config('app.demo_mode') && $isSuperAdmin) {
             return false;
         }
@@ -53,8 +53,8 @@ trait AuthorizationChecker
 
     public function preventSuperAdminRoleModification(Role $role, string $action = 'modified')
     {
-        if (config('app.demo_mode') && $role->name == 'superadmin') {
-            abort(403, "The Super Admin role can not be {$action}.");
+        if (config('app.demo_mode') && $role->name == 'Superadmin') {
+            abort(403, "The Superadmin role can not be {$action}.");
         }
     }
 }
