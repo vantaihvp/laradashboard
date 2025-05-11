@@ -14,7 +14,7 @@
                     {{ __('Theme Primary Color') }}
                 </label>
                 <div class="flex gap-2 items-center">
-                    <div class="relative">
+                    <div>
                         <input type="color" id="color-picker-theme_primary_color" name="theme_primary_color"
                             value="{{ config('settings.theme_primary_color') ?? '' }}"
                             class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -38,7 +38,7 @@
                     {{ __('Theme Secondary Color') }}
                 </label>
                 <div class="flex gap-2 items-center">
-                    <div class="relative">
+                    <div>
                         <input type="color" id="color-picker-theme_secondary_color" name="theme_secondary_color"
                             value="{{ config('settings.theme_secondary_color') ?? '' }}"
                             class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -86,7 +86,7 @@
                         {{ __('Navbar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_bg_lite" name="navbar_bg_lite"
                                 value="{{ config('settings.navbar_bg_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -110,7 +110,7 @@
                         {{ __('Sidebar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_bg_lite" name="sidebar_bg_lite"
                                 value="{{ config('settings.sidebar_bg_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -134,7 +134,7 @@
                         {{ __('Navbar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_text_lite" name="navbar_text_lite"
                                 value="{{ config('settings.navbar_text_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -158,7 +158,7 @@
                         {{ __('Sidebar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_text_lite" name="sidebar_text_lite"
                                 value="{{ config('settings.sidebar_text_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -187,7 +187,7 @@
                         {{ __('Navbar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_bg_dark" name="navbar_bg_dark"
                                 value="{{ config('settings.navbar_bg_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -211,7 +211,7 @@
                         {{ __('Sidebar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_bg_dark" name="sidebar_bg_dark"
                                 value="{{ config('settings.sidebar_bg_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -235,7 +235,7 @@
                         {{ __('Navbar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_text_dark" name="navbar_text_dark"
                                 value="{{ config('settings.navbar_text_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -259,7 +259,7 @@
                         {{ __('Sidebar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_text_dark" name="sidebar_text_dark"
                                 value="{{ config('settings.sidebar_text_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
