@@ -26,12 +26,12 @@ class DashboardController extends Controller
         return view(
             'backend.pages.dashboard.index',
             [
-                'total_users' => User::count(),
-                'total_roles' => Role::count(),
-                'total_permissions' => Permission::count(),
+                'total_users' => number_format(User::count()),
+                'total_roles' => number_format(Role::count()),
+                'total_permissions' => number_format(Permission::count()),
                 'languages' => [
-                        'total' => count($this->languageService->getLanguages()),
-                        'active' => count($this->languageService->getActiveLanguages()),
+                        'total' => number_format(count($this->languageService->getLanguages())),
+                        'active' => number_format(count($this->languageService->getActiveLanguages())),
                     ],
                 'user_growth_data' => $this->userChartService->getUserGrowthData(
                     request()->get('chart_filter_period', 'last_12_months')
