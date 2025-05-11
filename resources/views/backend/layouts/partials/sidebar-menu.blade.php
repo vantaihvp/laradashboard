@@ -1,21 +1,22 @@
 @php $user = Auth::user(); @endphp
-<nav x-data="{
-    isDark: document.documentElement.classList.contains('dark'),
-    textColor: '',
-    init() {
-        this.updateColor();
-        const observer = new MutationObserver(() => this.updateColor());
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    },
-    updateColor() {
-        this.isDark = document.documentElement.classList.contains('dark');
-        this.textColor = this.isDark ?
-            '{{ config('settings.sidebar_text_dark') }}' :
-            '{{ config('settings.sidebar_text_lite') }}';
-    }
-}" x-init="init()">
-
-
+<nav
+    x-data="{
+        isDark: document.documentElement.classList.contains('dark'),
+        textColor: '',
+        init() {
+            this.updateColor();
+            const observer = new MutationObserver(() => this.updateColor());
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        },
+        updateColor() {
+            this.isDark = document.documentElement.classList.contains('dark');
+            this.textColor = this.isDark 
+                ? '{{ config('settings.sidebar_text_dark') }}' 
+                : '{{ config('settings.sidebar_text_lite') }}';
+        }
+    }"
+    x-init="init()"
+>
     <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
             {{ __('Menu') }}

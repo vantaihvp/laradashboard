@@ -291,7 +291,9 @@ layer(base);
     -webkit-appearance: none;
   }
 }
-
+.app-sidebar-minified .submenu {
+  display: none;
+}
 .sidebar:hover {
   width: 290px;
 }
