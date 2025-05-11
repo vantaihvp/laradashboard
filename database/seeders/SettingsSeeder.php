@@ -45,7 +45,7 @@ class SettingsSeeder extends Seeder
 
             // Site logo and icons
             // ['option_name' => 'site_logo_lite', 'option_value' => '/images/logo/lara-dashboard.png'],
-            ['option_name' => 'site_logo_lite', 'option_value' => '/images/logo/lara-dashboard-dark.png'],
+            ['option_name' => 'site_logo_lite', 'option_value' => '/images/logo/lara-dashboard.png'],
             ['option_name' => 'site_logo_dark', 'option_value' => '/images/logo/lara-dashboard-dark.png'],
             ['option_name' => 'site_icon', 'option_value' => '/images/logo/icon.png'],
             ['option_name' => 'site_favicon', 'option_value' => '/images/logo/icon.png'],
