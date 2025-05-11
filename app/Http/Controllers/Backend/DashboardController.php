@@ -29,6 +29,7 @@ class DashboardController extends Controller
                 'user_growth_data' => $this->userChartService->getUserGrowthData(
                     request()->get('chart_filter_period', 'last_12_months')
                 )->getData(true),
+                'user_history_data' => $this->userChartService->getUserHistoryData(),
             ]
         );
     }

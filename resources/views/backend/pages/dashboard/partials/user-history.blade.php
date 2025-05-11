@@ -15,21 +15,14 @@
         </div>
     </div>
 
-    @php
-        use Carbon\Carbon;
-        use App\Models\User;
-        $newUsers = \App\Models\User::where('created_at', '>=', \Carbon\Carbon::now()->subDays(30))->count();
-        $oldUsers = \App\Models\User::where('created_at', '<', \Carbon\Carbon::now()->subDays(30))->count();
-    @endphp
-
     <!-- Donut Chart -->
     <div class="" id="donut-chart"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get user counts from Blade variables
-            const newUsers = @json($newUsers ?? 0);
-            const oldUsers = @json($oldUsers ?? 0);
+            // Get user counts from controller data
+            const newUsers = @json($user_history_data['new_users'] ?? 0);
+            const oldUsers = @json($user_history_data['old_users'] ?? 0);
 
             const getChartOptions = () => {
                 return {
@@ -118,37 +111,6 @@
             if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
                 const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
                 chart.render();
-
-                // Optionally, remove or update the checkbox logic if not needed
-                // Get all the checkboxes by their class name
-                const checkboxes = document.querySelectorAll('#devices input[type="checkbox"]');
-
-                // Function to handle the checkbox change event
-                function handleCheckboxChange(event, chart) {
-                    const checkbox = event.target;
-                    if (checkbox.checked) {
-                        switch (checkbox.value) {
-                            case 'desktop':
-                                chart.updateSeries([15.1, 22.5]); // Only 2 values
-                                break;
-                            case 'tablet':
-                                chart.updateSeries([25.1, 26.5]);
-                                break;
-                            case 'mobile':
-                                chart.updateSeries([45.1, 27.5]);
-                                break;
-                            default:
-                                chart.updateSeries([55.1, 28.5]);
-                        }
-                    } else {
-                        chart.updateSeries([35.1, 23.5]);
-                    }
-                }
-
-                // Attach the event listener to each checkbox
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener('change', (event) => handleCheckboxChange(event, chart));
-                });
             }
         });
     </script>
