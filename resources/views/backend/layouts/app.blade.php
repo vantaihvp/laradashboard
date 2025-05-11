@@ -20,8 +20,20 @@
     @php echo ld_apply_filters('admin_head', ''); @endphp
 </head>
 
-<body x-data="{ page: 'ecommerce', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }" x-init="darkMode = JSON.parse(localStorage.getItem('darkMode'));
-$watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{ 'dark bg-gray-900': darkMode === true }">
+<body x-data="{ 
+    page: 'ecommerce', 
+    loaded: true, 
+    darkMode: false, 
+    stickyMenu: false, 
+    sidebarToggle: $persist(false), 
+    scrollTop: false 
+}" 
+x-init="
+    darkMode = JSON.parse(localStorage.getItem('darkMode'));
+    $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)));
+    $watch('sidebarToggle', value => localStorage.setItem('sidebarToggle', JSON.stringify(value)))
+" 
+:class="{ 'dark bg-gray-900': darkMode === true }">
     @if (!empty(config('settings.google_tag_manager_script')))
         {!! config('settings.google_tag_manager_script') !!}
     @endif
@@ -70,7 +82,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 const isDark = html.classList.contains('dark');
             }
 
-            // nitialize dark mode
+            // Initialize dark mode
             const savedDarkMode = localStorage.getItem('darkMode');
             if (savedDarkMode === 'true') {
                 html.classList.add('dark');
@@ -98,11 +110,23 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     updateHeaderBg();
                 });
             }
+            
+            // Initialize sidebar state from localStorage if it exists
+            if (window.Alpine) {
+                const sidebarState = localStorage.getItem('sidebarToggle');
+                if (sidebarState !== null) {
+                    document.addEventListener('alpine:initialized', () => {
+                        // Ensure the Alpine.js instance is ready
+                        setTimeout(() => {
+                            const alpineData = document.querySelector('body').__x;
+                            if (alpineData && typeof alpineData.$data !== 'undefined') {
+                                alpineData.$data.sidebarToggle = JSON.parse(sidebarState);
+                            }
+                        }, 0);
+                    });
+                }
+            }
         });
     </script>
-
-
-
 </body>
-
 </html>

@@ -8,6 +8,11 @@
             this.updateBg();
             const observer = new MutationObserver(() => this.updateBg());
             observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            
+            // Check if sidebarToggle value is present in localStorage and use it
+            if (localStorage.getItem('sidebarToggle')) {
+                sidebarToggle = JSON.parse(localStorage.getItem('sidebarToggle'));
+            }
         },
         updateBg() {
             const htmlHasDark = document.documentElement.classList.contains('dark');
