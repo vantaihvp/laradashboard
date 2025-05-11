@@ -16,24 +16,24 @@
         <div class="grid grid-cols-12 gap-4 md:gap-6">
             <div class="col-span-12 space-y-6">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-6">
-                    @include('backend.pages.dashboard.card', [
-                        'icon' => asset('images/icons/user.svg'),
+                    @include('backend.pages.dashboard.partials.card', [
+                        'icon_svg' => asset('images/icons/user.svg'),
                         'label' => __('Users'),
                         'number' => $total_users,
                         'bg' => '#635BFF',
                         'class' => 'bg-white col-span-4',
                         'url' => route('admin.users.index'),
                     ])
-                    @include('backend.pages.dashboard.card', [
-                        'icon' => asset('images/icons/user.svg'),
+                    @include('backend.pages.dashboard.partials.card', [
+                        'icon_svg' => asset('images/icons/key.svg'),
                         'label' => __('Roles'),
                         'number' => $total_roles,
                         'bg' => '#00D7FF',
                         'class' => 'bg-white col-span-4',
                         'url' => route('admin.roles.index'),
                     ])
-                    @include('backend.pages.dashboard.card', [
-                        'icon' => asset('images/icons/user.svg'),
+                    @include('backend.pages.dashboard.partials.card', [
+                        'icon' => 'bi bi-shield-check',
                         'label' => __('Permissions'),
                         'number' => $total_permissions,
                         'bg' => '#FF4D96',
@@ -49,10 +49,10 @@
                 <div class="col-span-12">
                     <div class="grid grid-cols-12 gap-4 md:gap-6">
                         <div class="col-span-12 md:col-span-8">
-                            @include('backend.pages.dashboard.user-groawth')
+                            @include('backend.pages.dashboard.partials.user-growth')
                         </div>
                         <div class="col-span-12 md:col-span-4">
-                            @include('backend.pages.dashboard.user-pie-chart')
+                            @include('backend.pages.dashboard.partials.user-history')
                         </div>
                     </div>
                 </div>
