@@ -45,10 +45,18 @@
             @include('backend.layouts.partials.messages')
             <!-- Role Details Section -->
             <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
-                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
                         {{ __('Role Details') }}
                     </h3>
+                    <div class="flex gap-4">
+                        <button type="submit" class="btn-primary">
+                            {{ __('Save') }}
+                        </button>
+                        <a href="{{ route('admin.roles.index') }}" class="btn-default">
+                            {{ __('Cancel') }}
+                        </a>
+                    </div>
                 </div>
                 <div class="p-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -61,6 +69,7 @@
                     </div>
                 </div>
             </div>
+            
             <!-- Permissions Section -->
             <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
@@ -78,21 +87,21 @@
                     <hr class="mb-6">
                     @php $i = 1; @endphp
                     @foreach ($permission_groups as $group)
-
                     <div class="mb-6">
                         <div class="flex items-center mb-2">
-                            <input type="checkbox" id="{{ $i }}Management" class="mr-2" {{ App\Models\User::roleHasPermissions($role, App\Models\User::getpermissionsByGroupName($group->name)) ? 'checked' : '' }}>
-                            <label for="{{ $i }}Management" class="capitalize text-sm font-medium text-gray-700 dark:text-gray-400">
+                            <input type="checkbox" id="group{{ $i }}Management" class="mr-2" {{ App\Models\User::roleHasPermissions($role, App\Models\User::getpermissionsByGroupName($group->name)) ? 'checked' : '' }}>
+                            <label for="group{{ $i }}Management" class="capitalize text-sm font-medium text-gray-700 dark:text-gray-400">
                                 {{ ucfirst($group->name) }}
                             </label>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-4" data-group="group{{ $i }}Management">
                             @php
                                 $permissions = App\Models\User::getpermissionsByGroupName($group->name);
                             @endphp
                             @foreach ($permissions as $permission)
                             <div>
-                                <input type="checkbox" id="checkPermission{{ $permission->id }}" name="permissions[]" value="{{ $permission->name }}" class="mr-2" {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                                <input type="checkbox" id="checkPermission{{ $permission->id }}" name="permissions[]" value="{{ $permission->name }}" class="mr-2" 
+                                       {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
                                 <label for="checkPermission{{ $permission->id }}" class="capitalize text-sm text-gray-700 dark:text-gray-400">
                                     {{ $permission->name }}
                                 </label>
