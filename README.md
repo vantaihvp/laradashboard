@@ -236,6 +236,8 @@ Please visit at Lara Dashboard to get more premium moduels - https://laradashboa
 
 Want to contribute? Fork the project, make your changes, and submit a pull request. Even small improvements to documentation are appreciated!
 
+Please be sure to read our [Contribution Guide](CONTRIBUTING.md) before submitting your PR.
+
 ### Top contributors:
 <a href="https://github.com/laradashboard/laradashboard/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=laradashboard/laradashboard" alt="contrib.rocks image" />
