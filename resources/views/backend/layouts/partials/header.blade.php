@@ -27,20 +27,15 @@ x-data="{
     }
 }"
 x-init="init()"
-    class="sticky top-0 flex w-full border-gray-200 lg:border-b dark:border-gray-800">
+    class="sticky top-0 flex w-full border-gray-200 lg:border-b dark:border-gray-800 transition-all duration-300">
     <div class="flex grow flex-col items-center justify-between lg:flex-row lg:px-6">
         <div
             class="flex w-full items-center justify-between gap-2 border-b border-gray-200 px-3 py-3 sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4 dark:border-gray-800">
             <button
                 :class="sidebarToggle ? 'lg:bg-transparent dark:lg:bg-transparent bg-gray-100 dark:bg-gray-800' : ''"
-                class="z-99999 flex h-10 w-10 items-center justify-center rounded-lg border-gray-200 text-gray-500 lg:h-11 lg:w-11 lg:border dark:border-gray-800 dark:text-gray-400"
-                @click.stop="sidebarToggle = !sidebarToggle">
-                <svg class="fill-current lg:block" width="16" height="12" viewBox="0 0 16 12" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0.583252 1C0.583252 0.585788 0.919038 0.25 1.33325 0.25H14.6666C15.0808 0.25 15.4166 0.585786 15.4166 1C15.4166 1.41421 15.0808 1.75 14.6666 1.75L1.33325 1.75C0.919038 1.75 0.583252 1.41422 0.583252 1ZM0.583252 11C0.583252 10.5858 0.919038 10.25 1.33325 10.25L14.6666 10.25C15.0808 10.25 15.4166 10.5858 15.4166 11C15.4166 11.4142 15.0808 11.75 14.6666 11.75L1.33325 11.75C0.919038 11.75 0.583252 11.4142 0.583252 11ZM1.33325 5.25C0.919038 5.25 0.583252 5.58579 0.583252 6C0.583252 6.41421 0.919038 6.75 1.33325 6.75L7.99992 6.75C8.41413 6.75 8.74992 6.41421 8.74992 6C8.74992 5.58579 8.41413 5.25 7.99992 5.25L1.33325 5.25Z"
-                        fill="" />
-                </svg>
+                class="z-99999 flex h-10 w-10 items-center justify-center rounded-xl border-gray-200 text-gray-500 lg:h-11 lg:w-11 lg:border dark:border-gray-800 dark:text-gray-400 transition-all duration-300"
+                @click.stop="sidebarToggle = !sidebarToggle; localStorage.setItem('sidebarToggle', sidebarToggle);">
+                <img src="{{ asset('images/icons/toggle-bar.svg') }}" class="dark:invert">
             </button>
 
             <a href="{{ route('admin.dashboard') }}" class="lg:hidden">
@@ -73,13 +68,14 @@ x-init="init()"
                 </button>
                 @php ld_apply_filters('dark_mode_toggler_after_button', '') @endphp
 
-                @if (env('GITHUB_LINK'))
+                @if (env('GITHUB_LINK') )
                     <a href="{{ env('GITHUB_LINK') }}" target="_blank"
                         class="hover:text-dark-900 relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white">
-                        <i class="bi bi-github text-xl"></i>
+                        <img src="{{ asset('images/icons/github.svg') }}" alt="GitHub" class="dark:invert" />
                     </a>
                 @endif
             </div>
+            
 
             @include('backend.layouts.partials.locale-switcher')
 
@@ -104,7 +100,7 @@ x-init="init()"
 
                 <!-- Dropdown Start -->
                 <div x-show="dropdownOpen"
-                    class="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+                    class="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border bg-gray-100 dark:bg-slate-800 border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 z-100"
                     style="display: none">
                     <div>
                         <span class="block text-theme-sm font-medium text-gray-700 dark:text-gray-400">

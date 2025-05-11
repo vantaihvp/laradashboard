@@ -1,6 +1,6 @@
 <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" data-tabs-toggle="#default-styled-tab-content"
-        data-tabs-active-classes="text-primary hover:text-primary dark:text-blue-500 dark:hover:text-blue-500 border-primary dark:border-primary"
+        data-tabs-active-classes="text-primary hover:text-primary border-primary dark:border-primary"
         data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300"
         role="tablist">
         @php
@@ -12,8 +12,8 @@
                 <button
                     class="inline-block p-4 border-b-2 rounded-t-lg 
                hover:text-gray-600 hover:border-gray-300 
-               dark:hover:text-gray-300
-               {{ $activeTab == $key ? 'border-b-2 text-blue-700 border-primary dark:text-primary dark:border-primary' : 'text-gray-500 border-transparent' }}"
+               dark:hover:text-gray-300 text-primary hover:text-primary
+               {{ $activeTab == $key ? 'border-b-2 text-primary border-primary dark:text-primary dark:border-primary' : 'text-gray-500 border-transparent' }}"
                     id="{{ $key }}-tab" data-tabs-target="#{{ $key }}" type="button" role="tab" data-tab="{{ $key }}"
                     aria-controls="{{ $key }}" aria-selected="{{ $activeTab === $key ? 'true' : 'false' }}">
                     {{ $tab['title'] }} 

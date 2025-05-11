@@ -32,7 +32,7 @@
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Modules') }}</li>
+                    <li class="text-sm text-gray-800 dark:text-white/90">{{ __('Modules') }}</li>
                 </ol>
             </nav>
         </div>

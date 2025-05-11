@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\ActionLogController;
+use App\Http\Controllers\Backend\ActionLogController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ModulesController;
 use App\Http\Controllers\Backend\RolesController;

@@ -30,4 +30,9 @@ class UserService
 
         return $query->latest()->paginate(config('settings.default_pagination') ?? 10);
     }
+
+    public function getUserById(int $id): ?User
+    {
+        return User::findOrFail($id);
+    }
 }

@@ -13,15 +13,20 @@
 
     @viteReactRefresh
     @vite(['resources/js/app.js', 'resources/css/app.css'])
+    
+    @if (!empty(config('settings.global_custom_css')))
+    <style>
+        {!! config('settings.global_custom_css') !!}
+    </style>
+    @endif
+
+    @include('backend.layouts.partials.integration-scripts')
+    
     @yield('styles')
 </head>
 
 <body x-data="{ page: 'ecommerce', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false, scrollTop: false }" x-init="darkMode = JSON.parse(localStorage.getItem('darkMode'));
 $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{ 'dark bg-gray-900': darkMode === true }">
-    @if (!empty(config('settings.google_analytics_script')))
-        {!! config('settings.google_analytics_script') !!}
-    @endif
-
     <!-- Preloader -->
     <div x-show="loaded" x-init="window.addEventListener('DOMContentLoaded', () => { setTimeout(() => loaded = false, 500) })"
         class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
@@ -43,13 +48,14 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
             <!-- Main Content -->
             <main>
                 <div class="relative flex flex-col justify-center w-full h-screen dark:bg-gray-900 sm:p-0 lg:flex-row">
-                    <!-- Form -->
-                        @include('backend.layouts.partials.locale-switcher')
                     <div class="flex flex-col flex-1 w-full lg:w-1/2">
-                        <div class="w-full max-w-md pt-10 mx-auto"></div>
+                        <div class="w-full max-w-md pt-2 mx-auto">
+                            <div class="mt-3 ml-3 flex items-center justify-end">
+                                @include('backend.layouts.partials.locale-switcher')
+                            </div>
+                        </div>
                         <div class="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
                             @yield('admin-content')
-                            
                         </div>
                     </div>
 
@@ -100,6 +106,12 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     </div>
 
     @stack('scripts')
+    
+    @if (!empty(config('settings.global_custom_js')))
+    <script>
+        {!! config('settings.global_custom_js') !!}
+    </script>
+    @endif
 </body>
 
 </html>

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Services\PermissionService;
+use App\Services\RolesService;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 /**
  * Class RolePermissionSeeder.
@@ -16,6 +16,12 @@ use Spatie\Permission\Models\Role;
  */
 class RolePermissionSeeder extends Seeder
 {
+    public function __construct(
+        private readonly PermissionService $permissionService,
+        private readonly RolesService $rolesService
+    ) {
+    }
+
     /**
      * Run the database seeds.
      *
@@ -23,155 +29,34 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        // Permission List as array.
-        $permissions = [
-            [
-                'group_name' => 'dashboard',
-                'permissions' => [
-                    'dashboard.view',
-                ],
-            ],
-            [
-                'group_name' => 'blog',
-                'permissions' => [
-                    // Blog Permissions
-                    'blog.create',
-                    'blog.view',
-                    'blog.edit',
-                    'blog.delete',
-                    'blog.approve',
-                ],
-            ],
-            [
-                'group_name' => 'user',
-                'permissions' => [
-                    'user.create',
-                    'user.view',
-                    'user.edit',
-                    'user.delete',
-                    'user.approve',
-                    'user.login_as',
-                ],
-            ],
-            [
-                'group_name' => 'role',
-                'permissions' => [
-                    'role.create',
-                    'role.view',
-                    'role.edit',
-                    'role.delete',
-                    'role.approve',
-                ],
-            ],
-            [
-                'group_name' => 'module',
-                'permissions' => [
-                    'module.create',
-                    'module.view',
-                    'module.edit',
-                    'module.delete',
-                ],
-            ],
-            [
-                'group_name' => 'profile',
-                'permissions' => [
-                    'profile.view',
-                    'profile.edit',
-                    'profile.delete',
-                    'profile.update',
-                ],
-            ],
-            [
-                'group_name' => 'monitoring',
-                'permissions' => [
-                    'pulse.view',
-                    'actionlog.view',
-                ],
-            ],
-            [
-                'group_name' => 'settings',
-                'permissions' => [
-                    'settings.view',
-                    'settings.edit',
-                ],
-            ],
-            [
-                'group_name' => 'translations',
-                'permissions' => [
-                    'translations.view',
-                    'translations.edit',
-                ],
-            ],
-        ];
+        // Create all permissions
+        $this->command->info('Creating permissions...');
+        $this->permissionService->createPermissions();
 
-        // Do same for the admin guard for tutorial purposes.
+        // Create predefined roles with their permissions
+        $this->command->info('Creating predefined roles...');
+        $roles = $this->rolesService->createPredefinedRoles();
+
+        // Assign superadmin role to superadmin user if exists
         $user = User::where('username', 'superadmin')->first();
-        $roleSuperAdmin = $this->maybeCreateSuperAdminRole();
+        if ($user) {
+            $this->command->info('Assigning Superadmin role to superadmin user...');
+            $user->assignRole($roles['superadmin']);
+        }
 
-        // Create and Assign Permissions
-        for ($i = 0; $i < count($permissions); $i++) {
-            $permissionGroup = $permissions[$i]['group_name'];
-            for ($j = 0; $j < count($permissions[$i]['permissions']); $j++) {
-                $permissionExist = Permission::where('name', $permissions[$i]['permissions'][$j])->first();
-                if (is_null($permissionExist)) {
-                    $permission = Permission::create(
-                        [
-                            'name' => $permissions[$i]['permissions'][$j],
-                            'group_name' => $permissionGroup,
-                            'guard_name' => 'web',
-                        ]
-                    );
-                    $roleSuperAdmin->givePermissionTo($permission);
-                    $permission->assignRole($roleSuperAdmin);
-                }
+        // Assign random roles to other users
+        $this->command->info('Assigning random roles to other users...');
+        $availableRoles = ['Admin', 'Editor', 'Subscriber']; // Exclude Superadmin from random assignment
+        $users = User::all();
+        
+        foreach ($users as $user) {
+            if (!$user->hasRole('Superadmin')) {
+                // Get a random role from the available roles
+                $randomRole = $availableRoles[array_rand($availableRoles)];
+                $user->assignRole($randomRole);
             }
         }
 
-        // Assign super admin role permission to superadmin user.
-        if ($user) {
-            $user->assignRole($roleSuperAdmin);
-        }
-
-        // Assign subscriber role permission to subscriber user.
-        $subscriberPermissions = [
-            'dashboard.view',
-            'profile.view',
-            'profile.edit',
-            'profile.delete',
-            'profile.update',
-        ];
-
-        // Create Subscriber Role.
-        $roleSubscriber = $this->maybeCreateSubscriberRole();
-
-        // Add the permissions to the subscriber role.
-        foreach ($subscriberPermissions as $permission) {
-            $roleSubscriber->givePermissionTo($permission);
-        }
-
-        $this->command->info('Subscriber role permissions added successfully!');
-
-        // Added default subscriber role to the users.
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->assignRole('Subscriber');
-        }
-
         $this->command->info('Roles and Permissions created successfully!');
-    }
-
-    private function maybeCreateSuperAdminRole(): Role
-    {
-        return Role::firstOrCreate(
-            ['name' => 'Superadmin', 'guard_name' => 'web'],
-            ['name' => 'superadmin', 'guard_name' => 'web']
-        );
-    }
-
-    private function maybeCreateSubscriberRole(): Role
-    {
-        return Role::firstOrCreate(
-            ['name' => 'Subscriber', 'guard_name' => 'web']
-        );
     }
 }

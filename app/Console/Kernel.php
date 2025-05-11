@@ -23,7 +23,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Schedule the demo database refresh command every hour in demo mode.
+        $schedule->command('demo:refresh-database')->hourly();
     }
 
     /**

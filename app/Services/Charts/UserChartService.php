@@ -36,6 +36,26 @@ class UserChartService extends ChartService
         ]);
     }
 
+    /**
+     * Get user history data for the pie chart
+     *
+     * @return array
+     */
+    public function getUserHistoryData(): array
+    {
+        $thirtyDaysAgo = Carbon::now()->subDays(30);
+        $totalUsers = User::count();
+
+        // Get new users count (last 30 days).
+        $newUsers = User::where('created_at', '>=', $thirtyDaysAgo)->count();
+
+        return [
+            'new_users' => $newUsers,
+            'old_users' => $totalUsers - $newUsers,
+            'total_users' => $totalUsers,
+        ];
+    }
+
     private function fetchUserGrowthData(Carbon $startDate, Carbon $endDate, bool $isLessThanMonth): \Illuminate\Support\Collection
     {
         $selectRaw = $isLessThanMonth

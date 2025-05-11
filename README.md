@@ -1,6 +1,5 @@
 <a id="readme-top"></a>
 
-
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -29,12 +28,12 @@ password - 12345678
 ### Built With
 
 * [![PHP][PHP.com]][PHP-url]
-* [![JavaScript][JavaScript.com]][JavaScript-url]
-* [![MySQL][MySQL.com]][MySQL-url]
 * [![Laravel][Laravel.com]][Laravel-url]
 * [![Tailwind CSS][TailwindCSS.com]][TailwindCSS-url]
+* [![JavaScript][JavaScript.com]][JavaScript-url]
 * [![Alpine JS][AlpineJS.com]][AlpineJS-url]
 * [![React][React.js]][React-url]
+* [![MySQL][MySQL.com]][MySQL-url]
 
 ## Changelog
 **[v1.0.0] - 2025-04-21**
@@ -145,83 +144,149 @@ MAIL_FROM_NAME="${APP_NAME}"
 ## Documentation
 https://laradashboard.com/docs/
 
-### Login & Dashboard Page
-**Login Page**
-![alt text][userLoginImage]
+## Screenshots
 
-**Forget password Page (Dark mode)**
-![alt text][userForgetPasswordImage]
+### Login & Authentication
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Login Page</strong><br/>
+    <img width="100%" alt="Login Page" src="/demo-screenshots/login.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Forget Password Page (Dark Mode)</strong><br/>
+    <img width="100%" alt="Forget Password Page" src="/demo-screenshots/Forget-password.png"/>
+  </div>
+</div>
 
-**Dashboard Page Lite Mode**
-![alt text][dashboardImage]
+### Dashboard
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Dashboard (Light Mode)</strong><br/>
+    <img width="100%" alt="Dashboard Light Mode" src="/demo-screenshots/Dashboard%20Page%20white%20Mode.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Dashboard (Dark Mode)</strong><br/>
+    <img width="100%" alt="Dashboard Dark Mode" src="/demo-screenshots/Dashboard%20Page%20Dark%20Mode.png"/>
+  </div>
+</div>
 
-**Dashboard Page Dark Mode**
-![alt text][dashboardDarkMode]
+### Role Management
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Role List (Light Mode)</strong><br/>
+    <img width="100%" alt="Role List" src="/demo-screenshots/Role%20List.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Role List (Dark Mode)</strong><br/>
+    <img width="100%" alt="Role List Dark" src="/demo-screenshots/Role%20List%20Dark.png"/>
+  </div>
+</div>
 
-### Role Pages
-**Role List**
-![alt text][roleListImage]
-**Role Create**
-![alt text][roleCreateImage]
-**Role Edit**
-![alt text][roleEditImage]
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Role Create</strong><br/>
+    <img width="100%" alt="Role Create" src="/demo-screenshots/Role%20Create.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Role Edit</strong><br/>
+    <img width="100%" alt="Role Edit" src="/demo-screenshots/Role%20Edit.png"/>
+  </div>
+</div>
 
-### Users Pages
-**Users List**
-![alt text][userListImage]
-**User Create**
-![alt text][userCreateImage]
+### User Management
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Users List (Light mode)</strong><br/>
+    <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/Users%20List.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Users List (Dark mode)</strong><br/>
+    <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/User List Dark.png" />
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>User Create</strong><br/>
+    <img width="100%" alt="User Create" src="/demo-screenshots/User%20Create.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>User Delete</strong><br/>
+    <img width="100%" alt="User Delete" src="/demo-screenshots/User Delete.png" />
+  </div>
+</div>
 
-### Modules Page
-**Module List**
-![alt text][moduleListPage]
-
-**Upload Module**
-![alt text][moduleCreatePage]
+### Module Management
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Module List</strong><br/>
+    <img width="100%" alt="Module List" src="/demo-screenshots/Module%20List.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Upload Module</strong><br/>
+    <img width="100%" alt="Upload Module" src="/demo-screenshots/Upload%20Module.png"/>
+  </div>
+</div>
 
 ### Settings Pages
-**General Settings**
-![alt text][generalSettingsImage]
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>General Settings</strong><br/>
+    <img width="100%" alt="General Settings" src="/demo-screenshots/Settings-General.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Site Appearance</strong><br/>
+    <img width="100%" alt="Site Appearance" src="/demo-screenshots/Settings-Site-Appearance.png"/>
+  </div>
+</div>
 
-**Site Appearance**
-![alt text][siteAppearanceImage]
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Content Settings</strong><br/>
+    <img width="100%" alt="Content Settings" src="/demo-screenshots/Settings-Content.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Integration Settings</strong><br/>
+    <img width="100%" alt="Integration Settings" src="/demo-screenshots/Settings-Google-Analytics.png"/>
+  </div>
+</div>
 
-**Content Settings**
-![alt text][contentSettingsImage]
+### Translations Pages
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Translations List</strong><br/>
+    <img width="100%" alt="Translations List" src="/demo-screenshots/Translations List.png" />
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Add Language</strong><br/>
+    <img width="100%" alt="Create Translation" src="/demo-screenshots/Translations List Dark.png" />
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Language Switcher</strong><br/>
+    <img width="100%" alt="Language Switcher" src="/demo-screenshots/Language switcher.png" />
+  </div>
+  <div style="flex: 1; min-width: 45%;"></div>
+</div>
 
-**Integration Settings**
-![alt text][integrationsSettingsImage]
-
-### Monitoring Pages
-**Action Logs**
-![alt text][actionLogsPage]
-
-**Laravel Pulse**
-![alt text][laravelPulsePage]
+### Monitoring
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Action Logs</strong><br/>
+    <img width="100%" alt="Action Logs" src="/demo-screenshots/Action%20Log%20List.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Laravel Pulse</strong><br/>
+    <img width="100%" alt="Laravel Pulse" src="/demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png"/>
+  </div>
+</div>
 
 ### Other Pages
-Custom Error Pages
-![alt text][errorPageImage]
-
-
-[dashboardImage]: /demo-screenshots/Dashboard%20Page%20white%20Mode.png "Dashboard Page Laravel Role Management"
-[dashboardDarkMode]:  /demo-screenshots/Dashboard%20Page%20Dark%20Mode.png "Dashboard Page Dark Mode"
-[roleListImage]: /demo-screenshots/Role%20List.png "2-Laravel-Manage-Roles"
-[roleCreateImage]: /demo-screenshots/Role%20Create.png "3-Laravel-Role-Create"
-[roleEditImage]: /demo-screenshots/Role%20Edit.png "4-Laravel-Role-Edit"
-[userListImage]:  /demo-screenshots/Users%20List.png "5-Laravel-Users-Manage" 
-[userCreateImage]: /demo-screenshots/User%20Create.png "6-Laravel-User-Create"
-[userLoginImage]: /demo-screenshots/login.png "7-Login-Page"
-[userForgetPasswordImage]: /demo-screenshots/Forget-password.png "Forget Password"
-[errorPageImage]: /demo-screenshots/Custom%20Error%20Pages.png "8 - Error Page Handling"
-[moduleListPage]: /demo-screenshots/Module%20List.png
-[moduleCreatePage]: /demo-screenshots/Upload%20Module.png
-[actionLogsPage]: /demo-screenshots/Action%20Log%20List.png
-[laravelPulsePage]: /demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png
-[generalSettingsImage]: /demo-screenshots/Settings-General.png "General Settings Page"
-[siteAppearanceImage]: /demo-screenshots/Settings-Site-Appearance.png "Site Appearance Page"
-[contentSettingsImage]: /demo-screenshots/Settings-Content.png "Content Settings Page"
-[integrationsSettingsImage]: /demo-screenshots/Settings-Google-Analytics.png "Integrations Settings Page"
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+  <div style="flex: 1; min-width: 45%;">
+    <strong>Custom Error Pages</strong><br/>
+    <img width="100%" alt="Custom Error Pages" src="/demo-screenshots/Custom%20Error%20Pages.png"/>
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <!-- Reserved for future screenshot -->
+  </div>
+</div>
 
 ## Live Demo
 https://demo.laradashboard.com
@@ -235,6 +300,8 @@ Please visit at Lara Dashboard to get more premium moduels - https://laradashboa
 ## Contributing
 
 Want to contribute? Fork the project, make your changes, and submit a pull request. Even small improvements to documentation are appreciated!
+
+Please be sure to read our [Contribution Guide](CONTRIBUTING.md) before submitting your PR.
 
 ### Top contributors:
 <a href="https://github.com/laradashboard/laradashboard/graphs/contributors">

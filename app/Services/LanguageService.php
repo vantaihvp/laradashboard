@@ -199,6 +199,14 @@ class LanguageService
     ];
 
     /**
+     * Get all active languages
+     */
+    public function getLanguages(): array
+    {
+        return $this->languageNames;
+    }
+
+    /**
      * Get all active languages with detailed information
      */
     public function getActiveLanguages(): array

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Backend\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use App\Services\DemoAppService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -24,6 +25,10 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    public function __construct(private readonly DemoAppService $demoAppService)
+    {
+    }
+
     /**
      * Where to redirect users after login.
      *
@@ -36,10 +41,11 @@ class LoginController extends Controller
      */
     public function showLoginForm(): Renderable
     {
-        // redirct back if already logged in.
         if (Auth::guard('web')->check()) {
             return redirect()->route('admin.dashboard');
         }
+
+        $this->demoAppService->maybeSetDemoLocaleToEnByDefault();
 
         $email = app()->environment('local') ? 'superadmin@example.com' : '';
         $password = app()->environment('local') ? '12345678' : '';
@@ -52,32 +58,24 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        // Validate Login Data
-        $request->validate([
-            'email' => 'required|max:50|email',
-            'password' => 'required',
-        ]);
-
-        // Attempt to login
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            // Redirect to dashboard
+            $this->demoAppService->maybeSetDemoLocaleToEnByDefault();
             session()->flash('success', 'Successfully Logged in!');
 
             return redirect()->route('admin.dashboard');
-        } else {
-            // Search using username
-            if (Auth::guard('web')->attempt(['username' => $request->email, 'password' => $request->password], $request->remember)) {
-                session()->flash('success', 'Successfully Logged in!');
-
-                return redirect()->route('admin.dashboard');
-            }
-            // error
-            session()->flash('error', 'Invalid email or password');
-
-            return back();
         }
+
+        if (Auth::guard('web')->attempt(['username' => $request->email, 'password' => $request->password], $request->remember)) {
+            $this->demoAppService->maybeSetDemoLocaleToEnByDefault();
+            session()->flash('success', 'Successfully Logged in!');
+
+            return redirect()->route('admin.dashboard');
+        }
+
+        session()->flash('error', __('auth.failed'));
+        return back();
     }
 
     /**

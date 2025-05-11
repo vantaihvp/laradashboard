@@ -8,13 +8,12 @@
     <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <!-- Theme Primary Color -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
                     {{ __('Theme Primary Color') }}
                 </label>
                 <div class="flex gap-2 items-center">
-                    <div class="relative">
+                    <div>
                         <input type="color" id="color-picker-theme_primary_color" name="theme_primary_color"
                             value="{{ config('settings.theme_primary_color') ?? '' }}"
                             class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -38,7 +37,7 @@
                     {{ __('Theme Secondary Color') }}
                 </label>
                 <div class="flex gap-2 items-center">
-                    <div class="relative">
+                    <div>
                         <input type="color" id="color-picker-theme_secondary_color" name="theme_secondary_color"
                             value="{{ config('settings.theme_secondary_color') ?? '' }}"
                             class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -57,7 +56,6 @@
             </div>
         </div>
 
-        <!-- Default Mode -->
         <div class="flex">
             <div class="md:basis-1/2">
                 <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
@@ -86,7 +84,7 @@
                         {{ __('Navbar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_bg_lite" name="navbar_bg_lite"
                                 value="{{ config('settings.navbar_bg_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -110,7 +108,7 @@
                         {{ __('Sidebar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_bg_lite" name="sidebar_bg_lite"
                                 value="{{ config('settings.sidebar_bg_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -134,7 +132,7 @@
                         {{ __('Navbar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_text_lite" name="navbar_text_lite"
                                 value="{{ config('settings.navbar_text_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -158,7 +156,7 @@
                         {{ __('Sidebar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_text_lite" name="sidebar_text_lite"
                                 value="{{ config('settings.sidebar_text_lite') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -187,7 +185,7 @@
                         {{ __('Navbar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_bg_dark" name="navbar_bg_dark"
                                 value="{{ config('settings.navbar_bg_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -211,7 +209,7 @@
                         {{ __('Sidebar Background Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_bg_dark" name="sidebar_bg_dark"
                                 value="{{ config('settings.sidebar_bg_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -235,7 +233,7 @@
                         {{ __('Navbar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-navbar_text_dark" name="navbar_text_dark"
                                 value="{{ config('settings.navbar_text_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -259,7 +257,7 @@
                         {{ __('Sidebar Text Color') }}
                     </label>
                     <div class="flex gap-2 items-center">
-                        <div class="relative">
+                        <div>
                             <input type="color" id="color-picker-sidebar_text_dark" name="sidebar_text_dark"
                                 value="{{ config('settings.sidebar_text_dark') ?? '' }}"
                                 class="h-11 w-11 cursor-pointer dark:border-gray-700"
@@ -282,6 +280,42 @@
     @php echo ld_apply_filters('settings_appearance_tab_before_section_end', '') @endphp
 </div>
 @php echo ld_apply_filters('settings_appearance_tab_after_section_end', '') @endphp
+
+<!-- Custom CSS & JS Section -->
+<div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] mt-4">
+    <div class="px-5 py-4 sm:px-6 sm:py-5">
+        <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+            {{ __('Custom CSS & JavaScript') }}
+        </h3>
+    </div>
+    <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
+        <!-- Custom CSS -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                {{ __('Global Custom CSS') }}
+            </label>
+            <textarea name="global_custom_css" rows="6"
+                class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                placeholder=".my-class { color: red; }">{{ config('settings.global_custom_css') }}</textarea>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                {{ __('Add custom CSS that will be applied to all pages') }}
+            </p>
+        </div>
+
+        <!-- Custom JavaScript -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                {{ __('Global Custom JavaScript') }}
+            </label>
+            <textarea name="global_custom_js" rows="6"
+                class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+                placeholder="document.addEventListener('DOMContentLoaded', function() { /* Your code */ });">{{ config('settings.global_custom_js') }}</textarea>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                {{ __('Add custom JavaScript that will be loaded on all pages') }}
+            </p>
+        </div>
+    </div>
+</div>
 
 <script>
     function syncColor(field, fromInput = false) {
