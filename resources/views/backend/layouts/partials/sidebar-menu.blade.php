@@ -161,7 +161,7 @@
 
     <!-- Others Group -->
     <div>
-        <h3 :style="`color: ${textColor}`" class="mb-4 text-xs uppercase leading-[20px] text-gray-400 px-5">
+        <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400 px-5">
             {{ __('More') }}
         </h3>
 

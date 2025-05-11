@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Dashboard Page') }} - {{ config('app.name') }}
+    {{ __('Dashboard') }} | {{ config('app.name') }}
 @endsection
 
 @section('before_vite_build')
