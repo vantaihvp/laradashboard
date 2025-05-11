@@ -3,6 +3,15 @@
     x-data="{
         isDark: document.documentElement.classList.contains('dark'),
         textColor: '',
+        submenus: {
+            'roles-submenu': {{ Route::is('admin.roles.*') ? 'true' : 'false' }},
+            'users-submenu': {{ Route::is('admin.users.*') ? 'true' : 'false' }},
+            'monitoring-submenu': {{ Route::is('actionlog.*') ? 'true' : 'false' }},
+            'settings-submenu': {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'true' : 'false' }}
+        },
+        toggleSubmenu(id) {
+            this.submenus[id] = !this.submenus[id];
+        },
         init() {
             this.updateColor();
             const observer = new MutationObserver(() => this.updateColor());
@@ -35,16 +44,18 @@
             @php echo ld_apply_filters('sidebar_menu_after_dashboard', '') @endphp
 
             @if ($user->can('role.create') || $user->can('role.view') || $user->can('role.edit') || $user->can('role.delete'))
-                <li>
+                <li x-data>
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.roles.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
-                        type="button" onclick="toggleSubmenu('roles-submenu')">
+                        type="button" @click="toggleSubmenu('roles-submenu')">
                         <img src="{{ asset('images/icons/key.svg') }}" alt="Roles Icon" class="dark:invert">
                         <span :style="`color: ${textColor}`"> {{ __('Roles & Permissions') }}</span>
-                        <i class="bi bi-chevron-down ml-auto"></i>
+                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300" 
+                           :class="submenus['roles-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="roles-submenu"
-                        class="submenu {{ Route::is('admin.roles.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
+                        x-show="submenus['roles-submenu']"
+                        class="submenu pl-12 mt-2 space-y-2">
                         @if ($user->can('role.view'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.roles.index') }}"
@@ -67,16 +78,18 @@
             @php echo ld_apply_filters('sidebar_menu_after_roles', '') @endphp
 
             @if ($user->can('user.create') || $user->can('user.view') || $user->can('user.edit') || $user->can('user.delete'))
-                <li>
+                <li x-data>
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.users.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
-                        type="button" onclick="toggleSubmenu('users-submenu')">
+                        type="button" @click="toggleSubmenu('users-submenu')">
                         <img src="{{ asset('images/icons/user.svg') }}" alt="Roles Icon" class="dark:invert">
                         <span>{{ __('User') }}</span>
-                        <i class="bi bi-chevron-down ml-auto"></i>
+                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300"
+                           :class="submenus['users-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="users-submenu"
-                        class="submenu {{ Route::is('admin.users.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
+                        x-show="submenus['users-submenu']"
+                        class="submenu pl-12 mt-2 space-y-2">
                         @if ($user->can('user.view'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.users.index') }}"
@@ -110,16 +123,18 @@
             @php echo ld_apply_filters('sidebar_menu_after_modules', '') @endphp
 
             @if ($user->can('pulse.view') || $user->can('actionlog.view'))
-                <li>
+                <li x-data>
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('actionlog.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
-                        type="button" onclick="toggleSubmenu('monitoring-submenu')">
+                        type="button" @click="toggleSubmenu('monitoring-submenu')">
                         <img src="{{ asset('images/icons/tv.svg') }}" alt="Roles Icon" class="dark:invert">
                         <span>{{ __('Monitoring') }}</span>
-                        <i class="bi bi-chevron-down ml-auto"></i>
+                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300"
+                           :class="submenus['monitoring-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="monitoring-submenu"
-                        class="submenu {{ Route::is('actionlog.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
+                        x-show="submenus['monitoring-submenu']"
+                        class="submenu pl-12 mt-2 space-y-2">
                         @if ($user->can('actionlog.view'))
                             <li>
                                 <a href="{{ route('actionlog.index') }}"
@@ -152,16 +167,18 @@
 
         <ul class="flex flex-col gap-4 mb-6">
             @if ($user->can('settings.edit') || $user->can('translations.view'))
-                <li>
+                <li x-data>
                     <button :style="`color: ${textColor}`"
                         class="menu-item group w-full text-left {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
-                        type="button" onclick="toggleSubmenu('settings-submenu')">
+                        type="button" @click="toggleSubmenu('settings-submenu')">
                         <img src="{{ asset('images/icons/settings.svg') }}" alt="Roles Icon" class="dark:invert">
                         <span>{{ __('Settings') }}</span>
-                        <i class="bi bi-chevron-down ml-auto"></i>
+                        <i class="bi bi-chevron-down ml-auto transition-transform duration-300"
+                           :class="submenus['settings-submenu'] ? 'rotate-180' : ''"></i>
                     </button>
                     <ul id="settings-submenu"
-                        class="submenu {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? '' : 'hidden' }} pl-12 mt-2 space-y-2">
+                        x-show="submenus['settings-submenu']"
+                        class="submenu pl-12 mt-2 space-y-2">
                         @if ($user->can('settings.edit'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.settings.index') }}"
@@ -198,10 +215,3 @@
         </ul>
     </div>
 </nav>
-
-<script>
-    function toggleSubmenu(submenuId) {
-        const submenu = document.getElementById(submenuId);
-        submenu.classList.toggle('hidden');
-    }
-</script>
