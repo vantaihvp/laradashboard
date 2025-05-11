@@ -59,7 +59,7 @@
                         @if ($user->can('role.view'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.roles.index') }}"
-                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.roles.index') || Route::is('admin.roles.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.roles.index') || Route::is('admin.roles.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('Roles') }}
                                 </a>
                             </li>
@@ -67,7 +67,7 @@
                         @if ($user->can('role.create'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.roles.create') }}"
-                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.roles.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.roles.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('New Role') }}
                                 </a>
                             </li>
@@ -93,7 +93,7 @@
                         @if ($user->can('user.view'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.users.index') }}"
-                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.users.index') || Route::is('admin.users.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.users.index') || Route::is('admin.users.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('Users') }}
                                 </a>
                             </li>
@@ -101,7 +101,7 @@
                         @if ($user->can('user.create'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.users.create') }}"
-                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.users.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.users.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('New User') }}
                                 </a>
                             </li>
@@ -138,7 +138,7 @@
                         @if ($user->can('actionlog.view'))
                             <li>
                                 <a href="{{ route('actionlog.index') }}"
-                                    class="block px-4 py-2 rounded-lg {{ Route::is('actionlog.index') ? 'menu-item-active' : 'menu-item-inactive text-white' }}">
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('actionlog.index') ? 'menu-item-active' : 'menu-item-inactive text-white' }}">
                                     <span :style="`color: ${textColor}`">{{ __('Action Logs') }}</span>
                                 </a>
                             </li>
@@ -146,7 +146,7 @@
 
                         @if ($user->can('pulse.view'))
                             <li>
-                                <a href="{{ route('pulse') }}" class="block px-4 py-2 rounded-lg menu-item-inactive"
+                                <a href="{{ route('pulse') }}" class="hover:menu-item-active block px-4 py-2 rounded-lg menu-item-inactive"
                                     target="_blank">
                                     <span :style="`color: ${textColor}`">{{ __('Laravel Pulse') }}</span>
                                 </a>
@@ -182,7 +182,7 @@
                         @if ($user->can('settings.edit'))
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.settings.index') }}"
-                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.settings.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('General Settings') }}
                                 </a>
                             </li>
@@ -190,7 +190,7 @@
                         @canany(['translations.view', 'translations.edit'])
                             <li>
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.translations.index') }}"
-                                    class="block px-4 py-2 rounded-lg {{ Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.translations.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('Translations') }}
                                 </a>
                             </li>
