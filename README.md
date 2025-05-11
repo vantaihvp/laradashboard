@@ -36,6 +36,19 @@ password - 12345678
 * [![MySQL][MySQL.com]][MySQL-url]
 
 ## Changelog
+**[v1.2.0] - 2025-05-12**
+- **Feature - Translation Management**: Added Translation management sytem with supporting 21 languages by default and possibility to add any in a second.
+- **Enhancement - Dashboard Redesign**: Dashboard redesigned with new card, user history chart, several more design improvements.
+- **Enhancement**: Role list page, user list page to add links of users list sorting by role and role edit page linkings.
+- **Enhancement**: Cleanup code base to use services, requests more, use SOLID whenever needed.
+- **Fix**: Fixed #109 Submenu dropdown icon doesn't change on open/close submenu of a menu item.
+- **Fix**: Fixed #105 Sidebar Icon not working good if collapsed.
+- **Fix**: Fixed #93 Theme primary color, secondary color was not working.
+- **Fix**: Fixed #99 Superadmin role shouldn't be edited.
+- **Fix**: Fixed Mobile responsive has some issues.
+- **Fix**: Fixed Sidebar toggle was not persistent issue.
+- **Fix**: Fixed Role create -> selecting permission group can't check the permissions in that group checkboxes automatically.
+
 **[v1.0.0] - 2025-04-21**
 - **Feature - Forget Password Management**: Enhanced the forget password functionality for better reliability and user experience.
 - **Feature - Settings Management**: Added comprehensive settings management features, including API support.
