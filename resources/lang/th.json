@@ -220,5 +220,8 @@
     "No, cancel": "ไม่, ยกเลิก",
     "more": "เพิ่มเติม",
     "Tags:": "แท็ก:",
-    "Are you sure you want to delete this module?": "คุณแน่ใจหรือไม่ที่จะลบโมดูลนี้?"
+    "Are you sure you want to delete this module?": "คุณแน่ใจหรือไม่ที่จะลบโมดูลนี้?",
+    "New Users (last 30 days)": "ผู้ใช้ใหม่ (30 วันที่ผ่านมา)",
+    "Old Users (before 1 month)": "ผู้ใช้เก่า (ก่อน 1 เดือน)",
+    "users": "ผู้ใช้"
 }

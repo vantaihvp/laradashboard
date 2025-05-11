@@ -216,5 +216,8 @@
     "User has been created.": "用户已创建。",
     "User has been updated.": "用户已更新。",
     "User has been deleted.": "用户已删除。",
-    "Successfully Logged in!": "登录成功！"
+    "Successfully Logged in!": "登录成功！",
+    "New Users (last 30 days)": "新用户（最近30天）",
+    "Old Users (before 1 month)": "老用户（1个月前）",
+    "users": "用户"
 }

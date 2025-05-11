@@ -60,7 +60,7 @@
                                         fontFamily: "Inter, sans-serif",
                                         formatter: function(w) {
                                             const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0)
-                                            return sum + ' users'
+                                            return sum + " {{ __('users') }}"
                                         },
                                     },
                                     value: {
@@ -68,7 +68,7 @@
                                         fontFamily: "Inter, sans-serif",
                                         offsetY: -20,
                                         formatter: function(value) {
-                                            return value + " users"
+                                            return value + " {{ __('users') }}"
                                         },
                                     },
                                 },
@@ -81,7 +81,10 @@
                             top: -2,
                         },
                     },
-                    labels: ["Old Users (before 1 month)", "New Users (last 30 days)"], // Users History labels
+                    labels: [
+                        "{{ __('Old Users (before 1 month)') }}",
+                        "{{ __('New Users (last 30 days)') }}"
+                    ],
                     dataLabels: {
                         enabled: false,
                     },

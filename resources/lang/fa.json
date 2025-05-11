@@ -103,10 +103,12 @@
     "New Password": "رمز عبور جدید",
     "New Role": "نقش جدید",
     "New User": "کاربر جدید",
+    "New Users (last 30 days)": "کاربران جدید (۳۰ روز اخیر)",
     "No": "خیر",
     "No data available": "داده‌ای موجود نیست",
     "No roles found": "نقشی یافت نشد",
     "Not Found": "یافت نشد",
+    "Old Users (before 1 month)": "کاربران قدیمی (قبل از ۱ ماه)",
     "Password": "رمز عبور",
     "Paste your Google Analytics script here": "اسکریپت گوگل آنالیتیکس خود را اینجا بچسبانید",
     "Permissions": "مجوزها",
@@ -220,5 +222,6 @@
     "User has been created.": "کاربر ایجاد شد.",
     "User has been updated.": "کاربر به‌روزرسانی شد.",
     "User has been deleted.": "کاربر حذف شد.",
-    "Successfully Logged in!": "با موفقیت وارد شدید!"
+    "Successfully Logged in!": "با موفقیت وارد شدید!",
+    "users": "کاربران"
 }

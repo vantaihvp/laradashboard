@@ -103,6 +103,7 @@
     "New Password": "Nuova Password",
     "New Role": "Nuovo Ruolo",
     "New User": "Nuovo Utente",
+    "New Users (last 30 days)": "Nuovi Utenti (ultimi 30 giorni)",
     "No": "No",
     "No data available": "Nessun dato disponibile",
     "No roles found": "Nessun ruolo trovato",
@@ -161,6 +162,7 @@
     "User Growth": "Crescita Utente",
     "User Name": "Nome Utente",
     "Users": "Utenti",
+    "Old Users (before 1 month)": "Utenti Vecchi (prima di 1 mese)",
     "View": "Visualizza",
     "Web": "Web",
     "Welcome": "Benvenuto",
@@ -218,5 +220,6 @@
     "User has been created.": "L'utente è stato creato.",
     "User has been updated.": "L'utente è stato aggiornato.",
     "User has been deleted.": "L'utente è stato eliminato.",
-    "Successfully Logged in!": "Accesso effettuato con successo!"
+    "Successfully Logged in!": "Accesso effettuato con successo!",
+    "users": "utenti"
 }

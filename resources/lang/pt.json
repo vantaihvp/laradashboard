@@ -102,10 +102,12 @@
     "New Password": "Nova Senha",
     "New Role": "Nova Função",
     "New User": "Novo Usuário",
+    "New Users (last 30 days)": "Novos Usuários (últimos 30 dias)",
     "No": "Não",
     "No data available": "Nenhum dado disponível",
     "No roles found": "Nenhuma função encontrada",
     "Not Found": "Não Encontrado",
+    "Old Users (before 1 month)": "Usuários Antigos (antes de 1 mês)",
     "Password": "Senha",
     "Paste your Google Analytics script here": "Cole seu script do Google Analytics aqui",
     "Permissions": "Permissões",
@@ -228,5 +230,6 @@
     "Password (Optional)": "Senha (Opcional)",
     "Confirm Password (Optional)": "Confirmar Senha (Opcional)",
     "browse": "navegar",
-    "to select a file.": "para selecionar um arquivo."
+    "to select a file.": "para selecionar um arquivo.",
+    "users": "usuários"
 }

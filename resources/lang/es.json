@@ -102,6 +102,7 @@
     "New Password": "Nueva Contraseña",
     "New Role": "Nuevo Rol",
     "New User": "Nuevo Usuario",
+    "New Users (last 30 days)": "Nuevos Usuarios (últimos 30 días)",
     "No": "No",
     "No data available": "No hay datos disponibles",
     "No roles found": "No se encontraron roles",
@@ -217,5 +218,7 @@
     "User has been created.": "El usuario ha sido creado.",
     "User has been updated.": "El usuario ha sido actualizado.",
     "User has been deleted.": "El usuario ha sido eliminado.",
-    "Successfully Logged in!": "¡Inicio de sesión exitoso!"
+    "Successfully Logged in!": "¡Inicio de sesión exitoso!",
+    "Old Users (before 1 month)": "Usuarios Antiguos (antes de 1 mes)",
+    "users": "usuarios"
 }

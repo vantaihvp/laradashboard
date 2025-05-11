@@ -227,5 +227,8 @@
     "to select a file.": "để chọn một tệp.",
     "Tags:": "Thẻ:",
     "Are you sure you want to delete this module?": "Bạn có chắc chắn muốn xóa module này không?",
-    "No, Cancel": "Không, Hủy"
+    "No, Cancel": "Không, Hủy",
+    "New Users (last 30 days)": "Người dùng Mới (30 ngày qua)",
+    "Old Users (before 1 month)": "Người dùng Cũ (trước 1 tháng)",
+    "users": "người dùng"
 }
