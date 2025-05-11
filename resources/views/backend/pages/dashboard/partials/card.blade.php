@@ -1,4 +1,4 @@
-<div class="{{ $class ?? 'bg-white' }} dark:bg-slate-800 w-full h-[152px] rounded-2xl border border-light-purple dark:border-slate-800 overflow-hidden p-6 pb-0">
+<div class="{{ $class ?? 'bg-white' }} dark:bg-slate-800 w-full h-[160px] rounded-2xl border border-light-purple dark:border-slate-800 overflow-hidden p-6 pb-0">
     <div class="flex justify-between">
         <p class="text-[#090909] dark:text-gray-100 text-sm font-medium">{{ $label }}</p>
 
@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="flex mt-6 gap-6">
+    <div class="flex mt-6 gap-6 items-center">
         <div class="bg-white rounded-lg border border-[#EFEFFF] shadow-sm w-10 h-10 items-center flex justify-center">
             @if(!empty($icon))
                 <i class="{{ $icon }}"></i>
@@ -24,7 +24,7 @@
             @endif
         </div>
 
-        <div class="text-[#090909] dark:text-gray-100 text-3xl font-medium">
+        <div class="text-[#090909] dark:text-gray-100 text-xl md:text-3xl font-medium">
             {!! $value ?? 0 !!}
         </div>
     </div>
