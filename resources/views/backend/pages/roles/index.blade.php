@@ -47,7 +47,8 @@
                         <tr class="border-b border-gray-100 dark:border-gray-800">
                             <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Sl') }}</th>
                             <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
-                            <th width="40%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white">{{ __('Permissions') }}</th>
+                            <th width="8%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Users') }}</th>
+                            <th width="35%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white">{{ __('Permissions') }}</th>
                             <th width="12%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white">{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -56,10 +57,31 @@
                             <tr class="{{ $loop->index + 1 != count($roles) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
                                 <td class="px-5 py-4 sm:px-6">{{ $loop->index + 1 }}</td>
                                 <td class="px-5 py-4 sm:px-6">
-                                    {{ $role->name }}
+                                    @if (auth()->user()->can('role.edit'))
+                                        <a href="{{ route('admin.roles.edit', $role->id) }}" data-tooltip-target="tooltip-role-name-{{ $role->id }}" class="text-gray-800 dark:text-white hover:text-primary dark:hover:text-primary">
+                                            {{ $role->name }}
+                                        </a>
+                                        <div id="tooltip-role-name-{{ $role->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                            {{ __('Edit Role') }}
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        </div>
+                                    @else
+                                        {{ $role->name }}
+                                    @endif
 
                                     <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                         {{ __('Total Permissions:') }} {{ $role->permissions->count() }}
+                                    </div>
+                                </td>
+                                <td class="px-5 py-4 sm:px-6">
+                                    <a href="{{ route('admin.users.index', ['role' => $role->name]) }}" class="inline-flex items-center gap-1 text-sm text-primary hover:underline" data-tooltip-target="tooltip-users-role-{{ $role->id }}">
+                                        <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-white">
+                                            {{ $role->user_count }}
+                                        </span>
+                                    </a>
+                                    <div id="tooltip-users-role-{{ $role->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                        {{ __('View') }} {{ $role->name }} {{ __('Users') }}
+                                        <div class="tooltip-arrow" data-popper-arrow></div>
                                     </div>
                                 </td>
                                 <td class="px-5 py-4 sm:px-6">
@@ -89,7 +111,7 @@
                                     </div>
                                 </td>
                                 <td class="px-5 py-4 sm:px-6 text-center flex items-center justify-center gap-1">
-                                    @if (auth()->user()->can('role.edit'))
+                                    @if (auth()->user()->can('role.edit') && $role->name != 'Superadmin')
                                         <a data-tooltip-target="tooltip-edit-role-{{ $role->id }}" class="btn-default !p-3" href="{{ route('admin.roles.edit', $role->id) }}">
                                             <i class="bi bi-pencil text-sm"></i>
                                         </a>
@@ -99,7 +121,7 @@
                                         </div>
                                     @endif
 
-                                    @if (auth()->user()->can('role.delete'))
+                                    @if (auth()->user()->can('role.delete') && $role->name != 'Superadmin')
                                         <a data-modal-target="delete-modal-{{ $role->id }}" data-modal-toggle="delete-modal-{{ $role->id }}" data-tooltip-target="tooltip-delete-role-{{ $role->id }}" class="btn-danger !p-3" href="javascript:void(0);">
                                             <i class="bi bi-trash text-sm"></i>
                                         </a>

@@ -21,7 +21,7 @@
 
         <div class="grid grid-cols-12 gap-4 md:gap-6">
             <div class="col-span-12 space-y-6">
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 md:gap-6">
+                <div class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-4 md:gap-6">
                     @include('backend.pages.dashboard.partials.card', [
                         'icon_svg' => asset('images/icons/user.svg'),
                         'label' => __('Users'),
@@ -48,7 +48,7 @@
                     ])
                     @include('backend.pages.dashboard.partials.card', [
                         'icon' => 'bi bi-translate',
-                        'label' => __('Translated'),
+                        'label' => __('Translations'),
                         'value' => $languages['total'] . ' / ' . $languages['active'],
                         'bg' => '#22C55E',
                         'class' => 'bg-white',

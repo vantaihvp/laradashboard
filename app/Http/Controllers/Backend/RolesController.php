@@ -7,14 +7,17 @@ namespace App\Http\Controllers\Backend;
 use App\Enums\ActionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
+use App\Services\PermissionService;
 use App\Services\RolesService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 
 class RolesController extends Controller
 {
-    public function __construct(private readonly RolesService $rolesService)
-    {
+    public function __construct(
+        private readonly RolesService $rolesService,
+        private readonly PermissionService $permissionService
+    ) {
     }
 
     public function index(): Renderable
@@ -25,7 +28,7 @@ class RolesController extends Controller
         $search = request()->input('search') !== '' ? request()->input('search') : null;
 
         return view('backend.pages.roles.index', [
-            'roles' => $this->rolesService->getPaginatedRoles($search, intval($perPage)),
+            'roles' => $this->rolesService->getPaginatedRolesWithUserCount($search, intval($perPage)),
         ]);
     }
 
@@ -35,8 +38,8 @@ class RolesController extends Controller
 
         return view('backend.pages.roles.create', [
             'roleService' => $this->rolesService,
-            'all_permissions' => $this->rolesService->getAllPermissions(),
-            'permission_groups' => $this->rolesService->getPermissionGroups(),
+            'all_permissions' => $this->permissionService->getAllPermissionModels(),
+            'permission_groups' => $this->permissionService->getDatabasePermissionGroups(),
         ]);
     }
 
@@ -67,8 +70,8 @@ class RolesController extends Controller
         return view('backend.pages.roles.edit', [
             'role' => $role,
             'roleService' => $this->rolesService,
-            'all_permissions' => $this->rolesService->getAllPermissions(),
-            'permission_groups' => $this->rolesService->getPermissionGroups(),
+            'all_permissions' => $this->permissionService->getAllPermissionModels(),
+            'permission_groups' => $this->permissionService->getDatabasePermissionGroups(),
         ]);
     }
 

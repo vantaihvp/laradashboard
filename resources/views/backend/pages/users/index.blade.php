@@ -9,7 +9,14 @@
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
     <div x-data="{ pageName: {{ __('Users') }} }">
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Users') }}</h2>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">
+                {{ __('Users') }}
+                @if (request('role'))
+                    <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">
+                        {{ ucfirst(request('role')) }}
+                    </span>
+                @endif
+            </h2>
             <nav>
                 <ol class="flex items-center gap-1.5">
                     <li>
@@ -101,7 +108,17 @@
                                 <td class="px-5 py-4 sm:px-6">
                                     @foreach ($user->roles as $role)
                                         <span class="capitalize inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">
-                                            {{ $role->name }}
+                                            @if (auth()->user()->can('role.edit'))
+                                                <a href="{{ route('admin.roles.edit', $role->id) }}" data-tooltip-target="tooltip-role-{{ $role->id }}-{{ $user->id }}" class="hover:text-primary">
+                                                    {{ $role->name }}
+                                                </a>
+                                                <div id="tooltip-role-{{ $role->id }}-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                    {{ __('Edit') }} {{ $role->name }} {{ __('Role') }}
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            @else
+                                                {{ $role->name }}
+                                            @endif
                                         </span>
                                     @endforeach
                                 </td>
