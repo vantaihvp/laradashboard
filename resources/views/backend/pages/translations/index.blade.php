@@ -70,7 +70,7 @@
                 <div class="mb-4">
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
                         {{ __('Total Keys:') }} <span class="font-medium">{{ $translationStats['totalKeys'] }}</span> |
-                        {{ __('Translated:') }} <span class="font-medium">{{ $translationStats['translated'] }}</span> |
+                        {{ __('Translated') }}: <span class="font-medium">{{ $translationStats['translated'] }}</span> |
                         {{ __('Missing:') }} <span class="font-medium">{{ $translationStats['missing'] }}</span>
                     </p>
                     <div class="h-3 w-full bg-gray-200 rounded-full dark:bg-gray-700">

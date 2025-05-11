@@ -21,7 +21,7 @@
         </div>
 
         <div class="text-[#090909] dark:text-gray-100 text-3xl font-medium">
-            {{ $number ?? 0 }}
+            {!! $value ?? 0 !!}
         </div>
     </div>
 
