@@ -23,17 +23,17 @@
     <!-- Sidebar Header -->
     <div
         :class="sidebarToggle && !isHovered ? 'justify-center' : 'justify-between'"
-        class="justify-center flex items-center gap-2 sidebar-header py-5 px-5"
+        class="justify-center flex items-center gap-2 sidebar-header py-5 px-5 h-[100px]"
     >
         <a href="{{ route('admin.dashboard') }}">
             <span class="logo" :class="sidebarToggle && !isHovered ? 'hidden' : ''">
                 <img
-                    class="dark:hidden max-h-[50px]"
+                    class="dark:hidden max-h-[80px]"
                     src="{{ config('settings.site_logo_lite') ?? asset('images/logo/lara-dashboard.png') }}"
                     alt="{{ config('app.name') }}"
                 />
                 <img
-                    class="hidden dark:block max-h-[50px]"
+                    class="hidden dark:block max-h-[80px]"
                     src="{{ config('settings.site_logo_dark') ?? '/images/logo/lara-dashboard-dark.png' }}"
                     alt="{{ config('app.name') }}"
                 />
