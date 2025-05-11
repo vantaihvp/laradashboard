@@ -218,5 +218,6 @@
     "User has been created.": "उपयोगकर्ता बना दिया गया है।",
     "User has been updated.": "उपयोगकर्ता अपडेट किया गया है।",
     "User has been deleted.": "उपयोगकर्ता हटा दिया गया है।",
-    "Successfully Logged in!": "सफलतापूर्वक लॉग इन किया गया!"
+    "Successfully Logged in!": "सफलतापूर्वक लॉग इन किया गया!",
+    "Total": "कुल"
 }

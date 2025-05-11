@@ -215,5 +215,6 @@
     "User has been created.": "ユーザーが作成されました。",
     "User has been updated.": "ユーザーが更新されました。",
     "User has been deleted.": "ユーザーが削除されました。",
-    "Successfully Logged in!": "ログインに成功しました！"
+    "Successfully Logged in!": "ログインに成功しました！",
+    "Total": "合計"
 }

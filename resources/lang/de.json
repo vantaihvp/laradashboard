@@ -220,5 +220,6 @@
     "User has been created.": "Benutzer wurde erstellt.",
     "User has been updated.": "Benutzer wurde aktualisiert.",
     "User has been deleted.": "Benutzer wurde gelöscht.",
-    "Successfully Logged in!": "Erfolgreich angemeldet!"
+    "Successfully Logged in!": "Erfolgreich angemeldet!",
+    "Total": "Gesamt"
 }

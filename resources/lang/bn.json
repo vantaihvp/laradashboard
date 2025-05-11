@@ -155,6 +155,7 @@
     "The Super Admin role can not be deleted.": "সুপার অ্যাডমিন রোল মুছে ফেলা যাবে না।",
     "The Super Admin role can not be modified.": "সুপার অ্যাডমিন রোল পরিবর্তন করা যাবে না।",
     "The base JSON translations for English cannot be edited. Please select another language or group to translate.": "ইংরেজির জন্য বেস JSON অনুবাদ সম্পাদনা করা যাবে না। অনুবাদ করতে অন্য একটি ভাষা বা গ্রুপ নির্বাচন করুন।",
+    "Total": "সর্বমোট",
     "Total Keys:": "মোট কী:",
     "Total Permissions:": "মোট অনুমতিসমূহ:",
     "Translated:": "অনুবাদিত:",

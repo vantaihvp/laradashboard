@@ -51,6 +51,7 @@
                                         showAlways: true,
                                         show: true,
                                         fontFamily: "Inter, sans-serif",
+                                        label: "{{ __('Total') }}",
                                         formatter: function(w) {
                                             const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0)
                                             return sum + " {{ __('users') }}"
