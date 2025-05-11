@@ -29,12 +29,12 @@ password - 12345678
 ### Built With
 
 * [![PHP][PHP.com]][PHP-url]
-* [![JavaScript][JavaScript.com]][JavaScript-url]
-* [![MySQL][MySQL.com]][MySQL-url]
 * [![Laravel][Laravel.com]][Laravel-url]
 * [![Tailwind CSS][TailwindCSS.com]][TailwindCSS-url]
+* [![JavaScript][JavaScript.com]][JavaScript-url]
 * [![Alpine JS][AlpineJS.com]][AlpineJS-url]
 * [![React][React.js]][React-url]
+* [![MySQL][MySQL.com]][MySQL-url]
 
 ## Changelog
 **[v1.0.0] - 2025-04-21**

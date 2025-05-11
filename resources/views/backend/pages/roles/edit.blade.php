@@ -71,7 +71,7 @@
                 </div>
                 <div class="p-4">
                     <div class="mb-4">
-                        <input type="checkbox" id="checkPermissionAll" class="mr-2" {{ App\Models\User::roleHasPermissions($role, $all_permissions) ? 'checked' : '' }}>
+                        <input type="checkbox" id="checkPermissionAll" class="mr-2" {{ $roleService->roleHasPermissions($role, $all_permissions) ? 'checked' : '' }}>
                         <label for="checkPermissionAll" class="text-sm text-gray-700 dark:text-gray-400">
                             {{ __('Select All') }}
                         </label>
@@ -81,14 +81,14 @@
                     @foreach ($permission_groups as $group)
                     <div class="mb-6">
                         <div class="flex items-center mb-2">
-                            <input type="checkbox" id="group{{ $i }}Management" class="mr-2" {{ App\Models\User::roleHasPermissions($role, App\Models\User::getpermissionsByGroupName($group->name)) ? 'checked' : '' }}>
+                            <input type="checkbox" id="group{{ $i }}Management" class="mr-2" {{ $roleService->roleHasPermissions($role, $roleService->getPermissionsByGroupName($group->name)) ? 'checked' : '' }}>
                             <label for="group{{ $i }}Management" class="capitalize text-sm font-medium text-gray-700 dark:text-gray-400">
                                 {{ ucfirst($group->name) }}
                             </label>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-4" data-group="group{{ $i }}Management">
                             @php
-                                $permissions = App\Models\User::getpermissionsByGroupName($group->name);
+                                $permissions = $roleService->getPermissionsByGroupName($group->name);
                             @endphp
                             @foreach ($permissions as $permission)
                             <div>

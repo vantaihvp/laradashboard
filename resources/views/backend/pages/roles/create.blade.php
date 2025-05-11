@@ -86,7 +86,7 @@
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-4" data-group="group{{ $i }}Management">
                             @php
-                                $permissions = App\Models\User::getpermissionsByGroupName($group->name);
+                                $permissions = $roleService->getPermissionsByGroupName($group->name);
                             @endphp
                             @foreach ($permissions as $permission)
                             <div>

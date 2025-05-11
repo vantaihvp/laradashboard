@@ -34,7 +34,6 @@ class RolePermissionSeeder extends Seeder
             [
                 'group_name' => 'blog',
                 'permissions' => [
-                    // Blog Permissions
                     'blog.create',
                     'blog.view',
                     'blog.edit',

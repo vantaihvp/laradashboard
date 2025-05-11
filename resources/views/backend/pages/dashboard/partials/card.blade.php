@@ -12,7 +12,7 @@
     </div>
 
     <div class="flex mt-6 gap-6">
-        <div class="bg-white rounded-lg border border-[#EFEFFF] p-2.5 shadow-sm">
+        <div class="bg-white rounded-lg border border-[#EFEFFF] shadow-sm w-10 h-10 items-center flex justify-center">
             @if(!empty($icon))
                 <i class="{{ $icon }}"></i>
             @elseif(!empty($icon_svg))

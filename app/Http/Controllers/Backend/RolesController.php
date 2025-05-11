@@ -7,26 +7,25 @@ namespace App\Http\Controllers\Backend;
 use App\Enums\ActionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
-use App\Models\User;
+use App\Services\RolesService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
+    public function __construct(private readonly RolesService $rolesService)
+    {
+    }
+
     public function index(): Renderable
     {
         $this->checkAuthorization(auth()->user(), ['role.view']);
 
-        $query = Role::query();
-
-        if (request()->has('search') && request()->input('search') !== '') {
-            $query->where('name', 'like', '%' . request()->input('search') . '%');
-        }
+        $perPage = config('settings.default_pagination') ?? 10;
+        $search = request()->input('search') !== '' ? request()->input('search') : null;
 
         return view('backend.pages.roles.index', [
-            'roles' => $query->paginate(config('settings.default_pagination') ?? 10),
+            'roles' => $this->rolesService->getPaginatedRoles($search, intval($perPage)),
         ]);
     }
 
@@ -35,8 +34,9 @@ class RolesController extends Controller
         $this->checkAuthorization(auth()->user(), ['role.create']);
 
         return view('backend.pages.roles.create', [
-            'all_permissions' => Permission::all(),
-            'permission_groups' => User::getpermissionGroups(),
+            'roleService' => $this->rolesService,
+            'all_permissions' => $this->rolesService->getAllPermissions(),
+            'permission_groups' => $this->rolesService->getPermissionGroups(),
         ]);
     }
 
@@ -44,15 +44,9 @@ class RolesController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['role.create']);
 
-        // Process Data.
-        $role = Role::create(['name' => $request->name]);
-        $permissions = $request->input('permissions');
+        $role = $this->rolesService->createRole($request->name, $request->input('permissions', []));
 
-        if (!empty($permissions)) {
-            $role->syncPermissions($permissions);
-        }
-
-        session()->flash('success', 'Role has been created.');
+        session()->flash('success', __('Role has been created.'));
 
         $this->storeActionLog(ActionType::CREATED, ['role' => $role]);
 
@@ -63,17 +57,18 @@ class RolesController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['role.edit']);
 
-        $role = Role::findById($id);
+        $role = $this->rolesService->findRoleById($id);
         if (!$role) {
-            session()->flash('error', 'Role not found.');
+            session()->flash('error', __('Role not found.'));
 
             return back();
         }
 
         return view('backend.pages.roles.edit', [
             'role' => $role,
-            'all_permissions' => Permission::all(),
-            'permission_groups' => User::getpermissionGroups(),
+            'roleService' => $this->rolesService,
+            'all_permissions' => $this->rolesService->getAllPermissions(),
+            'permission_groups' => $this->rolesService->getPermissionGroups(),
         ]);
     }
 
@@ -81,25 +76,19 @@ class RolesController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['role.edit']);
 
-        $role = Role::findById($id);
+        $role = $this->rolesService->findRoleById($id);
 
         if (!$role) {
-            session()->flash('error', 'Role not found.');
+            session()->flash('error', __('Role not found.'));
             return back();
         }
 
         $this->preventSuperAdminRoleModification($role, 'modified');
 
-        $permissions = $request->input('permissions');
-        if (!empty($permissions)) {
-            $role->name = $request->name;
-            $role->save();
-            $role->syncPermissions($permissions);
+        $role = $this->rolesService->updateRole($role, $request->name, $request->input('permissions', []));
 
-            $this->storeActionLog(ActionType::UPDATED, ['role' => $role]);
-        }
-
-        session()->flash('success', 'Role has been updated.');
+        session()->flash('success', __('Role has been updated.'));
+        $this->storeActionLog(ActionType::UPDATED, ['role' => $role]);
 
         return back();
     }
@@ -108,18 +97,18 @@ class RolesController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['role.delete']);
 
-        $role = Role::findById($id);
+        $role = $this->rolesService->findRoleById($id);
 
         if (!$role) {
-            session()->flash('error', 'Role not found.');
+            session()->flash('error', __('Role not found.'));
             return back();
         }
 
         $this->preventSuperAdminRoleModification($role, 'deleted');
 
-        $role->delete();
+        $this->rolesService->deleteRole($role);
         $this->storeActionLog(ActionType::DELETED, ['role' => $role]);
-        session()->flash('success', 'Role has been deleted.');
+        session()->flash('success', __('Role has been deleted.'));
 
         return redirect()->route('admin.roles.index');
     }
