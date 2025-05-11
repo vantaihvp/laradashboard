@@ -21,3 +21,6 @@ public/images/.DS_Store
 
 # Exclude anything from /Modules folder.
 /Modules/*
+
+# Exclude release builds
+/releases

@@ -1,9 +1,11 @@
 {
     "private": true,
+    "version": "1.2.0",
     "type": "module",
     "scripts": {
         "build": "vite build",
         "build:ssr": "vite build && vite build --ssr",
+        "build:release": "chmod +x ./scripts/build-release.sh && ./scripts/build-release.sh",
         "dev": "vite",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
