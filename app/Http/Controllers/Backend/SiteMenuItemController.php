@@ -9,7 +9,7 @@ use App\Services\SiteNavigationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class SiteMenuController extends Controller
+class SiteMenuItemController extends Controller
 {
     public function __construct(
         private readonly SiteNavigationService $siteNavigationService
@@ -52,7 +52,7 @@ class SiteMenuController extends Controller
      */
     public function edit(string $id)
     {
-        $menu = SiteNavigation::findOrFail($id);
+        $menu = SiteNavigationItem::findOrFail($id);
         return view('backend.cms.site_navigation.edit', compact('menu'));
     }
 
@@ -61,7 +61,7 @@ class SiteMenuController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $menu = SiteNavigation::findOrFail($id);
+        $menu = SiteNavigationItem::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'menu_label' => 'required|string|max:255',
@@ -84,7 +84,7 @@ class SiteMenuController extends Controller
      */
     public function destroy(string $id)
     {
-        $menu = SiteNavigation::findOrFail($id);
+        $menu = SiteNavigationItem::findOrFail($id);
         $menu->delete();
 
         return redirect()->route('admin.menus.index')->with('success', __('Menu deleted successfully.'));
@@ -92,14 +92,14 @@ class SiteMenuController extends Controller
 
     public function manage($menuId)
     {
-        $menu = SiteNavigation::findOrFail($menuId);
+        $menu = SiteNavigationItem::findOrFail($menuId);
 
         return view('backend.cms.site_navigation.manage', compact('menu'));
     }
 
     public function manageUpdate(Request $request, $menuId)
     {
-        $menu = SiteNavigation::findOrFail($menuId);
+        $menu = SiteNavigationItem::findOrFail($menuId);
 
         $order = $request->input('order');
         if (!$order) {

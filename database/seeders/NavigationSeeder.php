@@ -5,10 +5,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SiteNavigationSeeder extends Seeder
+class NavigationSeeder extends Seeder
 {
     public function run()
     {
+        $siteNavigations = [
+            'menu_name' => 'Top Header Menu',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
         $navigationItems = [
             [
                 'id' => '1',

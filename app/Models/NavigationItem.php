@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SiteNavigationItem extends Model
+class NavigationItem extends Model
 {
     protected $fillable = [
         'navigation_id',
@@ -22,16 +22,16 @@ class SiteNavigationItem extends Model
 
     public function navigation(): BelongsTo
     {
-        return $this->belongsTo(SiteNavigation::class, 'navigation_id');
+        return $this->belongsTo(Navigation::class, 'navigation_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(SiteNavigationItem::class, 'parent_id')->where('status', 1)->orderBy('menu_order');
+        return $this->hasMany(NavigationItem::class, 'parent_id')->where('status', 1)->orderBy('menu_order');
     }
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(SiteNavigationItem::class, 'parent_id');
+        return $this->belongsTo(NavigationItem::class, 'parent_id');
     }
 }

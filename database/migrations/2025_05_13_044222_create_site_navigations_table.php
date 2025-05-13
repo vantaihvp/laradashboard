@@ -12,14 +12,7 @@ return new class extends Migration {
     {
         Schema::create('site_navigations', function (Blueprint $table) {
             $table->id();
-            $table->string("menu_label");
-            $table->enum('menu_type', ['frontend', 'backend'])->default('backend');
-            $table->text("link")->nullable();
-            $table->integer('page_id')->nullable();
-            $table->string("css_class")->nullable();
-            $table->string("css_id")->nullable();
-            $table->integer("menu_order")->default(0);
-            $table->boolean("status")->default(1);
+            $table->string("menu_name");
             $table->timestamps();
         });
     }

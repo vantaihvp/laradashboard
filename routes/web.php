@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ModulesController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\SiteMenuController;
+use App\Http\Controllers\Backend\SiteMenuItemController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\ProfilesController;
@@ -57,6 +58,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::get('users/{id}/login-as', [UserLoginAsController::class, 'loginAs'])->name('users.login-as');
     Route::post('users/switch-back', [UserLoginAsController::class, 'switchBack'])->name('users.switch-back');
     Route::resource('menus', SiteMenuController::class);
+    Route::get('menu/manage/{menu}', [SiteMenuController::class, 'manage'])->name('menus.manage');
+    Route::post('menu/manage/{menu}', [SiteMenuController::class, 'manageUpdate'])->name('menus.manage.update');
+
+    Route::resource('menu-item', SiteMenuItemController::class);
 });
 
 /**
