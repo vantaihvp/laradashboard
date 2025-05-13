@@ -248,5 +248,8 @@
     "to select a file.": "একটি ফাইল নির্বাচন করতে।",
     "Tags:": "ট্যাগসমূহ:",
     "Are you sure you want to delete this module?": "আপনি কি নিশ্চিত যে আপনি এই মডিউলটি মুছতে চান?",
-    "No, Cancel": "না, বাতিল করুন"
+    "No, Cancel": "না, বাতিল করুন",
+    "CMS": "সিএমএস",
+    "CMS Dashboard": "সিএমএস ড্যাশবোর্ড",
+    "Site Menu": "সাইট মেনু"
 }
