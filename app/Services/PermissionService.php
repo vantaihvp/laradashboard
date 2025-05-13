@@ -87,6 +87,13 @@ class PermissionService
                 ],
             ],
             [
+                'group_name' => 'cms',
+                'permissions' => [
+                    'cms.view',
+                    'cms.edit',
+                ],
+            ],
+            [
                 'group_name' => 'translations',
                 'permissions' => [
                     'translations.view',
