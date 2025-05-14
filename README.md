@@ -17,15 +17,16 @@ Email - superadmin@example.com
 password - 12345678
 ```
 
-## Requirements:
-- Laravel `7.x` | `9.7` | `11.x` | `12.x`
+## 📋 Requirements:
 - Spatie role permission package  `^6.4`
 - PHPUnit test package `^11.x`
 - Tailwind CSS >= 4.x
 - Laravel Modules - https://laravelmodules.com/docs/12/getting-started/introduction
 - Laravel Events (A WordPress like action/filter hooks) - https://github.com/tormjens/eventy
 
-### Built With
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 🛠️ Built With
 
 * [![PHP][PHP.com]][PHP-url]
 * [![Laravel][Laravel.com]][Laravel-url]
@@ -35,7 +36,9 @@ password - 12345678
 * [![React][React.js]][React-url]
 * [![MySQL][MySQL.com]][MySQL-url]
 
-## Changelog
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📝 Changelog
 **[v1.2.0] - 2025-05-12**
 - **Feature - Translation Management**: Added Translation management sytem with supporting 21 languages by default and possibility to add any in a second.
 - **Enhancement - Dashboard Redesign**: Dashboard redesigned with new card, user history chart, several more design improvements.
@@ -59,7 +62,9 @@ password - 12345678
 - **Docs - Documentation and Configuration Updates**:
   - Updated `.env.example` to include a `GITHUB_LINK` variable for improved project visibility.
 
-## Versions:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🔄 Versions:
 - Laravel `7.x` & PHP -`7.x`
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/Laravel7.x
     - Branch - https://github.com/ManiruzzamanAkash/laravel-role/tree/Laravel7.x
@@ -82,7 +87,9 @@ password - 12345678
 - v1.0.0 - Settings, Forget password and lots of refactorring
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.0.0
 
-## Project Setup
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🚀 Project Setup
 **Clone and Go Project**
 ```console
 git clone git@github.com:laradashboard/laradashboard.git
@@ -118,13 +125,17 @@ npm run dev
 
 So, You've got the project of Laravel Role & Permission Management on your http://localhost:8000
 
-## Previously From laravel-role
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🔄 Previously From laravel-role
 We were previously at https://github.com/ManiruzzamanAkash/laravel-role, so you need to change the URL if you moved from there
 ```console
 git remote set-url origin git@github.com:laradashboard/laradashboard.git
 ```
 
-## How it works
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## ⚙️ How it works
 1. Login using Super Admin Credential -
     1. Email - `superadmin@example.com`
     1. Password - `12345678`
@@ -140,7 +151,9 @@ git remote set-url origin git@github.com:laradashboard/laradashboard.git
 1. Monitoring - Logging of every action of your application
 1. Monitoring - Laravel Pulse
 
-## Email setup
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📧 Email setup
 You can use mailtrap to test emails easily - https://mailtrap.io/ (first need to create mailtrap account and can )
 
 ```bash
@@ -154,181 +167,217 @@ MAIL_FROM_ADDRESS=youremail@example.com
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-## Documentation
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📚 Documentation
 https://laradashboard.com/docs/
 
-## Screenshots
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Login & Authentication
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Login Page</strong><br/>
-    <img width="100%" alt="Login Page" src="/demo-screenshots/login.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Forget Password Page (Dark Mode)</strong><br/>
-    <img width="100%" alt="Forget Password Page" src="/demo-screenshots/Forget-password.png"/>
-  </div>
-</div>
+## 📸 Screenshots
 
-### Dashboard
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Dashboard (Light Mode)</strong><br/>
-    <img width="100%" alt="Dashboard Light Mode" src="/demo-screenshots/Dashboard%20Page%20white%20Mode.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Dashboard (Dark Mode)</strong><br/>
-    <img width="100%" alt="Dashboard Dark Mode" src="/demo-screenshots/Dashboard%20Page%20Dark%20Mode.png"/>
-  </div>
-</div>
+### 🔐 Login & Authentication
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Login Page</strong><br/>
+      <img width="100%" alt="Login Page" src="/demo-screenshots/login.png"/>
+    </td>
+    <td width="50%">
+      <strong>Forget Password Page (Dark Mode)</strong><br/>
+      <img width="100%" alt="Forget Password Page" src="/demo-screenshots/Forget-password.png"/>
+    </td>
+  </tr>
+</table>
 
-### Role Management
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Role List (Light Mode)</strong><br/>
-    <img width="100%" alt="Role List" src="/demo-screenshots/Role%20List.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Role List (Dark Mode)</strong><br/>
-    <img width="100%" alt="Role List Dark" src="/demo-screenshots/Role%20List%20Dark.png"/>
-  </div>
-</div>
+### 📊 Dashboard
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Dashboard (Light Mode)</strong><br/>
+      <img width="100%" alt="Dashboard Light Mode" src="/demo-screenshots/Dashboard%20Page%20white%20Mode.png"/>
+    </td>
+    <td width="50%">
+      <strong>Dashboard (Dark Mode)</strong><br/>
+      <img width="100%" alt="Dashboard Dark Mode" src="/demo-screenshots/Dashboard%20Page%20Dark%20Mode.png"/>
+    </td>
+  </tr>
+</table>
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Role Create</strong><br/>
-    <img width="100%" alt="Role Create" src="/demo-screenshots/Role%20Create.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Role Edit</strong><br/>
-    <img width="100%" alt="Role Edit" src="/demo-screenshots/Role%20Edit.png"/>
-  </div>
-</div>
+### 🔑 Role Management
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Role List (Light Mode)</strong><br/>
+      <img width="100%" alt="Role List" src="/demo-screenshots/Role%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Role List (Dark Mode)</strong><br/>
+      <img width="100%" alt="Role List Dark" src="/demo-screenshots/Role%20List%20Dark.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Role Create</strong><br/>
+      <img width="100%" alt="Role Create" src="/demo-screenshots/Role%20Create.png"/>
+    </td>
+    <td width="50%">
+      <strong>Role Edit</strong><br/>
+      <img width="100%" alt="Role Edit" src="/demo-screenshots/Role%20Edit.png"/>
+    </td>
+  </tr>
+</table>
 
-### User Management
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Users List (Light mode)</strong><br/>
-    <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/Users%20List.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Users List (Dark mode)</strong><br/>
-    <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/User List Dark.png" />
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>User Create</strong><br/>
-    <img width="100%" alt="User Create" src="/demo-screenshots/User%20Create.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>User Delete</strong><br/>
-    <img width="100%" alt="User Delete" src="/demo-screenshots/User Delete.png" />
-  </div>
-</div>
+### 👥 User Management
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Users List (Light mode)</strong><br/>
+      <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/Users%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Users List (Dark mode)</strong><br/>
+      <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/User List Dark.png" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>User Create</strong><br/>
+      <img width="100%" alt="User Create" src="/demo-screenshots/User%20Create.png"/>
+    </td>
+    <td width="50%">
+      <strong>User Delete</strong><br/>
+      <img width="100%" alt="User Delete" src="/demo-screenshots/User Delete.png" />
+    </td>
+  </tr>
+</table>
 
-### Module Management
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Module List</strong><br/>
-    <img width="100%" alt="Module List" src="/demo-screenshots/Module%20List.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Upload Module</strong><br/>
-    <img width="100%" alt="Upload Module" src="/demo-screenshots/Upload%20Module.png"/>
-  </div>
-</div>
+### 🧩 Module Management
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Module List</strong><br/>
+      <img width="100%" alt="Module List" src="/demo-screenshots/Module%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Upload Module</strong><br/>
+      <img width="100%" alt="Upload Module" src="/demo-screenshots/Upload%20Module.png"/>
+    </td>
+  </tr>
+</table>
 
-### Settings Pages
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>General Settings</strong><br/>
-    <img width="100%" alt="General Settings" src="/demo-screenshots/Settings-General.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Site Appearance</strong><br/>
-    <img width="100%" alt="Site Appearance" src="/demo-screenshots/Settings-Site-Appearance.png"/>
-  </div>
-</div>
+### ⚙️ Settings Pages
+<table>
+  <tr>
+    <td width="50%">
+      <strong>General Settings</strong><br/>
+      <img width="100%" alt="General Settings" src="/demo-screenshots/Settings-General.png"/>
+    </td>
+    <td width="50%">
+      <strong>Site Appearance</strong><br/>
+      <img width="100%" alt="Site Appearance" src="/demo-screenshots/Settings-Site-Appearance.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Content Settings</strong><br/>
+      <img width="100%" alt="Content Settings" src="/demo-screenshots/Settings-Content.png"/>
+    </td>
+    <td width="50%">
+      <strong>Integration Settings</strong><br/>
+      <img width="100%" alt="Integration Settings" src="/demo-screenshots/Settings-Google-Analytics.png"/>
+    </td>
+  </tr>
+</table>
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Content Settings</strong><br/>
-    <img width="100%" alt="Content Settings" src="/demo-screenshots/Settings-Content.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Integration Settings</strong><br/>
-    <img width="100%" alt="Integration Settings" src="/demo-screenshots/Settings-Google-Analytics.png"/>
-  </div>
-</div>
+### 🌐 Translations Pages
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Translations List</strong><br/>
+      <img width="100%" alt="Translations List" src="/demo-screenshots/Translations List.png" />
+    </td>
+    <td width="50%">
+      <strong>Add Language</strong><br/>
+      <img width="100%" alt="Create Translation" src="/demo-screenshots/Translations List Dark.png" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Language Switcher</strong><br/>
+      <img width="100%" alt="Language Switcher" src="/demo-screenshots/Language switcher.png" />
+    </td>
+    <td width="50%">
+      <!-- Reserved for future screenshot -->
+    </td>
+  </tr>
+</table>
 
-### Translations Pages
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Translations List</strong><br/>
-    <img width="100%" alt="Translations List" src="/demo-screenshots/Translations List.png" />
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Add Language</strong><br/>
-    <img width="100%" alt="Create Translation" src="/demo-screenshots/Translations List Dark.png" />
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Language Switcher</strong><br/>
-    <img width="100%" alt="Language Switcher" src="/demo-screenshots/Language switcher.png" />
-  </div>
-  <div style="flex: 1; min-width: 45%;"></div>
-</div>
+### 📊 Monitoring
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Action Logs</strong><br/>
+      <img width="100%" alt="Action Logs" src="/demo-screenshots/Action%20Log%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Laravel Pulse</strong><br/>
+      <img width="100%" alt="Laravel Pulse" src="/demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png"/>
+    </td>
+  </tr>
+</table>
 
-### Monitoring
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Action Logs</strong><br/>
-    <img width="100%" alt="Action Logs" src="/demo-screenshots/Action%20Log%20List.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Laravel Pulse</strong><br/>
-    <img width="100%" alt="Laravel Pulse" src="/demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png"/>
-  </div>
-</div>
+### 🔧 Other Pages
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Custom Error Pages</strong><br/>
+      <img width="100%" alt="Custom Error Pages" src="/demo-screenshots/Custom%20Error%20Pages.png"/>
+    </td>
+    <td width="50%">
+      <!-- Reserved for future screenshot -->
+    </td>
+  </tr>
+</table>
 
-### Other Pages
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
-  <div style="flex: 1; min-width: 45%;">
-    <strong>Custom Error Pages</strong><br/>
-    <img width="100%" alt="Custom Error Pages" src="/demo-screenshots/Custom%20Error%20Pages.png"/>
-  </div>
-  <div style="flex: 1; min-width: 45%;">
-    <!-- Reserved for future screenshot -->
-  </div>
-</div>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Live Demo
+## 🔗 Live Demo
 https://demo.laradashboard.com
 
-## Premium Features
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## ✨ Premium Features
 Please visit at Lara Dashboard to get more premium moduels - https://laradashboard.com. Premium modules included CRM, HRM, Course Managements and so on.
 
-## Core modules
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🧩 Core modules
 - **User Avatar** - https://github.com/laradashboard/UserAvatar - A very simple module create an avatar for a user. Handle migration, entries/updates in user forms and so on. 
 
-## Contributing
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 👥 Contributing
 
 Want to contribute? Fork the project, make your changes, and submit a pull request. Even small improvements to documentation are appreciated!
 
 Please be sure to read our [Contribution Guide](CONTRIBUTING.md) before submitting your PR.
 
-### Top contributors:
+### 🌟 Top contributors:
 <a href="https://github.com/laradashboard/laradashboard/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=laradashboard/laradashboard" alt="contrib.rocks image" />
 </a>
 
-## Support
+## 💖 Support
 If you like my work you may consider buying me a ☕ / 🍕
 
 <a href="https://www.patreon.com/maniruzzaman" target="_blank" title="Buy Me A Coffee">
     Go to Patreon
 </a>
 
-## Contact
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📞 Contact
 
 Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) - manirujjamanakash@gmail.com
 
