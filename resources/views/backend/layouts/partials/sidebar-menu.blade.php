@@ -1,6 +1,5 @@
 @php
-    use App\Services\SidebarMenuService;
-    $menuService = app(SidebarMenuService::class);
+    $menuService = app(\App\Services\MenuService\SidebarMenuService::class);
     $menus = $menuService->getMenu();
     $mainMenus = $menus['main'] ?? [];
     $moreMenus = $menus['more'] ?? [];
