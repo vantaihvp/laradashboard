@@ -3,181 +3,188 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
+use App\Services\AdminMenuItem;
 
 class SidebarMenuService
 {
+    protected $menu = [];
+    protected $more = [];
+
+    public function addMenuItem(AdminMenuItem $item, $group = 'main')
+    {
+        if ($group === 'main') {
+            $this->menu[] = $item;
+        } else {
+            $this->more[] = $item;
+        }
+    }
+
     public function getMenu()
     {
         $user = Auth::user();
-
-        // Example: Add an "About" menu before Dashboard using a filter
-        ld_add_filter('sidebar_menu_before_dashboard', function ($value) {
-            return $value . '<li class="hover:menu-item-active"><a href="' . url('/about') . '" class="menu-item group menu-item-inactive"><span class="menu-item-text">About</span></a></li>';
-        });
-
-        $menu = [];
+        $this->menu = [];
+        $this->more = [];
 
         // Dashboard
         if ($user->can('dashboard.view')) {
-            $menu[] = [
-                'label' => __('Dashboard'),
-                'icon' => 'dashboard.svg',
-                'route' => route('admin.dashboard'),
-                'active' => \Route::is('admin.dashboard'),
-                'id' => 'dashboard',
-                'children' => [],
-                'filter' => 'dashboard',
-            ];
+            $this->addMenuItem(
+                (new AdminMenuItem)
+                    ->setLabel(__('Dashboard'))
+                    ->setIcon('dashboard.svg')
+                    ->setRoute(route('admin.dashboard'))
+                    ->setActive(\Route::is('admin.dashboard'))
+                    ->setId('dashboard')
+                    ->setFilter('dashboard')
+            );
         }
 
         // Roles & Permissions
         if ($user->can('role.create') || $user->can('role.view') || $user->can('role.edit') || $user->can('role.delete')) {
             $children = [];
             if ($user->can('role.view')) {
-                $children[] = [
-                    'label' => __('Roles'),
-                    'route' => route('admin.roles.index'),
-                    'active' => \Route::is('admin.roles.index') || \Route::is('admin.roles.edit'),
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('Roles'))
+                    ->setRoute(route('admin.roles.index'))
+                    ->setActive(\Route::is('admin.roles.index') || \Route::is('admin.roles.edit'));
             }
             if ($user->can('role.create')) {
-                $children[] = [
-                    'label' => __('New Role'),
-                    'route' => route('admin.roles.create'),
-                    'active' => \Route::is('admin.roles.create'),
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('New Role'))
+                    ->setRoute(route('admin.roles.create'))
+                    ->setActive(\Route::is('admin.roles.create'));
             }
-            $menu[] = [
-                'label' => __('Roles & Permissions'),
-                'icon' => 'key.svg',
-                'id' => 'roles-submenu',
-                'route' => null,
-                'active' => \Route::is('admin.roles.*'),
-                'children' => $children,
-                'filter' => 'roles',
-            ];
+            $this->addMenuItem(
+                (new AdminMenuItem)
+                    ->setLabel(__('Roles & Permissions'))
+                    ->setIcon('key.svg')
+                    ->setId('roles-submenu')
+                    ->setActive(\Route::is('admin.roles.*'))
+                    ->setChildren($children)
+                    ->setFilter('roles')
+            );
         }
 
         // Users
         if ($user->can('user.create') || $user->can('user.view') || $user->can('user.edit') || $user->can('user.delete')) {
             $children = [];
             if ($user->can('user.view')) {
-                $children[] = [
-                    'label' => __('Users'),
-                    'route' => route('admin.users.index'),
-                    'active' => \Route::is('admin.users.index') || \Route::is('admin.users.edit'),
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('Users'))
+                    ->setRoute(route('admin.users.index'))
+                    ->setActive(\Route::is('admin.users.index') || \Route::is('admin.users.edit'));
             }
             if ($user->can('user.create')) {
-                $children[] = [
-                    'label' => __('New User'),
-                    'route' => route('admin.users.create'),
-                    'active' => \Route::is('admin.users.create'),
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('New User'))
+                    ->setRoute(route('admin.users.create'))
+                    ->setActive(\Route::is('admin.users.create'));
             }
-            $menu[] = [
-                'label' => __('User'),
-                'icon' => 'user.svg',
-                'id' => 'users-submenu',
-                'route' => null,
-                'active' => \Route::is('admin.users.*'),
-                'children' => $children,
-                'filter' => 'users',
-            ];
+            $this->addMenuItem(
+                (new AdminMenuItem)
+                    ->setLabel(__('User'))
+                    ->setIcon('user.svg')
+                    ->setId('users-submenu')
+                    ->setActive(\Route::is('admin.users.*'))
+                    ->setChildren($children)
+                    ->setFilter('users')
+            );
         }
 
         // Modules
         if ($user->can('module.view')) {
-            $menu[] = [
-                'label' => __('Modules'),
-                'icon' => 'three-dice.svg',
-                'route' => route('admin.modules.index'),
-                'active' => \Route::is('admin.modules.index'),
-                'id' => 'modules',
-                'children' => [],
-                'filter' => 'modules',
-            ];
+            $this->addMenuItem(
+                (new AdminMenuItem)
+                    ->setLabel(__('Modules'))
+                    ->setIcon('three-dice.svg')
+                    ->setRoute(route('admin.modules.index'))
+                    ->setActive(\Route::is('admin.modules.index'))
+                    ->setId('modules')
+                    ->setFilter('modules')
+            );
         }
 
         // Monitoring
         if ($user->can('pulse.view') || $user->can('actionlog.view')) {
             $children = [];
             if ($user->can('actionlog.view')) {
-                $children[] = [
-                    'label' => __('Action Logs'),
-                    'route' => route('actionlog.index'),
-                    'active' => \Route::is('actionlog.index'),
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('Action Logs'))
+                    ->setRoute(route('actionlog.index'))
+                    ->setActive(\Route::is('actionlog.index'));
             }
             if ($user->can('pulse.view')) {
-                $children[] = [
-                    'label' => __('Laravel Pulse'),
-                    'route' => route('pulse'),
-                    'active' => false,
-                    'target' => '_blank',
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('Laravel Pulse'))
+                    ->setRoute(route('pulse'))
+                    ->setActive(false)
+                    ->setTarget('_blank');
             }
-            $menu[] = [
-                'label' => __('Monitoring'),
-                'icon' => 'tv.svg',
-                'id' => 'monitoring-submenu',
-                'route' => null,
-                'active' => \Route::is('actionlog.*'),
-                'children' => $children,
-                'filter' => 'monitoring',
-            ];
+            $this->addMenuItem(
+                (new AdminMenuItem)
+                    ->setLabel(__('Monitoring'))
+                    ->setIcon('tv.svg')
+                    ->setId('monitoring-submenu')
+                    ->setActive(\Route::is('actionlog.*'))
+                    ->setChildren($children)
+                    ->setFilter('monitoring')
+            );
         }
 
         // More group
-        $more = [];
-
         // Settings
         if ($user->can('settings.edit') || $user->can('translations.view')) {
             $children = [];
             if ($user->can('settings.edit')) {
-                $children[] = [
-                    'label' => __('General Settings'),
-                    'route' => route('admin.settings.index'),
-                    'active' => \Route::is('admin.settings.index'),
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('General Settings'))
+                    ->setRoute(route('admin.settings.index'))
+                    ->setActive(\Route::is('admin.settings.index'));
             }
             if ($user->can('translations.view') || $user->can('translations.edit')) {
-                $children[] = [
-                    'label' => __('Translations'),
-                    'route' => route('admin.translations.index'),
-                    'active' => \Route::is('admin.translations.*'),
-                ];
+                $children[] = (new AdminMenuItem)
+                    ->setLabel(__('Translations'))
+                    ->setRoute(route('admin.translations.index'))
+                    ->setActive(\Route::is('admin.translations.*'));
             }
-            $more[] = [
-                'label' => __('Settings'),
-                'icon' => 'settings.svg',
-                'id' => 'settings-submenu',
-                'route' => null,
-                'active' => \Route::is('admin.settings.*') || \Route::is('admin.translations.*'),
-                'children' => $children,
-                'filter' => 'settings',
-            ];
+            $this->addMenuItem(
+                (new AdminMenuItem)
+                    ->setLabel(__('Settings'))
+                    ->setIcon('settings.svg')
+                    ->setId('settings-submenu')
+                    ->setActive(\Route::is('admin.settings.*') || \Route::is('admin.translations.*'))
+                    ->setChildren($children)
+                    ->setFilter('settings'),
+                'more'
+            );
         }
 
         // Logout
-        $more[] = [
-            'label' => __('Logout'),
-            'icon' => 'logout.svg',
-            'route' => route('logout'),
-            'active' => false,
-            'id' => 'logout',
-            'children' => [],
-            'filter' => 'logout',
-            'is_logout' => true,
-        ];
+        $this->addMenuItem(
+            (new AdminMenuItem)
+                ->setLabel(__('Logout'))
+                ->setIcon('logout.svg')
+                ->setRoute(route('logout'))
+                ->setActive(false)
+                ->setId('logout')
+                ->setIsLogout(true)
+                ->setFilter('logout'),
+            'more'
+        );
 
         // Allow filters to modify the menu
-        $menu = ld_apply_filters('sidebar_menu', $menu);
-        $more = ld_apply_filters('sidebar_menu_more', $more);
+        $mainMenu = array_map(function ($item) {
+            return $item->toArray();
+        }, $this->menu);
+        $moreMenu = array_map(function ($item) {
+            return $item->toArray();
+        }, $this->more);
+
+        $mainMenu = ld_apply_filters('sidebar_menu', $mainMenu);
+        $moreMenu = ld_apply_filters('sidebar_menu_more', $moreMenu);
 
         return [
-            'main' => $menu,
-            'more' => $more,
+            'main' => $mainMenu,
+            'more' => $moreMenu,
         ];
     }
 
