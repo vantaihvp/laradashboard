@@ -9,7 +9,7 @@ class AdminMenuItem
     protected ?string $route = null;
     protected bool $active = false;
     protected ?string $id = null;
-    /** @var AdminMenuItem[] */
+
     protected array $children = [];
     protected ?string $filter = null;
     protected ?string $target = null;
@@ -47,9 +47,6 @@ class AdminMenuItem
         return $this;
     }
 
-    /**
-     * @param AdminMenuItem[] $children
-     */
     public function setChildren(array $children): self
     {
         $this->children = $children;
@@ -74,14 +71,10 @@ class AdminMenuItem
         return $this;
     }
 
-    /**
-     * @param string|array $permissions
-     */
     public function setPermission(string|array $permissions): bool
     {
         $this->permissions = (array)$permissions;
         $user = auth()->user();
-        // If no permissions set, allow by default
         if (empty($this->permissions)) {
             return true;
         }
@@ -93,9 +86,6 @@ class AdminMenuItem
         return false;
     }
 
-    /**
-     * @param string|array $permissions
-     */
     public function isPermission(string|array $permissions): self|false
     {
         $permissions = (array)$permissions;

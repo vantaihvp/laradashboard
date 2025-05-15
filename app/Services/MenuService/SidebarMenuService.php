@@ -2,8 +2,7 @@
 
 namespace App\Services\MenuService;
 
-use Illuminate\Support\Facades\Auth;
-use App\Services\MenuService\AdminMenuItem; // Import the new MenuItem class
+use App\Services\MenuService\AdminMenuItem;
 
 class SidebarMenuService
 {
@@ -21,7 +20,6 @@ class SidebarMenuService
 
     public function getMenu()
     {
-        $user = Auth::user();
         $this->menu = [];
         $this->more = [];
 
