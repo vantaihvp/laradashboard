@@ -11,7 +11,6 @@ class AdminMenuItem
     protected ?string $id = null;
 
     protected array $children = [];
-    protected ?string $filter = null;
     protected ?string $target = null;
     protected int $priority = 1;
     protected array $permissions = [];
@@ -50,12 +49,6 @@ class AdminMenuItem
     public function setChildren(array $children): self
     {
         $this->children = $children;
-        return $this;
-    }
-
-    public function setFilter(?string $filter): self
-    {
-        $this->filter = $filter;
         return $this;
     }
 
@@ -112,7 +105,6 @@ class AdminMenuItem
             'children' => array_map(function ($child) {
                 return $child instanceof self ? $child->toArray() : $child;
             }, $this->children),
-            'filter' => $this->filter,
             'target' => $this->target,
             'priority' => $this->priority,
         ];
