@@ -31,7 +31,7 @@ class SidebarMenuService
             ->setActive(\Route::is('admin.dashboard'))
             ->setId('dashboard')
             ->setFilter('dashboard')
-            ->setPriority(2)
+            ->setPriority(30)
             ->isPermission('dashboard.view');
         if ($dashboard) {
             $this->addMenuItem($dashboard);
@@ -43,7 +43,7 @@ class SidebarMenuService
             ->setLabel(__('Roles'))
             ->setRoute(route('admin.roles.index'))
             ->setActive(\Route::is('admin.roles.index') || \Route::is('admin.roles.edit'))
-            ->setPriority(2)
+            ->setPriority(20)
             ->isPermission('role.view');
         if ($rolesView) {
             $children[] = $rolesView;
@@ -52,7 +52,7 @@ class SidebarMenuService
             ->setLabel(__('New Role'))
             ->setRoute(route('admin.roles.create'))
             ->setActive(\Route::is('admin.roles.create'))
-            ->setPriority(1)
+            ->setPriority(10)
             ->isPermission('role.create');
         if ($rolesCreate) {
             $children[] = $rolesCreate;
@@ -64,7 +64,7 @@ class SidebarMenuService
             ->setActive(\Route::is('admin.roles.*'))
             ->setChildren($children)
             ->setFilter('roles')
-            ->setPriority(1)
+            ->setPriority(20)
             ->isPermission(['role.create', 'role.view', 'role.edit', 'role.delete']);
         if ($rolesParent && count($children)) {
             $this->addMenuItem($rolesParent);
@@ -76,7 +76,7 @@ class SidebarMenuService
             ->setLabel(__('Users'))
             ->setRoute(route('admin.users.index'))
             ->setActive(\Route::is('admin.users.index') || \Route::is('admin.users.edit'))
-            ->setPriority(2)
+            ->setPriority(20)
             ->isPermission('user.view');
         if ($usersView) {
             $children[] = $usersView;
@@ -87,7 +87,7 @@ class SidebarMenuService
             ->setLabel(__('New User'))
             ->setRoute(route('admin.users.create'))
             ->setActive(\Route::is('admin.users.create'))
-            ->setPriority(1)
+            ->setPriority(10)
             ->isPermission('user.create');
         if ($usersCreate) {
             $children[] = $usersCreate;
@@ -101,7 +101,7 @@ class SidebarMenuService
             ->setActive(\Route::is('admin.users.*'))
             ->setChildren($children)
             ->setFilter('users')
-            ->setPriority(1)
+            ->setPriority(10)
             ->isPermission(['user.create', 'user.view', 'user.edit', 'user.delete']);
         if ($usersParent && count($children)) {
             $this->addMenuItem($usersParent);
@@ -127,7 +127,7 @@ class SidebarMenuService
             ->setLabel(__('Action Logs'))
             ->setRoute(route('actionlog.index'))
             ->setActive(\Route::is('actionlog.index'))
-            ->setPriority(2)
+            ->setPriority(20)
             ->isPermission('actionlog.view');
         if ($actionLogs) {
             $children[] = $actionLogs;
@@ -137,7 +137,7 @@ class SidebarMenuService
             ->setRoute(route('pulse'))
             ->setActive(false)
             ->setTarget('_blank')
-            ->setPriority(1)
+            ->setPriority(10)
             ->isPermission('pulse.view');
         if ($pulse) {
             $children[] = $pulse;
@@ -162,7 +162,7 @@ class SidebarMenuService
             ->setLabel(__('General Settings'))
             ->setRoute(route('admin.settings.index'))
             ->setActive(\Route::is('admin.settings.index'))
-            ->setPriority(2)
+            ->setPriority(20)
             ->isPermission('settings.edit');
         if ($generalSettings) {
             $children[] = $generalSettings;
@@ -171,7 +171,7 @@ class SidebarMenuService
             ->setLabel(__('Translations'))
             ->setRoute(route('admin.translations.index'))
             ->setActive(\Route::is('admin.translations.*'))
-            ->setPriority(1)
+            ->setPriority(10)
             ->isPermission(['translations.view', 'translations.edit']);
         if ($translations) {
             $children[] = $translations;
@@ -183,7 +183,7 @@ class SidebarMenuService
             ->setActive(\Route::is('admin.settings.*') || \Route::is('admin.translations.*'))
             ->setChildren($children)
             ->setFilter('settings')
-            ->setPriority(5)
+            ->setPriority(1)
             ->isPermission(['settings.edit', 'translations.view']);
         if ($settingsParent && count($children)) {
             $this->addMenuItem($settingsParent, 'more');
