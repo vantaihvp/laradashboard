@@ -14,8 +14,7 @@ class AdminMenuItem
     protected ?string $target = null;
     protected int $priority = 1;
     protected array $permissions = [];
-    protected bool $allowed = true;
-    protected ?string $html = null;
+    protected ?string $htmlData = null;
 
     public function setLabel(string $label): self
     {
@@ -67,23 +66,8 @@ class AdminMenuItem
 
     public function setPermission(string|array $permissions): self
     {
-        $this->permissions = (array)$permissions;
+        $this->permissions = (array) $permissions;
         return $this;
-    }
-
-    public function isPermission(string|array $permissions): self|false
-    {
-        $permissions = (array)$permissions;
-        $user = auth()->user();
-        if (empty($permissions)) {
-            return $this;
-        }
-        foreach ($permissions as $permission) {
-            if ($user && $user->can($permission)) {
-                return $this;
-            }
-        }
-        return false;
     }
 
     public function userHasPermission(): bool
@@ -91,7 +75,7 @@ class AdminMenuItem
         if (empty($this->permissions)) {
             return true;
         }
-        
+
         $user = auth()->user();
         foreach ($this->permissions as $permission) {
             if ($user && $user->can($permission)) {
@@ -101,36 +85,29 @@ class AdminMenuItem
         return false;
     }
 
-    public function withHtml(string $html): self
+    public function setHtml(string $htmlData): self
     {
-        $this->html = $html;
+        $this->htmlData = $htmlData;
         return $this;
     }
 
-    /**
-     * Configure multiple properties at once.
-     *
-     * @param array|object $config Key-value pairs for configuration
-     * @return self
-     */
-    public function Html($config): self
+    public function setAttribute(array $attributes): self
     {
-        $data = is_object($config) ? (array) $config : $config;
-        
-        foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
-            
-            // Special cases for methods that don't follow the setX naming convention
-            if ($key === 'html') {
-                $this->withHtml($value);
-                continue;
+        foreach (is_object($attributes) ? (array) $attributes : $attributes as $key => $value) {
+            if ($key === 'htmlData') {
+                $method = 'setHtml';
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+                return $this;
             }
-            
+
+            $method = 'set' . ucfirst($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
         }
-        
+
         return $this;
     }
 
@@ -142,12 +119,12 @@ class AdminMenuItem
             'route' => $this->route,
             'active' => $this->active,
             'id' => $this->id,
+            'target' => $this->target,
+            'priority' => $this->priority,
+            'htmlData' => $this->htmlData,
             'children' => array_map(function ($child) {
                 return $child instanceof self ? $child->toArray() : $child;
             }, $this->children),
-            'target' => $this->target,
-            'priority' => $this->priority,
-            'html' => $this->html,
         ];
     }
 }

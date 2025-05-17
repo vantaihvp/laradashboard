@@ -18,45 +18,39 @@ class SidebarMenuService
      */
     public function addMenuItem($item, $group = null)
     {
-        // If item is an array, convert it to AdminMenuItem
-        if (is_array($item)) {
-            $menuItem = $this->createFromArray($item);
-        } else if ($item instanceof AdminMenuItem) {
-            $menuItem = $item;
-        } else {
-            throw new \InvalidArgumentException('MenuItem must be an array or AdminMenuItem instance');
-        }
-        
+        $group = $group ?: __('Main');
+        $menuItem = $this->createAdminMenuItem($item);
         if (!isset($this->groups[$group])) {
             $this->groups[$group] = [];
         }
-        $this->groups[$group][] = $menuItem;
+
+        if ($menuItem->userHasPermission()) {
+            $this->groups[$group][] = $menuItem;
+        }
     }
 
     /**
-     * Create an AdminMenuItem from an array configuration.
+     * Create an AdminMenuItem from an array.
      *
-     * @param array $data Configuration data
+     * @param array $data Configuration array
      * @return AdminMenuItem
      */
-    protected function createFromArray(array $data): AdminMenuItem
+    protected function createAdminMenuItem(array $data): AdminMenuItem
     {
         $menuItem = new AdminMenuItem();
         if (isset($data['children']) && is_array($data['children'])) {
             $children = [];
             foreach ($data['children'] as $child) {
-                $children[] = $this->createFromArray($child);
+                $children[] = $this->createAdminMenuItem($child);
             }
             $data['children'] = $children;
         }
         
-        return $menuItem->Html($data);
+        return $menuItem->setAttribute($data);
     }
 
     public function getMenu()
     {
-        $this->groups = [];
-
         $this->addMenuItem([
             'label' => __('Dashboard'),
             'icon' => 'dashboard.svg',
@@ -73,6 +67,8 @@ class SidebarMenuService
             'icon' => 'key.svg',
             'id' => 'roles-submenu',
             'active' => \Route::is('admin.roles.*'),
+            'priority' => 10,
+            'permission' => ['role.create', 'role.view', 'role.edit', 'role.delete'],
             'children' => [
                 [
                     'label' => __('Roles'),
@@ -88,9 +84,7 @@ class SidebarMenuService
                     'priority' => 10,
                     'permission' => 'role.create'
                 ]
-            ],
-            'priority' => 10,
-            'permission' => ['role.create', 'role.view', 'role.edit', 'role.delete']
+            ]
         ]);
 
 
@@ -99,6 +93,8 @@ class SidebarMenuService
             'icon' => 'user.svg',
             'id' => 'users-submenu',
             'active' => \Route::is('admin.users.*'),
+            'priority' => 20,
+            'permission' => ['user.create', 'user.view', 'user.edit', 'user.delete'],
             'children' => [
                 [
                     'label' => __('Users'),
@@ -114,9 +110,7 @@ class SidebarMenuService
                     'priority' => 10,
                     'permission' => 'user.create'
                 ]
-            ],
-            'priority' => 20,
-            'permission' => ['user.create', 'user.view', 'user.edit', 'user.delete']
+            ]
         ]);
 
         $this->addMenuItem([
@@ -134,6 +128,8 @@ class SidebarMenuService
             'icon' => 'tv.svg',
             'id' => 'monitoring-submenu',
             'active' => \Route::is('actionlog.*'),
+            'priority' => 40,
+            'permission' => ['pulse.view', 'actionlog.view'],
             'children' => [
                 [
                     'label' => __('Action Logs'),
@@ -150,9 +146,7 @@ class SidebarMenuService
                     'priority' => 10,
                     'permission' => 'pulse.view'
                 ]
-            ],
-            'priority' => 40,
-            'permission' => ['pulse.view', 'actionlog.view']
+            ]
         ]);
 
 
@@ -161,6 +155,8 @@ class SidebarMenuService
             'icon' => 'settings.svg',
             'id' => 'settings-submenu',
             'active' => \Route::is('admin.settings.*') || \Route::is('admin.translations.*'),
+            'priority' => 1,
+            'permission' => ['settings.edit', 'translations.view'],
             'children' => [
                 [
                     'label' => __('General Settings'),
@@ -176,20 +172,19 @@ class SidebarMenuService
                     'priority' => 10,
                     'permission' => ['translations.view', 'translations.edit']
                 ]
-            ],
-            'priority' => 1,
-            'permission' => ['settings.edit', 'translations.view']
-        ], 'Settings');
+            ]
+        ], __('More'));
+
 
 
         $this->addMenuItem([
             'label' => __('Logout'),
             'icon' => 'logout.svg',
-            'route' => route('logout'),
+            'route' => route('admin.dashboard'),
             'active' => false,
             'id' => 'logout',
             'priority' => 1,
-            'html' => '
+            'htmlData' => '
                 <li class="hover:menu-item-active">
                     <form method="POST" action="' . route('logout') . '">
                         ' . csrf_field() . '
@@ -200,16 +195,28 @@ class SidebarMenuService
                     </form>
                 </li>
             '
-        ], 'Settings');
+        ], __('More'));
 
-        // Sort each group by priority (lower first)
+
+
+        $this->sortMenuItemsByPriority();
+        $result = $this->applyFiltersToMenuItems();
+
+        return $result;
+    }
+
+
+    protected function sortMenuItemsByPriority()
+    {
         foreach ($this->groups as &$groupItems) {
             usort($groupItems, function ($a, $b) {
                 return $a->toArray()['priority'] <=> $b->toArray()['priority'];
             });
         }
+    }
 
-        // Add filters so that developers can modify the menu
+    protected function applyFiltersToMenuItems()
+    {
         $result = [];
         foreach ($this->groups as $group => $items) {
             $menuArr = array_map(function ($item) {
@@ -217,30 +224,28 @@ class SidebarMenuService
             }, $items);
             $result[$group] = ld_apply_filters('sidebar_menu_' . strtolower($group), $menuArr);
         }
-
+        
         return $result;
     }
 
-    public function render($menus, $textColorVar = 'textColor', $submenusVar = 'submenus')
+    public function render($groupItems, $textColorVar = 'textColor', $submenusVar = 'submenus')
     {
         $html = '';
-        foreach ($menus as $item) {
+        foreach ($groupItems as $groupItem) {
             // Filter before menu
-            $filterKey = $item['id'] ?? (\Str::slug($item['label']) ?? '');
+            $filterKey = $groupItem['id'] ?? (\Str::slug($groupItem['label']) ?? '');
             $html .= ld_apply_filters('sidebar_menu_before_' . $filterKey, '');
-
-            // If HTML content is provided, use it directly
-            if (!empty($item['html'])) {
-                $html .= $item['html'];
-            } else if (!empty($item['children'])) {
-                $submenuId = $item['id'] ?? \Str::slug($item['label']) . '-submenu';
-                $isActive = $item['active'] ? 'menu-item-active' : 'menu-item-inactive';
+            if (isset($groupItem['htmlData'])) {
+                $html .= $groupItem['htmlData'];
+            } else if (!empty($groupItem['children'])) {
+                $submenuId = $groupItem['id'] ?? \Str::slug($groupItem['label']) . '-submenu';
+                $isActive = $groupItem['active'] ? 'menu-item-active' : 'menu-item-inactive';
                 $html .= '<li x-data class="hover:menu-item-active">';
                 $html .= '<button :style="`color: ${' . $textColorVar . '}`" class="menu-item group w-full text-left ' . $isActive . '" type="button" @click="toggleSubmenu(\'' . $submenuId . '\')">';
-                if (!empty($item['icon'])) {
-                    $html .= '<img src="' . asset('images/icons/' . $item['icon']) . '" alt="' . e($item['label']) . '" class="menu-item-icon dark:invert">';
+                if (!empty($groupItem['icon'])) {
+                    $html .= '<img src="' . asset('images/icons/' . $groupItem['icon']) . '" alt="' . e($groupItem['label']) . '" class="menu-item-icon dark:invert">';
                 }
-                $html .= '<span class="menu-item-text">' . e($item['label']) . '</span>';
+                $html .= '<span class="menu-item-text">' . e($groupItem['label']) . '</span>';
                 $html .= '<img src="' . asset('images/icons/chevron-down.svg') . '" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300" :class="' . $submenusVar . '[\'' . $submenuId . '\'] ? \'rotate-180\' : \'\'">';
                 $html .= '</button>';
                 $html .= '<ul id="' . $submenuId . '" x-show="' . $submenusVar . '[\'' . $submenuId . '\']"
@@ -251,18 +256,18 @@ class SidebarMenuService
                         x-transition:leave-start="opacity-100 max-h-[500px]"
                         x-transition:leave-end="opacity-0 max-h-0"
                         class="submenu pl-12 mt-2 space-y-2 overflow-hidden">';
-                $html .= $this->render($item['children'], $textColorVar, $submenusVar);
+                $html .= $this->render($groupItem['children'], $textColorVar, $submenusVar);
                 $html .= '</ul>';
                 $html .= '</li>';
             } else {
-                $isActive = $item['active'] ? 'menu-item-active' : 'menu-item-inactive';
-                $target = !empty($item['target']) ? ' target="' . e($item['target']) . '"' : '';
+                $isActive = $groupItem['active'] ? 'menu-item-active' : 'menu-item-inactive';
+                $target = !empty($groupItem['target']) ? ' target="' . e($groupItem['target']) . '"' : '';
                 $html .= '<li class="hover:menu-item-active">';
-                $html .= '<a :style="`color: ${' . $textColorVar . '}`" href="' . ($item['route'] ?? '#') . '" class="menu-item group ' . $isActive . '"' . $target . '>';
-                if (!empty($item['icon'])) {
-                    $html .= '<img src="' . asset('images/icons/' . $item['icon']) . '" alt="' . e($item['label']) . '" class="menu-item-icon dark:invert">';
+                $html .= '<a :style="`color: ${' . $textColorVar . '}`" href="' . ($groupItem['route'] ?? '#') . '" class="menu-item group ' . $isActive . '"' . $target . '>';
+                if (!empty($groupItem['icon'])) {
+                    $html .= '<img src="' . asset('images/icons/' . $groupItem['icon']) . '" alt="' . e($groupItem['label']) . '" class="menu-item-icon dark:invert">';
                 }
-                $html .= '<span class="menu-item-text">' . e($item['label']) . '</span>';
+                $html .= '<span class="menu-item-text">' . e($groupItem['label']) . '</span>';
                 $html .= '</a>';
                 $html .= '</li>';
             }
