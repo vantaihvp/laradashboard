@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Models\Permission;
 
@@ -217,5 +218,48 @@ class PermissionService
     public function getPermissionsByNames(array $permissionNames): array
     {
         return Permission::whereIn('name', $permissionNames)->get()->all();
+    }
+
+    /**
+     * Get paginated permissions with role count
+     *
+     * @param string|null $search
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPaginatedPermissionsWithRoleCount(string $search = null, ?int $perPage): LengthAwarePaginator
+    {
+        $query = Permission::query();
+
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('group_name', 'like', '%' . $search . '%');
+        }
+
+        $permissions = $query->paginate($perPage ?? config('settings.default_pagination'));
+
+        // Add role count and roles information to each permission.
+        foreach ($permissions as $permission) {
+            $roles = $permission->roles()->get();
+            $permission->role_count = $roles->count();
+            $permission->roles_list = $roles->pluck('name')->take(5)->implode(', ');
+            
+            if ($permission->role_count > 5) {
+                $permission->roles_list .= ', ...';
+            }
+        }
+
+        return $permissions;
+    }
+
+    /**
+     * Get roles for permission
+     * 
+     * @param Permission $permission
+     * @return Collection
+     */
+    public function getRolesForPermission(Permission $permission): Collection
+    {
+        return $permission->roles()->get();
     }
 }
