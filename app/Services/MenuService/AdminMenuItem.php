@@ -9,7 +9,6 @@ class AdminMenuItem
     protected ?string $route = null;
     protected bool $active = false;
     protected ?string $id = null;
-
     protected array $children = [];
     protected ?string $target = null;
     protected int $priority = 1;
@@ -64,12 +63,6 @@ class AdminMenuItem
         return $this;
     }
 
-    public function setPermission(string|array $permissions): self
-    {
-        $this->permissions = (array) $permissions;
-        return $this;
-    }
-
     public function userHasPermission(): bool
     {
         if (empty($this->permissions)) {
@@ -91,17 +84,9 @@ class AdminMenuItem
         return $this;
     }
 
-    public function setAttribute(array $attributes): self
+    public function setAttributes(array $attributes): self
     {
         foreach (is_object($attributes) ? (array) $attributes : $attributes as $key => $value) {
-            if ($key === 'htmlData') {
-                $method = 'setHtml';
-                if (method_exists($this, $method)) {
-                    $this->$method($value);
-                }
-                return $this;
-            }
-
             $method = 'set' . ucfirst($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);

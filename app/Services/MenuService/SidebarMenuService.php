@@ -3,6 +3,7 @@
 namespace App\Services\MenuService;
 
 use App\Services\MenuService\AdminMenuItem;
+use Illuminate\Support\Facades\Route;
 
 class SidebarMenuService
 {
@@ -45,8 +46,8 @@ class SidebarMenuService
             }
             $data['children'] = $children;
         }
-        
-        return $menuItem->setAttribute($data);
+
+        return $menuItem->setAttributes($data);
     }
 
     public function getMenu()
@@ -55,60 +56,58 @@ class SidebarMenuService
             'label' => __('Dashboard'),
             'icon' => 'dashboard.svg',
             'route' => route('admin.dashboard'),
-            'active' => \Route::is('admin.dashboard'),
+            'active' => Route::is('admin.dashboard'),
             'id' => 'dashboard',
             'priority' => 1,
-            'permission' => 'dashboard.view'
+            'permissions' => 'dashboard.view'
         ]);
-
 
         $this->addMenuItem([
             'label' => __('Roles & Permissions'),
             'icon' => 'key.svg',
             'id' => 'roles-submenu',
-            'active' => \Route::is('admin.roles.*'),
+            'active' => Route::is('admin.roles.*'),
             'priority' => 10,
-            'permission' => ['role.create', 'role.view', 'role.edit', 'role.delete'],
+            'permissions' => ['role.create', 'role.view', 'role.edit', 'role.delete'],
             'children' => [
                 [
                     'label' => __('Roles'),
                     'route' => route('admin.roles.index'),
-                    'active' => \Route::is('admin.roles.index') || \Route::is('admin.roles.edit'),
+                    'active' => Route::is('admin.roles.index') || Route::is('admin.roles.edit'),
                     'priority' => 20,
-                    'permission' => 'role.view'
+                    'permissions' => 'role.view'
                 ],
                 [
                     'label' => __('New Role'),
                     'route' => route('admin.roles.create'),
-                    'active' => \Route::is('admin.roles.create'),
+                    'active' => Route::is('admin.roles.create'),
                     'priority' => 10,
-                    'permission' => 'role.create'
+                    'permissions' => 'role.create'
                 ]
             ]
         ]);
-
 
         $this->addMenuItem([
             'label' => __('User'),
             'icon' => 'user.svg',
             'id' => 'users-submenu',
-            'active' => \Route::is('admin.users.*'),
+            'active' => Route::is('admin.users.*'),
             'priority' => 20,
-            'permission' => ['user.create', 'user.view', 'user.edit', 'user.delete'],
+            'permissions' => ['user.create', 'user.view', 'user.edit', 'user.delete'],
             'children' => [
                 [
                     'label' => __('Users'),
                     'route' => route('admin.users.index'),
-                    'active' => \Route::is('admin.users.index') || \Route::is('admin.users.edit'),
+                    'active' => Route::is('admin.users.index') || Route::is('admin.users.edit'),
                     'priority' => 20,
-                    'permission' => 'user.view'
+                    'permissions' => 'user.view'
                 ],
                 [
                     'label' => __('New User'),
                     'route' => route('admin.users.create'),
-                    'active' => \Route::is('admin.users.create'),
+                    'active' => Route::is('admin.users.create'),
                     'priority' => 10,
-                    'permission' => 'user.create'
+                    'permissions' => 'user.create'
                 ]
             ]
         ]);
@@ -117,26 +116,26 @@ class SidebarMenuService
             'label' => __('Modules'),
             'icon' => 'three-dice.svg',
             'route' => route('admin.modules.index'),
-            'active' => \Route::is('admin.modules.index'),
+            'active' => Route::is('admin.modules.index'),
             'id' => 'modules',
             'priority' => 30,
-            'permission' => 'module.view'
+            'permissions' => 'module.view'
         ]);
 
         $this->addMenuItem([
             'label' => __('Monitoring'),
             'icon' => 'tv.svg',
             'id' => 'monitoring-submenu',
-            'active' => \Route::is('actionlog.*'),
+            'active' => Route::is('actionlog.*'),
             'priority' => 40,
-            'permission' => ['pulse.view', 'actionlog.view'],
+            'permissions' => ['pulse.view', 'actionlog.view'],
             'children' => [
                 [
                     'label' => __('Action Logs'),
                     'route' => route('actionlog.index'),
-                    'active' => \Route::is('actionlog.index'),
+                    'active' => Route::is('actionlog.index'),
                     'priority' => 20,
-                    'permission' => 'actionlog.view'
+                    'permissions' => 'actionlog.view'
                 ],
                 [
                     'label' => __('Laravel Pulse'),
@@ -144,38 +143,35 @@ class SidebarMenuService
                     'active' => false,
                     'target' => '_blank',
                     'priority' => 10,
-                    'permission' => 'pulse.view'
+                    'permissions' => 'pulse.view'
                 ]
             ]
         ]);
-
 
         $this->addMenuItem([
             'label' => __('Settings'),
             'icon' => 'settings.svg',
             'id' => 'settings-submenu',
-            'active' => \Route::is('admin.settings.*') || \Route::is('admin.translations.*'),
+            'active' => Route::is('admin.settings.*') || Route::is('admin.translations.*'),
             'priority' => 1,
-            'permission' => ['settings.edit', 'translations.view'],
+            'permissions' => ['settings.edit', 'translations.view'],
             'children' => [
                 [
                     'label' => __('General Settings'),
                     'route' => route('admin.settings.index'),
-                    'active' => \Route::is('admin.settings.index'),
+                    'active' => Route::is('admin.settings.index'),
                     'priority' => 20,
-                    'permission' => 'settings.edit'
+                    'permissions' => 'settings.edit'
                 ],
                 [
                     'label' => __('Translations'),
                     'route' => route('admin.translations.index'),
-                    'active' => \Route::is('admin.translations.*'),
+                    'active' => Route::is('admin.translations.*'),
                     'priority' => 10,
-                    'permission' => ['translations.view', 'translations.edit']
+                    'permissions' => ['translations.view', 'translations.edit']
                 ]
             ]
         ], __('More'));
-
-
 
         $this->addMenuItem([
             'label' => __('Logout'),
@@ -184,7 +180,7 @@ class SidebarMenuService
             'active' => false,
             'id' => 'logout',
             'priority' => 1,
-            'htmlData' => '
+            'html' => '
                 <li class="hover:menu-item-active">
                     <form method="POST" action="' . route('logout') . '">
                         ' . csrf_field() . '
@@ -197,14 +193,11 @@ class SidebarMenuService
             '
         ], __('More'));
 
-
-
         $this->sortMenuItemsByPriority();
         $result = $this->applyFiltersToMenuItems();
 
         return $result;
     }
-
 
     protected function sortMenuItemsByPriority()
     {
@@ -224,7 +217,7 @@ class SidebarMenuService
             }, $items);
             $result[$group] = ld_apply_filters('sidebar_menu_' . strtolower($group), $menuArr);
         }
-        
+
         return $result;
     }
 
