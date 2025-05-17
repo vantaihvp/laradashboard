@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\User;
+use Hash;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Spatie\Permission\Models\Role;
 
 class UserService
 {
@@ -29,6 +29,21 @@ class UserService
         }
 
         return $query->latest()->paginate(config('settings.default_pagination') ?? 10);
+    }
+
+    public function createUser(array $data): User
+    {
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        if (isset($data['roles'])) {
+            $user->syncRoles($data['roles']);
+        }
+
+        return $user;
     }
 
     public function getUserById(int $id): ?User

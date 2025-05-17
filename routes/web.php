@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Backend\ActionLogController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\ModulesController;
+use App\Http\Controllers\Backend\PermissionsController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\SettingsController;
@@ -27,7 +28,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@redirectAdmin')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlog.index');
 
 /**
  * Admin routes.
@@ -35,6 +35,10 @@ Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlo
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('roles', RolesController::class);
+    
+    // Permissions Routes.
+    Route::get('/permissions', [PermissionsController::class, 'index'])->name('permissions.index');
+    Route::get('/permissions/{id}', [PermissionsController::class, 'show'])->name('permissions.show');
 
     // Modules Routes.
     Route::get('/modules', [ModulesController::class, 'index'])->name('modules.index');
@@ -55,6 +59,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('users', UsersController::class);
     Route::get('users/{id}/login-as', [UserLoginAsController::class, 'loginAs'])->name('users.login-as');
     Route::post('users/switch-back', [UserLoginAsController::class, 'switchBack'])->name('users.switch-back');
+
+    // Action Log Routes.
+    Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlog.index');
 });
 
 /**

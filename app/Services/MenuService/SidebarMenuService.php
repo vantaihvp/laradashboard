@@ -74,15 +74,22 @@ class SidebarMenuService
                     'label' => __('Roles'),
                     'route' => route('admin.roles.index'),
                     'active' => Route::is('admin.roles.index') || Route::is('admin.roles.edit'),
-                    'priority' => 20,
+                    'priority' => 10,
                     'permissions' => 'role.view'
                 ],
                 [
                     'label' => __('New Role'),
                     'route' => route('admin.roles.create'),
                     'active' => Route::is('admin.roles.create'),
-                    'priority' => 10,
+                    'priority' => 20,
                     'permissions' => 'role.create'
+                ],
+                [
+                    'label' => __('Permissions'),
+                    'route' => route('admin.permissions.index'),
+                    'active' => Route::is('admin.permissions.index') || Route::is('admin.permissions.show'),
+                    'priority' => 30,
+                    'permissions' => 'role.view'
                 ]
             ]
         ]);
@@ -126,14 +133,14 @@ class SidebarMenuService
             'label' => __('Monitoring'),
             'icon' => 'tv.svg',
             'id' => 'monitoring-submenu',
-            'active' => Route::is('actionlog.*'),
+            'active' => Route::is('admin.actionlog.*'),
             'priority' => 40,
             'permissions' => ['pulse.view', 'actionlog.view'],
             'children' => [
                 [
                     'label' => __('Action Logs'),
-                    'route' => route('actionlog.index'),
-                    'active' => Route::is('actionlog.index'),
+                    'route' => route('admin.actionlog.index'),
+                    'active' => Route::is('admin.actionlog.index'),
                     'priority' => 20,
                     'permissions' => 'actionlog.view'
                 ],
