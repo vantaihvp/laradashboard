@@ -106,3 +106,32 @@ if (!function_exists('get_languages')) {
         return app(LanguageService::class)->getActiveLanguages();
     }
 }
+
+// add_menu_item()
+
+// add_menu_item(
+//     groupName, (
+//     (new App\Services\MenuService\AdminMenuItem())
+//     ->setLabel(__('Settings'))
+//     ->setIcon('settings.svg')
+//     ->setId('settings-submenu')
+//     ->setActive(\Route::is('admin.settings.*') || \Route::is('admin.translations.*'))
+//     ->setChildren(
+//         [
+//             (new App\Services\MenuService\AdminMenuItem())
+//                 ->setLabel(__('General Settings'))
+//                 ->setRoute(route('admin.settings.index'))
+//                 ->setActive(\Route::is('admin.settings.index'))
+//                 ->setPriority(20)
+//                 ->setPermission('settings.edit'),
+//             (new App\Services\MenuService\AdminMenuItem())
+//                 ->setLabel(__('Translations'))
+//                 ->setRoute(route('admin.translations.index'))
+//                 ->setActive(\Route::is('admin.translations.*'))
+//                 ->setPriority(10)
+//                 ->setPermission(['translations.view', 'translations.edit'])
+//         ]
+//     )
+//     ->setPriority(1)
+//     ->setPermission(['settings.edit', 'translations.view'])
+// ));

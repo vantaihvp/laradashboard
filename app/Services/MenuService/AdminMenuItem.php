@@ -15,6 +15,8 @@ class AdminMenuItem
     protected int $priority = 1;
     protected array $permissions = [];
     protected bool $allowed = true;
+    protected ?string $customHtml = null;
+    protected bool $isCustomHtml = false;
 
     public function setLabel(string $label): self
     {
@@ -64,19 +66,48 @@ class AdminMenuItem
         return $this;
     }
 
-    public function setPermission(string|array $permissions): bool
+    public function setPermission(string|array $permissions): self
     {
-        $this->permissions = (array)$permissions;
-        $user = auth()->user();
-        if (empty($this->permissions)) {
-            return true;
-        }
-        foreach ($this->permissions as $permission) {
-            if ($user && $user->can($permission)) {
-                return true;
-            }
-        }
-        return false;
+        $this->permissions = is_array($permissions) ? $permissions: [$permissions];
+        return $this;
+    }
+
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * Configure this menu item to be rendered with custom HTML
+     * 
+     * @param string $html The custom HTML to render
+     * @return self
+     */
+    public function withHtml(string $html): self
+    {
+        $this->isCustomHtml = true;
+        $this->customHtml = $html;
+        return $this;
+    }
+
+    /**
+     * Check if this menu item uses custom HTML
+     * 
+     * @return bool
+     */
+    public function hasCustomHtml(): bool
+    {
+        return $this->isCustomHtml;
+    }
+
+    /**
+     * Get the custom HTML for this menu item
+     * 
+     * @return string|null
+     */
+    public function getCustomHtml(): ?string
+    {
+        return $this->customHtml;
     }
 
     public function isPermission(string|array $permissions): self|false
@@ -107,6 +138,8 @@ class AdminMenuItem
             }, $this->children),
             'target' => $this->target,
             'priority' => $this->priority,
+            'isCustomHtml' => $this->isCustomHtml,
+            'customHtml' => $this->customHtml,
         ];
     }
 }
