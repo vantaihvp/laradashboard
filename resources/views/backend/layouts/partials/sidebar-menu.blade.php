@@ -6,7 +6,7 @@
         submenus: {
             'roles-submenu': {{ Route::is('admin.roles.*') ? 'true' : 'false' }},
             'users-submenu': {{ Route::is('admin.users.*') ? 'true' : 'false' }},
-            'monitoring-submenu': {{ Route::is('actionlog.*') ? 'true' : 'false' }},
+            'monitoring-submenu': {{ Route::is('admin.actionlog.*') ? 'true' : 'false' }},
             'settings-submenu': {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'true' : 'false' }},
             'crm-submenu': {{ Route::is('admin.crm.*') ? 'true' : 'false' }}
         },
@@ -137,7 +137,7 @@
             @if ($user->can('pulse.view') || $user->can('actionlog.view'))
                 <li x-data class="hover:menu-item-active">
                     <button :style="`color: ${textColor}`"
-                        class="menu-item group w-full text-left {{ Route::is('actionlog.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
+                        class="menu-item group w-full text-left {{ Route::is('admin.actionlog.index') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" @click="toggleSubmenu('monitoring-submenu')">
                         <img src="{{ asset('images/icons/tv.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text">{{ __('Monitoring') }}</span>
@@ -154,8 +154,8 @@
                         class="submenu pl-12 mt-2 space-y-2 overflow-hidden">
                         @if ($user->can('actionlog.view'))
                             <li>
-                                <a href="{{ route('actionlog.index') }}"
-                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('actionlog.index') ? 'menu-item-active' : 'menu-item-inactive text-white' }}">
+                                <a href="{{ route('admin.actionlog.index') }}"
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.actionlog.index') ? 'menu-item-active' : 'menu-item-inactive text-white' }}">
                                     <span :style="`color: ${textColor}`">{{ __('Action Logs') }}</span>
                                 </a>
                             </li>

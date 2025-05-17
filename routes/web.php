@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@redirectAdmin')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlog.index');
 
 /**
  * Admin routes.
@@ -55,6 +54,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('users', UsersController::class);
     Route::get('users/{id}/login-as', [UserLoginAsController::class, 'loginAs'])->name('users.login-as');
     Route::post('users/switch-back', [UserLoginAsController::class, 'switchBack'])->name('users.switch-back');
+
+    // Action Log Routes.
+    Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlog.index');
 });
 
 /**
