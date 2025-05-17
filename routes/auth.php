@@ -34,4 +34,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'guest'], f
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     // Logout Routes.
     Route::post('/logout/submit', [LoginController::class, 'logout'])->name('logout.submit');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
