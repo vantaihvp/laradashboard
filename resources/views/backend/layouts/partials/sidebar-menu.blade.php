@@ -4,7 +4,7 @@
         isDark: document.documentElement.classList.contains('dark'),
         textColor: '',
         submenus: {
-            'roles-submenu': {{ Route::is('admin.roles.*') ? 'true' : 'false' }},
+            'roles-submenu': {{ Route::is('admin.roles.*') || Route::is('admin.permissions.*') ? 'true' : 'false' }},
             'users-submenu': {{ Route::is('admin.users.*') ? 'true' : 'false' }},
             'monitoring-submenu': {{ Route::is('actionlog.*') ? 'true' : 'false' }},
             'settings-submenu': {{ Route::is('admin.settings.*') || Route::is('admin.translations.*') ? 'true' : 'false' }},
@@ -48,7 +48,7 @@
             @if ($user->can('role.create') || $user->can('role.view') || $user->can('role.edit') || $user->can('role.delete'))
                 <li x-data class="hover:menu-item-active">
                     <button :style="`color: ${textColor}`"
-                        class="menu-item group w-full text-left {{ Route::is('admin.roles.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
+                        class="menu-item group w-full text-left {{ Route::is('admin.roles.*') || Route::is('admin.permissions.*') ? 'menu-item-active' : 'menu-item-inactive' }}"
                         type="button" @click="toggleSubmenu('roles-submenu')">
                         <img src="{{ asset('images/icons/key.svg') }}" alt="Roles Icon" class="menu-item-icon dark:invert">
                         <span class="menu-item-text" :style="`color: ${textColor}`"> {{ __('Roles & Permissions') }}</span>
@@ -76,6 +76,14 @@
                                 <a :style="`color: ${textColor}`" href="{{ route('admin.roles.create') }}"
                                     class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.roles.create') ? 'menu-item-active' : 'menu-item-inactive' }}">
                                     {{ __('New Role') }}
+                                </a>
+                            </li>
+                        @endif
+                        @if ($user->can('role.view'))
+                            <li>
+                                <a :style="`color: ${textColor}`" href="{{ route('admin.permissions.index') }}"
+                                    class="hover:menu-item-active block px-4 py-2 rounded-lg {{ Route::is('admin.permissions.index') || Route::is('admin.permissions.show') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                    {{ __('Permissions') }}
                                 </a>
                             </li>
                         @endif
