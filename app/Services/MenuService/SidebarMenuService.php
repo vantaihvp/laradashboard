@@ -8,231 +8,217 @@ class SidebarMenuService
 {
     protected $groups = [];
 
-    public function addMenuItem(AdminMenuItem $item, $group = null)
+    /**
+     * Add a menu item to the sidebar.
+     *
+     * @param AdminMenuItem|array $item The menu item or configuration array
+     * @param string|null $group The group to add the item to
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    public function addMenuItem($item, $group = null)
     {
-        $group = $group ?: $this->getDefaultGroup();
+        // If item is an array, convert it to AdminMenuItem
+        if (is_array($item)) {
+            $menuItem = $this->createFromArray($item);
+        } else if ($item instanceof AdminMenuItem) {
+            $menuItem = $item;
+        } else {
+            throw new \InvalidArgumentException('MenuItem must be an array or AdminMenuItem instance');
+        }
+        
         if (!isset($this->groups[$group])) {
             $this->groups[$group] = [];
         }
-        $this->groups[$group][] = $item;
+        $this->groups[$group][] = $menuItem;
     }
 
-    protected function getDefaultGroup()
+    /**
+     * Create an AdminMenuItem from an array configuration.
+     *
+     * @param array $data Configuration data
+     * @return AdminMenuItem
+     */
+    protected function createFromArray(array $data): AdminMenuItem
     {
-        // Always use the first group, or 'main' if none exists yet
-        return count($this->groups) ? array_keys($this->groups)[0] : 'main';
+        $menuItem = new AdminMenuItem();
+        if (isset($data['children']) && is_array($data['children'])) {
+            $children = [];
+            foreach ($data['children'] as $child) {
+                $children[] = $this->createFromArray($child);
+            }
+            $data['children'] = $children;
+        }
+        
+        return $menuItem->Html($data);
     }
 
     public function getMenu()
     {
-        $userId = auth()->id();
-        return \Cache::remember("sidebar_menu_" . $userId, now()->addMinutes(5), function () {
-            $this->groups = [];
+        $this->groups = [];
 
-            // Dashboard
-            $dashboard = new AdminMenuItem();
-            $dashboard
-                ->setLabel(__('Dashboard'))
-                ->setIcon('dashboard.svg')
-                ->setRoute(route('admin.dashboard'))
-                ->setActive(\Route::is('admin.dashboard'))
-                ->setId('dashboard')
-                ->setPriority(30)
-                ->isPermission('dashboard.view');
-            if ($dashboard) {
-                $this->addMenuItem($dashboard);
-            }
-
-            // Roles & Permissions
-            $children = [];
-            $rolesView = (new AdminMenuItem())
-                ->setLabel(__('Roles'))
-                ->setRoute(route('admin.roles.index'))
-                ->setActive(\Route::is('admin.roles.index') || \Route::is('admin.roles.edit'))
-                ->setPriority(20);
-            $rolesView = $rolesView->isPermission('role.view');
-            if ($rolesView) {
-                $children[] = $rolesView;
-            }
-
-            
-            $rolesCreate = (new AdminMenuItem())
-                ->setLabel(__('New Role'))
-                ->setRoute(route('admin.roles.create'))
-                ->setActive(\Route::is('admin.roles.create'))
-                ->setPriority(10);
-            $rolesCreate = $rolesCreate->isPermission('role.create');
-            if ($rolesCreate) {
-                $children[] = $rolesCreate;
-            }
+        $this->addMenuItem([
+            'label' => __('Dashboard'),
+            'icon' => 'dashboard.svg',
+            'route' => route('admin.dashboard'),
+            'active' => \Route::is('admin.dashboard'),
+            'id' => 'dashboard',
+            'priority' => 1,
+            'permission' => 'dashboard.view'
+        ]);
 
 
-            $rolesParent = (new AdminMenuItem())
-                ->setLabel(__('Roles & Permissions'))
-                ->setIcon('key.svg')
-                ->setId('roles-submenu')
-                ->setActive(\Route::is('admin.roles.*'))
-                ->setChildren($children)
-                ->setPriority(20);
-            $rolesParent = $rolesParent->isPermission(['role.create', 'role.view', 'role.edit', 'role.delete']);
-            if ($rolesParent && count($children)) {
-                $this->addMenuItem($rolesParent);
-            }
+        $this->addMenuItem([
+            'label' => __('Roles & Permissions'),
+            'icon' => 'key.svg',
+            'id' => 'roles-submenu',
+            'active' => \Route::is('admin.roles.*'),
+            'children' => [
+                [
+                    'label' => __('Roles'),
+                    'route' => route('admin.roles.index'),
+                    'active' => \Route::is('admin.roles.index') || \Route::is('admin.roles.edit'),
+                    'priority' => 20,
+                    'permission' => 'role.view'
+                ],
+                [
+                    'label' => __('New Role'),
+                    'route' => route('admin.roles.create'),
+                    'active' => \Route::is('admin.roles.create'),
+                    'priority' => 10,
+                    'permission' => 'role.create'
+                ]
+            ],
+            'priority' => 10,
+            'permission' => ['role.create', 'role.view', 'role.edit', 'role.delete']
+        ]);
 
-            // Users
-            $children = [];
-            $usersView = (new AdminMenuItem())
-                ->setLabel(__('Users'))
-                ->setRoute(route('admin.users.index'))
-                ->setActive(\Route::is('admin.users.index') || \Route::is('admin.users.edit'))
-                ->setPriority(20);
-            $usersView = $usersView->isPermission('user.view');
-            if ($usersView) {
-                $children[] = $usersView;
-            }
-            $usersCreate = (new AdminMenuItem())
-                ->setLabel(__('New User'))
-                ->setRoute(route('admin.users.create'))
-                ->setActive(\Route::is('admin.users.create'))
-                ->setPriority(10);
-            $usersCreate = $usersCreate->isPermission('user.create');
-            if ($usersCreate) {
-                $children[] = $usersCreate;
-            }
-            $usersParent = (new AdminMenuItem())
-                ->setLabel(__('User'))
-                ->setIcon('user.svg')
-                ->setId('users-submenu')
-                ->setActive(\Route::is('admin.users.*'))
-                ->setChildren($children)
-                ->setPriority(10);
-            $usersParent = $usersParent->isPermission(['user.create', 'user.view', 'user.edit', 'user.delete']);
-            if ($usersParent && count($children)) {
-                $this->addMenuItem($usersParent);
-            }
 
-            // Modules
-            $modules = (new AdminMenuItem())
-                ->setLabel(__('Modules'))
-                ->setIcon('three-dice.svg')
-                ->setRoute(route('admin.modules.index'))
-                ->setActive(\Route::is('admin.modules.index'))
-                ->setId('modules')
-                ->setPriority(1);
-            $modules = $modules->isPermission('module.view');
-            if ($modules) {
-                $this->addMenuItem($modules);
-            }
+        $this->addMenuItem([
+            'label' => __('User'),
+            'icon' => 'user.svg',
+            'id' => 'users-submenu',
+            'active' => \Route::is('admin.users.*'),
+            'children' => [
+                [
+                    'label' => __('Users'),
+                    'route' => route('admin.users.index'),
+                    'active' => \Route::is('admin.users.index') || \Route::is('admin.users.edit'),
+                    'priority' => 20,
+                    'permission' => 'user.view'
+                ],
+                [
+                    'label' => __('New User'),
+                    'route' => route('admin.users.create'),
+                    'active' => \Route::is('admin.users.create'),
+                    'priority' => 10,
+                    'permission' => 'user.create'
+                ]
+            ],
+            'priority' => 20,
+            'permission' => ['user.create', 'user.view', 'user.edit', 'user.delete']
+        ]);
 
-            // Monitoring
-            $children = [];
-            $actionLogs = (new AdminMenuItem())
-                ->setLabel(__('Action Logs'))
-                ->setRoute(route('actionlog.index'))
-                ->setActive(\Route::is('actionlog.index'))
-                ->setPriority(20);
-            $actionLogs = $actionLogs->isPermission('actionlog.view');
-            if ($actionLogs) {
-                $children[] = $actionLogs;
-            }
-            $pulse = (new AdminMenuItem())
-                ->setLabel(__('Laravel Pulse'))
-                ->setRoute(route('pulse'))
-                ->setActive(false)
-                ->setTarget('_blank')
-                ->setPriority(10);
-            $pulse = $pulse->isPermission('pulse.view');
-            if ($pulse) {
-                $children[] = $pulse;
-            }
-            $monitoringParent = (new AdminMenuItem())
-                ->setLabel(__('Monitoring'))
-                ->setIcon('tv.svg')
-                ->setId('monitoring-submenu')
-                ->setActive(\Route::is('actionlog.*'))
-                ->setChildren($children)
-                ->setPriority(1);
-            $monitoringParent = $monitoringParent->isPermission(['pulse.view', 'actionlog.view']);
-            if ($monitoringParent && count($children)) {
-                $this->addMenuItem($monitoringParent);
-            }
+        $this->addMenuItem([
+            'label' => __('Modules'),
+            'icon' => 'three-dice.svg',
+            'route' => route('admin.modules.index'),
+            'active' => \Route::is('admin.modules.index'),
+            'id' => 'modules',
+            'priority' => 30,
+            'permission' => 'module.view'
+        ]);
 
-            // Example: Event menu in "Others" group
-            // $eventMenu = new AdminMenuItem();
-            // $eventMenu
-            //     ->setLabel(__('Events'))
-            //     ->setIcon('calendar.svg')
-            //     ->setRoute(route('admin.events.index'))
-            //     ->setActive(\Route::is('admin.events.*'))
-            //     ->setId('events')
-            //     ->setPriority(5)
-            //     ->isPermission('event.view');
-            // if ($eventMenu) {
-            //     $this->addMenuItem($eventMenu, 'Others');
-            // }
+        $this->addMenuItem([
+            'label' => __('Monitoring'),
+            'icon' => 'tv.svg',
+            'id' => 'monitoring-submenu',
+            'active' => \Route::is('actionlog.*'),
+            'children' => [
+                [
+                    'label' => __('Action Logs'),
+                    'route' => route('actionlog.index'),
+                    'active' => \Route::is('actionlog.index'),
+                    'priority' => 20,
+                    'permission' => 'actionlog.view'
+                ],
+                [
+                    'label' => __('Laravel Pulse'),
+                    'route' => route('pulse'),
+                    'active' => false,
+                    'target' => '_blank',
+                    'priority' => 10,
+                    'permission' => 'pulse.view'
+                ]
+            ],
+            'priority' => 40,
+            'permission' => ['pulse.view', 'actionlog.view']
+        ]);
 
-            // Settings (in "Settings" group)
-            $children = [];
-            $generalSettings = (new AdminMenuItem())
-                ->setLabel(__('General Settings'))
-                ->setRoute(route('admin.settings.index'))
-                ->setActive(\Route::is('admin.settings.index'))
-                ->setPriority(20);
-            $generalSettings = $generalSettings->isPermission('settings.edit');
-            if ($generalSettings) {
-                $children[] = $generalSettings;
-            }
-            $translations = (new AdminMenuItem())
-                ->setLabel(__('Translations'))
-                ->setRoute(route('admin.translations.index'))
-                ->setActive(\Route::is('admin.translations.*'))
-                ->setPriority(10);
-            $translations = $translations->isPermission(['translations.view', 'translations.edit']);
-            if ($translations) {
-                $children[] = $translations;
-            }
-            $settingsParent = (new AdminMenuItem())
-                ->setLabel(__('Settings'))
-                ->setIcon('settings.svg')
-                ->setId('settings-submenu')
-                ->setActive(\Route::is('admin.settings.*') || \Route::is('admin.translations.*'))
-                ->setChildren($children)
-                ->setPriority(1);
-            $settingsParent = $settingsParent->isPermission(['settings.edit', 'translations.view']);
-            if ($settingsParent && count($children)) {
-                $this->addMenuItem($settingsParent, 'Settings');
-            }
 
-            // Logout (in "Settings" group for example)
-            $this->addMenuItem(
-                (new AdminMenuItem())
-                    ->setLabel(__('Logout'))
-                    ->setIcon('logout.svg')
-                    ->setRoute(route('logout'))
-                    ->setActive(false)
-                    ->setId('logout')
-                    ->setPriority(1),
-                'Settings'
-            );
+        $this->addMenuItem([
+            'label' => __('Settings'),
+            'icon' => 'settings.svg',
+            'id' => 'settings-submenu',
+            'active' => \Route::is('admin.settings.*') || \Route::is('admin.translations.*'),
+            'children' => [
+                [
+                    'label' => __('General Settings'),
+                    'route' => route('admin.settings.index'),
+                    'active' => \Route::is('admin.settings.index'),
+                    'priority' => 20,
+                    'permission' => 'settings.edit'
+                ],
+                [
+                    'label' => __('Translations'),
+                    'route' => route('admin.translations.index'),
+                    'active' => \Route::is('admin.translations.*'),
+                    'priority' => 10,
+                    'permission' => ['translations.view', 'translations.edit']
+                ]
+            ],
+            'priority' => 1,
+            'permission' => ['settings.edit', 'translations.view']
+        ], 'Settings');
 
-            // Sort each group by priority (higher first)
-            foreach ($this->groups as &$groupItems) {
-                usort($groupItems, function ($a, $b) {
-                    return $b->toArray()['priority'] <=> $a->toArray()['priority'];
-                });
-            }
 
-            // Allow filters to modify the menu
-            $result = [];
-            foreach ($this->groups as $group => $items) {
-                $menuArr = array_map(function ($item) {
-                    return $item->toArray();
-                }, $items);
-                $result[$group] = ld_apply_filters('sidebar_menu_' . strtolower($group), $menuArr);
-            }
+        $this->addMenuItem([
+            'label' => __('Logout'),
+            'icon' => 'logout.svg',
+            'route' => route('logout'),
+            'active' => false,
+            'id' => 'logout',
+            'priority' => 1,
+            'html' => '
+                <li class="hover:menu-item-active">
+                    <form method="POST" action="' . route('logout') . '">
+                        ' . csrf_field() . '
+                        <button type="submit" class="menu-item group w-full text-left menu-item-inactive text-black dark:text-white hover:text-black">
+                            <img src="' . asset('images/icons/logout.svg') . '" alt="Logout" class="menu-item-icon dark:invert">
+                            <span class="menu-item-text">' . __('Logout') . '</span>
+                        </button>
+                    </form>
+                </li>
+            '
+        ], 'Settings');
 
-            return $result;
-        });
+        // Sort each group by priority (lower first)
+        foreach ($this->groups as &$groupItems) {
+            usort($groupItems, function ($a, $b) {
+                return $a->toArray()['priority'] <=> $b->toArray()['priority'];
+            });
+        }
+
+        // Add filters so that developers can modify the menu
+        $result = [];
+        foreach ($this->groups as $group => $items) {
+            $menuArr = array_map(function ($item) {
+                return $item->toArray();
+            }, $items);
+            $result[$group] = ld_apply_filters('sidebar_menu_' . strtolower($group), $menuArr);
+        }
+
+        return $result;
     }
 
     public function render($menus, $textColorVar = 'textColor', $submenusVar = 'submenus')
@@ -243,7 +229,10 @@ class SidebarMenuService
             $filterKey = $item['id'] ?? (\Str::slug($item['label']) ?? '');
             $html .= ld_apply_filters('sidebar_menu_before_' . $filterKey, '');
 
-            if (!empty($item['children'])) {
+            // If HTML content is provided, use it directly
+            if (!empty($item['html'])) {
+                $html .= $item['html'];
+            } else if (!empty($item['children'])) {
                 $submenuId = $item['id'] ?? \Str::slug($item['label']) . '-submenu';
                 $isActive = $item['active'] ? 'menu-item-active' : 'menu-item-inactive';
                 $html .= '<li x-data class="hover:menu-item-active">';
@@ -264,18 +253,6 @@ class SidebarMenuService
                         class="submenu pl-12 mt-2 space-y-2 overflow-hidden">';
                 $html .= $this->render($item['children'], $textColorVar, $submenusVar);
                 $html .= '</ul>';
-                $html .= '</li>';
-            } elseif ($item['id'] === 'logout') {
-                $html .= '<li class="hover:menu-item-active">';
-                $html .= '<form method="POST" action="' . $item['route'] . '">';
-                $html .= csrf_field();
-                $html .= '<button :style="`color: ${' . $textColorVar . '}`" type="submit" class="menu-item group w-full text-left menu-item-inactive">';
-                if (!empty($item['icon'])) {
-                    $html .= '<img src="' . asset('images/icons/' . $item['icon']) . '" alt="' . e($item['label']) . '" class="menu-item-icon dark:invert">';
-                }
-                $html .= '<span class="menu-item-text">' . e($item['label']) . '</span>';
-                $html .= '</button>';
-                $html .= '</form>';
                 $html .= '</li>';
             } else {
                 $isActive = $item['active'] ? 'menu-item-active' : 'menu-item-inactive';
