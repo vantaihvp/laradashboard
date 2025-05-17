@@ -1,94 +1,76 @@
 @extends('backend.layouts.app')
 
 @section('title')
-{{ __('Dashboard Page') }} - {{ config('app.name') }}
+    {{ __('Dashboard') }} | {{ config('app.name') }}
 @endsection
 
 @section('before_vite_build')
-<script>
-    var userGrowthData = @json($user_growth_data['data']);
-    var userGrowthLabels = @json($user_growth_data['labels']);
-</script>
+    <script>
+        var userGrowthData = @json($user_growth_data['data']);
+        var userGrowthLabels = @json($user_growth_data['labels']);
+    </script>
 @endsection
 
 @section('admin-content')
-<div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-    <div class="grid grid-cols-12 gap-4 md:gap-6">
-        <div class="col-span-12 space-y-6">
-            <div class="grid grid-cols-3 gap-4 md:grid-cols-5 md:gap-6">
-                <div
-                    class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6"
-                >
-                    <div
-                        class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800"
-                    >
-                        <i class="bi bi-people dark:text-white text-2xl"></i>
-                    </div>
+    <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+        <div x-data="{ pageName: '{{ __('Dashboard') }}' }">
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Dashboard') }}</h2>
+            </div>
+        </div>
 
-                    <div class="mt-5 flex items-end justify-between">
-                        <div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Users') }}
-                            </span>
-                            <h4
-                                class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90"
-                            >
-                                {{ $total_users }}
-                            </h4>
-                        </div>
-                    </div>
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
+            <div class="col-span-12 space-y-6">
+                <div class="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-4 md:gap-6">
+                    @include('backend.pages.dashboard.partials.card', [
+                        'icon_svg' => asset('images/icons/user.svg'),
+                        'label' => __('Users'),
+                        'value' => $total_users,
+                        'bg' => '#635BFF',
+                        'class' => 'bg-white',
+                        'url' => route('admin.users.index'),
+                    ])
+                    @include('backend.pages.dashboard.partials.card', [
+                        'icon_svg' => asset('images/icons/key.svg'),
+                        'label' => __('Roles'),
+                        'value' => $total_roles,
+                        'bg' => '#00D7FF',
+                        'class' => 'bg-white',
+                        'url' => route('admin.roles.index'),
+                    ])
+                    @include('backend.pages.dashboard.partials.card', [
+                        'icon' => 'bi bi-shield-check',
+                        'label' => __('Permissions'),
+                        'value' => $total_permissions,
+                        'bg' => '#FF4D96',
+                        'class' => 'bg-white',
+                        'url' => route('admin.roles.index'),
+                    ])
+                    @include('backend.pages.dashboard.partials.card', [
+                        'icon' => 'bi bi-translate',
+                        'label' => __('Translations'),
+                        'value' => $languages['total'] . ' / ' . $languages['active'],
+                        'bg' => '#22C55E',
+                        'class' => 'bg-white',
+                        'url' => route('admin.translations.index'),
+                    ])
                 </div>
-                <div
-                    class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6"
-                >
-                    <div
-                        class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800"
-                    >
-                        <i class="bi bi-shield-check dark:text-white text-2xl"></i>
-                    </div>
+            </div>
+        </div>
 
-                    <div class="mt-5 flex items-end justify-between">
-                        <div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Roles') }}
-                            </span>
-                            <h4
-                                class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90"
-                            >
-                                {{ $total_roles }}
-                            </h4>
+        <div class="mt-6">
+            <div class="grid grid-cols-12 gap-4 md:gap-6">
+                <div class="col-span-12">
+                    <div class="grid grid-cols-12 gap-4 md:gap-6">
+                        <div class="col-span-12 md:col-span-8">
+                            @include('backend.pages.dashboard.partials.user-growth')
                         </div>
-                    </div>
-                </div>
-                <div
-                    class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6"
-                >
-                    <div
-                        class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-800"
-                    >
-                        <i class="bi bi-list-check dark:text-white text-2xl"></i>
-                    </div>
-
-                    <div class="mt-5 flex items-end justify-between">
-                        <div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('Permissions') }}
-                            </span>
-                            <h4
-                                class="mt-2 text-title-sm font-bold text-gray-800 dark:text-white/90"
-                            >
-                                {{ $total_permissions }}
-                            </h4>
+                        <div class="col-span-12 md:col-span-4">
+                            @include('backend.pages.dashboard.partials.user-history')
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="mt-6">
-        <!-- User growth chart. -->
-        @include('components.charts.user-growth-chart')
-    </div>
-</div>
 @endsection

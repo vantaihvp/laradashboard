@@ -1,19 +1,18 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Translation Management') }} - {{ config('settings.app_name') !== '' ? config('settings.app_name') : config('app.name') }}
+    {{ __('Translations') }} - {{ config('settings.app_name') !== '' ? config('settings.app_name') : config('app.name') }}
 @endsection
 
 @section('admin-content')
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
         @include('backend.layouts.partials.messages')
 
-        <div x-data="{ pageName: '{{ __('Translation Management') }}' }">
+        <div x-data="{ pageName: '{{ __('Translations') }}' }">
             <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
                 <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">
-                    {{ __('Translation Management') }}
+                    {{ __('Translations') }}
                 </h2>
-
                 <nav>
                     <ol class="flex items-center gap-1.5">
                         <li>
@@ -22,7 +21,7 @@
                                 <i class="bi bi-chevron-right"></i>
                             </a>
                         </li>
-                        <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName">{{ __('Translation Management') }}</li>
+                        <li class="text-sm text-gray-800 dark:text-white/90">{{ __('Translations') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -45,7 +44,7 @@
 
                         <div class="flex items-center">
                             <label for="group-select" class="mr-4 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                {{ __('Translation Group:') }}
+                                {{ __('Translation Group') }}:
                             </label>
                             <select id="group-select"
                                     class="h-11 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
@@ -71,7 +70,7 @@
                 <div class="mb-4">
                     <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
                         {{ __('Total Keys:') }} <span class="font-medium">{{ $translationStats['totalKeys'] }}</span> |
-                        {{ __('Translated:') }} <span class="font-medium">{{ $translationStats['translated'] }}</span> |
+                        {{ __('Translated') }}: <span class="font-medium">{{ $translationStats['translated'] }}</span> |
                         {{ __('Missing:') }} <span class="font-medium">{{ $translationStats['missing'] }}</span>
                     </p>
                     <div class="h-3 w-full bg-gray-200 rounded-full dark:bg-gray-700">

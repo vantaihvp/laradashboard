@@ -1,3 +1,12 @@
+<a id="readme-top"></a>
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![Unlicense License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+
 <img width="100%" alt="Lara Dashboard" src="https://github.com/user-attachments/assets/c56009a4-718f-43dc-bd1e-caad5417b05b"  />
 
 **Lara Dashboard** - A project which manages Role, Permissions and every actions of your Laravel application. A complete solution for Role based Access Control in Laravel with Tailwind CSS integrated with all starting features including dark/lite mode, charts, tables, logs, forms and so on...
@@ -8,15 +17,41 @@ Email - superadmin@example.com
 password - 12345678
 ```
 
-## Requirements:
-- Laravel `7.x` | `9.7` | `11.x` | `12.x`
+## 📋 Requirements:
 - Spatie role permission package  `^6.4`
 - PHPUnit test package `^11.x`
 - Tailwind CSS >= 4.x
 - Laravel Modules - https://laravelmodules.com/docs/12/getting-started/introduction
 - Laravel Events (A WordPress like action/filter hooks) - https://github.com/tormjens/eventy
 
-## Changelog
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 🛠️ Built With
+
+* [![PHP][PHP.com]][PHP-url]
+* [![Laravel][Laravel.com]][Laravel-url]
+* [![Tailwind CSS][TailwindCSS.com]][TailwindCSS-url]
+* [![JavaScript][JavaScript.com]][JavaScript-url]
+* [![Alpine JS][AlpineJS.com]][AlpineJS-url]
+* [![React][React.js]][React-url]
+* [![MySQL][MySQL.com]][MySQL-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📝 Changelog
+**[v1.2.0] - 2025-05-12**
+- **Feature - Translation Management**: Added Translation management sytem with supporting 21 languages by default and possibility to add any in a second.
+- **Enhancement - Dashboard Redesign**: Dashboard redesigned with new card, user history chart, several more design improvements.
+- **Enhancement**: Role list page, user list page to add links of users list sorting by role and role edit page linkings.
+- **Enhancement**: Cleanup code base to use services, requests more, use SOLID whenever needed.
+- **Fix**: Fixed #109 Submenu dropdown icon doesn't change on open/close submenu of a menu item.
+- **Fix**: Fixed #105 Sidebar Icon not working good if collapsed.
+- **Fix**: Fixed #93 Theme primary color, secondary color was not working.
+- **Fix**: Fixed #99 Superadmin role shouldn't be edited.
+- **Fix**: Fixed Mobile responsive has some issues.
+- **Fix**: Fixed Sidebar toggle was not persistent issue.
+- **Fix**: Fixed Role create -> selecting permission group can't check the permissions in that group checkboxes automatically.
+
 **[v1.0.0] - 2025-04-21**
 - **Feature - Forget Password Management**: Enhanced the forget password functionality for better reliability and user experience.
 - **Feature - Settings Management**: Added comprehensive settings management features, including API support.
@@ -27,7 +62,9 @@ password - 12345678
 - **Docs - Documentation and Configuration Updates**:
   - Updated `.env.example` to include a `GITHUB_LINK` variable for improved project visibility.
 
-## Versions:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🔄 Versions:
 - Laravel `7.x` & PHP -`7.x`
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/Laravel7.x
     - Branch - https://github.com/ManiruzzamanAkash/laravel-role/tree/Laravel7.x
@@ -50,7 +87,9 @@ password - 12345678
 - v1.0.0 - Settings, Forget password and lots of refactorring
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.0.0
 
-## Project Setup
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🚀 Project Setup
 **Clone and Go Project**
 ```console
 git clone git@github.com:laradashboard/laradashboard.git
@@ -86,13 +125,17 @@ npm run dev
 
 So, You've got the project of Laravel Role & Permission Management on your http://localhost:8000
 
-## Previously From laravel-role
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🔄 Previously From laravel-role
 We were previously at https://github.com/ManiruzzamanAkash/laravel-role, so you need to change the URL if you moved from there
 ```console
 git remote set-url origin git@github.com:laradashboard/laradashboard.git
 ```
 
-## How it works
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## ⚙️ How it works
 1. Login using Super Admin Credential -
     1. Email - `superadmin@example.com`
     1. Password - `12345678`
@@ -108,7 +151,9 @@ git remote set-url origin git@github.com:laradashboard/laradashboard.git
 1. Monitoring - Logging of every action of your application
 1. Monitoring - Laravel Pulse
 
-## Email setup
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📧 Email setup
 You can use mailtrap to test emails easily - https://mailtrap.io/ (first need to create mailtrap account and can )
 
 ```bash
@@ -122,108 +167,261 @@ MAIL_FROM_ADDRESS=youremail@example.com
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-## Documentation
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📚 Documentation
 https://laradashboard.com/docs/
 
-### Login & Dashboard Page
-**Login Page**
-![alt text][userLoginImage]
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-**Forget password Page (Dark mode)**
-![alt text][userForgetPasswordImage]
+## 📸 Screenshots
 
-**Dashboard Page Lite Mode**
-![alt text][dashboardImage]
+### 🔐 Login & Authentication
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Login Page</strong><br/>
+      <img width="100%" alt="Login Page" src="/demo-screenshots/login.png"/>
+    </td>
+    <td width="50%">
+      <strong>Forget Password Page (Dark Mode)</strong><br/>
+      <img width="100%" alt="Forget Password Page" src="/demo-screenshots/Forget-password.png"/>
+    </td>
+  </tr>
+</table>
 
-**Dashboard Page Dark Mode**
-![alt text][dashboardDarkMode]
+### 📊 Dashboard
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Dashboard (Light Mode)</strong><br/>
+      <img width="100%" alt="Dashboard Light Mode" src="/demo-screenshots/Dashboard%20Page%20white%20Mode.png"/>
+    </td>
+    <td width="50%">
+      <strong>Dashboard (Dark Mode)</strong><br/>
+      <img width="100%" alt="Dashboard Dark Mode" src="/demo-screenshots/Dashboard%20Page%20Dark%20Mode.png"/>
+    </td>
+  </tr>
+</table>
 
-### Role Pages
-**Role List**
-![alt text][roleListImage]
-**Role Create**
-![alt text][roleCreateImage]
-**Role Edit**
-![alt text][roleEditImage]
+### 🔑 Role Management
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Role List (Light Mode)</strong><br/>
+      <img width="100%" alt="Role List" src="/demo-screenshots/Role%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Role List (Dark Mode)</strong><br/>
+      <img width="100%" alt="Role List Dark" src="/demo-screenshots/Role%20List%20Dark.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Role Create</strong><br/>
+      <img width="100%" alt="Role Create" src="/demo-screenshots/Role%20Create.png"/>
+    </td>
+    <td width="50%">
+      <strong>Role Edit</strong><br/>
+      <img width="100%" alt="Role Edit" src="/demo-screenshots/Role%20Edit.png"/>
+    </td>
+  </tr>
+</table>
 
-### Users Pages
-**Users List**
-![alt text][userListImage]
-**User Create**
-![alt text][userCreateImage]
+### 👥 User Management
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Users List (Light mode)</strong><br/>
+      <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/Users%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Users List (Dark mode)</strong><br/>
+      <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/User List Dark.png" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>User Create</strong><br/>
+      <img width="100%" alt="User Create" src="/demo-screenshots/User%20Create.png"/>
+    </td>
+    <td width="50%">
+      <strong>User Delete</strong><br/>
+      <img width="100%" alt="User Delete" src="/demo-screenshots/User Delete.png" />
+    </td>
+  </tr>
+</table>
 
-### Modules Page
-**Module List**
-![alt text][moduleListPage]
+### 🧩 Module Management
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Module List</strong><br/>
+      <img width="100%" alt="Module List" src="/demo-screenshots/Module%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Upload Module</strong><br/>
+      <img width="100%" alt="Upload Module" src="/demo-screenshots/Upload%20Module.png"/>
+    </td>
+  </tr>
+</table>
 
-**Upload Module**
-![alt text][moduleCreatePage]
+### ⚙️ Settings Pages
+<table>
+  <tr>
+    <td width="50%">
+      <strong>General Settings</strong><br/>
+      <img width="100%" alt="General Settings" src="/demo-screenshots/Settings-General.png"/>
+    </td>
+    <td width="50%">
+      <strong>Site Appearance</strong><br/>
+      <img width="100%" alt="Site Appearance" src="/demo-screenshots/Settings-Site-Appearance.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Content Settings</strong><br/>
+      <img width="100%" alt="Content Settings" src="/demo-screenshots/Settings-Content.png"/>
+    </td>
+    <td width="50%">
+      <strong>Integration Settings</strong><br/>
+      <img width="100%" alt="Integration Settings" src="/demo-screenshots/Settings-Google-Analytics.png"/>
+    </td>
+  </tr>
+</table>
 
-### Settings Pages
-**General Settings**
-![alt text][generalSettingsImage]
+### 🌐 Translations Pages
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Translations List</strong><br/>
+      <img width="100%" alt="Translations List" src="/demo-screenshots/Translations List.png" />
+    </td>
+    <td width="50%">
+      <strong>Add Language</strong><br/>
+      <img width="100%" alt="Create Translation" src="/demo-screenshots/Translations List Dark.png" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Language Switcher</strong><br/>
+      <img width="100%" alt="Language Switcher" src="/demo-screenshots/Language switcher.png" />
+    </td>
+    <td width="50%">
+      <!-- Reserved for future screenshot -->
+    </td>
+  </tr>
+</table>
 
-**Site Appearance**
-![alt text][siteAppearanceImage]
+### 📊 Monitoring
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Action Logs</strong><br/>
+      <img width="100%" alt="Action Logs" src="/demo-screenshots/Action%20Log%20List.png"/>
+    </td>
+    <td width="50%">
+      <strong>Laravel Pulse</strong><br/>
+      <img width="100%" alt="Laravel Pulse" src="/demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png"/>
+    </td>
+  </tr>
+</table>
 
-**Content Settings**
-![alt text][contentSettingsImage]
+### 🔧 Other Pages
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Custom Error Pages</strong><br/>
+      <img width="100%" alt="Custom Error Pages" src="/demo-screenshots/Custom%20Error%20Pages.png"/>
+    </td>
+    <td width="50%">
+      <!-- Reserved for future screenshot -->
+    </td>
+  </tr>
+</table>
 
-**Integration Settings**
-![alt text][integrationsSettingsImage]
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Monitoring Pages
-**Action Logs**
-![alt text][actionLogsPage]
-
-**Laravel Pulse**
-![alt text][laravelPulsePage]
-
-### Other Pages
-Custom Error Pages
-![alt text][errorPageImage]
-
-
-[dashboardImage]: /demo-screenshots/Dashboard%20Page%20white%20Mode.png "Dashboard Page Laravel Role Management"
-[dashboardDarkMode]:  /demo-screenshots/Dashboard%20Page%20Dark%20Mode.png "Dashboard Page Dark Mode"
-[roleListImage]: /demo-screenshots/Role%20List.png "2-Laravel-Manage-Roles"
-[roleCreateImage]: /demo-screenshots/Role%20Create.png "3-Laravel-Role-Create"
-[roleEditImage]: /demo-screenshots/Role%20Edit.png "4-Laravel-Role-Edit"
-[userListImage]:  /demo-screenshots/Users%20List.png "5-Laravel-Users-Manage" 
-[userCreateImage]: /demo-screenshots/User%20Create.png "6-Laravel-User-Create"
-[userLoginImage]: /demo-screenshots/login.png "7-Login-Page"
-[userForgetPasswordImage]: /demo-screenshots/Forget-password.png "Forget Password"
-[errorPageImage]: /demo-screenshots/Custom%20Error%20Pages.png "8 - Error Page Handling"
-[moduleListPage]: /demo-screenshots/Module%20List.png
-[moduleCreatePage]: /demo-screenshots/Upload%20Module.png
-[actionLogsPage]: /demo-screenshots/Action%20Log%20List.png
-[laravelPulsePage]: /demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png
-[generalSettingsImage]: /demo-screenshots/Settings-General.png "General Settings Page"
-[siteAppearanceImage]: /demo-screenshots/Settings-Site-Appearance.png "Site Appearance Page"
-[contentSettingsImage]: /demo-screenshots/Settings-Content.png "Content Settings Page"
-[integrationsSettingsImage]: /demo-screenshots/Settings-Google-Analytics.png "Integrations Settings Page"
-
-## Live Demo
+## 🔗 Live Demo
 https://demo.laradashboard.com
 
-## Articles
-- How to setup - https://devsenv.com/tutorials/laravel-role-permission-management-system-full-example-with-source-code
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Wanna talk with me
-Please mail me at - manirujjamanakash@gmail.com
-
-## Premium Features
+## ✨ Premium Features
 Please visit at Lara Dashboard to get more premium moduels - https://laradashboard.com. Premium modules included CRM, HRM, Course Managements and so on.
 
-## Core modules
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🧩 Core modules
 - **User Avatar** - https://github.com/laradashboard/UserAvatar - A very simple module create an avatar for a user. Handle migration, entries/updates in user forms and so on. 
 
-## Support
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 👥 Contributing
+
+Want to contribute? Fork the project, make your changes, and submit a pull request. Even small improvements to documentation are appreciated!
+
+Please be sure to read our [Contribution Guide](CONTRIBUTING.md) before submitting your PR.
+
+### 🌟 Top contributors:
+<a href="https://github.com/laradashboard/laradashboard/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=laradashboard/laradashboard" alt="contrib.rocks image" />
+</a>
+
+## 💖 Support
 If you like my work you may consider buying me a ☕ / 🍕
 
 <a href="https://www.patreon.com/maniruzzaman" target="_blank" title="Buy Me A Coffee">
     Go to Patreon
 </a>
 
-## Contribution
-Contribution is open. Create Pull-request and I'll add it to the project if it's good enough.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 📞 Contact
+
+Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) - manirujjamanakash@gmail.com
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/laradashboard/laradashboard.svg?style=for-the-badge
+[contributors-url]: https://github.com/laradashboard/laradashboard/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/laradashboard/laradashboard.svg?style=for-the-badge
+[forks-url]: https://github.com/laradashboard/laradashboard/network/members
+[stars-shield]: https://img.shields.io/github/stars/laradashboard/laradashboard.svg?style=for-the-badge
+[stars-url]: https://github.com/laradashboard/laradashboard/stargazers
+[issues-shield]: https://img.shields.io/github/issues/laradashboard/laradashboard.svg?style=for-the-badge
+[issues-url]: https://github.com/laradashboard/laradashboard/issues
+[license-shield]: https://img.shields.io/github/license/laradashboard/laradashboard.svg?style=for-the-badge
+[license-url]: https://github.com/laradashboard/laradashboard/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/maniruzzamanakash
+[product-screenshot]: images/screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
+[Vue-url]: https://vuejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Angular-url]: https://angular.io/
+[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
+[Svelte-url]: https://svelte.dev/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
+[JQuery-url]: https://jquery.com
+[PHP.com]: https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white
+[PHP-url]: https://www.php.net
+[JavaScript.com]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+[JavaScript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+[MySQL.com]: https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white
+[MySQL-url]: https://www.mysql.com
+[TailwindCSS.com]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[TailwindCSS-url]: https://tailwindcss.com
+[AlpineJS.com]: https://img.shields.io/badge/Alpine.js-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=black
+[AlpineJS-url]: https://alpinejs.dev

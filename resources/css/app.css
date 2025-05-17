@@ -193,7 +193,7 @@ layer(base);
 }
 
 @utility menu-item {
-  @apply relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
+  @apply relative flex items-center gap-3 px-5 !py-3 font-medium text-theme-sm;
 }
 
 @utility menu-item-active {
@@ -248,6 +248,10 @@ layer(base);
   @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
 }
 
+@utility submenu {
+  @apply mr-2 mb-2;
+}
+
 @utility no-scrollbar {
   /* Chrome, Safari and Opera */
   &::-webkit-scrollbar {
@@ -292,6 +296,27 @@ layer(base);
   }
 }
 
+.app-sidebar-minified .submenu {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .app-sidebar-minified .menu-item .menu-item-text,
+  .app-sidebar-minified .menu-item .menu-item-arrow {
+    display: none;
+  }
+  .app-sidebar-minified .menu-item .menu-item-icon {
+    margin-left: 10px;
+  }
+}
+@media (max-width: 1023px) {
+  .app-sidebar-minified .menu-item .menu-item-text,
+  .app-sidebar-minified .menu-item .menu-item-arrow {
+    display: inline-block;
+  }
+}
+.menu-item .menu-item-arrow {
+  margin-right: 10px;
+}
 .sidebar:hover {
   width: 290px;
 }

@@ -1,62 +1,80 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        /**
-         * Check all the permissions
-         */
+        // Get the main "Select All" checkbox
         const checkPermissionAll = document.getElementById("checkPermissionAll");
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
+        // Direct click handler for "Select All" checkbox
         checkPermissionAll.addEventListener("click", function () {
             const isChecked = this.checked;
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
+            document
+                .querySelectorAll('input[type="checkbox"]')
+                .forEach((checkbox) => {
+                    checkbox.checked = isChecked;
+                });
         });
 
-        function checkPermissionByGroup(className, checkThis) {
-            const groupInput = checkThis.querySelector('input[type="checkbox"]');
-            if (!groupInput) {
-                console.error(`Checkbox input not found inside label with ID ${checkThis.id}.`);
-                return;
-            }
+        // Direct click handler for each group checkbox
+        document
+            .querySelectorAll('[id$="Management"]')
+            .forEach((groupCheckbox) => {
+                groupCheckbox.addEventListener("click", function () {
+                    const isChecked = this.checked;
+                    const groupId = this.id;
+                    const groupClass = `group-${groupId}`;
 
-            const isChecked = groupInput.checked;
-            const classCheckBoxes = document.querySelectorAll(`.${className} input[type="checkbox"]`);
-            if (!classCheckBoxes.length) {
-                console.error(`No checkboxes found for class ${className}.`);
-                return;
-            }
+                    // Find all checkboxes within this group container
+                    const checkboxContainer = document.querySelector(
+                        `[data-group="${groupId}"]`
+                    );
+                    if (checkboxContainer) {
+                        const childCheckboxes = checkboxContainer.querySelectorAll(
+                            'input[type="checkbox"]'
+                        );
+                        childCheckboxes.forEach((checkbox) => {
+                            checkbox.checked = isChecked;
+                        });
+                    }
 
-            classCheckBoxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
+                    updateSelectAllState();
+                });
             });
 
-            implementAllChecked();
+        // Direct click handler for individual permission checkboxes
+        document
+            .querySelectorAll('input[name="permissions[]"]')
+            .forEach((checkbox) => {
+                checkbox.addEventListener("click", function () {
+                    // Find the group this checkbox belongs to
+                    const groupContainer = this.closest('[data-group]');
+                    if (!groupContainer) return;
+
+                    const groupId = groupContainer.getAttribute('data-group');
+                    if (!groupId) return;
+
+                    // Get all checkboxes in this group
+                    const allCheckboxes = groupContainer.querySelectorAll('input[name="permissions[]"]');
+                    const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+
+                    // Update the group checkbox state
+                    const groupCheckbox = document.getElementById(groupId);
+                    if (groupCheckbox) {
+                        groupCheckbox.checked = allChecked;
+                    }
+
+                    updateSelectAllState();
+                });
+            });
+
+        // Function to update the "Select All" checkbox state
+        function updateSelectAllState() {
+            const totalPermissionCheckboxes = document.querySelectorAll('input[name="permissions[]"]').length;
+            const checkedPermissionCheckboxes = document.querySelectorAll('input[name="permissions[]"]:checked').length;
+
+            checkPermissionAll.checked = (totalPermissionCheckboxes > 0 &&
+                checkedPermissionCheckboxes === totalPermissionCheckboxes);
         }
 
-        function checkSinglePermission(groupClassName, groupID, countTotalPermission) {
-            const classCheckBoxes = document.querySelectorAll(`.${groupClassName} input`);
-            const groupIDCheckBox = document.getElementById(groupID);
-
-            const checkedCount = Array.from(classCheckBoxes).filter(checkbox => checkbox.checked).length;
-
-            groupIDCheckBox.checked = (checkedCount === countTotalPermission);
-
-            implementAllChecked();
-        }
-
-        function implementAllChecked() {
-            const countPermissions = {{ count($all_permissions) }};
-            const countPermissionGroups = {{ count($permission_groups) }};
-            const totalCheckboxes = countPermissions + countPermissionGroups;
-
-            const checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
-
-            checkPermissionAll.checked = (checkedCount >= totalCheckboxes);
-        }
-
-        // Expose functions to the global scope if needed
-        window.checkPermissionByGroup = checkPermissionByGroup;
-        window.checkSinglePermission = checkSinglePermission;
+        // Initialize the correct state for all checkboxes
+        updateSelectAllState();
     });
 </script>

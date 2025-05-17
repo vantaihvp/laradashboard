@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Models\User;
 use Hash;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Spatie\Permission\Models\Role;
 
 class UserService
 {
@@ -45,5 +44,10 @@ class UserService
         }
 
         return $user;
+    }
+
+    public function getUserById(int $id): ?User
+    {
+        return User::findOrFail($id);
     }
 }
