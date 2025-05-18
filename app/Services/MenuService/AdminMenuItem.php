@@ -4,16 +4,19 @@ namespace App\Services\MenuService;
 
 class AdminMenuItem
 {
-    protected string $label;
-    protected ?string $icon = null;
-    protected ?string $route = null;
-    protected bool $active = false;
-    protected ?string $id = null;
-    protected array $children = [];
-    protected ?string $target = null;
-    protected int $priority = 1;
-    protected array $permissions = [];
-    protected ?string $htmlData = null;
+    public string $label;
+    public ?string $icon = null;
+    public ?string $route = null;
+    public bool $active = false;
+    public ?string $id = null;
+    /**
+     * @var AdminMenuItem[]
+     */
+    public array $children = [];
+    public ?string $target = null;
+    public int $priority = 1;
+    public array $permissions = [];
+    public ?string $htmlData = null;
 
     public function setLabel(string $label): self
     {
@@ -84,8 +87,6 @@ class AdminMenuItem
         // Check if any children are active
         foreach ($this->children as $child) {
             if ($child instanceof self && $child->isActive()) {
-                return true;
-            } elseif (is_array($child) && !empty($child['active']) && $child['active'] === true) {
                 return true;
             }
         }

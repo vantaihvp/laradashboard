@@ -4,13 +4,17 @@ namespace App\Services\MenuService;
 
 use App\Services\MenuService\AdminMenuItem;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class AdminMenuService
 {
+    /**
+     * @var AdminMenuItem[][]
+     */
     protected array $groups = [];
 
     /**
-     * Add a menu item to the sidebar.
+     * Add a menu item to the admin sidebar.
      *
      * @param AdminMenuItem|array $item The menu item or configuration array
      * @param string|null $group The group to add the item to
@@ -211,7 +215,7 @@ class AdminMenuService
     {
         foreach ($this->groups as &$groupItems) {
             usort($groupItems, function ($a, $b) {
-                return $a->toArray()['priority'] <=> $b->toArray()['priority'];
+                return $a->priority <=> $b->priority;
             });
         }
     }
@@ -220,41 +224,34 @@ class AdminMenuService
     {
         $result = [];
         foreach ($this->groups as $group => $items) {
-            // Filter items by permission before converting to array.
-            $filteredItems = array_filter($items, function ($item) {
+            // Filter items by permission.
+            $filteredItems = array_filter($items, function (AdminMenuItem $item) {
                 return $item->userHasPermission();
             });
 
-            // Convert to array for filters.
-            $menuArr = array_map(function ($item) {
-                return $item->toArray();
-            }, $filteredItems);
-
-            // Apply filters.
-            $filteredMenuArr = ld_apply_filters('sidebar_menu_' . strtolower($group), $menuArr);
-
+            // Apply filters that might add/modify menu items.
+            $filteredItems = ld_apply_filters('sidebar_menu_' . strtolower($group), $filteredItems);
+            
             // Only add the group if it has items after filtering.
-            if (!empty($filteredMenuArr)) {
-                $result[$group] = $filteredMenuArr;
+            if (!empty($filteredItems)) {
+                $result[$group] = $filteredItems;
             }
         }
 
         return $result;
     }
 
-    public function shouldExpandSubmenu(array $menuItem): bool
+    public function shouldExpandSubmenu(AdminMenuItem $menuItem): bool
     {
         // If the parent menu item is active, expand the submenu.
-        if (!empty($menuItem['active']) && $menuItem['active'] === true) {
+        if ($menuItem->active) {
             return true;
         }
 
         // Check if any child menu item is active.
-        if (!empty($menuItem['children'])) {
-            foreach ($menuItem['children'] as $child) {
-                if (!empty($child['active']) && $child['active'] === true) {
-                    return true;
-                }
+        foreach ($menuItem->children as $child) {
+            if ($child->active) {
+                return true;
             }
         }
 
@@ -264,12 +261,12 @@ class AdminMenuService
     public function render(array $groupItems): string
     {
         $html = '';
-        foreach ($groupItems as $groupItem) {
-            $filterKey = $groupItem['id'] ?? (\Str::slug($groupItem['label']) ?? '');
+        foreach ($groupItems as $menuItem) {
+            $filterKey = $menuItem->id ?? Str::slug($menuItem->label) ?? '';
             $html .= ld_apply_filters('sidebar_menu_before_' . $filterKey, '');
 
             $html .= view('backend.layouts.partials.menu-item', [
-                'item' => $groupItem,
+                'item' => $menuItem,
             ])->render();
 
             $html .= ld_apply_filters('sidebar_menu_after_' . $filterKey, '');
