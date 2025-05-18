@@ -7,10 +7,6 @@
     x-data="{
         isDark: document.documentElement.classList.contains('dark'),
         textColor: '',
-        submenus: {},
-        toggleSubmenu(id) {
-            this.submenus[id] = !this.submenus[id];
-        },
         init() {
             this.updateColor();
             const observer = new MutationObserver(() => this.updateColor());
@@ -18,8 +14,8 @@
         },
         updateColor() {
             this.isDark = document.documentElement.classList.contains('dark');
-            this.textColor = this.isDark 
-                ? '{{ config('settings.sidebar_text_dark') }}' 
+            this.textColor = this.isDark
+                ? '{{ config('settings.sidebar_text_dark') }}'
                 : '{{ config('settings.sidebar_text_lite') }}';
         }
     }"
@@ -30,7 +26,7 @@
         {!! ld_apply_filters('sidebar_menu_group_before_' . strtolower($groupName), '') !!}
         <div>
             {!! ld_apply_filters('sidebar_menu_group_heading_before_' . strtolower($groupName), '') !!}
-            <h3 class="mb-4 text-xs leading-[20px] text-gray-400 px-5">
+            <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400 px-5">
                 {{ __($groupName) }}
             </h3>
             {!! ld_apply_filters('sidebar_menu_group_heading_after_' . strtolower($groupName), '') !!}

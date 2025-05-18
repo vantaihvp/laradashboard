@@ -228,7 +228,7 @@ class SidebarMenuService
         return $result;
     }
 
-    public function render($groupItems, $textColorVar = 'textColor', $submenusVar = 'submenus')
+    public function render($groupItems, $textColorVar = 'textColor')
     {
         $html = '';
         foreach ($groupItems as $groupItem) {
@@ -240,23 +240,21 @@ class SidebarMenuService
             } else if (!empty($groupItem['children'])) {
                 $submenuId = $groupItem['id'] ?? \Str::slug($groupItem['label']) . '-submenu';
                 $isActive = $groupItem['active'] ? 'menu-item-active' : 'menu-item-inactive';
-                $html .= '<li x-data class="hover:menu-item-active">';
-                $html .= '<button :style="`color: ${' . $textColorVar . '}`" class="menu-item group w-full text-left ' . $isActive . '" type="button" @click="toggleSubmenu(\'' . $submenuId . '\')">';
+
+                // Determine if submenu should be displayed.
+                $showSubmenu = $this->shouldExpandSubmenu($groupItem);
+                $rotateClass = $showSubmenu ? 'rotate-180' : '';
+
+                $html .= '<li class="hover:menu-item-active">';
+                $html .= '<button :style="`color: ${' . $textColorVar . '}`" class="menu-item group w-full text-left ' . $isActive . '" type="button" onclick="this.nextElementSibling.classList.toggle(\'hidden\'); this.querySelector(\'.menu-item-arrow\').classList.toggle(\'rotate-180\')">';
                 if (!empty($groupItem['icon'])) {
                     $html .= '<img src="' . asset('images/icons/' . $groupItem['icon']) . '" alt="' . e($groupItem['label']) . '" class="menu-item-icon dark:invert">';
                 }
                 $html .= '<span class="menu-item-text">' . e($groupItem['label']) . '</span>';
-                $html .= '<img src="' . asset('images/icons/chevron-down.svg') . '" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300" :class="' . $submenusVar . '[\'' . $submenuId . '\'] ? \'rotate-180\' : \'\'">';
+                $html .= '<img src="' . asset('images/icons/chevron-down.svg') . '" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300 ' . $rotateClass . '">';
                 $html .= '</button>';
-                $html .= '<ul id="' . $submenuId . '" x-show="' . $submenusVar . '[\'' . $submenuId . '\']"
-                        x-transition:enter="transition-all ease-in-out duration-300"
-                        x-transition:enter-start="opacity-0 max-h-0"
-                        x-transition:enter-end="opacity-100 max-h-[500px]"
-                        x-transition:leave="transition-all ease-in-out duration-300"
-                        x-transition:leave-start="opacity-100 max-h-[500px]"
-                        x-transition:leave-end="opacity-0 max-h-0"
-                        class="submenu pl-12 mt-2 space-y-2 overflow-hidden">';
-                $html .= $this->render($groupItem['children'], $textColorVar, $submenusVar);
+                $html .= '<ul id="' . $submenuId . '" class="submenu pl-12 mt-2 space-y-2 overflow-hidden ' . ($showSubmenu ? '' : 'hidden') . '">';
+                $html .= $this->render($groupItem['children'], $textColorVar);
                 $html .= '</ul>';
                 $html .= '</li>';
             } else {
@@ -276,5 +274,24 @@ class SidebarMenuService
             $html .= ld_apply_filters('sidebar_menu_after_' . $filterKey, '');
         }
         return $html;
+    }
+
+    protected function shouldExpandSubmenu(array $menuItem): bool
+    {
+        // If the parent menu item is active, expand the submenu.
+        if (!empty($menuItem['active']) && $menuItem['active'] === true) {
+            return true;
+        }
+
+        // Check if any child menu item is active.
+        if (!empty($menuItem['children'])) {
+            foreach ($menuItem['children'] as $child) {
+                if (!empty($child['active']) && $child['active'] === true) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

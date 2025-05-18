@@ -63,6 +63,42 @@ class AdminMenuItem
         return $this;
     }
 
+    /**
+     * Check if this menu item or any of its children are active
+     * based on the current route
+     *
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        if ($this->active) {
+            return true;
+        }
+
+        // Check if any children are active
+        foreach ($this->children as $child) {
+            if ($child instanceof self && $child->isActive()) {
+                return true;
+            } elseif (is_array($child) && !empty($child['active']) && $child['active'] === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Set permissions for the menu item
+     *
+     * @param string|array $permissions
+     * @return self
+     */
+    public function setPermissions($permissions): self
+    {
+        $this->permissions = is_array($permissions) ? $permissions : [$permissions];
+        return $this;
+    }
+
     public function userHasPermission(): bool
     {
         if (empty($this->permissions)) {
