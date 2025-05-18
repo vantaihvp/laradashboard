@@ -5,7 +5,7 @@ namespace App\Services\MenuService;
 use App\Services\MenuService\AdminMenuItem;
 use Illuminate\Support\Facades\Route;
 
-class SidebarMenuService
+class AdminMenuService
 {
     protected $groups = [];
 

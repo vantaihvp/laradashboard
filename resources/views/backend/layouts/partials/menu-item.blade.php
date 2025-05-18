@@ -5,7 +5,7 @@
     @php
         $submenuId = $item['id'] ?? \Str::slug($item['label']) . '-submenu';
         $isActive = $item['active'] ? 'menu-item-active' : 'menu-item-inactive';
-        $showSubmenu = app(\App\Services\MenuService\SidebarMenuService::class)->shouldExpandSubmenu($item);
+        $showSubmenu = app(\App\Services\MenuService\AdminMenuService::class)->shouldExpandSubmenu($item);
         $rotateClass = $showSubmenu ? 'rotate-180' : '';
     @endphp
 
