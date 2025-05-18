@@ -19,6 +19,8 @@
         <button :style="`color: ${textColor}`" class="menu-item group w-full text-left {{ $isActive }}" type="button" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.menu-item-arrow').classList.toggle('rotate-180')">
             @if (!empty($item->icon))
                 <img src="{{ asset('images/icons/' . $item->icon) }}" alt="{!! $item->label !!}" class="menu-item-icon dark:invert">
+            @elseif (!empty($item->iconClass))
+                <i class="{{ $item->iconClass }} menu-item-icon"></i>
             @endif
             <span class="menu-item-text">{!! $item->label !!}</span>
             <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300 {{ $rotateClass }}">
@@ -42,6 +44,8 @@
         <a :style="`color: ${textColor}`" href="{{ $item->route ?? '#' }}" class="menu-item group {{ $isActive }}" {!! $target !!}>
             @if (!empty($item->icon))
                 <img src="{{ asset('images/icons/' . $item->icon) }}" alt="{!! $item->label !!}" class="menu-item-icon dark:invert">
+            @elseif (!empty($item->iconClass))
+                <i class="{{ $item->iconClass }} menu-item-icon"></i>
             @endif
             <span class="menu-item-text">{!! $item->label !!}</span>
         </a>

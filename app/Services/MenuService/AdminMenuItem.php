@@ -6,6 +6,7 @@ class AdminMenuItem
 {
     public string $label;
     public ?string $icon = null;
+    public ?string $iconClass = null;
     public ?string $route = null;
     public bool $active = false;
     public ?string $id = null;
@@ -27,6 +28,12 @@ class AdminMenuItem
     public function setIcon(?string $icon): self
     {
         $this->icon = $icon;
+        return $this;
+    }
+    
+    public function setIconClass(?string $iconClass): self
+    {
+        $this->iconClass = $iconClass;
         return $this;
     }
 
@@ -132,6 +139,7 @@ class AdminMenuItem
         return [
             'label' => $this->label,
             'icon' => $this->icon,
+            'iconClass' => $this->iconClass,
             'route' => $this->route,
             'active' => $this->active,
             'id' => $this->id,
