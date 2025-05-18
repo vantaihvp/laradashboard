@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 class AdminMenuService
 {
-    protected $groups = [];
+    protected array $groups = [];
 
     /**
      * Add a menu item to the sidebar.
@@ -17,7 +17,7 @@ class AdminMenuService
      * @return void
      * @throws \InvalidArgumentException
      */
-    public function addMenuItem($item, $group = null)
+    public function addMenuItem(AdminMenuItem|array $item, ?string $group = null)
     {
         $group = $group ?: __('Main');
         $menuItem = $this->createAdminMenuItem($item);
@@ -30,21 +30,24 @@ class AdminMenuService
         }
     }
 
-    /**
-     * Create an AdminMenuItem from an array.
-     *
-     * @param array $data Configuration array
-     * @return AdminMenuItem
-     */
-    protected function createAdminMenuItem(array $data): AdminMenuItem
+    protected function createAdminMenuItem(AdminMenuItem|array $data): AdminMenuItem
     {
+        if ($data instanceof AdminMenuItem) {
+            return $data;
+        }
+
         $menuItem = new AdminMenuItem();
+
         if (isset($data['children']) && is_array($data['children'])) {
-            $children = [];
-            foreach ($data['children'] as $child) {
-                $children[] = $this->createAdminMenuItem($child);
-            }
-            $data['children'] = $children;
+            $data['children'] = array_map(
+                fn($child) => auth()->user()->hasAnyPermission($child['permissions'] ?? [])
+                ? $this->createAdminMenuItem($child)
+                : null,
+                $data['children']
+            );
+
+            // Filter out null values (items without permission).
+            $data['children'] = array_filter($data['children']);
         }
 
         return $menuItem->setAttributes($data);
@@ -201,12 +204,10 @@ class AdminMenuService
         ], __('More'));
 
         $this->sortMenuItemsByPriority();
-        $result = $this->applyFiltersToMenuItems();
-
-        return $result;
+        return $this->applyFiltersToMenuItems();
     }
 
-    protected function sortMenuItemsByPriority()
+    protected function sortMenuItemsByPriority(): void
     {
         foreach ($this->groups as &$groupItems) {
             usort($groupItems, function ($a, $b) {
@@ -215,14 +216,27 @@ class AdminMenuService
         }
     }
 
-    protected function applyFiltersToMenuItems()
+    protected function applyFiltersToMenuItems(): array
     {
         $result = [];
         foreach ($this->groups as $group => $items) {
+            // Filter items by permission before converting to array.
+            $filteredItems = array_filter($items, function ($item) {
+                return $item->userHasPermission();
+            });
+
+            // Convert to array for filters.
             $menuArr = array_map(function ($item) {
                 return $item->toArray();
-            }, $items);
-            $result[$group] = ld_apply_filters('sidebar_menu_' . strtolower($group), $menuArr);
+            }, $filteredItems);
+
+            // Apply filters.
+            $filteredMenuArr = ld_apply_filters('sidebar_menu_' . strtolower($group), $menuArr);
+
+            // Only add the group if it has items after filtering.
+            if (!empty($filteredMenuArr)) {
+                $result[$group] = $filteredMenuArr;
+            }
         }
 
         return $result;

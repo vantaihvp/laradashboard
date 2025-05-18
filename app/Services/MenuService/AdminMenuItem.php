@@ -63,6 +63,12 @@ class AdminMenuItem
         return $this;
     }
 
+    public function setPermissions(string | array $permissions): self
+    {
+        $this->permissions = is_array($permissions) ? $permissions : [$permissions];
+        return $this;
+    }
+
     /**
      * Check if this menu item or any of its children are active
      * based on the current route
@@ -85,18 +91,6 @@ class AdminMenuItem
         }
 
         return false;
-    }
-
-    /**
-     * Set permissions for the menu item
-     *
-     * @param string|array $permissions
-     * @return self
-     */
-    public function setPermissions($permissions): self
-    {
-        $this->permissions = is_array($permissions) ? $permissions : [$permissions];
-        return $this;
     }
 
     public function userHasPermission(): bool
@@ -141,6 +135,7 @@ class AdminMenuItem
             'active' => $this->active,
             'id' => $this->id,
             'target' => $this->target,
+            'permissions' => $this->permissions,
             'priority' => $this->priority,
             'htmlData' => $this->htmlData,
             'children' => array_map(function ($child) {
