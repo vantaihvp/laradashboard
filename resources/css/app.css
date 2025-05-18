@@ -301,7 +301,7 @@ layer(base);
 }
 
 .submenu .menu-item, .submenu li:hover {
-  @apply rounded-4xl;
+  @apply rounded-lg;
 }
 
 @media (min-width: 1024px) {

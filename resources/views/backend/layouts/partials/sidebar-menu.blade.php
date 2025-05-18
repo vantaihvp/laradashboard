@@ -1,6 +1,8 @@
 @php
     $menuService = app(\App\Services\MenuService\SidebarMenuService::class);
     $menuGroups = $menuService->getMenu();
+    $sidebarTextDark = config('settings.sidebar_text_dark', '#ffffff');
+    $sidebarTextLite = config('settings.sidebar_text_lite', '#090909');
 @endphp
 
 <nav
@@ -14,9 +16,7 @@
         },
         updateColor() {
             this.isDark = document.documentElement.classList.contains('dark');
-            this.textColor = this.isDark
-                ? '{{ config('settings.sidebar_text_dark') }}'
-                : '{{ config('settings.sidebar_text_lite') }}';
+            this.textColor = this.isDark ? '{{ $sidebarTextDark }}' : '{{ $sidebarTextLite }}';
         }
     }"
     x-init="init()"
@@ -33,7 +33,6 @@
             <ul class="flex flex-col mb-6">
                 {!! ld_apply_filters('sidebar_menu_before_all_' . strtolower($groupName), '') !!}
                 {!! $menuService->render($groupItems) !!}
-          
                 {!! ld_apply_filters('sidebar_menu_after_all_' . strtolower($groupName), '') !!}
             </ul>
         </div>

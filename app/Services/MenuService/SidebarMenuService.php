@@ -228,55 +228,7 @@ class SidebarMenuService
         return $result;
     }
 
-    public function render($groupItems, $textColorVar = 'textColor')
-    {
-        $html = '';
-        foreach ($groupItems as $groupItem) {
-            // Filter before menu
-            $filterKey = $groupItem['id'] ?? (\Str::slug($groupItem['label']) ?? '');
-            $html .= ld_apply_filters('sidebar_menu_before_' . $filterKey, '');
-            if (isset($groupItem['htmlData'])) {
-                $html .= $groupItem['htmlData'];
-            } else if (!empty($groupItem['children'])) {
-                $submenuId = $groupItem['id'] ?? \Str::slug($groupItem['label']) . '-submenu';
-                $isActive = $groupItem['active'] ? 'menu-item-active' : 'menu-item-inactive';
-
-                // Determine if submenu should be displayed.
-                $showSubmenu = $this->shouldExpandSubmenu($groupItem);
-                $rotateClass = $showSubmenu ? 'rotate-180' : '';
-
-                $html .= '<li class="hover:menu-item-active">';
-                $html .= '<button :style="`color: ${' . $textColorVar . '}`" class="menu-item group w-full text-left ' . $isActive . '" type="button" onclick="this.nextElementSibling.classList.toggle(\'hidden\'); this.querySelector(\'.menu-item-arrow\').classList.toggle(\'rotate-180\')">';
-                if (!empty($groupItem['icon'])) {
-                    $html .= '<img src="' . asset('images/icons/' . $groupItem['icon']) . '" alt="' . e($groupItem['label']) . '" class="menu-item-icon dark:invert">';
-                }
-                $html .= '<span class="menu-item-text">' . e($groupItem['label']) . '</span>';
-                $html .= '<img src="' . asset('images/icons/chevron-down.svg') . '" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300 ' . $rotateClass . '">';
-                $html .= '</button>';
-                $html .= '<ul id="' . $submenuId . '" class="submenu pl-12 mt-2 space-y-2 overflow-hidden ' . ($showSubmenu ? '' : 'hidden') . '">';
-                $html .= $this->render($groupItem['children'], $textColorVar);
-                $html .= '</ul>';
-                $html .= '</li>';
-            } else {
-                $isActive = $groupItem['active'] ? 'menu-item-active' : 'menu-item-inactive';
-                $target = !empty($groupItem['target']) ? ' target="' . e($groupItem['target']) . '"' : '';
-                $html .= '<li class="hover:menu-item-active">';
-                $html .= '<a :style="`color: ${' . $textColorVar . '}`" href="' . ($groupItem['route'] ?? '#') . '" class="menu-item group ' . $isActive . '"' . $target . '>';
-                if (!empty($groupItem['icon'])) {
-                    $html .= '<img src="' . asset('images/icons/' . $groupItem['icon']) . '" alt="' . e($groupItem['label']) . '" class="menu-item-icon dark:invert">';
-                }
-                $html .= '<span class="menu-item-text">' . e($groupItem['label']) . '</span>';
-                $html .= '</a>';
-                $html .= '</li>';
-            }
-
-            // Filter after menu
-            $html .= ld_apply_filters('sidebar_menu_after_' . $filterKey, '');
-        }
-        return $html;
-    }
-
-    protected function shouldExpandSubmenu(array $menuItem): bool
+    public function shouldExpandSubmenu(array $menuItem): bool
     {
         // If the parent menu item is active, expand the submenu.
         if (!empty($menuItem['active']) && $menuItem['active'] === true) {
@@ -293,5 +245,22 @@ class SidebarMenuService
         }
 
         return false;
+    }
+
+    public function render(array $groupItems): string
+    {
+        $html = '';
+        foreach ($groupItems as $groupItem) {
+            $filterKey = $groupItem['id'] ?? (\Str::slug($groupItem['label']) ?? '');
+            $html .= ld_apply_filters('sidebar_menu_before_' . $filterKey, '');
+
+            $html .= view('backend.layouts.partials.menu-item', [
+                'item' => $groupItem,
+            ])->render();
+
+            $html .= ld_apply_filters('sidebar_menu_after_' . $filterKey, '');
+        }
+
+        return $html;
     }
 }
