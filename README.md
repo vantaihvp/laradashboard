@@ -386,9 +386,9 @@ If you like my work you may consider buying me a ☕ / 🍕
 
 ## 📞 Connect
 
-Facebook Community - https://www.facebook.com/groups/laradashboard
-Linkedin Community - https://www.linkedin.com/groups/14690156
-Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) | manirujjamanakash@gmail.com
+- Facebook Community - https://www.facebook.com/groups/laradashboard
+- Linkedin Community - https://www.linkedin.com/groups/14690156
+- Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) | manirujjamanakash@gmail.com
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
