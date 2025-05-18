@@ -3,6 +3,10 @@
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Vite as ViteFacade;
 use App\Services\LanguageService;
+use App\Services\MenuService\AdminMenuItem;
+use App\Services\MenuService\AdminMenuService;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 function get_module_asset_paths(): array
 {
@@ -94,6 +98,19 @@ if (!function_exists('module_vite_compile')) {
     }
 }
 
+if (!function_exists('add_menu_item')) {
+    /**
+     * Add a menu item to the admin sidebar.
+     * 
+     * @param array|AdminMenuItem $item The menu item configuration array or instance
+     * @param string|null $group The group to add the item to (defaults to 'Main')
+     * @return void
+     */
+    function add_menu_item(array|AdminMenuItem $item, ?string $group = null): void
+    {
+        app(AdminMenuService::class)->addMenuItem($item, $group);
+    }
+}
 
 if (!function_exists('get_languages')) {
     /**
