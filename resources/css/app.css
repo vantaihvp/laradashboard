@@ -299,6 +299,11 @@ layer(base);
 .app-sidebar-minified .submenu {
   display: none;
 }
+
+.submenu .menu-item, .submenu li:hover {
+  @apply rounded-lg;
+}
+
 @media (min-width: 1024px) {
   .app-sidebar-minified .menu-item .menu-item-text,
   .app-sidebar-minified .menu-item .menu-item-arrow {

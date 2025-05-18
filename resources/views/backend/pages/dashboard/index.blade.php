@@ -44,7 +44,7 @@
                         'value' => $total_permissions,
                         'bg' => '#FF4D96',
                         'class' => 'bg-white',
-                        'url' => route('admin.roles.index'),
+                        'url' => route('admin.permissions.index'),
                     ])
                     @include('backend.pages.dashboard.partials.card', [
                         'icon' => 'bi bi-translate',

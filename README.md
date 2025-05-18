@@ -39,6 +39,11 @@ password - 12345678
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📝 Changelog
+**[v1.3.0] - 2025-05-18**
+- **Feature**: Admin Menu architecture with more extendible way.
+- **Feature**: Permission List and detail page.
+- **Enhancement**: Improved module compatibility.
+
 **[v1.2.0] - 2025-05-12**
 - **Feature - Translation Management**: Added Translation management sytem with supporting 21 languages by default and possibility to add any in a second.
 - **Enhancement - Dashboard Redesign**: Dashboard redesigned with new card, user history chart, several more design improvements.
@@ -86,6 +91,8 @@ password - 12345678
 
 - v1.0.0 - Settings, Forget password and lots of refactorring
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.0.0
+
+More release tags - https://github.com/laradashboard/laradashboard/releases
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -222,8 +229,8 @@ https://laradashboard.com/docs/
       <img width="100%" alt="Role Create" src="/demo-screenshots/Role%20Create.png"/>
     </td>
     <td width="50%">
-      <strong>Role Edit</strong><br/>
-      <img width="100%" alt="Role Edit" src="/demo-screenshots/Role%20Edit.png"/>
+      <strong>Permission List</strong><br/>
+      <img width="100%" alt="Permission List" src="/demo-screenshots/Permission List.png"/>
     </td>
   </tr>
 </table>
@@ -377,9 +384,11 @@ If you like my work you may consider buying me a ☕ / 🍕
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 📞 Contact
+## 📞 Connect
 
-Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) - manirujjamanakash@gmail.com
+Facebook Community - https://www.facebook.com/groups/laradashboard
+Linkedin Community - https://www.linkedin.com/groups/14690156
+Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) | manirujjamanakash@gmail.com
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
