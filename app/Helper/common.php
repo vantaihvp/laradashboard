@@ -123,3 +123,119 @@ if (!function_exists('get_languages')) {
         return app(LanguageService::class)->getActiveLanguages();
     }
 }
+
+/**
+ * Content management helpers
+ */
+if (!function_exists('register_post_type')) {
+    /**
+     * Register a new post type
+     * 
+     * @param string $name Post type name
+     * @param array $args Post type arguments
+     * @return \App\Models\PostType|null
+     */
+    function register_post_type(string $name, array $args = [])
+    {
+        $args['name'] = $name;
+        return app(\App\Services\ContentService::class)->registerPostType($args);
+    }
+}
+
+if (!function_exists('register_taxonomy')) {
+    /**
+     * Register a new taxonomy
+     * 
+     * @param string $name Taxonomy name
+     * @param array $args Taxonomy arguments
+     * @param string|array|null $postTypes Post types to associate with
+     * @return \App\Models\Taxonomy|null
+     */
+    function register_taxonomy(string $name, array $args = [], $postTypes = null)
+    {
+        $args['name'] = $name;
+        return app(\App\Services\ContentService::class)->registerTaxonomy($args, $postTypes);
+    }
+}
+
+if (!function_exists('get_post_types')) {
+    /**
+     * Get all registered post types
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    function get_post_types()
+    {
+        return app(\App\Services\ContentService::class)->getPostTypes();
+    }
+}
+
+if (!function_exists('get_taxonomies')) {
+    /**
+     * Get all registered taxonomies
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    function get_taxonomies()
+    {
+        return app(\App\Services\ContentService::class)->getTaxonomies();
+    }
+}
+
+if (!function_exists('get_posts')) {
+    /**
+     * Get posts with various filtering options
+     * 
+     * @param array $args Query arguments
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    function get_posts(array $args = [])
+    {
+        $query = \App\Models\Post::query();
+        
+        // Post type filter
+        if (isset($args['post_type'])) {
+            $query->where('post_type', $args['post_type']);
+        }
+        
+        // Status filter (default to published)
+        if (isset($args['status'])) {
+            $query->where('status', $args['status']);
+        } else {
+            $query->where('status', 'publish');
+            $query->where(function ($q) {
+                $q->whereNull('published_at')
+                  ->orWhere('published_at', '<=', now());
+            });
+        }
+        
+        // Taxonomy query
+        if (isset($args['tax_query']) && is_array($args['tax_query'])) {
+            foreach ($args['tax_query'] as $tax_query) {
+                if (isset($tax_query['taxonomy']) && isset($tax_query['terms'])) {
+                    $query->whereHas('terms', function ($q) use ($tax_query) {
+                        $q->where('taxonomy', $tax_query['taxonomy'])
+                          ->whereIn('id', (array) $tax_query['terms']);
+                    });
+                }
+            }
+        }
+        
+        // Order
+        $orderBy = $args['orderby'] ?? 'published_at';
+        $order = $args['order'] ?? 'desc';
+        $query->orderBy($orderBy, $order);
+        
+        // Limit
+        if (isset($args['limit'])) {
+            $query->limit($args['limit']);
+        }
+        
+        // Offset
+        if (isset($args['offset'])) {
+            $query->offset($args['offset']);
+        }
+        
+        return $query->get();
+    }
+}

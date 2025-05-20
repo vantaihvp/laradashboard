@@ -3,8 +3,11 @@
 namespace App\Services\MenuService;
 
 use App\Services\MenuService\AdminMenuItem;
+use App\Services\ContentService;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
 
 class AdminMenuService
 {
@@ -69,12 +72,21 @@ class AdminMenuService
             'permissions' => 'dashboard.view'
         ]);
 
+        // Content Management Menu
+        try {
+            if (Schema::hasTable('post_types') && Schema::hasTable('taxonomies')) {
+                $this->addContentManagementMenuItems();
+            }
+        } catch (QueryException $e) {
+            // Skip adding content management menu items if tables don't exist
+        }
+
         $this->addMenuItem([
             'label' => __('Roles & Permissions'),
             'icon' => 'key.svg',
             'id' => 'roles-submenu',
             'active' => Route::is('admin.roles.*'),
-            'priority' => 10,
+            'priority' => 20,
             'permissions' => ['role.create', 'role.view', 'role.edit', 'role.delete'],
             'children' => [
                 [
@@ -209,6 +221,58 @@ class AdminMenuService
 
         $this->sortMenuItemsByPriority();
         return $this->applyFiltersToMenuItems();
+    }
+
+    /**
+     * Add content management menu items
+     */
+    protected function addContentManagementMenuItems(): void
+    {
+        // Get all registered post types from content service
+        $contentService = app(ContentService::class);
+        $postTypes = $contentService->getPostTypes();
+        $taxonomies = $contentService->getTaxonomies();
+
+        // Add main content management menu
+        $children = [];
+
+        // Add post types to children
+        foreach ($postTypes as $postType) {
+            if ($postType->show_in_menu) {
+                $children[] = [
+                    'label' => $postType->label,
+                    'route' => route('admin.posts.index', $postType->name),
+                    'active' => Route::is('admin.posts.*') && request()->postType === $postType->name,
+                    'priority' => 10 + $postType->id,
+                    'permissions' => 'post.view'
+                ];
+            }
+        }
+
+        // Add taxonomies to children
+        foreach ($taxonomies as $taxonomy) {
+            if ($taxonomy->show_in_menu) {
+                $children[] = [
+                    'label' => $taxonomy->label,
+                    'route' => route('admin.terms.index', $taxonomy->name),
+                    'active' => Route::is('admin.terms.*') && request()->taxonomy === $taxonomy->name,
+                    'priority' => 50 + $taxonomy->id, // Prioritize after post types
+                    'permissions' => 'term.view'
+                ];
+            }
+        }
+
+        if (!empty($children)) {
+            $this->addMenuItem([
+                'label' => __('Content'),
+                'icon' => 'document-text.svg',
+                'id' => 'content-submenu',
+                'active' => Route::is('admin.posts.*') || Route::is('admin.terms.*'),
+                'priority' => 10,
+                'permissions' => ['post.view', 'term.view'],
+                'children' => $children
+            ]);
+        }
     }
 
     protected function sortMenuItemsByPriority(): void
