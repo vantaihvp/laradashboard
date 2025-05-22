@@ -29,6 +29,8 @@
         </div>
     </div>
 
+    @include('backend.layouts.partials.messages')
+
     <!-- Create Post Form -->
     <form action="{{ route('admin.posts.store', $postType) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -40,21 +42,25 @@
                         <h3 class="text-base font-medium text-gray-800 dark:text-white">{{ __('Content') }}</h3>
                     </div>
                     <div class="p-5 space-y-6 sm:p-6">
-                        @include('backend.layouts.partials.messages')
-                        
-                        <!-- Title -->
-                        <div>
-                            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Title') }}</label>
-                            <input type="text" name="title" id="title" required value="{{ old('title') }}" 
-                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
-                        </div>
+                        <!-- Title and Slug with Alpine.js -->
+                        <div x-data="slugGenerator('{{ old('title', '') }}', '{{ old('slug', '') }}')">
+                            <!-- Title -->
+                            <div>
+                                <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Title') }}</label>
+                                <input type="text" name="title" id="title" required x-model="title" 
+                                    class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                            </div>
 
-                        <!-- Slug -->
-                        <div>
-                            <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Slug') }}</label>
-                            <input type="text" name="slug" id="slug" value="{{ old('slug') }}" 
-                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
-                                placeholder="{{ __('Leave empty to auto-generate') }}">
+                            <!-- Slug -->
+                            <div class="mt-4">
+                                <div class="flex justify-between">
+                                    <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Slug') }}</label>
+                                    <button type="button" @click="generateSlug()" class="text-xs text-primary hover:underline">{{ __('Generate from title') }}</button>
+                                </div>
+                                <input type="text" name="slug" id="slug" x-model="slug" 
+                                    class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
+                                    placeholder="{{ __('Leave empty to auto-generate') }}">
+                            </div>
                         </div>
 
                         @if($postTypeModel->supports_excerpt)
@@ -205,5 +211,6 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('backend/assets/js/post-content.js') }}"></script>
 @include('backend.partials.quill-scripts', ['editorId' => 'content'])
 @endpush
