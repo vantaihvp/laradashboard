@@ -16,7 +16,7 @@
     
     @if (!empty(config('settings.global_custom_css')))
     <style>
-        {!! config('settings.global_custom_css') !!}
+        /* {!! config('settings.global_custom_css') !!} */
     </style>
     @endif
 
