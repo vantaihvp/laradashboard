@@ -219,6 +219,8 @@ class AdminMenuService
             '
         ], __('More'));
 
+        $this->groups = ld_apply_filters('admin_menu_groups_before_sorting', $this->groups);
+
         $this->sortMenuItemsByPriority();
         return $this->applyFiltersToMenuItems();
     }
@@ -279,7 +281,7 @@ class AdminMenuService
     {
         foreach ($this->groups as &$groupItems) {
             usort($groupItems, function ($a, $b) {
-                return $a->priority <=> $b->priority;
+                return (int) $a->priority <=> (int) $b->priority;
             });
         }
     }
