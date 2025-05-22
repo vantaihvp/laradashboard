@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Post;
 use App\Models\Term;
-use App\Models\PostType;
-use App\Models\Taxonomy;
 use App\Services\ContentService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
@@ -25,8 +23,7 @@ class ContentSeeder extends Seeder
     public function run(): void
     {
         // Check if required tables exist
-        if (!Schema::hasTable('post_types') || !Schema::hasTable('taxonomies') || 
-            !Schema::hasTable('posts') || !Schema::hasTable('terms')) {
+        if (!Schema::hasTable('taxonomies') || !Schema::hasTable('posts') || !Schema::hasTable('terms')) {
             $this->command->info('Content tables not yet migrated. Skipping content seeding.');
             return;
         }

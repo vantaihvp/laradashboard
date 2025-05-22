@@ -19,7 +19,7 @@
                     </li>
                     <li>
                         <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.posts.index', $postType) }}">
-                            {{ ucfirst($postType) }}s
+                            {{ ucfirst($postTypeModel['label']) }}
                             <i class="bi bi-chevron-right"></i>
                         </a>
                     </li>

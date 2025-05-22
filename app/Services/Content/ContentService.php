@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Content;
 
 use App\Models\Taxonomy;
 use App\Services\Content\PostType;
@@ -15,44 +15,12 @@ class ContentService
      */
     public function registerPostType(array $args): PostType
     {
-        // Default values
-        $defaults = [
-            'name' => null,
-            'label' => null,
-            'label_singular' => null,
-            'description' => '',
-            'public' => true,
-            'has_archive' => true,
-            'hierarchical' => false,
-            'show_in_menu' => true,
-            'show_in_nav_menus' => true,
-            'supports_title' => true,
-            'supports_editor' => true,
-            'supports_thumbnail' => true,
-            'supports_excerpt' => true,
-            'supports_custom_fields' => true,
-            'taxonomies' => []
-        ];
-
-        $args = array_merge($defaults, $args);
-
-        // Required values
-        if (empty($args['name'])) {
-            throw new \InvalidArgumentException('Post type name is required');
-        }
-
-        // Set taxonomies correctly
-        if (isset($args['taxonomies'])) {
-            if (is_string($args['taxonomies'])) {
-                $args['taxonomies'] = explode(',', $args['taxonomies']);
-            }
-            $args['taxonomies'] = array_map('trim', $args['taxonomies']);
-        } else {
-            $args['taxonomies'] = [];
-        }
-
         // Create a PostType object
         $postType = new PostType($args);
+        
+        if (empty($postType->name)) {
+            throw new \InvalidArgumentException('Post type name is required');
+        }
 
         // Get current post types
         $postTypes = $this->getPostTypes();
@@ -99,7 +67,7 @@ class ContentService
             $args['label_singular'] = Str::title($args['name']);
         }
 
-        // Handle post types and update them to include this taxonomy
+        // Handle post types
         if (!empty($postTypes)) {
             if (is_string($postTypes)) {
                 $postTypes = [$postTypes];
@@ -108,9 +76,6 @@ class ContentService
             }
             
             $args['post_types'] = $postTypes;
-            
-            // Update existing post types to include this taxonomy
-            $this->addTaxonomyToPostTypes($args['name'], $postTypes);
         }
 
         // Create or update the taxonomy
@@ -123,31 +88,6 @@ class ContentService
         $this->clearTaxonomiesCache();
 
         return $taxonomy;
-    }
-
-    /**
-     * Add a taxonomy to existing post types
-     */
-    protected function addTaxonomyToPostTypes(string $taxonomyName, array $postTypeNames): void
-    {
-        $postTypes = $this->getPostTypes();
-        $updated = false;
-        
-        foreach ($postTypeNames as $postTypeName) {
-            if (isset($postTypes[$postTypeName])) {
-                $postType = $postTypes[$postTypeName];
-                if (!in_array($taxonomyName, $postType->taxonomies)) {
-                    $postType->taxonomies[] = $taxonomyName;
-                    $updated = true;
-                }
-            }
-        }
-        
-        if ($updated) {
-            // Store updated post types in cache
-            $postTypesArray = $postTypes->map->toArray()->all();
-            Cache::put('post_types', $postTypesArray, now()->addDay());
-        }
     }
 
     /**

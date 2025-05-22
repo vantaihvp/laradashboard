@@ -25,7 +25,7 @@ class PostsController extends Controller
         $this->checkAuthorization(auth()->user(), ['post.view']);
 
         // Get post type
-        $postTypeModel = $this->contentService->getPostTypes()->where('name', $postType)->first();
+        $postTypeModel = $this->contentService->getPostType($postType);
 
         if (!$postTypeModel) {
             return redirect()->route('admin.posts.index')->with('error', 'Post type not found');
@@ -71,7 +71,7 @@ class PostsController extends Controller
         $this->checkAuthorization(auth()->user(), ['post.create']);
 
         // Get post type
-        $postTypeModel = $this->contentService->getPostTypes()->where('name', $postType)->first();
+        $postTypeModel = $this->contentService->getPostType($postType);
 
         if (!$postTypeModel) {
             return redirect()->route('admin.posts.index')->with('error', 'Post type not found');
@@ -105,7 +105,7 @@ class PostsController extends Controller
         $this->checkAuthorization(auth()->user(), ['post.create']);
 
         // Get post type
-        $postTypeModel = $this->contentService->getPostTypes()->where('name', $postType)->first();
+        $postTypeModel = $this->contentService->getPostType($postType);
 
         if (!$postTypeModel) {
             return redirect()->route('admin.posts.index')->with('error', 'Post type not found');
@@ -168,8 +168,9 @@ class PostsController extends Controller
         $this->checkAuthorization(auth()->user(), ['post.view']);
 
         $post = Post::where('post_type', $postType)->findOrFail($id);
+        $postTypeModel = $this->contentService->getPostType($postType);
 
-        return view('backend.pages.posts.show', compact('post', 'postType'));
+        return view('backend.pages.posts.show', compact('post', 'postType', 'postTypeModel'));
     }
 
     /**
@@ -183,7 +184,7 @@ class PostsController extends Controller
         $post = Post::where('post_type', $postType)->findOrFail($id);
 
         // Get post type
-        $postTypeModel = $this->contentService->getPostTypes()->where('name', $postType)->first();
+        $postTypeModel = $this->contentService->getPostType($postType);
 
         if (!$postTypeModel) {
             return redirect()->route('admin.posts.index')->with('error', 'Post type not found');
@@ -311,7 +312,7 @@ class PostsController extends Controller
     protected function handleTaxonomies(Request $request, Post $post)
     {
         // Get current post type
-        $postTypeModel = $this->contentService->getPostTypes()->where('name', $post->post_type)->first();
+        $postTypeModel = $this->contentService->getPostType($post->post_type);
 
         if (!$postTypeModel || empty($postTypeModel->taxonomies)) {
             return;

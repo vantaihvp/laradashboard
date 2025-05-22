@@ -47,14 +47,49 @@ class AdminMenuService
 
         if (isset($data['children']) && is_array($data['children'])) {
             $data['children'] = array_map(
-                fn($child) => auth()->user()->hasAnyPermission($child['permissions'] ?? [])
-                ? $this->createAdminMenuItem($child)
-                : null,
+                function($child) {
+                    // Check if user is authenticated
+                    $user = auth()->user();
+                    if (!$user) {
+                        return null;
+                    }
+                    
+                    // Handle permissions
+                    if (isset($child['permission'])) {
+                        $child['permissions'] = $child['permission'];
+                        unset($child['permission']);
+                    }
+                    
+                    $permissions = $child['permissions'] ?? [];
+                    if (empty($permissions) || $user->hasAnyPermission((array)$permissions)) {
+                        return $this->createAdminMenuItem($child);
+                    }
+                    
+                    return null;
+                },
                 $data['children']
             );
 
             // Filter out null values (items without permission).
             $data['children'] = array_filter($data['children']);
+        }
+
+        // Convert 'permission' to 'permissions' for consistency
+        if (isset($data['permission'])) {
+            $data['permissions'] = $data['permission'];
+            unset($data['permission']);
+        }
+
+        // Handle route with params
+        if (isset($data['route']) && isset($data['params'])) {
+            $routeName = $data['route'];
+            $params = $data['params'];
+            
+            if (is_array($params)) {
+                $data['route'] = route($routeName, $params);
+            } else {
+                $data['route'] = route($routeName, [$params]);
+            }
         }
 
         return $menuItem->setAttributes($data);
@@ -72,13 +107,11 @@ class AdminMenuService
             'permissions' => 'dashboard.view'
         ]);
 
-        // Content Management Menu
+        // Content Management Menu from registered post types
         try {
-            if (Schema::hasTable('post_types') && Schema::hasTable('taxonomies')) {
-                $this->addContentManagementMenuItems();
-            }
-        } catch (QueryException $e) {
-            // Skip adding content management menu items if tables don't exist
+            $this->registerPostTypesInMenu();
+        } catch (\Exception $e) {
+            // Skip if there's an error
         }
 
         $this->addMenuItem([
@@ -226,54 +259,74 @@ class AdminMenuService
     }
 
     /**
-     * Add content management menu items
+     * Register post types in the menu
      */
-    protected function addContentManagementMenuItems(): void
+    protected function registerPostTypesInMenu(): void
     {
-        // Get all registered post types from content service
         $contentService = app(ContentService::class);
         $postTypes = $contentService->getPostTypes();
-        $taxonomies = $contentService->getTaxonomies();
+        
+        if ($postTypes->isEmpty()) {
+            return;
+        }
 
-        // Add main content management menu
-        $children = [];
+        foreach ($postTypes as $typeName => $type) {
+            // Skip if not showing in menu
+            if (isset($type->show_in_menu) && !$type->show_in_menu) {
+                continue;
+            }
 
-        // Add post types to children
-        foreach ($postTypes as $postType) {
-            if ($postType->show_in_menu) {
-                $children[] = [
-                    'label' => $postType->label,
-                    'route' => route('admin.posts.index', $postType->name),
-                    'active' => Route::is('admin.posts.*') && request()->postType === $postType->name,
-                    'priority' => 10 + $postType->id,
+            // Create children menu items
+            $children = [
+                [
+                    'title' => __('All') . ' ' . $type->label,
+                    'route' => 'admin.posts.index',
+                    'params' => $typeName,
+                    'active' => request()->is('admin/posts/'.$typeName) || 
+                               (request()->is('admin/posts/'.$typeName.'/*') && !request()->is('admin/posts/'.$typeName.'/create')),
+                    'priority' => 10,
                     'permissions' => 'post.view'
-                ];
-            }
-        }
+                ],
+                [
+                    'title' => __('Add New'),
+                    'route' => 'admin.posts.create',
+                    'params' => $typeName,
+                    'active' => request()->is('admin/posts/'.$typeName.'/create'),
+                    'priority' => 20,
+                    'permissions' => 'post.create'
+                ]
+            ];
 
-        // Add taxonomies to children
-        foreach ($taxonomies as $taxonomy) {
-            if ($taxonomy->show_in_menu) {
-                $children[] = [
-                    'label' => $taxonomy->label,
-                    'route' => route('admin.terms.index', $taxonomy->name),
-                    'active' => Route::is('admin.terms.*') && request()->taxonomy === $taxonomy->name,
-                    'priority' => 50 + $taxonomy->id, // Prioritize after post types
-                    'permissions' => 'term.view'
-                ];
+            // Add taxonomies as children of this post type if this post type has them
+            if (!empty($type->taxonomies)) {
+                $taxonomies = $contentService->getTaxonomies()
+                    ->whereIn('name', $type->taxonomies);
+                
+                foreach ($taxonomies as $taxonomy) {
+                    $children[] = [
+                        'title' => $taxonomy->label,
+                        'route' => 'admin.terms.index',
+                        'params' => $taxonomy->name,
+                        'active' => request()->is('admin/terms/'.$taxonomy->name.'*'),
+                        'priority' => 30 + $taxonomy->id, // Prioritize after standard items
+                        'permissions' => 'term.view'
+                    ];
+                }
             }
-        }
 
-        if (!empty($children)) {
-            $this->addMenuItem([
-                'label' => __('Content'),
-                'icon' => 'document-text.svg',
-                'id' => 'content-submenu',
-                'active' => Route::is('admin.posts.*') || Route::is('admin.terms.*'),
+            // Set up menu item with all children
+            $menuItem = [
+                'title' => $type->label,
+                'iconClass' => get_post_type_icon($typeName),
+                'id' => 'post-type-' . $typeName,
+                'active' => request()->is('admin/posts/'.$typeName.'*') || 
+                           (!empty($type->taxonomies) && request()->is('admin/terms/'.implode('*|admin/terms/', $type->taxonomies).'*')),
                 'priority' => 10,
-                'permissions' => ['post.view', 'term.view'],
+                'permissions' => 'post.view',
                 'children' => $children
-            ]);
+            ];
+
+            $this->addMenuItem($menuItem, 'Content');
         }
     }
 

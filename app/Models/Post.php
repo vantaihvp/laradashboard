@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\User;
+use App\Services\Content\PostType;
+use App\Services\ContentService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -59,11 +61,13 @@ class Post extends Model
     }
 
     /**
-     * Get the post type that owns the post.
+     * Get the post type object for this post
+     * 
+     * @return PostType|null
      */
-    public function postType(): BelongsTo
+    public function getPostTypeObject(): ?PostType
     {
-        return $this->belongsTo(PostType::class, 'post_type', 'name');
+        return app(ContentService::class)->getPostType($this->post_type);
     }
 
     /**
@@ -124,5 +128,17 @@ class Post extends Model
     public function scopeType(Builder $query, string $type): void
     {
         $query->where('post_type', $type);
+    }
+
+    /**
+     * Check if this post type supports a specific feature
+     * 
+     * @param string $feature Feature name (e.g., 'editor', 'thumbnail', 'excerpt')
+     * @return bool
+     */
+    public function supportsFeature(string $feature): bool
+    {
+        $postType = $this->getPostTypeObject();
+        return $postType ? $postType->supports($feature) : false;
     }
 }

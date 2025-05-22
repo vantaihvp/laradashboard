@@ -24,9 +24,9 @@ class ContentServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Skip registering post types and taxonomies if tables don't exist yet
+        // Skip registering taxonomies if tables don't exist yet
         try {
-            if (!$this->tablesExist(['post_types', 'taxonomies'])) {
+            if (!Schema::hasTable('taxonomies')) {
                 return;
             }
             
@@ -87,7 +87,9 @@ class ContentServiceProvider extends ServiceProvider
         ]);
 
         // Allow other plugins/modules to register post types
-        ld_do_action('register_post_types', $contentService);
+        if (function_exists('ld_do_action')) {
+            ld_do_action('register_post_types', $contentService);
+        }
     }
 
     /**
@@ -97,7 +99,7 @@ class ContentServiceProvider extends ServiceProvider
     {
         $contentService = app(ContentService::class);
 
-        // Register category taxonomy
+        // Register category taxonomy for posts.
         $contentService->registerTaxonomy([
             'name' => 'category',
             'label' => 'Categories',
@@ -106,7 +108,7 @@ class ContentServiceProvider extends ServiceProvider
             'hierarchical' => true,
         ], 'post');
 
-        // Register tag taxonomy
+        // Register tag taxonomy for posts.
         $contentService->registerTaxonomy([
             'name' => 'tag',
             'label' => 'Tags',
@@ -116,6 +118,32 @@ class ContentServiceProvider extends ServiceProvider
         ], 'post');
 
         // Allow other plugins/modules to register taxonomies
-        ld_do_action('register_taxonomies', $contentService);
+        if (function_exists('ld_do_action')) {
+            ld_do_action('register_taxonomies', $contentService);
+        }
+    }
+
+    /**
+     * Get icon for post type
+     */
+    protected function getPostTypeIcon(string $postType): string
+    {
+        return match($postType) {
+            'post' => 'bi bi-file-post-fill',
+            'page' => 'bi bi-file-earmark-post',
+            default => 'bi bi-collection'
+        };
+    }
+
+    /**
+     * Get icon for taxonomy
+     */
+    protected function getTaxonomyIcon(string $taxonomy): string
+    {
+        return match($taxonomy) {
+            'category' => 'bi bi-folder',
+            'tag' => 'bi bi-tags',
+            default => 'bi bi-bookmark'
+        };
     }
 }

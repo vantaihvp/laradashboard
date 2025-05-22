@@ -133,7 +133,7 @@ if (!function_exists('register_post_type')) {
      * 
      * @param string $name Post type name
      * @param array $args Post type arguments
-     * @return \App\Models\PostType|null
+     * @return array
      */
     function register_post_type(string $name, array $args = [])
     {
@@ -167,6 +167,19 @@ if (!function_exists('get_post_types')) {
     function get_post_types()
     {
         return app(\App\Services\ContentService::class)->getPostTypes();
+    }
+}
+
+if (!function_exists('get_post_type')) {
+    /**
+     * Get a specific post type
+     * 
+     * @param string $name Post type name
+     * @return array|null
+     */
+    function get_post_type(string $name)
+    {
+        return app(\App\Services\ContentService::class)->getPostType($name);
     }
 }
 
@@ -237,5 +250,39 @@ if (!function_exists('get_posts')) {
         }
         
         return $query->get();
+    }
+}
+
+if (!function_exists('get_post_type_icon')) {
+    /**
+     * Get the icon for a post type
+     * 
+     * @param string $postType Post type name
+     * @return string Icon class
+     */
+    function get_post_type_icon(string $postType): string
+    {
+        return match($postType) {
+            'post' => 'bi bi-file-earmark-text',
+            'page' => 'bi bi-file-earmark',
+            default => 'bi bi-collection'
+        };
+    }
+}
+
+if (!function_exists('get_taxonomy_icon')) {
+    /**
+     * Get the icon for a taxonomy
+     * 
+     * @param string $taxonomy Taxonomy name
+     * @return string Icon class
+     */
+    function get_taxonomy_icon(string $taxonomy): string
+    {
+        return match($taxonomy) {
+            'category' => 'bi bi-folder',
+            'tag' => 'bi bi-tags',
+            default => 'bi bi-bookmark'
+        };
     }
 }
