@@ -71,8 +71,8 @@
                         <!-- Content -->
                         <div>
                             <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Content') }}</label>
-                            <textarea name="content" id="content" rows="10" 
-                                class="tinymce w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">{{ old('content', $post->content) }}</textarea>
+                            <textarea name="content" id="content" rows="10">{!! old('content', $post->content) !!}</textarea>
+                            <div id="quill-content"></div>
                         </div>
                         @endif
                     </div>
@@ -217,40 +217,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('vendor/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize TinyMCE
-        tinymce.init({
-            selector: '.tinymce',
-            height: 400,
-            menubar: true,
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | blocks | ' +
-                'bold italic forecolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-            skin: document.body.classList.contains('dark') ? "oxide-dark" : "oxide",
-            content_css: document.body.classList.contains('dark') ? "dark" : "default"
-        });
-
-        // Handle status change for scheduling
-        const statusSelect = document.getElementById('status');
-        const scheduleCheckbox = document.getElementById('schedule_post');
-        if (statusSelect && scheduleCheckbox) {
-            statusSelect.addEventListener('change', function() {
-                if (this.value === 'future') {
-                    scheduleCheckbox.checked = true;
-                    // Trigger Alpine.js reactivity
-                    scheduleCheckbox.dispatchEvent(new Event('change'));
-                }
-            });
-        }
-    });
-</script>
+@include('backend.partials.quill-scripts', ['editorId' => 'content'])
 @endpush

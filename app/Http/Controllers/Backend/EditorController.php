@@ -10,24 +10,24 @@ use Illuminate\Support\Str;
 class EditorController extends Controller
 {
     /**
-     * Handle image uploads from the TinyMCE editor
+     * Handle image uploads from the Editor
      */
     public function upload(Request $request)
     {
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
-            
+
             // Save file to public storage
             $path = 'uploads/editor/' . date('Y/m');
             $file->move(public_path($path), $fileName);
-            
-            // Return the URL to TinyMCE
+
+            // Return the URL to Editor.
             return response()->json([
                 'location' => asset($path . '/' . $fileName)
             ]);
         }
-        
+
         return response()->json(['error' => 'No file uploaded'], 400);
     }
 }
