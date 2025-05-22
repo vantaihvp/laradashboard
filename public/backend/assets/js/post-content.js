@@ -11,6 +11,7 @@ function slugGenerator(initialTitle, initialSlug) {
         title: initialTitle,
         slug: initialSlug,
         isSlugManuallyChanged: false,
+        showSlugEdit: false,
         originalSlug: initialSlug,
         
         /**
@@ -38,6 +39,19 @@ function slugGenerator(initialTitle, initialSlug) {
                 this.slug = this.slugify(this.title);
                 this.originalSlug = this.slug;
                 this.isSlugManuallyChanged = false;
+            }
+        },
+        
+        /**
+         * Toggle slug edit mode
+         */
+        toggleSlugEdit() {
+            this.showSlugEdit = !this.showSlugEdit;
+            if (this.showSlugEdit) {
+                // Focus the slug input when showing it
+                setTimeout(() => {
+                    document.getElementById('slug').focus();
+                }, 50);
             }
         },
         

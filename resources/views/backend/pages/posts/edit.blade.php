@@ -52,35 +52,46 @@
                                     class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                             </div>
 
-                            <!-- Slug -->
-                            <div class="mt-4">
-                                <div class="flex justify-between">
-                                    <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Slug') }}</label>
-                                    <button type="button" @click="generateSlug()" class="text-xs text-primary hover:underline">{{ __('Generate from title') }}</button>
+                            <!-- Compact Slug UI -->
+                            <div class="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <span class="mr-1">{{ __('Permalink:') }}</span>
+                                <span class="flex-1 truncate" x-show="!showSlugEdit">
+                                    <span class="text-gray-400">{{ url('/') }}/</span><span class="font-medium text-primary" x-text="slug"></span>
+                                </span>
+                                <div class="flex-1" x-show="showSlugEdit">
+                                    <input type="text" name="slug" id="slug" x-model="slug" 
+                                        class="h-7 w-full rounded border border-gray-300 bg-transparent px-2 py-1 text-xs text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
                                 </div>
-                                <input type="text" name="slug" id="slug" x-model="slug" 
-                                    class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                                <div class="ml-2 flex space-x-1">
+                                    <!-- Edit/Save Button -->
+                                    <button type="button" @click="toggleSlugEdit()" class="text-xs text-primary hover:underline">
+                                        <span x-show="!showSlugEdit">{{ __('Edit') }}</span>
+                                        <span x-show="showSlugEdit">{{ __('OK') }}</span>
+                                    </button>
+                                    <!-- Generate Button -->
+                                    <button type="button" @click="generateSlug()" class="text-xs text-primary hover:underline ml-2">
+                                        {{ __('Generate') }}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        @if($postTypeModel->supports_excerpt)
-                        <!-- Excerpt -->
-                        <div>
-                            <label for="excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Excerpt') }}</label>
-                            <textarea name="excerpt" id="excerpt" rows="3" 
-                                class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">{{ old('excerpt', $post->excerpt) }}</textarea>
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('A short summary of the content') }}</p>
-                        </div>
-                        @endif
+                            @if($postTypeModel->supports_excerpt)
+                            <div class="mt-2">
+                                <label for="excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Excerpt') }}</label>
+                                <textarea name="excerpt" id="excerpt" rows="3" 
+                                    class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">{{ old('excerpt', $post->excerpt) }}</textarea>
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('A short summary of the content') }}</p>
+                            </div>
+                            @endif
 
-                        @if($postTypeModel->supports_editor)
-                        <!-- Content -->
-                        <div>
-                            <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Content') }}</label>
-                            <textarea name="content" id="content" rows="10">{!! old('content', $post->content) !!}</textarea>
-                            <div id="quill-content"></div>
+                            @if($postTypeModel->supports_editor)
+                            <div class="mt-2">
+                                <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Content') }}</label>
+                                <textarea name="content" id="content" rows="10">{!! old('content', $post->content) !!}</textarea>
+                                <div id="quill-content"></div>
+                            </div>
+                            @endif
                         </div>
-                        @endif
                     </div>
                 </div>
 
