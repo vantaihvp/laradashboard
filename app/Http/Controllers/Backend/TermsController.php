@@ -27,7 +27,7 @@ class TermsController extends Controller
         $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
         
         if (!$taxonomyModel) {
-            return redirect()->route('admin.posts.index')->with('error', 'Taxonomy not found');
+            return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
         // Query terms
@@ -70,7 +70,7 @@ class TermsController extends Controller
         $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
         
         if (!$taxonomyModel) {
-            return redirect()->route('admin.posts.index')->with('error', 'Taxonomy not found');
+            return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
         // Validate request
@@ -96,8 +96,11 @@ class TermsController extends Controller
         $term->parent_id = $request->parent_id;
         $term->save();
 
+        // Get taxonomy label for message
+        $taxLabel = $taxonomyModel->label_singular ?? Str::title($taxonomy);
+
         return redirect()->route('admin.terms.index', $taxonomy)
-            ->with('success', 'Term created successfully');
+            ->with('success', __(':taxLabel created successfully', ['taxLabel' => $taxLabel]));
     }
 
     /**
@@ -106,6 +109,13 @@ class TermsController extends Controller
     public function update(Request $request, string $taxonomy, string $id)
     {
         $this->checkAuthorization(auth()->user(), ['term.edit']);
+
+        // Get taxonomy model
+        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        
+        if (!$taxonomyModel) {
+            return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
+        }
 
         // Get term
         $term = Term::where('taxonomy', $taxonomy)->findOrFail($id);
@@ -132,8 +142,11 @@ class TermsController extends Controller
         $term->parent_id = $request->parent_id;
         $term->save();
 
+        // Get taxonomy label for message
+        $taxLabel = $taxonomyModel->label_singular ?? Str::title($taxonomy);
+
         return redirect()->route('admin.terms.index', $taxonomy)
-            ->with('success', 'Term updated successfully');
+            ->with('success', __(':taxLabel updated successfully', ['taxLabel' => $taxLabel]));
     }
 
     /**
@@ -143,23 +156,33 @@ class TermsController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['term.delete']);
 
+        // Get taxonomy model
+        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        
+        if (!$taxonomyModel) {
+            return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
+        }
+
         $term = Term::where('taxonomy', $taxonomy)->findOrFail($id);
+        
+        // Get taxonomy label for messages
+        $taxLabel = $taxonomyModel->label_singular ?? Str::title($taxonomy);
         
         // Check if term has posts
         if ($term->posts()->count() > 0) {
             return redirect()->route('admin.terms.index', $taxonomy)
-                ->with('error', 'Cannot delete term as it is associated with posts');
+                ->with('error', __('Cannot delete :taxLabel as it is associated with posts', ['taxLabel' => $taxLabel]));
         }
         
         // Check if term has children
         if ($term->children()->count() > 0) {
             return redirect()->route('admin.terms.index', $taxonomy)
-                ->with('error', 'Cannot delete term as it has child terms');
+                ->with('error', __('Cannot delete :taxLabel as it has child items', ['taxLabel' => $taxLabel]));
         }
         
         $term->delete();
         
         return redirect()->route('admin.terms.index', $taxonomy)
-            ->with('success', 'Term deleted successfully');
+            ->with('success', __(':taxLabel deleted successfully', ['taxLabel' => $taxLabel]));
     }
 }
