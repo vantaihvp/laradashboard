@@ -14,7 +14,7 @@ class ModuleTranslationMiddleware
     {
         $locale = Session::get('locale', config('app.locale'));
         App::setLocale($locale);
-        
+
         foreach (Module::all() as $module) {
             $jsonPath = $module->getPath() . "/Resources/lang/{$locale}.json";
 
@@ -22,7 +22,10 @@ class ModuleTranslationMiddleware
                 $translations = json_decode(File::get($jsonPath), true);
 
                 if (is_array($translations)) {
-                    app('translator')->addLines($translations, $locale);
+                    foreach ($translations as $key => $value) {
+                        app('translator')->getLoader()->addJsonPath(dirname($jsonPath));
+                        break; // Only need to register the path once
+                    }
                 }
             }
         }
