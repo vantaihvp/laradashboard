@@ -35,10 +35,12 @@
     "Create Role": "রোল তৈরি করুন",
     "Create User": "ব্যবহারকারী তৈরি করুন",
     "CRM": "সিআরএম",
+    "CRM Dashboard": "সিআরএম ড্যাশবোর্ড",
     "Custom CSS & JavaScript": "কাস্টম সিএসএস এবং জাভাস্ক্রিপ্ট",
     "Dark Mode": "ডার্ক মোড",
     "Dark Mode Colors": "ডার্ক মোড রঙ সমূহ",
     "Date": "তারিখ",
+    "Dashboard": "ড্যাশবোর্ড",
     "Default": "ডিফল্ট",
     "Default Pagination": "ডিফল্ট পেজিনেশন",
     "Delete": "মুছুন",
@@ -49,6 +51,7 @@
     "Default Mode": "ডিফল্ট মোড",
     "Disabled": "নিষ্ক্রিয়",
     "Edit": "সম্পাদনা করুন",
+    "Email": "ইমেইল",
     "Edit Profile": "প্রোফাইল সম্পাদনা করুন",
     "Edit Role": "রোল সম্পাদনা করুন",
     "Edit User": "ব্যবহারকারী সম্পাদনা করুন",
@@ -246,5 +249,11 @@
     "Create Group": "গ্রুপ তৈরি করুন",
     "Error!": "ত্রুটি!",
     "Success!": "সফল!",
-    "Enter slug or it will be generated automatically": "স্লাগ লিখুন অথবা এটি স্বয়ংক্রিয়ভাবে তৈরি হবে"
+    "Enter slug or it will be generated automatically": "স্লাগ লিখুন অথবা এটি স্বয়ংক্রিয়ভাবে তৈরি হবে",
+    "Name": "নাম",
+    "Sl": "ক্রমিক",
+    "Search by name or email": "নাম বা ইমেইল দ্বারা অনুসন্ধান করুন",
+    "Title": "শিরোনাম",
+    "Created": "তৈরি করা হয়েছে",
+    "Slug": "স্লাগ"
 }
