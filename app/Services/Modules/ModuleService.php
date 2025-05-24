@@ -94,13 +94,10 @@ class ModuleService
         $zip->extractTo($this->modulesPath);
         $zip->close();
 
-        // Remove / from moduleName.
+        // Check valid module structure.
         $moduleName = str_replace('/', '', $moduleName);
-
-        if (File::exists($this->modulesPath . '/' . $moduleName . '/module.json')) {
-            session()->flash('success', __('Module uploaded and registered successfully.'));
-        } else {
-            session()->flash('error', __('Failed to find the module in the system.'));
+        if (!File::exists($this->modulesPath . '/' . $moduleName . '/module.json')) {
+            throw new ModuleException(__('Failed to find the module in the system. Please ensure the module has a valid module.json file.'));
         }
 
         // Save this module to the modules_statuses.json file.
@@ -108,10 +105,8 @@ class ModuleService
         $moduleStatuses[$moduleName] = true;
         File::put($this->modulesStatusesPath, json_encode($moduleStatuses, JSON_PRETTY_PRINT));
 
-        // $this->toggleModule($moduleName, true);
-
-        // Run the module migrations.
-        Artisan::call('module:migrate', ['module' => $moduleName]);
+        // Clear the cache.
+        Artisan::call('cache:clear');
 
         return true;
     }
@@ -171,9 +166,9 @@ class ModuleService
 
         // Remove the module files.
         $modulePath = base_path('Modules/' . $module->getName());
-        if (is_dir($modulePath)) {
-            \Log::info("Deleting module directory: {$modulePath}");
-            File::deleteDirectory($modulePath);
+
+        if (!is_dir($modulePath)) {
+            throw new ModuleException(__('Module directory does not exist. Please ensure the module is installed correctly.'));
         }
 
         // Delete the module from the database.
