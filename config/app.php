@@ -54,8 +54,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL', null),
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -122,7 +120,35 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
-    'demo_mode' => filter_var(env('DEMO_MODE', true), FILTER_VALIDATE_BOOLEAN),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Asset URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by the asset() helper function when generating URLs
+    | to assets. This is useful for applications that are served from a
+    | different domain than the application itself. If this is not set,
+    | the default URL will be used.
+    |
+    */
+
+    'asset_url' => env('ASSET_URL', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Demo Mode
+    |--------------------------------------------------------------------------
+    |
+    | This value determines if the application is in demo mode. If enabled,
+    | the application will restrict certain actions and features to prevent
+    | any changes to the data. This is useful for demo or testing environments.
+    |
+    */
+
+    'demo_mode' => filter_var(env('DEMO_MODE', false), FILTER_VALIDATE_BOOLEAN),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

@@ -2,7 +2,7 @@
     {!! config('settings.google_tag_manager_script') !!}
 @endif
 
-@if(env('DEMO_MODE', false))
+@if(config('app.demo_mode', false))
     <script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-WWCRYQMHZ7"

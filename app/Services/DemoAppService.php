@@ -15,7 +15,7 @@ class DemoAppService
 {
     public function isDemoAppEnabled(): bool
     {
-        return env('DEMO_MODE', false);
+        return config('app.demo_mode', false);
     }
 
     public function getDemoAppUrl(): string
