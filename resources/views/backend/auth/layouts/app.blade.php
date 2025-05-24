@@ -50,11 +50,11 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 <div class="relative flex flex-col justify-center w-full h-screen dark:bg-gray-900 sm:p-0 lg:flex-row">
                     <div class="flex flex-col flex-1 w-full lg:w-1/2">
                         <div class="w-full max-w-md pt-2 mx-auto">
-                            <div class="mt-3 ml-3 flex items-center justify-end">
+                            <div class="mt-3 mx-3 flex items-center justify-end">
                                 @include('backend.layouts.partials.locale-switcher')
                             </div>
                         </div>
-                        <div class="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
+                        <div class="flex flex-col justify-center flex-1 w-full max-w-md mx-auto px-10">
                             @yield('admin-content')
                         </div>
                     </div>
