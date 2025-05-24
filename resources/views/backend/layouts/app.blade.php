@@ -64,7 +64,7 @@ x-init="
             @include('backend.layouts.partials.header')
 
             <!-- Main Content -->
-            <main>
+            <main class="bg-white dark:bg-gray-900">
                 @yield('admin-content')
             </main>
             <!-- End Main Content -->
