@@ -5,6 +5,7 @@ import "dropzone/dist/dropzone.css";
 
 import Alpine from "alpinejs";
 import persist from "@alpinejs/persist";
+import focus from '@alpinejs/focus'
 import flatpickr from "flatpickr";
 import Dropzone from "dropzone";
 import 'flowbite';
@@ -18,6 +19,7 @@ import "./components/calendar-init.js";
 import "./components/image-resize";
 
 Alpine.plugin(persist);
+Alpine.plugin(focus);
 window.Alpine = Alpine;
 Alpine.start();
 
