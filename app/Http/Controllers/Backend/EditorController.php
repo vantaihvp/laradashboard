@@ -14,6 +14,10 @@ class EditorController extends Controller
      */
     public function upload(Request $request)
     {
+        // Validate the uploaded file
+        $validated = $request->validate([
+            'file' => 'required|file|mimes:jpg,jpeg,png,gif|max:2048', // Allow only image files up to 2MB
+        ]);
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $fileName = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
