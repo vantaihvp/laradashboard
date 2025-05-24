@@ -32,7 +32,7 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
         // Restrict specific fields in demo mode.
-        if (env('DEMO_MODE', false)) {
+        if (config('app.demo_mode', false)) {
             $restrictedFields = ld_apply_filters('settings_restricted_fields', ['app_name', 'google_analytics_script']);
             $fields = $request->except($restrictedFields);
         } else {

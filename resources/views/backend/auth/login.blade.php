@@ -69,7 +69,7 @@
               <i class="bi bi-box-arrow-in-right ml-2"></i>
             </button>
           </div>
-          @if (env('DEMO_MODE', true))
+          @if (config('app.demo_mode', false))
           <div class="relative">
             <button type="button" id="fill-demo-credentials" class="absolute top-0 right-0 px-3 py-1 text-xs font-medium text-white bg-gray-500 rounded shadow hover:bg-gray-600">
               {{ __('Fill with Demo') }}
@@ -82,7 +82,7 @@
     </div>
 </div>
 @endsection
-@if (env('DEMO_MODE', true))
+@if (config('app.demo_mode', false))
     @push('scripts')
         <script>
             document.getElementById('fill-demo-credentials').addEventListener('click', function() {

@@ -37,12 +37,11 @@
     scrollTop: false 
 }" 
 x-init="
-    darkMode = JSON.parse(localStorage.getItem('darkMode'));
+    darkMode = JSON.parse(localStorage.getItem('darkMode')) ?? false;
     $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)));
     $watch('sidebarToggle', value => localStorage.setItem('sidebarToggle', JSON.stringify(value)))
 " 
 :class="{ 'dark bg-gray-900': darkMode === true }">
-
     <!-- Preloader -->
     <div x-show="loaded" x-init="window.addEventListener('DOMContentLoaded', () => { setTimeout(() => loaded = false, 500) })"
         class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
@@ -55,7 +54,7 @@ x-init="
         @include('backend.layouts.partials.sidebar-logo')
 
         <!-- Content Area -->
-        <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
+        <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto bg-white dark:bg-gray-900">
             <!-- Small Device Overlay -->
             <div @click="sidebarToggle = false" :class="sidebarToggle ? 'block lg:hidden' : 'hidden'"
                 class="fixed w-full h-screen z-9 bg-gray-900/50"></div>
@@ -91,10 +90,6 @@ x-init="
                 html.classList.add('dark');
             } else if (savedDarkMode === 'false') {
                 html.classList.remove('dark');
-            } else {
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    html.classList.add('dark');
-                }
             }
 
             updateHeaderBg();

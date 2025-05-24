@@ -22,6 +22,34 @@
                         <i class="bi bi-cloud-upload mr-2"></i>
                         {{ __('Upload Module') }}
                     </button>
+                    
+                    <x-popover position="bottom" width="w-[300px]">
+                        <x-slot name="trigger">
+                            <i class="bi bi-info-circle text-lg ml-3" title="{{ __('Module Requirements') }}"></i>
+                        </x-slot>
+                        
+                        <div class="w-[300px] p-4 font-normal">
+                            <h3 class="font-medium text-gray-900 dark:text-white mb-2">{{ __('Module Requirements') }}</h3>
+                            <p class="mb-2">{{ __('You can upload custom modules to extend functionality.') }}</p>
+                            <ul class="list-disc pl-5 space-y-1 text-sm">
+                                <li>{{ __('Modules must be in .zip format') }}</li>
+                                <li>{{ __('Each module should have a valid module.json file') }}</li>
+                                <li>
+                                    {{ __('Must follow guidelines.') }}&nbsp;
+                                    <a href="https://laradashboard.com/docs/how-to-create-a-module-in-lara-dashboard/" class="text-primary hover:underline" target="_blank">
+                                        {{ __('Learn more') }}
+                                        <i class="bi bi-arrow-up-right-square text-sm"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            @if(config('app.demo_mode', false))
+                            <div class="bg-yellow-50 text-yellow-700 rounded-lg mt-4 p-3">
+                                <i class="bi bi-exclamation-triangle-fill"></i> &nbsp;
+                                {{ __('Note: Module uploads are disabled in demo mode.') }}
+                            </div>
+                            @endif
+                        </div>
+                    </x-popover>
                 @endif
             </h2>
             <nav>
@@ -50,7 +78,7 @@
                 </button>
                 {{ __('to select a file.') }}
             </p>
-            <form action="{{ route('admin.modules.upload') }}" method="POST" enctype="multipart/form-data" class="hidden">
+            <form action="{{ route('admin.modules.store') }}" method="POST" enctype="multipart/form-data" class="hidden">
                 @csrf
                 <input type="file" name="module" accept=".zip" x-ref="uploadModule" @change="$event.target.form.submit()">
             </form>
@@ -72,7 +100,7 @@
             <i class="bi bi-cloud-upload mr-2"></i>
             {{ __('Upload') }}
         </button>
-        <form action="{{ route('admin.modules.upload') }}" method="POST" enctype="multipart/form-data" class="hidden">
+        <form action="{{ route('admin.modules.store') }}" method="POST" enctype="multipart/form-data" class="hidden">
             @csrf
             <input type="file" name="module" accept=".zip" x-ref="uploadModule" @change="$event.target.form.submit()">
         </form>
