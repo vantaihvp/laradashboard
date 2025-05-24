@@ -146,7 +146,8 @@ return [
     | any changes to the data. This is useful for demo or testing environments.
     |
     */
-    'demo_mode' => filter_var(env('DEMO_MODE', true), FILTER_VALIDATE_BOOLEAN),
+
+    'demo_mode' => filter_var(env('DEMO_MODE', false), FILTER_VALIDATE_BOOLEAN),
 
     /*
     |--------------------------------------------------------------------------
