@@ -32,21 +32,19 @@ class CreatePlaceholderImages extends Command
         Storage::disk('public')->makeDirectory('categories');
         Storage::disk('public')->makeDirectory('tags');
         
-        // Define placeholder images
+        // Define placeholder images.
         $placeholders = [
             // Categories
-            'categories/news.jpg' => ['text' => 'News', 'color' => '#3498db'],
-            'categories/technology.jpg' => ['text' => 'Technology', 'color' => '#2ecc71'],
-            'categories/tutorials.jpg' => ['text' => 'Tutorials', 'color' => '#e74c3c'],
-            'categories/events.jpg' => ['text' => 'Events', 'color' => '#9b59b6'],
+            'categories/uncategorized.jpg' => [
+                'text' => 'Uncategorized',
+                'color' => '#3498db', // Blue
+            ],
             
-            // Tags
-            'tags/laravel.jpg' => ['text' => 'Laravel', 'color' => '#ff2d20'],
-            'tags/php.jpg' => ['text' => 'PHP', 'color' => '#8892bf'],
-            'tags/javascript.jpg' => ['text' => 'JavaScript', 'color' => '#f7df1e'],
-            'tags/vuejs.jpg' => ['text' => 'Vue.js', 'color' => '#42b883'],
-            'tags/react.jpg' => ['text' => 'React', 'color' => '#61dafb'],
-            'tags/css.jpg' => ['text' => 'CSS', 'color' => '#264de4'],
+            // Posts.
+            'posts/hellow-world.jpg' => [
+                'text' => 'Hello World',
+                'color' => '#e74c3c', // Red
+            ],
         ];
         
         // Create images

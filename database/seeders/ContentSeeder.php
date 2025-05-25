@@ -31,7 +31,6 @@ class ContentSeeder extends Seeder
 
         $this->registerPostTypesAndTaxonomies();
         $this->createSampleCategories();
-        $this->createSampleTags();
         $this->createSamplePosts();
         $this->createSamplePages();
 
@@ -88,30 +87,16 @@ class ContentSeeder extends Seeder
     protected function createSampleCategories(): void
     {
         $this->command->info('Creating sample categories...');
-        
+
         // Make sure storage directory exists
         Storage::disk('public')->makeDirectory('categories', 0755, true);
-        
+
         $categories = [
             [
-                'name' => 'News', 
-                'description' => 'Latest news and updates',
-                'featured_image' => 'categories/news.jpg'
-            ],
-            [
-                'name' => 'Technology', 
-                'description' => 'Tech-related content',
-                'featured_image' => 'categories/technology.jpg'
-            ],
-            [
-                'name' => 'Tutorials', 
-                'description' => 'Step-by-step tutorials',
-                'featured_image' => 'categories/tutorials.jpg'
-            ],
-            [
-                'name' => 'Events', 
-                'description' => 'Upcoming and past events',
-                'featured_image' => 'categories/events.jpg'
+                'name' => 'Uncategorized',
+                'slug' => 'uncategorized',
+                'description' => 'Default category for posts that do not belong to any other category.',
+                'featured_image' => 'categories/uncategorized.jpg'
             ],
         ];
 
@@ -119,7 +104,7 @@ class ContentSeeder extends Seeder
             try {
                 // Generate a placeholder image instead of trying to copy
                 $this->generatePlaceholderImage('public/' . $category['featured_image'], pathinfo($category['featured_image'], PATHINFO_BASENAME));
-                
+
                 Term::firstOrCreate([
                     'name' => $category['name'],
                     'taxonomy' => 'category',
@@ -128,7 +113,7 @@ class ContentSeeder extends Seeder
                     'description' => $category['description'],
                     'featured_image' => $category['featured_image'],
                 ]);
-                
+
                 $this->command->info("Created category: {$category['name']}");
             } catch (\Exception $e) {
                 $this->command->error("Error creating category {$category['name']}: " . $e->getMessage());
@@ -137,68 +122,6 @@ class ContentSeeder extends Seeder
         }
     }
 
-    protected function createSampleTags(): void
-    {
-        $this->command->info('Creating sample tags...');
-        
-        // Make sure storage directory exists
-        Storage::disk('public')->makeDirectory('tags', 0755, true);
-        
-        $tags = [
-            [
-                'name' => 'Laravel', 
-                'description' => 'Laravel framework content',
-                'featured_image' => 'tags/laravel.jpg'
-            ],
-            [
-                'name' => 'PHP', 
-                'description' => 'PHP language content',
-                'featured_image' => 'tags/php.jpg'
-            ],
-            [
-                'name' => 'JavaScript', 
-                'description' => 'JavaScript language content',
-                'featured_image' => 'tags/javascript.jpg'
-            ],
-            [
-                'name' => 'Vue.js', 
-                'description' => 'Vue.js framework content',
-                'featured_image' => 'tags/vuejs.jpg'
-            ],
-            [
-                'name' => 'React', 
-                'description' => 'React library content',
-                'featured_image' => 'tags/react.jpg'
-            ],
-            [
-                'name' => 'CSS', 
-                'description' => 'CSS styles content',
-                'featured_image' => 'tags/css.jpg'
-            ],
-        ];
-
-        foreach ($tags as $tag) {
-            try {
-                // Generate a placeholder image instead of trying to copy
-                $this->generatePlaceholderImage('public/' . $tag['featured_image'], pathinfo($tag['featured_image'], PATHINFO_BASENAME));
-                
-                Term::firstOrCreate([
-                    'name' => $tag['name'],
-                    'taxonomy' => 'tag',
-                    'slug' => \Illuminate\Support\Str::slug($tag['name']),
-                ], [
-                    'description' => $tag['description'],
-                    'featured_image' => $tag['featured_image'],
-                ]);
-                
-                $this->command->info("Created tag: {$tag['name']}");
-            } catch (\Exception $e) {
-                $this->command->error("Error creating tag {$tag['name']}: " . $e->getMessage());
-                Log::error("Error in ContentSeeder creating tag {$tag['name']}: " . $e->getMessage());
-            }
-        }
-    }
-    
     /**
      * Generate a placeholder image directly to storage
      *
@@ -213,64 +136,64 @@ class ContentSeeder extends Seeder
             $parts = explode('/', $path, 2);
             $disk = $parts[0];
             $imagePath = $parts[1];
-            
+
             // Skip if image already exists
-            if (Storage::disk($disk)->exists($imagePath)) {
+            if (Storage::disk(name: $disk)->exists($imagePath)) {
                 return;
             }
-            
+
             // Skip if GD library is not available
             if (!extension_loaded('gd')) {
                 $this->command->warn('GD library not available. Skipping image creation.');
                 return;
             }
-            
+
             // Create a 300x200 image
             $image = imagecreatetruecolor(300, 200);
-            
+
             // Generate a semi-random color based on text
             $hash = md5($text);
             $r = hexdec(substr($hash, 0, 2));
             $g = hexdec(substr($hash, 2, 2));
             $b = hexdec(substr($hash, 4, 2));
-            
+
             // Fill background
             $bgColor = imagecolorallocate($image, $r, $g, $b);
             imagefill($image, 0, 0, $bgColor);
-            
+
             // Add text (shortened version of the filename)
             $textColor = imagecolorallocate($image, 255, 255, 255);
             $textToDisplay = pathinfo($text, PATHINFO_FILENAME);
             $textToDisplay = substr($textToDisplay, 0, 20); // Limit length
-            
+
             // Position text in center
             $fontSize = 5;
             $textWidth = imagefontwidth($fontSize) * strlen($textToDisplay);
             $textHeight = imagefontheight($fontSize);
             $x = (300 - $textWidth) / 2;
             $y = (200 - $textHeight) / 2;
-            
+
             // Draw text
             imagestring($image, $fontSize, $x, $y, $textToDisplay, $textColor);
-            
+
             // Save the image to a temporary file
             $tempFile = tempnam(sys_get_temp_dir(), 'img');
             imagejpeg($image, $tempFile, 90);
             imagedestroy($image);
-            
+
             // Store the file
             Storage::disk($disk)->put($imagePath, file_get_contents($tempFile));
-            
+
             // Remove temp file
             unlink($tempFile);
-            
+
             $this->command->info("Generated placeholder image: $imagePath");
         } catch (\Exception $e) {
             $this->command->error("Error generating image: " . $e->getMessage());
             Log::error("Error generating image: " . $e->getMessage());
         }
     }
-    
+
     protected function createSamplePosts(): void
     {
         $posts = [
@@ -279,24 +202,8 @@ class ContentSeeder extends Seeder
                 'content' => '<p>This is the first post on our new blog. We\'re excited to share our thoughts with you!</p><p>Stay tuned for more updates.</p>',
                 'excerpt' => 'Welcome to our new blog! We\'re excited to share our thoughts with you.',
                 'status' => 'publish',
-                'categories' => ['News'],
-                'tags' => ['Laravel', 'PHP'],
-            ],
-            [
-                'title' => 'Getting Started with Laravel',
-                'content' => '<p>Laravel is a web application framework with expressive, elegant syntax.</p><p>In this tutorial, we\'ll go through the basics of Laravel framework.</p>',
-                'excerpt' => 'A beginner-friendly introduction to the Laravel framework.',
-                'status' => 'publish',
-                'categories' => ['Tutorials', 'Technology'],
-                'tags' => ['Laravel', 'PHP'],
-            ],
-            [
-                'title' => 'Upcoming Conference',
-                'content' => '<p>We\'re excited to announce our upcoming conference on web development.</p><p>The event will feature speakers from various industry leaders.</p>',
-                'excerpt' => 'Join us for our upcoming web development conference.',
-                'status' => 'publish',
-                'categories' => ['Events'],
-                'tags' => ['Laravel', 'JavaScript', 'CSS'],
+                'categories' => ['Uncategorized'],
+                'tags' => [],
             ],
         ];
 
@@ -340,18 +247,8 @@ class ContentSeeder extends Seeder
     {
         $pages = [
             [
-                'title' => 'About Us',
-                'content' => '<p>Welcome to our About Us page. We are a team of dedicated professionals.</p><p>Our mission is to provide high-quality content and services to our users.</p>',
-                'status' => 'publish',
-            ],
-            [
-                'title' => 'Contact Us',
-                'content' => '<p>Have questions? We\'d love to hear from you!</p><p>You can reach us via email or using the contact form below.</p>',
-                'status' => 'publish',
-            ],
-            [
-                'title' => 'Terms of Service',
-                'content' => '<p>These Terms of Service ("Terms") govern your access to and use of our website and services.</p><p>By accessing or using our service, you agree to be bound by these Terms.</p>',
+                'title' => 'Sample Page',
+                'content' => '<p>This is a sample page created to demonstrate the page functionality.</p><p>Feel free to edit this content in the admin panel.</p>',
                 'status' => 'publish',
             ],
         ];
