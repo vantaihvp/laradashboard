@@ -40,6 +40,6 @@ class StoreTermRequest extends FormRequest
             $rules['featured_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
         }
 
-        return $rules;
+        return ld_apply_filters('term.store.validation.rules', $rules, $taxonomyName);
     }
 }

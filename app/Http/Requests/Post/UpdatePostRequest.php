@@ -26,7 +26,7 @@ class UpdatePostRequest extends FormRequest
     {
         $postId = $this->route('id');
 
-        return [
+        return ld_apply_filters('post.update.validation.rules', [
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts,slug,' . $postId,
             'content' => 'nullable|string',
@@ -36,6 +36,6 @@ class UpdatePostRequest extends FormRequest
             'parent_id' => 'nullable|exists:posts,id',
             'published_at' => 'nullable|date',
             'remove_featured_image' => 'nullable|boolean',
-        ];
+        ], $postId);
     }
 }

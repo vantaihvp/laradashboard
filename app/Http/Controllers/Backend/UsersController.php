@@ -6,12 +6,14 @@ namespace App\Http\Controllers\Backend;
 
 use App\Enums\ActionType;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use App\Services\UserService;
 use App\Services\RolesService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -24,7 +26,7 @@ class UsersController extends Controller
 
     public function index(): Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['user.view']);
+        $this->checkAuthorization(Auth::user(), ['user.view']);
 
         return view('backend.pages.users.index', [
             'users' => $this->userService->getUsers(),
@@ -34,7 +36,7 @@ class UsersController extends Controller
 
     public function create(): Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['user.create']);
+        $this->checkAuthorization(Auth::user(), ['user.create']);
 
         ld_do_action('user_create_page_before');
 
@@ -43,10 +45,8 @@ class UsersController extends Controller
         ]);
     }
 
-    public function store(UserRequest $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        $this->checkAuthorization(auth()->user(), ['user.create']);
-
         $user = new User();
         $user->name = $request->name;
         $user->username = $request->username;
@@ -72,7 +72,7 @@ class UsersController extends Controller
 
     public function edit(int $id): Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['user.edit']);
+        $this->checkAuthorization(Auth::user(), ['user.edit']);
 
         $user = User::findOrFail($id);
 
@@ -86,9 +86,8 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update(UserRequest $request, int $id): RedirectResponse
+    public function update(UpdateUserRequest $request, int $id): RedirectResponse
     {
-        $this->checkAuthorization(auth()->user(), ['user.edit']);
         $user = User::findOrFail($id);
 
         // Prevent editing of super admin in demo mode
@@ -112,14 +111,14 @@ class UsersController extends Controller
 
         $this->storeActionLog(ActionType::UPDATED, ['user' => $user]);
 
-        session()->flash('success', 'User has been updated.');
+        session()->flash('success', __('User has been updated.'));
 
         return back();
     }
 
     public function destroy(int $id): RedirectResponse
     {
-        $this->checkAuthorization(auth()->user(), ['user.delete']);
+        $this->checkAuthorization(Auth::user(), ['user.delete']);
         $user = $this->userService->getUserById($id);
 
         // Prevent deletion of super admin in demo mode
@@ -128,7 +127,7 @@ class UsersController extends Controller
         $user = ld_apply_filters('user_delete_before', $user);
         $user->delete();
         $user = ld_apply_filters('user_delete_after', $user);
-        session()->flash('success', 'User has been deleted.');
+        session()->flash('success', __('User has been deleted.'));
 
         $this->storeActionLog(ActionType::DELETED, ['user' => $user]);
 

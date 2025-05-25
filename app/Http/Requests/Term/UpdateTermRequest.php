@@ -26,22 +26,22 @@ class UpdateTermRequest extends FormRequest
     public function rules(): array
     {
         $termId = $this->route('id');
-        
+
         $rules = [
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:terms,slug,' . $termId,
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:terms,id',
         ];
-        
+
         // Add featured image validation if taxonomy supports it
         $taxonomyName = $this->route('taxonomy');
         $taxonomyModel = app(ContentService::class)->getTaxonomies()->where('name', $taxonomyName)->first();
-        
+
         if ($taxonomyModel && $taxonomyModel->show_featured_image) {
             $rules['featured_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
         }
-        
-        return $rules;
+
+        return ld_apply_filters('term.update.validation.rules', $rules, $taxonomyName);
     }
 }

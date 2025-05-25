@@ -25,7 +25,7 @@ class StorePostRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        return ld_apply_filters('post.store.validation.rules', [
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:posts',
             'content' => 'nullable|string',
@@ -34,6 +34,6 @@ class StorePostRequest extends FormRequest
             'featured_image' => 'nullable|file|image|max:5120',
             'parent_id' => 'nullable|exists:posts,id',
             'published_at' => 'nullable|date',
-        ];
+        ]);
     }
 }
