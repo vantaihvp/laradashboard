@@ -37,7 +37,7 @@
             <div class="p-5 space-y-5 sm:p-6">
                 @include('backend.layouts.partials.messages')
                 
-                <form action="{{ route('admin.terms.update', [$taxonomy, $term->id]) }}" method="POST">
+                <form action="{{ route('admin.terms.update', [$taxonomy, $term->id]) }}" method="POST" enctype="multipart/form-data">
                     @method('PUT')
                     @include('backend.pages.terms.partials.form')
                 </form>

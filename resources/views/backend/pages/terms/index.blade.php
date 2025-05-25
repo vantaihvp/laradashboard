@@ -34,7 +34,7 @@
                 <div class="p-5 space-y-5 sm:p-6">
                     @include('backend.layouts.partials.messages')
                     
-                    <form action="{{ route('admin.terms.store', $taxonomy) }}" method="POST">
+                    <form action="{{ route('admin.terms.store', $taxonomy) }}" method="POST" enctype="multipart/form-data">
                         @include('backend.pages.terms.partials.form')
                     </form>
                 </div>
@@ -54,9 +54,11 @@
                     <table id="dataTable" class="w-full dark:text-gray-400">
                         <thead class="bg-light text-capitalize">
                             <tr class="border-b border-gray-100 dark:border-gray-800">
-                                <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
-                                <th width="25%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Slug') }}</th>
-                                <th width="25%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Description') }}</th>
+                                <th width="25%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
+                                <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Slug') }}</th>
+                                @if($taxonomyModel->show_featured_image)
+                                <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Image') }}</th>
+                                @endif
                                 <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Count') }}</th>
                                 <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-center px-5">{{ __('Action') }}</th>
                             </tr>
@@ -70,9 +72,15 @@
                                     <td class="px-5 py-4 sm:px-6">
                                         <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">{{ $termItem->slug }}</code>
                                     </td>
+                                    @if($taxonomyModel->show_featured_image)
                                     <td class="px-5 py-4 sm:px-6">
-                                        {{ Str::limit($termItem->description, 30) }}
+                                        @if($termItem->featured_image)
+                                            <img src="{{ Storage::url($termItem->featured_image) }}" alt="{{ $termItem->name }}" class="h-10 w-auto rounded">
+                                        @else
+                                            <span class="text-gray-400">{{ __('None') }}</span>
+                                        @endif
                                     </td>
+                                    @endif
                                     <td class="px-5 py-4 sm:px-6">
                                         {{ $termItem->posts->count() }}
                                     </td>

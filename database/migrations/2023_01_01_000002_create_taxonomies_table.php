@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('label');
             $table->string('label_singular');
             $table->string('description')->nullable();
+            $table->boolean('show_featured_image')->default(false);
             $table->boolean('public')->default(true);
             $table->boolean('hierarchical')->default(false);
             $table->boolean('show_in_menu')->default(true);

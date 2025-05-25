@@ -36,6 +36,28 @@
             class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">{{ old('description', $term ? $term->description : '') }}</textarea>
     </div>
 
+    @if($taxonomyModel->show_featured_image)
+    <!-- Featured Image -->
+    <div class="mt-2">
+        <label for="featured_image" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Featured Image') }}</label>
+        <input type="file" name="featured_image" id="featured_image" 
+            class="w-full rounded-lg border border-gray-300 bg-transparent p-2 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
+            accept="image/*">
+        
+        @if($term && $term->featured_image)
+        <div class="mt-3">
+            <div class="mb-2">
+                <img src="{{ Storage::url($term->featured_image) }}" alt="{{ $term->name }}" class="max-w-full h-auto max-h-40 rounded border dark:border-gray-700">
+            </div>
+            <div class="flex items-center">
+                <input type="checkbox" name="remove_featured_image" id="remove_featured_image" value="1" class="mr-2">
+                <label for="remove_featured_image" class="text-sm text-gray-700 dark:text-gray-400">{{ __('Remove featured image') }}</label>
+            </div>
+        </div>
+        @endif
+    </div>
+    @endif
+
     @if($taxonomyModel->hierarchical)
     <!-- Parent -->
     <div class="mt-2">

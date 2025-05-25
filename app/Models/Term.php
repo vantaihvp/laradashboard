@@ -18,6 +18,7 @@ class Term extends Model
         'slug',
         'taxonomy',
         'description',
+        'featured_image',
         'parent_id'
     ];
 

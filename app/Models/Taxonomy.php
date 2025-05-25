@@ -18,6 +18,7 @@ class Taxonomy extends Model
         'public', 
         'hierarchical', 
         'show_in_menu', 
+        'show_featured_image',
         'post_types'
     ];
 
@@ -25,6 +26,7 @@ class Taxonomy extends Model
         'public' => 'boolean',
         'hierarchical' => 'boolean',
         'show_in_menu' => 'boolean',
+        'show_featured_image' => 'boolean',
         'post_types' => 'array'
     ];
 

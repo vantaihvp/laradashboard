@@ -75,6 +75,7 @@ class ContentService
             'public' => true,
             'hierarchical' => false,
             'show_in_menu' => true,
+            'show_featured_image' => false,
         ];
 
         $args = array_merge($defaults, $args);

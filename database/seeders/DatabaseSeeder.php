@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RolePermissionSeeder::class,
             SettingsSeeder::class,
-            // Add ContentSeeder if you want to pre-populate content
+            ContentSeeder::class,
         ]);
     }
 }

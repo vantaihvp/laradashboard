@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('taxonomy');
             $table->text('description')->nullable();
+            $table->string('featured_image')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('terms')->onDelete('cascade');
             $table->timestamps();
         });

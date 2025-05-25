@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Term;
 use App\Services\Content\ContentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -74,12 +75,19 @@ class TermsController extends Controller
         }
 
         // Validate request
-        $validator = Validator::make($request->all(), [
+        $validationRules = [
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:terms,slug',
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:terms,id',
-        ]);
+        ];
+        
+        // Add featured image validation if taxonomy supports it
+        if ($taxonomyModel->show_featured_image) {
+            $validationRules['featured_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
+        }
+        
+        $validator = Validator::make($request->all(), $validationRules);
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -94,6 +102,13 @@ class TermsController extends Controller
         $term->taxonomy = $taxonomy;
         $term->description = $request->description;
         $term->parent_id = $request->parent_id;
+        
+        // Handle featured image upload
+        if ($request->hasFile('featured_image') && $taxonomyModel->show_featured_image) {
+            $imagePath = $request->file('featured_image')->store('terms', 'public');
+            $term->featured_image = $imagePath;
+        }
+        
         $term->save();
 
         // Get taxonomy label for message
@@ -121,12 +136,19 @@ class TermsController extends Controller
         $term = Term::where('taxonomy', $taxonomy)->findOrFail($id);
         
         // Validate request
-        $validator = Validator::make($request->all(), [
+        $validationRules = [
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:terms,slug,' . $id,
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:terms,id',
-        ]);
+        ];
+        
+        // Add featured image validation if taxonomy supports it.
+        if ($taxonomyModel->show_featured_image) {
+            $validationRules['featured_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
+        }
+        
+        $validator = Validator::make($request->all(), $validationRules);
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -140,6 +162,24 @@ class TermsController extends Controller
         $term->slug = $request->slug ?: Str::slug($request->name);
         $term->description = $request->description;
         $term->parent_id = $request->parent_id;
+        
+        // Handle featured image upload
+        if ($request->hasFile('featured_image') && $taxonomyModel->show_featured_image) {
+            // Delete old image if exists
+            if ($term->featured_image) {
+                Storage::disk('public')->delete($term->featured_image);
+            }
+            
+            $imagePath = $request->file('featured_image')->store('terms', 'public');
+            $term->featured_image = $imagePath;
+        }
+        
+        // Handle image removal
+        if ($request->has('remove_featured_image') && $request->remove_featured_image && $term->featured_image) {
+            Storage::disk('public')->delete($term->featured_image);
+            $term->featured_image = null;
+        }
+        
         $term->save();
 
         // Get taxonomy label for message
@@ -178,6 +218,11 @@ class TermsController extends Controller
         if ($term->children()->count() > 0) {
             return redirect()->route('admin.terms.index', $taxonomy)
                 ->with('error', __('Cannot delete :taxLabel as it has child items', ['taxLabel' => $taxLabel]));
+        }
+        
+        // Delete featured image if exists
+        if ($term->featured_image) {
+            Storage::disk('public')->delete($term->featured_image);
         }
         
         $term->delete();
