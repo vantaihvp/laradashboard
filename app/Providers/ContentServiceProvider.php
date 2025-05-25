@@ -88,6 +88,7 @@ class ContentServiceProvider extends ServiceProvider
             'label_singular' => 'Category',
             'description' => 'Default taxonomy for categorizing posts',
             'hierarchical' => true,
+            'show_featured_image' => true,
         ], 'post');
 
         // Register tag taxonomy for posts.
@@ -97,6 +98,7 @@ class ContentServiceProvider extends ServiceProvider
             'label_singular' => 'Tag',
             'description' => 'Default taxonomy for tagging posts',
             'hierarchical' => false,
+            'show_featured_image' => true,
         ], 'post');
 
         // Allow other plugins/modules to register taxonomies
