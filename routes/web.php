@@ -78,6 +78,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     
     // Terms Routes (Categories, Tags, etc.)
     Route::get('/terms/{taxonomy}', [TermsController::class, 'index'])->name('terms.index');
+    Route::get('/terms/{taxonomy}/{term}/edit', [TermsController::class, 'edit'])->name('terms.edit');
     Route::post('/terms/{taxonomy}', [TermsController::class, 'store'])->name('terms.store');
     Route::put('/terms/{taxonomy}/{id}', [TermsController::class, 'update'])->name('terms.update');
     Route::delete('/terms/{taxonomy}/{id}', [TermsController::class, 'destroy'])->name('terms.destroy');

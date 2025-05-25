@@ -185,4 +185,32 @@ class TermsController extends Controller
         return redirect()->route('admin.terms.index', $taxonomy)
             ->with('success', __(':taxLabel deleted successfully', ['taxLabel' => $taxLabel]));
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $taxonomy, string $term)
+    {
+        $this->checkAuthorization(auth()->user(), ['term.edit']);
+
+        // Get taxonomy
+        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        
+        if (!$taxonomyModel) {
+            return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
+        }
+
+        // Get term
+        $term = Term::where('taxonomy', $taxonomy)->findOrFail($term);
+
+        // Get parent terms for hierarchical taxonomies
+        $parentTerms = [];
+        if ($taxonomyModel->hierarchical) {
+            $parentTerms = Term::where('taxonomy', $taxonomy)
+                ->orderBy('name', 'asc')
+                ->get();
+        }
+
+        return view('backend.pages.terms.edit', compact('taxonomy', 'taxonomyModel', 'term', 'parentTerms'));
+    }
 }
