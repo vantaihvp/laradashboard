@@ -24,14 +24,14 @@ class TermsController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['term.view']);
 
-        // Get taxonomy
+        // Get taxonomy.
         $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
         
         if (!$taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
-        // Query terms
+        // Query terms.
         $query = Term::where('taxonomy', $taxonomy);
 
         // Handle search
@@ -39,11 +39,11 @@ class TermsController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        // Get terms with pagination
+        // Get terms with pagination.
         $terms = $query->orderBy('name', 'asc')
             ->paginate(config('settings.default_pagination', 20));
 
-        // Get parent terms for hierarchical taxonomies
+        // Get parent terms for hierarchical taxonomies.
         $parentTerms = [];
         if ($taxonomyModel->hierarchical) {
             $parentTerms = Term::where('taxonomy', $taxonomy)
