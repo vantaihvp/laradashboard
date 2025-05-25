@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\StorePostRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\Term;
 use App\Services\Content\ContentService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PostsController extends Controller
@@ -20,7 +22,7 @@ class PostsController extends Controller
 
     public function index(Request $request, string $postType = 'post'): RedirectResponse|Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['post.view']);
+        $this->checkAuthorization(Auth::user(), ['post.view']);
 
         // Get post type.
         $postTypeModel = $this->contentService->getPostType($postType);
@@ -63,7 +65,7 @@ class PostsController extends Controller
 
     public function create(string $postType = 'post'): RedirectResponse|Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['post.create']);
+        $this->checkAuthorization(Auth::user(), ['post.create']);
 
         // Get post type.
         $postTypeModel = $this->contentService->getPostType($postType);
@@ -92,32 +94,13 @@ class PostsController extends Controller
         return view('backend.pages.posts.create', compact('postType', 'postTypeModel', 'taxonomies', 'parentPosts'));
     }
 
-    public function store(Request $request, string $postType = 'post'): RedirectResponse
+    public function store(StorePostRequest $request, string $postType = 'post'): RedirectResponse
     {
-        $this->checkAuthorization(auth()->user(), ['post.create']);
-
         // Get post type.
         $postTypeModel = $this->contentService->getPostType($postType);
 
         if (!$postTypeModel) {
             return redirect()->route('admin.posts.index')->with('error', 'Post type not found');
-        }
-
-        // Validate request.
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts',
-            'content' => 'nullable|string',
-            'excerpt' => 'nullable|string',
-            'status' => 'required|in:draft,publish,pending,future,private',
-            'featured_image' => 'nullable|file|image|max:5120',
-            'parent_id' => 'nullable|exists:posts,id',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
         }
 
         // Create post
@@ -128,7 +111,7 @@ class PostsController extends Controller
         $post->excerpt = $request->excerpt;
         $post->status = $request->status;
         $post->post_type = $postType;
-        $post->user_id = auth()->id();
+        $post->user_id = Auth::id();
         $post->parent_id = $request->parent_id;
 
         // Handle featured image
@@ -157,7 +140,7 @@ class PostsController extends Controller
      */
     public function show(string $postType, string $id): Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['post.view']);
+        $this->checkAuthorization(Auth::user(), ['post.view']);
 
         $post = Post::where('post_type', $postType)->findOrFail($id);
         $postTypeModel = $this->contentService->getPostType($postType);
@@ -167,7 +150,7 @@ class PostsController extends Controller
 
     public function edit(string $postType, string $id): RedirectResponse|Renderable
     {
-        $this->checkAuthorization(auth()->user(), ['post.edit']);
+        $this->checkAuthorization(Auth::user(), ['post.edit']);
 
         // Get post
         $post = Post::where('post_type', $postType)->findOrFail($id);
@@ -212,29 +195,12 @@ class PostsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $postType, string $id)
+    public function update(UpdatePostRequest $request, string $postType, string $id)
     {
-        $this->checkAuthorization(auth()->user(), ['post.edit']);
+        $this->checkAuthorization(Auth::user(), ['post.edit']);
 
         // Get post.
         $post = Post::where('post_type', $postType)->findOrFail($id);
-
-        // Validate request.
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug,' . $id,
-            'content' => 'nullable|string',
-            'excerpt' => 'nullable|string',
-            'status' => 'required|in:draft,publish,pending,future,private',
-            'featured_image' => 'nullable|file|image|max:5120',
-            'parent_id' => 'nullable|exists:posts,id',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         // Update post.
         $post->title = $request->title;
@@ -277,7 +243,7 @@ class PostsController extends Controller
 
     public function destroy(string $postType, string $id): RedirectResponse
     {
-        $this->checkAuthorization(auth()->user(), ['post.delete']);
+        $this->checkAuthorization(Auth::user(), ['post.delete']);
 
         $post = Post::where('post_type', $postType)->findOrFail($id);
 
