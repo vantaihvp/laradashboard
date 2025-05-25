@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreModuleRequest;
 use App\Services\Modules\ModuleService;
 use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ModulesController extends Controller
 {
@@ -44,11 +45,11 @@ class ModulesController extends Controller
         return redirect()->route('admin.modules.index');
     }
 
-    public function toggleStatus(string $moduleName)
+    public function toggleStatus(string $moduleName): JsonResponse
     {
         if (config('app.demo_mode', false)) {
             session()->flash('error', __('Module enabling/disabling is restricted in demo mode. Please try on your local/live environment.'));
-            return redirect()->route('admin.modules.index');
+            return response()->json(['success' => false, 'message' => 'Demo mode is enabled, you can not change module status.'], 403);
         }
 
         $this->checkAuthorization(auth()->user(), ['module.edit']);
