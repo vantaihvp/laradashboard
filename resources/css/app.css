@@ -806,6 +806,10 @@ span.flatpickr-weekday,
   @apply text-white hover:opacity-90 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-orange-500 focus:ring-orange-300 dark:focus:ring-orange-800;
 }
 
+.btn-info {
+  @apply text-white hover:opacity-90 transition-all focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-500 focus:ring-blue-300 dark:focus:ring-blue-800;
+}
+
 /* Inputs */
 .form-control {
   @apply shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30;
