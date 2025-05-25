@@ -49,6 +49,9 @@ x-init="init()"
             class="w-full items-center justify-between gap-4 px-5 py-1 shadow-theme-md lg:flex lg:justify-end lg:px-0 lg:shadow-none">
             <div class="flex items-center gap-2 2xsm:gap-3">
                 <!-- Dark Mode Toggler -->
+                <div class="w-[100px]">
+                    @include('backend.layouts.partials.demo-mode-notice')
+                </div>
                 @php echo ld_apply_filters('dark_mode_toggler_before_button', ''); @endphp
                 <button id="darkModeToggle"
                     class="hover:text-dark-900 relative flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
@@ -75,7 +78,6 @@ x-init="init()"
                     </a>
                 @endif
             </div>
-            
 
             @include('backend.layouts.partials.locale-switcher')
 
