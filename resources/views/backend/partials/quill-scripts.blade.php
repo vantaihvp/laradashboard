@@ -5,6 +5,11 @@ $editorId = isset($editorId) ? $editorId : 'editor';
 
 <link rel="stylesheet" href="{{ asset('vendor/quill/quill.min.css') }}" />
 <style>
+    .ql-editor {
+        min-height: 200px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
     .ql-toolbar.ql-snow {
         border-radius: 10px 10px 0px 0px;
     }
