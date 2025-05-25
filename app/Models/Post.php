@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\User;
 use App\Services\Content\PostType;
-use App\Services\ContentService;
+use App\Services\Content\ContentService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 

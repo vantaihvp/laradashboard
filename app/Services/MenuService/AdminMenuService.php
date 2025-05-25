@@ -3,11 +3,9 @@
 namespace App\Services\MenuService;
 
 use App\Services\MenuService\AdminMenuItem;
-use App\Services\ContentService;
+use App\Services\Content\ContentService;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use Illuminate\Database\QueryException;
 
 class AdminMenuService
 {
@@ -47,24 +45,24 @@ class AdminMenuService
 
         if (isset($data['children']) && is_array($data['children'])) {
             $data['children'] = array_map(
-                function($child) {
+                function ($child) {
                     // Check if user is authenticated
                     $user = auth()->user();
                     if (!$user) {
                         return null;
                     }
-                    
-                    // Handle permissions
+
+                    // Handle permissions.
                     if (isset($child['permission'])) {
                         $child['permissions'] = $child['permission'];
                         unset($child['permission']);
                     }
-                    
+
                     $permissions = $child['permissions'] ?? [];
-                    if (empty($permissions) || $user->hasAnyPermission((array)$permissions)) {
+                    if (empty($permissions) || $user->hasAnyPermission((array) $permissions)) {
                         return $this->createAdminMenuItem($child);
                     }
-                    
+
                     return null;
                 },
                 $data['children']
@@ -84,7 +82,7 @@ class AdminMenuService
         if (isset($data['route']) && isset($data['params'])) {
             $routeName = $data['route'];
             $params = $data['params'];
-            
+
             if (is_array($params)) {
                 $data['route'] = route($routeName, $params);
             } else {
@@ -265,25 +263,25 @@ class AdminMenuService
     {
         $contentService = app(ContentService::class);
         $postTypes = $contentService->getPostTypes();
-        
+
         if ($postTypes->isEmpty()) {
             return;
         }
 
         foreach ($postTypes as $typeName => $type) {
-            // Skip if not showing in menu
+            // Skip if not showing in menu.
             if (isset($type->show_in_menu) && !$type->show_in_menu) {
                 continue;
             }
 
-            // Create children menu items
+            // Create children menu items.
             $children = [
                 [
                     'title' => __('All') . ' ' . $type->label,
                     'route' => 'admin.posts.index',
                     'params' => $typeName,
-                    'active' => request()->is('admin/posts/'.$typeName) || 
-                               (request()->is('admin/posts/'.$typeName.'/*') && !request()->is('admin/posts/'.$typeName.'/create')),
+                    'active' => request()->is('admin/posts/' . $typeName) ||
+                        (request()->is('admin/posts/' . $typeName . '/*') && !request()->is('admin/posts/' . $typeName . '/create')),
                     'priority' => 10,
                     'permissions' => 'post.view'
                 ],
@@ -291,36 +289,36 @@ class AdminMenuService
                     'title' => __('Add New'),
                     'route' => 'admin.posts.create',
                     'params' => $typeName,
-                    'active' => request()->is('admin/posts/'.$typeName.'/create'),
+                    'active' => request()->is('admin/posts/' . $typeName . '/create'),
                     'priority' => 20,
                     'permissions' => 'post.create'
                 ]
             ];
 
-            // Add taxonomies as children of this post type if this post type has them
+            // Add taxonomies as children of this post type if this post type has them.
             if (!empty($type->taxonomies)) {
                 $taxonomies = $contentService->getTaxonomies()
                     ->whereIn('name', $type->taxonomies);
-                
+
                 foreach ($taxonomies as $taxonomy) {
                     $children[] = [
                         'title' => $taxonomy->label,
                         'route' => 'admin.terms.index',
                         'params' => $taxonomy->name,
-                        'active' => request()->is('admin/terms/'.$taxonomy->name.'*'),
+                        'active' => request()->is('admin/terms/' . $taxonomy->name . '*'),
                         'priority' => 30 + $taxonomy->id, // Prioritize after standard items
                         'permissions' => 'term.view'
                     ];
                 }
             }
 
-            // Set up menu item with all children
+            // Set up menu item with all children.
             $menuItem = [
                 'title' => $type->label,
                 'iconClass' => get_post_type_icon($typeName),
                 'id' => 'post-type-' . $typeName,
-                'active' => request()->is('admin/posts/'.$typeName.'*') || 
-                           (!empty($type->taxonomies) && request()->is('admin/terms/'.implode('*|admin/terms/', $type->taxonomies).'*')),
+                'active' => request()->is('admin/posts/' . $typeName . '*') ||
+                    (!empty($type->taxonomies) && request()->is('admin/terms/' . implode('*|admin/terms/', $type->taxonomies) . '*')),
                 'priority' => 10,
                 'permissions' => 'post.view',
                 'children' => $children
@@ -350,7 +348,7 @@ class AdminMenuService
 
             // Apply filters that might add/modify menu items.
             $filteredItems = ld_apply_filters('sidebar_menu_' . strtolower($group), $filteredItems);
-            
+
             // Only add the group if it has items after filtering.
             if (!empty($filteredItems)) {
                 $result[$group] = $filteredItems;

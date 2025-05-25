@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Content\ContentService;
 use Illuminate\Foundation\Vite;
 use Illuminate\Support\Facades\Vite as ViteFacade;
 use App\Services\LanguageService;
@@ -138,7 +139,7 @@ if (!function_exists('register_post_type')) {
     function register_post_type(string $name, array $args = [])
     {
         $args['name'] = $name;
-        return app(\App\Services\ContentService::class)->registerPostType($args);
+        return app(ContentService::class)->registerPostType($args);
     }
 }
 
@@ -154,7 +155,7 @@ if (!function_exists('register_taxonomy')) {
     function register_taxonomy(string $name, array $args = [], $postTypes = null)
     {
         $args['name'] = $name;
-        return app(\App\Services\ContentService::class)->registerTaxonomy($args, $postTypes);
+        return app(ContentService::class)->registerTaxonomy($args, $postTypes);
     }
 }
 
@@ -166,7 +167,7 @@ if (!function_exists('get_post_types')) {
      */
     function get_post_types()
     {
-        return app(\App\Services\ContentService::class)->getPostTypes();
+        return app(ContentService::class)->getPostTypes();
     }
 }
 
@@ -179,7 +180,7 @@ if (!function_exists('get_post_type')) {
      */
     function get_post_type(string $name)
     {
-        return app(\App\Services\ContentService::class)->getPostType($name);
+        return app(ContentService::class)->getPostType($name);
     }
 }
 
@@ -191,7 +192,7 @@ if (!function_exists('get_taxonomies')) {
      */
     function get_taxonomies()
     {
-        return app(\App\Services\ContentService::class)->getTaxonomies();
+        return app(ContentService::class)->getTaxonomies();
     }
 }
 

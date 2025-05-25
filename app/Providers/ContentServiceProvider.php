@@ -2,16 +2,13 @@
 
 namespace App\Providers;
 
-use App\Services\ContentService;
+use App\Services\Content\ContentService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\QueryException;
 
 class ContentServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
     public function register(): void
     {
         $this->app->singleton(ContentService::class, function ($app) {
@@ -19,35 +16,26 @@ class ContentServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Bootstrap services.
-     */
     public function boot(): void
     {
-        // Skip registering taxonomies if tables don't exist yet
+        // Skip registering taxonomies if tables don't exist yet.
         try {
             if (!Schema::hasTable('taxonomies')) {
                 return;
             }
             
-            // Register default post types
+            // Register default post types.
             $this->registerDefaultPostTypes();
             
-            // Register default taxonomies
+            // Register default taxonomies.
             $this->registerDefaultTaxonomies();
         } catch (QueryException $e) {
             // Handle database connection issues or other query-related errors
-            // Just exit gracefully for now
+            // Just exit gracefully for now.
             return;
         }
     }
 
-    /**
-     * Check if the specified tables exist in the database
-     *
-     * @param array $tables Table names to check
-     * @return bool True if all tables exist, false otherwise
-     */
     protected function tablesExist(array $tables): bool
     {
         foreach ($tables as $table) {
@@ -58,14 +46,11 @@ class ContentServiceProvider extends ServiceProvider
         return true;
     }
 
-    /**
-     * Register default post types
-     */
     protected function registerDefaultPostTypes(): void
     {
         $contentService = app(ContentService::class);
 
-        // Register post type
+        // Register post type.
         $contentService->registerPostType([
             'name' => 'post',
             'label' => 'Posts',
@@ -74,7 +59,7 @@ class ContentServiceProvider extends ServiceProvider
             'taxonomies' => ['category', 'tag']
         ]);
 
-        // Register page type
+        // Register page type.
         $contentService->registerPostType([
             'name' => 'page',
             'label' => 'Pages',
@@ -86,15 +71,12 @@ class ContentServiceProvider extends ServiceProvider
             'taxonomies' => []
         ]);
 
-        // Allow other plugins/modules to register post types
+        // Allow other plugins/modules to register post types.
         if (function_exists('ld_do_action')) {
             ld_do_action('register_post_types', $contentService);
         }
     }
 
-    /**
-     * Register default taxonomies
-     */
     protected function registerDefaultTaxonomies(): void
     {
         $contentService = app(ContentService::class);
@@ -123,9 +105,6 @@ class ContentServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Get icon for post type
-     */
     protected function getPostTypeIcon(string $postType): string
     {
         return match($postType) {
@@ -135,9 +114,6 @@ class ContentServiceProvider extends ServiceProvider
         };
     }
 
-    /**
-     * Get icon for taxonomy
-     */
     protected function getTaxonomyIcon(string $taxonomy): string
     {
         return match($taxonomy) {

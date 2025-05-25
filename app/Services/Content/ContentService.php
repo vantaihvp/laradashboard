@@ -10,37 +10,63 @@ use Illuminate\Support\Collection;
 
 class ContentService
 {
-    /**
-     * Register a new post type
-     */
     public function registerPostType(array $args): PostType
     {
-        // Create a PostType object
-        $postType = new PostType($args);
-        
-        if (empty($postType->name)) {
+        // Default values.
+        $defaults = [
+            'name' => null,
+            'label' => null,
+            'label_singular' => null,
+            'description' => '',
+            'public' => true,
+            'has_archive' => true,
+            'hierarchical' => false,
+            'show_in_menu' => true,
+            'show_in_nav_menus' => true,
+            'supports_title' => true,
+            'supports_editor' => true,
+            'supports_thumbnail' => true,
+            'supports_excerpt' => true,
+            'supports_custom_fields' => true,
+            'taxonomies' => []
+        ];
+
+        $args = array_merge($defaults, $args);
+
+        // Required values
+        if (empty($args['name'])) {
             throw new \InvalidArgumentException('Post type name is required');
         }
 
-        // Get current post types
+        // Set taxonomies correctly.
+        if (isset($args['taxonomies'])) {
+            if (is_string($args['taxonomies'])) {
+                $args['taxonomies'] = explode(',', $args['taxonomies']);
+            }
+            $args['taxonomies'] = array_map('trim', $args['taxonomies']);
+        } else {
+            $args['taxonomies'] = [];
+        }
+
+        // Create a PostType object.
+        $postType = new PostType($args);
+
+        // Get current post types.
         $postTypes = $this->getPostTypes();
         
-        // Add or update post type
+        // Add or update post type.
         $postTypes[$postType->name] = $postType;
         
-        // Store in cache (using serialized array format)
+        // Store in cache (using serialized array format).
         $postTypesArray = collect($postTypes)->map->toArray()->all();
         Cache::put('post_types', $postTypesArray, now()->addDay());
 
         return $postType;
     }
 
-    /**
-     * Register a new taxonomy
-     */
     public function registerTaxonomy(array $args, $postTypes = null): ?Taxonomy
     {
-        // Default values
+        // Default values.
         $defaults = [
             'name' => null,
             'label' => null,
@@ -53,12 +79,12 @@ class ContentService
 
         $args = array_merge($defaults, $args);
 
-        // Required values
+        // Required values.
         if (empty($args['name'])) {
             return null;
         }
 
-        // Set defaults for blank values
+        // Set defaults for blank values.
         if (empty($args['label'])) {
             $args['label'] = Str::plural(Str::title($args['name']));
         }
@@ -67,7 +93,7 @@ class ContentService
             $args['label_singular'] = Str::title($args['name']);
         }
 
-        // Handle post types
+        // Handle post types and update them to include this taxonomy.
         if (!empty($postTypes)) {
             if (is_string($postTypes)) {
                 $postTypes = [$postTypes];
@@ -76,23 +102,45 @@ class ContentService
             }
             
             $args['post_types'] = $postTypes;
+
+            // Update existing post types to include this taxonomy.
+            $this->addTaxonomyToPostTypes($args['name'], $postTypes);
         }
 
-        // Create or update the taxonomy
+        // Create or update the taxonomy.
         $taxonomy = Taxonomy::updateOrCreate(
             ['name' => $args['name']],
             $args
         );
 
-        // Clear cache
+        // Clear cache.
         $this->clearTaxonomiesCache();
 
         return $taxonomy;
     }
 
-    /**
-     * Get all registered post types
-     */
+    protected function addTaxonomyToPostTypes(string $taxonomyName, array $postTypeNames): void
+    {
+        $postTypes = $this->getPostTypes();
+        $updated = false;
+
+        foreach ($postTypeNames as $postTypeName) {
+            if (isset($postTypes[$postTypeName])) {
+                $postType = $postTypes[$postTypeName];
+                if (!in_array($taxonomyName, $postType->taxonomies)) {
+                    $postType->taxonomies[] = $taxonomyName;
+                    $updated = true;
+                }
+            }
+        }
+
+        if ($updated) {
+            // Store updated post types in cache.
+            $postTypesArray = $postTypes->map->toArray()->all();
+            Cache::put('post_types', $postTypesArray, now()->addDay());
+        }
+    }
+
     public function getPostTypes(): Collection
     {
         $postTypesArray = Cache::get('post_types', []);
@@ -106,18 +154,12 @@ class ContentService
         return $postTypes;
     }
 
-    /**
-     * Get a specific post type by name
-     */
     public function getPostType(string $name): ?PostType
     {
         $postTypes = $this->getPostTypes();
         return $postTypes[$name] ?? null;
     }
 
-    /**
-     * Get all registered taxonomies
-     */
     public function getTaxonomies()
     {
         return Cache::remember('taxonomies', 3600, function () {
@@ -125,17 +167,11 @@ class ContentService
         });
     }
 
-    /**
-     * Clear post types cache
-     */
     public function clearPostTypesCache()
     {
         Cache::forget('post_types');
     }
 
-    /**
-     * Clear taxonomies cache
-     */
     public function clearTaxonomiesCache()
     {
         Cache::forget('taxonomies');

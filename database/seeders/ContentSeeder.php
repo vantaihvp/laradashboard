@@ -4,17 +4,14 @@ namespace Database\Seeders;
 
 use App\Models\Post;
 use App\Models\Term;
-use App\Services\ContentService;
+use App\Services\Content\ContentService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
 class ContentSeeder extends Seeder
 {
-    protected $contentService;
-
-    public function __construct(ContentService $contentService)
+    public function __construct(private readonly ContentService $contentService)
     {
-        $this->contentService = $contentService;
     }
 
     /**
@@ -22,7 +19,7 @@ class ContentSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if required tables exist
+        // Check if required tables exist.
         if (!Schema::hasTable('taxonomies') || !Schema::hasTable('posts') || !Schema::hasTable('terms')) {
             $this->command->info('Content tables not yet migrated. Skipping content seeding.');
             return;
@@ -30,19 +27,10 @@ class ContentSeeder extends Seeder
 
         $this->command->info('Seeding content...');
 
-        // Register post types and taxonomies
         $this->registerPostTypesAndTaxonomies();
-
-        // Create sample categories
         $this->createSampleCategories();
-
-        // Create sample tags
         $this->createSampleTags();
-
-        // Create sample posts
         $this->createSamplePosts();
-
-        // Create sample pages
         $this->createSamplePages();
 
         $this->command->info('Content seeded successfully!');
@@ -53,7 +41,7 @@ class ContentSeeder extends Seeder
      */
     protected function registerPostTypesAndTaxonomies(): void
     {
-        // Register post type
+        // Register post type.
         $this->contentService->registerPostType([
             'name' => 'post',
             'label' => 'Posts',
@@ -62,7 +50,7 @@ class ContentSeeder extends Seeder
             'taxonomies' => ['category', 'tag']
         ]);
 
-        // Register page type
+        // Register page type.
         $this->contentService->registerPostType([
             'name' => 'page',
             'label' => 'Pages',
@@ -74,7 +62,7 @@ class ContentSeeder extends Seeder
             'taxonomies' => []
         ]);
 
-        // Register category taxonomy
+        // Register category taxonomy.
         $this->contentService->registerTaxonomy([
             'name' => 'category',
             'label' => 'Categories',
@@ -83,7 +71,7 @@ class ContentSeeder extends Seeder
             'hierarchical' => true,
         ], 'post');
 
-        // Register tag taxonomy
+        // Register tag taxonomy.
         $this->contentService->registerTaxonomy([
             'name' => 'tag',
             'label' => 'Tags',
@@ -93,9 +81,6 @@ class ContentSeeder extends Seeder
         ], 'post');
     }
 
-    /**
-     * Create sample categories
-     */
     protected function createSampleCategories(): void
     {
         $categories = [
@@ -116,9 +101,6 @@ class ContentSeeder extends Seeder
         }
     }
 
-    /**
-     * Create sample tags
-     */
     protected function createSampleTags(): void
     {
         $tags = [
@@ -141,9 +123,6 @@ class ContentSeeder extends Seeder
         }
     }
 
-    /**
-     * Create sample posts
-     */
     protected function createSamplePosts(): void
     {
         $posts = [
@@ -174,7 +153,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($posts as $postData) {
-            // Create post
+            // Create post.
             $post = Post::firstOrCreate([
                 'title' => $postData['title'],
                 'post_type' => 'post',
@@ -187,31 +166,28 @@ class ContentSeeder extends Seeder
                 'published_at' => now(),
             ]);
 
-            // Attach categories
+            // Attach categories.
             if (isset($postData['categories'])) {
                 $categoryIds = Term::whereIn('name', $postData['categories'])
                     ->where('taxonomy', 'category')
                     ->pluck('id')
                     ->toArray();
-                
+
                 $post->terms()->syncWithoutDetaching($categoryIds);
             }
 
-            // Attach tags
+            // Attach tags.
             if (isset($postData['tags'])) {
                 $tagIds = Term::whereIn('name', $postData['tags'])
                     ->where('taxonomy', 'tag')
                     ->pluck('id')
                     ->toArray();
-                
+
                 $post->terms()->syncWithoutDetaching($tagIds);
             }
         }
     }
 
-    /**
-     * Create sample pages
-     */
     protected function createSamplePages(): void
     {
         $pages = [
