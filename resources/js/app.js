@@ -17,6 +17,12 @@ import userGrowthChart from "./components/charts/user-growth-chart.js";
 import map01 from "./components/map-01";
 import "./components/calendar-init.js";
 import "./components/image-resize";
+import SlugGenerator from "./components/slug-generator";
+
+// Register slug generator component with Alpine.
+Alpine.data('slugGenerator', (initialTitle = '', initialSlug = '') => {
+    return SlugGenerator.alpineComponent(initialTitle, initialSlug);
+});
 
 Alpine.plugin(persist);
 Alpine.plugin(focus);

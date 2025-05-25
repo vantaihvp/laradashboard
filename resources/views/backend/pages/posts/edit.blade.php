@@ -41,6 +41,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('backend/assets/js/post-content.js') }}"></script>
 @include('backend.partials.quill-scripts', ['editorId' => 'content'])
 @endpush

@@ -49,26 +49,5 @@
 </div>
 
 @push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Auto-generate slug from name
-        const nameInput = document.getElementById('name');
-        const slugInput = document.getElementById('slug');
-        if (nameInput && slugInput) {
-            nameInput.addEventListener('input', function() {
-                if (!slugInput.value) {
-                    // Create slug from name
-                    slugInput.value = this.value
-                        .toLowerCase()
-                        .replace(/\s+/g, '-')           // Replace spaces with -
-                        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                        .replace(/^-+/, '')             // Trim - from start of text
-                        .replace(/-+$/, '');            // Trim - from end of text
-                }
-            });
-        }
-    });
-</script>
 @endpush
 @endsection
