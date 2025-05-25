@@ -123,59 +123,74 @@
                                     @endforeach
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_before_action', '', $user) @endphp
-                                <td class="flex px-5 py-4 sm:px-6 text-center gap-1">
+                                <td class="flex items-center px-5 py-4 sm:px-6 text-center gap-1">
                                     @if (auth()->user()->canBeModified($user))
-                                        <a data-tooltip-target="tooltip-edit-user-{{ $user->id }}" class="btn-default !p-3" href="{{ route('admin.users.edit', $user->id) }}">
-                                            <i class="bi bi-pencil text-sm"></i>
-                                        </a>
-                                        <div id="tooltip-edit-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                            {{ __('Edit User') }}
-                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        <div>
+                                            <a data-tooltip-target="tooltip-edit-user-{{ $user->id }}" class="btn-default !p-3" href="{{ route('admin.users.edit', $user->id) }}">
+                                                <i class="bi bi-pencil text-sm"></i>
+                                            </a>
+                                            <div id="tooltip-edit-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                {{ __('Edit User') }}
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
                                         </div>
                                     @endif
                                     @if (auth()->user()->canBeModified($user, 'user.delete'))
-                                        <a data-modal-target="delete-modal-{{ $user->id }}" data-modal-toggle="delete-modal-{{ $user->id }}" data-tooltip-target="tooltip-delete-user-{{ $user->id }}" class="btn-danger !p-3" href="javascript:void(0);">
-                                            <i class="bi bi-trash text-sm"></i>
-                                        </a>
-                                        <div id="tooltip-delete-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                            {{ __('Delete User') }}
-                                            <div class="tooltip-arrow" data-popper-arrow></div>
-                                        </div>
+                                        <div x-data="{ deleteModalOpen: false }">
+                                            <a x-on:click="deleteModalOpen = true" data-tooltip-target="tooltip-delete-user-{{ $user->id }}" class="btn-danger !p-3" href="javascript:void(0);">
+                                                <i class="bi bi-trash text-sm"></i>
+                                            </a>
 
-                                        <div id="delete-modal-{{ $user->id }}" tabindex="-1" class="hidden fixed inset-0 z-50 flex items-center justify-center">
-                                            <!-- Modal Content -->
-                                            <div class="relative p-4 w-full max-w-md bg-white rounded-lg shadow-lg dark:bg-gray-700 z-60">
-                                                <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $user->id }}">
-                                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                                    </svg>
-                                                    <span class="sr-only">{{ __('Close modal') }}</span>
-                                                </button>
-                                                <div class="p-4 md:p-5 text-center">
-                                                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                                    </svg>
-                                                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{{ __('Are you sure you want to delete this user?') }}</h3>
-                                                    <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
-                                                        @method('DELETE')
-                                                        @csrf
+                                            <div id="tooltip-delete-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                {{ __('Delete User') }}
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
 
-                                                        <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                                                            {{ __('Yes, Confirm') }}
+                                            <div x-cloak x-show="deleteModalOpen" x-transition.opacity.duration.200ms x-trap.inert.noscroll="deleteModalOpen" x-on:keydown.esc.window="deleteModalOpen = false" x-on:click.self="deleteModalOpen = false" class="fixed inset-0 z-999 flex items-center justify-center bg-black/20 p-4 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle-{{ $user->id }}">
+                                                <div x-show="deleteModalOpen" x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity" x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100" class="flex max-w-md flex-col gap-4 overflow-hidden rounded-lg border border-outline bg-white text-on-surface dark:border-outline-dark dark:bg-gray-700 dark:text-gray-400">
+                                                    <div class="flex items-center justify-between border-b border-gray-100 px-4 py-2 dark:border-gray-800">
+                                                        <div class="flex items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 p-1">
+                                                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                                            </svg>
+                                                        </div>
+                                                        <h3 id="deleteModalTitle-{{ $user->id }}" class="font-semibold tracking-wide text-gray-800 dark:text-white">{{ __('Delete User') }}</h3>
+                                                        <button x-on:click="deleteModalOpen = false" aria-label="close modal" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="1.4" class="w-5 h-5">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                                            </svg>
                                                         </button>
-                                                        <button data-modal-hide="delete-modal-{{ $user->id }}" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">{{ __('No, cancel') }}</button>
-                                                    </form>
+                                                    </div>
+                                                    <div class="px-4 text-center">
+                                                        <p class="text-gray-500 dark:text-gray-400">{{ __('Are you sure you want to delete this user?') }}</p>
+                                                    </div>
+                                                    <div class="flex items-center justify-end gap-3 border-t border-gray-100 p-4 dark:border-gray-800">
+                                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                                                            @method('DELETE')
+                                                            @csrf
+
+                                                            <button type="button" x-on:click="deleteModalOpen = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+                                                                {{ __('No, cancel') }}
+                                                            </button>
+                                                            
+                                                            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-300 dark:focus:ring-red-800">
+                                                                {{ __('Yes, Confirm') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     @endif
                                     @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)
-                                        <a data-tooltip-target="tooltip-login-as-user-{{ $user->id }}" class="btn-warning !p-3" href="{{ route('admin.users.login-as', $user->id) }}">
-                                            <i class="bi bi-box-arrow-in-right text-sm"></i>
-                                        </a>
-                                        <div id="tooltip-login-as-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                            {{ __('Login as') }} {{ $user->name }}
-                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        <div>
+                                            <a data-tooltip-target="tooltip-login-as-user-{{ $user->id }}" class="btn-warning !p-3" href="{{ route('admin.users.login-as', $user->id) }}">
+                                                <i class="bi bi-box-arrow-in-right text-sm"></i>
+                                            </a>
+                                            <div id="tooltip-login-as-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                                                {{ __('Login as') }} {{ $user->name }}
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
                                         </div>
                                     @endif
                                 </td>
