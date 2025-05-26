@@ -55,7 +55,6 @@
                 <div class="mt-1">
                     <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Content') }}</label>
                     <textarea name="content" id="content" rows="10">{!! old('content', $post->content ?? '') !!}</textarea>
-                    <div id="quill-content"></div>
                 </div>
                 @endif
                 {!! ld_apply_filters('post_form_after_content', '') !!}

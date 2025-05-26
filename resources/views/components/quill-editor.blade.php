@@ -1,8 +1,10 @@
-@php
-$includeToolbar = isset($includeToolbar) ? $includeToolbar : true;
-$editorId = isset($editorId) ? $editorId : 'editor';
-@endphp
+@props([
+    'editorId' => 'editor',
+    'height' => '200px',
+    'maxHeight' => '500px',
+])
 
+@once
 <link rel="stylesheet" href="{{ asset('vendor/quill/quill.min.css') }}" />
 <style>
     .ql-editor {
@@ -17,12 +19,12 @@ $editorId = isset($editorId) ? $editorId : 'editor';
         min-height: 200px;
     }
     /* Create a container for Quill to target */
-    #quill-{{ $editorId }} {
+    .quill-container {
         border: 1px solid #ccc;
         border-radius: 0 0 10px 10px;
         background: transparent;
     }
-    .dark #quill-{{ $editorId }} {
+    .dark .quill-container {
         border-color: #4b5563;
         color: #e5e7eb;
     }
@@ -47,6 +49,7 @@ $editorId = isset($editorId) ? $editorId : 'editor';
 </style>
 
 <script src="{{ asset('vendor/quill/quill.min.js') }}"></script>
+@endonce
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -58,29 +61,30 @@ $editorId = isset($editorId) ? $editorId : 'editor';
             return;
         }
 
+        // Create a div after the textarea to host Quill
+        const quillContainer = document.createElement('div');
+        quillContainer.id = `quill-${editorId}`;
+        quillContainer.className = 'quill-container';
+        textareaElement.insertAdjacentElement('afterend', quillContainer);
+
         // Store original textarea content
         const initialContent = textareaElement.value || '';
 
-        // Initialize Quill on the container div we created
+        // Initialize Quill on the container div
         const quill = new Quill(`#quill-${editorId}`, {
             theme: "snow",
             placeholder: '{{ __('Type here...') }}',
             modules: {
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],
-                    // [{ 'header': 1 }, { 'header': 2 }],
                     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                     ['blockquote'],
                     [{ 'align': [] }],
                     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    // [{ 'script': 'sub' }, { 'script': 'super' }],
                     [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    // [{ 'direction': 'rtl' }],
-                    // [{ 'size': ['small', false, 'large', 'huge'] }],
                     [{ 'color': [] }, { 'background': [] }],
                     [{ 'font': [] }],
-                    // ['clean'],
-                    ['link', 'image', 'video','code-block']
+                    ['link', 'image', 'video', 'code-block']
                 ]
             }
         });
@@ -88,7 +92,6 @@ $editorId = isset($editorId) ? $editorId : 'editor';
         // Set initial content from textarea
         if (initialContent) {
             quill.clipboard.dangerouslyPasteHTML(initialContent);
-            console.log('Content loaded into editor:', initialContent);
         }
 
         // Hide textarea visually but keep it in the DOM for form submission
@@ -97,7 +100,7 @@ $editorId = isset($editorId) ? $editorId : 'editor';
         // Update textarea on editor change for form submission
         quill.on('text-change', function() {
             textareaElement.value = quill.root.innerHTML;
-
+            
             // Trigger form change detection for the unsaved changes warning
             const event = new Event('input', { bubbles: true });
             textareaElement.dispatchEvent(event);

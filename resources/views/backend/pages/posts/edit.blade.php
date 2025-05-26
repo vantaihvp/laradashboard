@@ -41,5 +41,5 @@
 @endsection
 
 @push('scripts')
-@include('backend.partials.quill-scripts', ['editorId' => 'content'])
+<x-quill-editor :editor-id="'content'" />
 @endpush
