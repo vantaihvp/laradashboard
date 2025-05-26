@@ -22,7 +22,7 @@
     </div>
 
     <!-- Two Column Layout: Form and List -->
-    @include('backend.layouts.partials.messages')
+    <x-messages />
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Form Column -->
         <div class="lg:col-span-1 space-y-6">

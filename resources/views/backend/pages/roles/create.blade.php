@@ -32,7 +32,7 @@
     <form action="{{ route('admin.roles.store') }}" method="POST">
         @csrf
         <div class="space-y-8">
-            @include('backend.layouts.partials.messages')
+            <x-messages />
             <!-- Role Details Section -->
             <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">

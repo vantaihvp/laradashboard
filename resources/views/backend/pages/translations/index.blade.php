@@ -6,7 +6,7 @@
 
 @section('admin-content')
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-        @include('backend.layouts.partials.messages')
+        <x-messages />
 
         <div x-data="{ pageName: '{{ __('Translations') }}' }">
             <div class="mb-6 flex flex-wrap items-center justify-between gap-3">

@@ -27,7 +27,7 @@
         </nav>
     </div>
 
-    @include('backend.layouts.partials.messages')
+    <x-messages />
 
     <!-- Edit Post Form -->
     {!! ld_apply_filters('before_post_form', '') !!}

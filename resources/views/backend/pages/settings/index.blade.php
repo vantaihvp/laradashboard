@@ -34,7 +34,7 @@
                 <div class="px-5 py-4 sm:px-6 sm:py-5">
                     <form method="POST" action="{{ route('admin.settings.store') }}" enctype="multipart/form-data">
                         @csrf
-                        @include('backend.layouts.partials.messages')
+                        <x-messages />
                         @include('backend.pages.settings.tabs', [
                             'tabs' => ld_apply_filters('settings_tabs', [
                                 'general' => [

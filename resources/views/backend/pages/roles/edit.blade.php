@@ -34,7 +34,7 @@
         @method('PUT')
         @csrf
         <div class="space-y-8">
-            @include('backend.layouts.partials.messages')
+            <x-messages />
             <!-- Role Details Section -->
             <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Permissions Section -->
             <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800">
@@ -92,7 +92,7 @@
                             @endphp
                             @foreach ($permissions as $permission)
                             <div>
-                                <input type="checkbox" id="checkPermission{{ $permission->id }}" name="permissions[]" value="{{ $permission->name }}" class="mr-2" 
+                                <input type="checkbox" id="checkPermission{{ $permission->id }}" name="permissions[]" value="{{ $permission->name }}" class="mr-2"
                                        {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
                                 <label for="checkPermission{{ $permission->id }}" class="capitalize text-sm text-gray-700 dark:text-gray-400">
                                     {{ $permission->name }}

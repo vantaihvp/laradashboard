@@ -12,7 +12,7 @@
                 <h3 class="text-base font-medium text-gray-800 dark:text-white">{{ __('Edit Profile') }} - {{ $user->name }}</h3>
             </div>
             <div class="p-5 space-y-6 border-t border-gray-100 dark:border-gray-800 sm:p-6">
-                @include('backend.layouts.partials.messages')
+                <x-messages />
                 <form action="{{ route('profile.update') }}" method="POST" class="space-y-6">
                     @method('PUT')
                     @csrf
