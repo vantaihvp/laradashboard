@@ -33,6 +33,7 @@
 
     <!-- Users Table -->
     <div class="space-y-6">
+        @include('backend.layouts.partials.messages')
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
           <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Users') }}</h3>
@@ -75,7 +76,6 @@
                 </div>
             </div>
             <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
-                @include('backend.layouts.partials.messages')
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
@@ -146,40 +146,16 @@
                                                 <div class="tooltip-arrow" data-popper-arrow></div>
                                             </div>
 
-                                            <div x-cloak x-show="deleteModalOpen" x-transition.opacity.duration.200ms x-trap.inert.noscroll="deleteModalOpen" x-on:keydown.esc.window="deleteModalOpen = false" x-on:click.self="deleteModalOpen = false" class="fixed inset-0 z-999 flex items-center justify-center bg-black/20 p-4 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle-{{ $user->id }}">
-                                                <div x-show="deleteModalOpen" x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity" x-transition:enter-start="opacity-0 scale-50" x-transition:enter-end="opacity-100 scale-100" class="flex max-w-md flex-col gap-4 overflow-hidden rounded-lg border border-outline bg-white text-on-surface dark:border-outline-dark dark:bg-gray-700 dark:text-gray-400">
-                                                    <div class="flex items-center justify-between border-b border-gray-100 px-4 py-2 dark:border-gray-800">
-                                                        <div class="flex items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 p-1">
-                                                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                                            </svg>
-                                                        </div>
-                                                        <h3 id="deleteModalTitle-{{ $user->id }}" class="font-semibold tracking-wide text-gray-800 dark:text-white">{{ __('Delete User') }}</h3>
-                                                        <button x-on:click="deleteModalOpen = false" aria-label="close modal" class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="1.4" class="w-5 h-5">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                    <div class="px-4 text-center">
-                                                        <p class="text-gray-500 dark:text-gray-400">{{ __('Are you sure you want to delete this user?') }}</p>
-                                                    </div>
-                                                    <div class="flex items-center justify-end gap-3 border-t border-gray-100 p-4 dark:border-gray-800">
-                                                        <form id="delete-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
-                                                            @method('DELETE')
-                                                            @csrf
-
-                                                            <button type="button" x-on:click="deleteModalOpen = false" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
-                                                                {{ __('No, cancel') }}
-                                                            </button>
-                                                            
-                                                            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-300 dark:focus:ring-red-800">
-                                                                {{ __('Yes, Confirm') }}
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <x-modals.confirm-delete
+                                                id="delete-modal-{{ $user->id }}"
+                                                title="{{ __('Delete User') }}"
+                                                content="{{ __('Are you sure you want to delete this user?') }}"
+                                                formId="delete-form-{{ $user->id }}"
+                                                formAction="{{ route('admin.users.destroy', $user->id) }}"
+                                                modalTrigger="deleteModalOpen"
+                                                cancelButtonText="{{ __('No, cancel') }}"
+                                                confirmButtonText="{{ __('Yes, Confirm') }}"
+                                            />
                                         </div>
                                     @endif
                                     @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)

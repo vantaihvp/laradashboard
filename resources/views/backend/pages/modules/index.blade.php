@@ -109,7 +109,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($modules as $module)
                 <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-                    <div class="flex justify-between">
+                    <div class="flex justify-between" x-data="{ deleteModalOpen: false }">
                         <div class="py-3">
                             <h2>
                                 <i class="bi {{ $module['icon'] }} text-3xl text-gray-500 dark:text-gray-400"></i>
@@ -126,13 +126,14 @@
                         <div id="dropdownMore-{{ $module['name'] }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 dark:divide-gray-600">
                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                                 <li>
-                                    <button
-                                        x-data="{ showDeleteModal: false }"
-                                        data-modal-target="delete-modal-{{ $module['name'] }}" data-modal-toggle="delete-modal-{{ $module['name'] }}"
-                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full px-2 text-left"
-                                    >
-                                        {{ __('Delete') }}
-                                    </button>
+                                    <div>
+                                        <button
+                                            x-on:click="deleteModalOpen = true"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full px-2 text-left"
+                                        >
+                                            {{ __('Delete') }}
+                                        </button>
+                                    </div>
                                 </li>
                                 <li>
                                     <button
@@ -144,6 +145,17 @@
                                 </li>
                             </ul>
                         </div>
+
+                        <x-modals.confirm-delete
+                            id="delete-modal-{{ $module['name'] }}"
+                            title="{{ __('Delete Module') }}"
+                            content="{{ __('Are you sure you want to delete this module?') }}"
+                            formId="delete-form-{{ $module['name'] }}"
+                            formAction="{{ route('admin.modules.delete', $module['name']) }}"
+                            modalTrigger="deleteModalOpen"
+                            cancelButtonText="{{ __('No, Cancel') }}"
+                            confirmButtonText="{{ __('Yes, Confirm') }}"
+                        />
                     </div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">{{ $module['description'] }}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -156,33 +168,6 @@
                         <span class="text-sm font-medium {{ $module['status'] ? 'text-green-500' : 'text-red-500' }}">
                             {{ $module['status'] ? __('Enabled') : __('Disabled') }}
                         </span>
-                    </div>
-                </div>
-
-                <!-- Delete modal -->
-                <div id="delete-modal-{{ $module['name'] }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full z-99999">
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <button type="button" class="absolute top-3 right-3 text-gray-400 hover:text-gray-900 dark:hover:text-white" data-modal-hide="delete-modal-{{ $module['name'] }}">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                        <div class="p-6 text-center">
-                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                            </svg>
-                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                {{ __('Are you sure you want to delete this module?') }}
-                            </h3>
-                            <form x-ref="deleteForm{{ $module['name'] }}" action="{{ route('admin.modules.delete', $module['name']) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                    {{ __('Yes, Confirm') }}
-                                </button>
-                                <button type="button" class="py-2.5 px-5 ml-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" data-modal-hide="delete-modal-{{ $module['name'] }}">
-                                    {{ __('No, Cancel') }}
-                                </button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             @endforeach
