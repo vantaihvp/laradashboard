@@ -23,6 +23,7 @@
 
     <!-- Posts Table -->
     <div class="space-y-6">
+        @include('backend.layouts.partials.messages')
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
             <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ $postTypeModel->label }}</h3>
@@ -83,7 +84,6 @@
                 </div>
             </div>
             <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
-                @include('backend.layouts.partials.messages')
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">

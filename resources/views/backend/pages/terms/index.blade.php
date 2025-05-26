@@ -22,6 +22,7 @@
     </div>
 
     <!-- Two Column Layout: Form and List -->
+    @include('backend.layouts.partials.messages')
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Form Column -->
         <div class="lg:col-span-1 space-y-6">
@@ -32,8 +33,6 @@
                     </h3>
                 </div>
                 <div class="p-5 space-y-5 sm:p-6">
-                    @include('backend.layouts.partials.messages')
-                    
                     <form action="{{ route('admin.terms.store', $taxonomy) }}" method="POST" enctype="multipart/form-data">
                         @include('backend.pages.terms.partials.form')
                     </form>
