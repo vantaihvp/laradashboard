@@ -75,7 +75,7 @@
     @endif
 
     <!-- Submit Button -->
-    <div class="flex justify-between gap-4 mt-4">
+    <div class="flex gap-4 mt-4">
         <button type="submit" class="btn-primary">
             {{ $term ? __('Update') : __('Add New') }} {{ $taxonomyModel->label_singular }}
         </button>

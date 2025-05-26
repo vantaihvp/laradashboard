@@ -66,7 +66,13 @@
                             @forelse ($terms as $termItem)
                                 <tr class="{{ $loop->index + 1 != count($terms) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
                                     <td class="px-5 py-4 sm:px-6">
-                                        {{ $termItem->name }}
+                                        @if (auth()->user()->can('term.edit'))
+                                            <a href="{{ route('admin.terms.edit', ['taxonomy' => $taxonomy, 'term' => $termItem->id]) }}" class="hover:text-primary transition-colors">
+                                                {{ $termItem->name }}
+                                            </a>
+                                        @else
+                                            {{ $termItem->name }}
+                                        @endif
                                     </td>
                                     <td class="px-5 py-4 sm:px-6">
                                         <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">{{ $termItem->slug }}</code>
