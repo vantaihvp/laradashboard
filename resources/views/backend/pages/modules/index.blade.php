@@ -17,7 +17,7 @@
                 @if(count($modules) > 0)
                     <button
                         @click="showUploadArea = !showUploadArea"
-                        class="ml-4 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:opacity-90 transition-all btn-upload-module"
+                        class="ml-4 btn-primary btn-upload-module"
                     >
                         <i class="bi bi-cloud-upload mr-2"></i>
                         {{ __('Upload Module') }}
@@ -109,7 +109,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($modules as $module)
                 <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-                    <div class="flex justify-between" x-data="{ deleteModalOpen: false }">
+                    <div class="flex justify-between" x-data="{ deleteModalOpen: false, errorModalOpen: false, errorMessage: '' }">
                         <div class="py-3">
                             <h2>
                                 <i class="bi {{ $module['icon'] }} text-3xl text-gray-500 dark:text-gray-400"></i>
@@ -156,6 +156,12 @@
                             cancelButtonText="{{ __('No, Cancel') }}"
                             confirmButtonText="{{ __('Yes, Confirm') }}"
                         />
+
+                        <x-modals.error-message
+                            id="error-modal-{{ $module['name'] }}"
+                            title="{{ __('Operation Failed') }}"
+                            modalTrigger="errorModalOpen"
+                        />
                     </div>
                     <p class="text-sm text-gray-600 dark:text-gray-400">{{ $module['description'] }}</p>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -177,6 +183,9 @@
 
 <script>
     function toggleModuleStatus(moduleName, event) {
+        const moduleElement = event.target.closest('[x-data]');
+        const Alpine = window.Alpine;
+        
         fetch(`/admin/modules/toggle-status/${moduleName}`, {
             method: 'POST',
             headers: {
@@ -189,10 +198,24 @@
             if (data.success) {
                 const button = event.target;
                 button.textContent = data.status ? '{{ __("Disable") }}' : '{{ __("Enable") }}';
-                button.classList.toggle('bg-green-500', data.status);
-                button.classList.toggle('bg-red-500', !data.status);
+                
+                // Refresh the page to show updated status
+                window.location.reload();
             } else {
-                alert(data.message);
+                // Show error modal instead of alert
+                if (moduleElement && Alpine) {
+                    const component = Alpine.$data(moduleElement);
+                    component.errorMessage = data.message || '{{ __("An error occurred while processing your request.") }}';
+                    component.errorModalOpen = true;
+                }
+            }
+        })
+        .catch(error => {
+            // Handle network errors
+            if (moduleElement && Alpine) {
+                const component = Alpine.$data(moduleElement);
+                component.errorMessage = '{{ __("Network error. Please check your connection and try again.") }}';
+                component.errorModalOpen = true;
             }
         });
     }

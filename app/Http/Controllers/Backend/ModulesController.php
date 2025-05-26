@@ -47,8 +47,7 @@ class ModulesController extends Controller
     public function toggleStatus(string $moduleName): JsonResponse
     {
         if (config('app.demo_mode', false)) {
-            session()->flash('error', __('Module enabling/disabling is restricted in demo mode. Please try on your local/live environment.'));
-            return response()->json(['success' => false, 'message' => 'Demo mode is enabled, you can not change module status.'], 403);
+            return response()->json(['success' => false, 'message' => __('Module enabling/disabling is restricted in demo mode. Please try on your local/live environment.')], 403);
         }
 
         $this->checkAuthorization(Auth::user(), ['module.edit']);
