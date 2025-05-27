@@ -147,6 +147,20 @@ if (!function_exists('get_languages')) {
 }
 
 
+/**
+ * Content management helpers
+ */
+if (!function_exists('register_post_type')) {
+
+    function register_post_type(string $name, array $args = [])
+    {
+        $args['name'] = $name;
+        return app(ContentService::class)->registerPostType($args);
+    }
+}
+
+
+
 if (!function_exists('register_taxonomy')) {
     /**
      * Register a new taxonomy
@@ -210,12 +224,12 @@ if (!function_exists('get_posts')) {
     function get_posts(array $args = [])
     {
         $query = \App\Models\Post::query();
-        
+
         // Post type filter
         if (isset($args['post_type'])) {
             $query->where('post_type', $args['post_type']);
         }
-        
+
         // Status filter (default to published)
         if (isset($args['status'])) {
             $query->where('status', $args['status']);
@@ -223,37 +237,37 @@ if (!function_exists('get_posts')) {
             $query->where('status', 'publish');
             $query->where(function ($q) {
                 $q->whereNull('published_at')
-                  ->orWhere('published_at', '<=', now());
+                    ->orWhere('published_at', '<=', now());
             });
         }
-        
+
         // Taxonomy query
         if (isset($args['tax_query']) && is_array($args['tax_query'])) {
             foreach ($args['tax_query'] as $tax_query) {
                 if (isset($tax_query['taxonomy']) && isset($tax_query['terms'])) {
                     $query->whereHas('terms', function ($q) use ($tax_query) {
                         $q->where('taxonomy', $tax_query['taxonomy'])
-                          ->whereIn('id', (array) $tax_query['terms']);
+                            ->whereIn('id', (array) $tax_query['terms']);
                     });
                 }
             }
         }
-        
+
         // Order
         $orderBy = $args['orderby'] ?? 'published_at';
         $order = $args['order'] ?? 'desc';
         $query->orderBy($orderBy, $order);
-        
+
         // Limit
         if (isset($args['limit'])) {
             $query->limit($args['limit']);
         }
-        
+
         // Offset
         if (isset($args['offset'])) {
             $query->offset($args['offset']);
         }
-        
+
         return $query->get();
     }
 }
@@ -267,7 +281,7 @@ if (!function_exists('get_post_type_icon')) {
      */
     function get_post_type_icon(string $postType): string
     {
-        return match($postType) {
+        return match ($postType) {
             'post' => 'bi bi-file-earmark-text',
             'page' => 'bi bi-file-earmark',
             default => 'bi bi-collection'
@@ -284,7 +298,7 @@ if (!function_exists('get_taxonomy_icon')) {
      */
     function get_taxonomy_icon(string $taxonomy): string
     {
-        return match($taxonomy) {
+        return match ($taxonomy) {
             'category' => 'bi bi-folder',
             'tag' => 'bi bi-tags',
             default => 'bi bi-bookmark'

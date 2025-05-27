@@ -73,7 +73,7 @@ class ContentServiceProvider extends ServiceProvider
 
         // Allow other plugins/modules to register post types.
         if (function_exists('ld_do_action')) {
-            ld_do_action('register_post_types', $contentService);
+            ld_do_action ('register_post_types', $contentService);
         }
     }
 
