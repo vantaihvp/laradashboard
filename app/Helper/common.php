@@ -58,7 +58,7 @@ if (!function_exists('storeImageAndGetUrl')) {
      *
      * @param \Illuminate\Http\Request|array $input Either the full request or a file from validated input
      * @param string $fileKey The key name (e.g., 'photo')
-     * @param string $path Target relative path (e.g., 'uploads/customers')
+     * @param string $path Target relative path (e.g., 'uploads/contacts')
      * @return string|null
      */
     function storeImageAndGetUrl($input, string $fileKey, string $path): ?string
@@ -146,23 +146,6 @@ if (!function_exists('get_languages')) {
     }
 }
 
-/**
- * Content management helpers
- */
-if (!function_exists('register_post_type')) {
-    /**
-     * Register a new post type
-     * 
-     * @param string $name Post type name
-     * @param array $args Post type arguments
-     * @return array
-     */
-    function register_post_type(string $name, array $args = [])
-    {
-        $args['name'] = $name;
-        return app(ContentService::class)->registerPostType($args);
-    }
-}
 
 if (!function_exists('register_taxonomy')) {
     /**
