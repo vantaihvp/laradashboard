@@ -51,22 +51,43 @@ function get_settings(int|bool|null $autoload = true): array
     return handle_ld_setting('getSettings', $autoload);
 }
 
+
 if (!function_exists('storeImageAndGetUrl')) {
-    function storeImageAndGetUrl($request, $fileName, $path)
+    /**
+     * Store uploaded image and return its public URL.
+     *
+     * @param \Illuminate\Http\Request|array $input Either the full request or a file from validated input
+     * @param string $fileKey The key name (e.g., 'photo')
+     * @param string $path Target relative path (e.g., 'uploads/customers')
+     * @return string|null
+     */
+    function storeImageAndGetUrl($input, string $fileKey, string $path): ?string
     {
-        if ($request->hasFile($fileName)) {
-            $uploadedFile = $request->file($fileName);
-            $fileName = $fileName . '.' . $uploadedFile->getClientOriginalExtension();
+        $file = null;
+
+        if ($input instanceof \Illuminate\Http\Request && $input->hasFile($fileKey)) {
+            $file = $input->file($fileKey);
+        } elseif (is_array($input) && isset($input[$fileKey]) && $input[$fileKey] instanceof \Illuminate\Http\UploadedFile) {
+            $file = $input[$fileKey];
+        }
+
+        if ($file) {
+            $fileName = uniqid($fileKey . '_') . '.' . $file->getClientOriginalExtension();
             $targetPath = public_path($path);
+
             if (!file_exists($targetPath)) {
                 mkdir($targetPath, 0777, true);
             }
-            $uploadedFile->move($targetPath, $fileName);
+
+            $file->move($targetPath, $fileName);
+
             return asset($path . '/' . $fileName);
         }
+
         return null;
     }
 }
+
 
 if (!function_exists('deleteImageFromPublic')) {
     function deleteImageFromPublic(string $imageUrl)
