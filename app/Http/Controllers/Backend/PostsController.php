@@ -86,7 +86,6 @@ class PostsController extends Controller
         $parentPosts = [];
         if ($postTypeModel->hierarchical) {
             $parentPosts = Post::where('post_type', $postType)
-                ->where('status', 'publish')
                 ->pluck('title', 'id')
                 ->toArray();
         }
@@ -174,7 +173,6 @@ class PostsController extends Controller
         $parentPosts = [];
         if ($postTypeModel->hierarchical) {
             $parentPosts = Post::where('post_type', $postType)
-                ->where('status', 'publish')
                 ->where('id', '!=', $id)
                 ->pluck('title', 'id')
                 ->toArray();

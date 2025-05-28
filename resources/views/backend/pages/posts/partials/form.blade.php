@@ -143,16 +143,24 @@
                 <h3 class="text-base font-medium text-gray-800 dark:text-white">{{ __('Parent') }}</h3>
             </div>
             <div class="p-3 space-y-2 sm:p-4">
-                <div>
-                    <label for="parent_id" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Parent') }} {{ $postTypeModel->label_singular }}</label>
-                    <select name="parent_id" id="parent_id"
-                        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                        <option value="">{{ __('None') }}</option>
-                        @foreach($parentPosts as $id => $title)
-                            <option value="{{ $id }}" {{ old('parent_id', $post->parent_id ?? '') == $id ? 'selected' : '' }}>{{ $title }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                @php
+                    $parentOptions = [['value' => '', 'label' => __('None')]];
+                    foreach($parentPosts as $id => $title) {
+                        $parentOptions[] = [
+                            'value' => $id,
+                            'label' => $title
+                        ];
+                    }
+                @endphp
+                
+                <x-inputs.combobox 
+                    name="parent_id"
+                    :label="__('Parent') . ' ' . $postTypeModel->label_singular"
+                    :placeholder="__('Select Parent')"
+                    :options="$parentOptions"
+                    :selected="old('parent_id', $post->parent_id ?? '')"
+                    :searchable="false"
+                />
             </div>
         </div>
         @endif
