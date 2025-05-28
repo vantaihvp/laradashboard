@@ -25,8 +25,3 @@ public/images/.DS_Store
 
 # Exclude release builds
 /releases
-
-# Local Development Only - Don't ignore these files in production
-# ===============================================================
-# Module statuses configuration - only ignore locally
-modules_statuses.json
