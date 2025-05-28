@@ -93,13 +93,13 @@
             <div class="p-3 space-y-2 sm:p-4">
                 <!-- Status with Combobox -->
                 @php
-                    $statusOptions = [
+                    $statusOptions = ld_apply_filters('post_status_options', [
                         ['value' => 'draft', 'label' => __('Draft')],
                         ['value' => 'publish', 'label' => __('Published')],
                         ['value' => 'pending', 'label' => __('Pending Review')],
                         ['value' => 'future', 'label' => __('Scheduled')],
                         ['value' => 'private', 'label' => __('Private')],
-                    ];
+                    ]);
                     $currentStatus = old('status', $post->status ?? 'draft');
                 @endphp
 
