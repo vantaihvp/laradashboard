@@ -55,6 +55,9 @@
                             <tr class="border-b border-gray-100 dark:border-gray-800">
                                 <th width="25%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
                                 <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Slug') }}</th>
+                                @if($taxonomyModel->hierarchical)
+                                <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Parent') }}</th>
+                                @endif
                                 @if($taxonomyModel->show_featured_image)
                                 <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Image') }}</th>
                                 @endif
@@ -77,6 +80,21 @@
                                     <td class="px-5 py-4 sm:px-6">
                                         <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">{{ $termItem->slug }}</code>
                                     </td>
+                                    @if($taxonomyModel->hierarchical)
+                                    <td class="px-5 py-4 sm:px-6">
+                                        @if($termItem->parent)
+                                            @if (auth()->user()->can('term.edit'))
+                                                <a href="{{ route('admin.terms.edit', ['taxonomy' => $taxonomy, 'term' => $termItem->parent->id]) }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+                                                    {{ $termItem->parent->name }}
+                                                </a>
+                                            @else
+                                                <span class="text-sm text-gray-600 dark:text-gray-400">{{ $termItem->parent->name }}</span>
+                                            @endif
+                                        @else
+                                            <span class="text-sm text-gray-400">{{ __('None') }}</span>
+                                        @endif
+                                    </td>
+                                    @endif
                                     @if($taxonomyModel->show_featured_image)
                                     <td class="px-5 py-4 sm:px-6">
                                         @if($termItem->featured_image)
@@ -126,7 +144,7 @@
                                 </tr>
                             @empty
                                 <tr class="border-b border-gray-100 dark:border-gray-800">
-                                    <td colspan="5" class="px-5 py-4 sm:px-6 text-center">
+                                    <td colspan="{{ $taxonomyModel->hierarchical && $taxonomyModel->show_featured_image ? '6' : ($taxonomyModel->hierarchical || $taxonomyModel->show_featured_image ? '5' : '4') }}" class="px-5 py-4 sm:px-6 text-center">
                                         <span class="text-gray-500 dark:text-gray-400">{{ __('No') }} {{ strtolower($taxonomyModel->label) }} {{ __('found') }}</span>
                                     </td>
                                 </tr>
