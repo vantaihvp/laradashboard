@@ -59,18 +59,36 @@
     @if($taxonomyModel->hierarchical)
     <!-- Parent -->
     <div class="mt-2">
-        <label for="parent_id" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Parent') }} {{ $taxonomyModel->label_singular }}</label>
-        <select name="parent_id" id="parent_id" 
-            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-            <option value="">{{ __('None') }}</option>
-            @foreach($parentTerms as $parentTerm)
-                @if(!$term || $parentTerm->id !== $term->id)
-                    <option value="{{ $parentTerm->id }}" {{ old('parent_id', $term ? $term->parent_id : null) == $parentTerm->id ? 'selected' : '' }}>
-                        {{ $parentTerm->name }}
-                    </option>
-                @endif
-            @endforeach
-        </select>
+        @php
+            function buildHierarchicalOptions($terms, $parentId = null, $depth = 0, $currentTermId = null) {
+                $options = [];
+                foreach ($terms as $term) {
+                    if ($term->parent_id == $parentId && (!$currentTermId || $term->id !== $currentTermId)) {
+                        $indent = str_repeat('— ', $depth);
+                        $options[] = [
+                            'value' => $term->id,
+                            'label' => $indent . $term->name
+                        ];
+                        $childOptions = buildHierarchicalOptions($terms, $term->id, $depth + 1, $currentTermId);
+                        $options = array_merge($options, $childOptions);
+                    }
+                }
+                return $options;
+            }
+            
+            $parentOptions = [['value' => '', 'label' => __('None')]];
+            $hierarchicalOptions = buildHierarchicalOptions($parentTerms, null, 0, $term ? $term->id : null);
+            $parentOptions = array_merge($parentOptions, $hierarchicalOptions);
+        @endphp
+        
+        <x-inputs.combobox 
+            name="parent_id"
+            :label="__('Parent') . ' ' . $taxonomyModel->label_singular"
+            :placeholder="__('Select Parent')"
+            :options="$parentOptions"
+            :selected="old('parent_id', $term ? $term->parent_id : null)"
+            :searchable="false"
+        />
     </div>
     @endif
 
