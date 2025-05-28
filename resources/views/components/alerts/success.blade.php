@@ -1,6 +1,6 @@
 @props(['message'])
 
-<div id="success-message" class="relative w-full overflow-hidden" role="alert">
+<div id="success-message" class="relative w-full overflow-hidden mb-2" role="alert">
     <div class="flex w-full items-center gap-2 bg-green-500/10 p-4 border border-green-500 rounded-sm">
         <div class="bg-green-500/15 text-green-500 rounded-full p-1" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6" aria-hidden="true">
