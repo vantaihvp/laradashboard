@@ -76,7 +76,7 @@
                 return $options;
             }
             
-            $parentOptions = [['value' => '', 'label' => __('None')]];
+            $parentOptions = [];
             $hierarchicalOptions = buildHierarchicalOptions($parentTerms, null, 0, $term ? $term->id : null);
             $parentOptions = array_merge($parentOptions, $hierarchicalOptions);
         @endphp
