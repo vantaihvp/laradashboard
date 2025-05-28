@@ -55,10 +55,12 @@ class UsersController extends Controller
 
         $user = ld_apply_filters('user_store_before_save', $user, $request);
         $user->save();
+        /** @var User $user */
         $user = ld_apply_filters('user_store_after_save', $user, $request);
 
         if ($request->roles) {
-            $user->assignRole($request->roles);
+            $roles = array_filter($request->roles);
+            $user->assignRole($roles);
         }
 
         $this->storeActionLog(ActionType::CREATED, ['user' => $user]);
@@ -101,12 +103,15 @@ class UsersController extends Controller
         }
         $user = ld_apply_filters('user_update_before_save', $user, $request);
         $user->save();
+
+        /** @var User $user */
         $user = ld_apply_filters('user_update_after_save', $user, $request);
         ld_do_action('user_update_after', $user);
 
         $user->roles()->detach();
         if ($request->roles) {
-            $user->assignRole($request->roles);
+            $roles = array_filter($request->roles);
+            $user->assignRole($roles);
         }
 
         $this->storeActionLog(ActionType::UPDATED, ['user' => $user]);

@@ -51,23 +51,31 @@
                             <input type="email" name="email" id="email" required value="{{ old('email') }}" placeholder="{{ __('Enter Email') }}" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                         </div>
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Password') }}</label>
-                            <input type="password" name="password" id="password" required placeholder="{{ __('Enter Password') }}" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                            <x-inputs.password
+                                name="password"
+                                label="{{ __('Password') }}"
+                                placeholder="{{ __('Enter Password') }}"
+                                required
+                            />
                         </div>
                         <div>
-                            <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Confirm Password') }}</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" required placeholder="{{ __('Confirm Password') }}" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                            <x-inputs.password
+                                name="password_confirmation"
+                                label="{{ __('Confirm Password') }}"
+                                placeholder="{{ __('Confirm Password') }}"
+                                required
+                            />
                         </div>
                         <div>
-                            <label for="roles" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Assign Roles') }}</label>
-                            <div class="space-y-2">
-                                @foreach ($roles as $id => $name)
-                                    <div class="flex items-center">
-                                        <input type="checkbox" name="roles[]" id="role_{{ $id }}" value="{{ $name }}" class="h-4 w-4 text-brand-500 border-gray-300 rounded focus:ring-brand-400 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-brand-500">
-                                        <label for="role_{{ $id }}" class="ml-2 text-sm text-gray-700 dark:text-gray-400">{{ ucfirst($name) }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
+                            <x-inputs.combobox
+                                name="roles[]"
+                                label="{{ __('Assign Roles') }}"
+                                placeholder="{{ __('Select Roles') }}"
+                                :options="collect($roles)->map(fn($name, $id) => ['value' => $name, 'label' => ucfirst($name)])->values()->toArray()"
+                                :selected="old('roles', [])"
+                                :multiple="true"
+                                :searchable="false"
+                            />
                         </div>
                         <div>
                             <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Username') }}</label>

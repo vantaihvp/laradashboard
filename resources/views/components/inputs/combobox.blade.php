@@ -60,7 +60,6 @@
             } else {
                 this.selectedOptions = this.selectedOptions.filter(val => val !== optionValue);
             }
-            this.$refs.hiddenTextField.value = this.selectedOptions.join(',');
         },
         
         getFilteredOptions(query) {
@@ -112,11 +111,19 @@
         </button>
 
         <!-- Hidden input -->
-        <input 
-            :name="multiple ? '{{ $name }}' : '{{ $name }}'" 
+        <template x-if="multiple">
+            <div>
+                <template x-for="(value, index) in selectedOptions" x-bind:key="index">
+                    <input type="hidden" x-bind:name="'{{ str_replace('[]', '', $name) }}[' + index + ']'" x-bind:value="value" />
+                </template>
+            </div>
+        </template>
+
+        <input x-show="!multiple"
+            name="{{ $name }}" 
             type="hidden" 
             x-ref="hiddenTextField" 
-            :value="multiple ? selectedOptions.join(',') : selectedOption"
+            x-bind:value="selectedOption"
             @if($required) required @endif />
 
         <!-- Dropdown -->
