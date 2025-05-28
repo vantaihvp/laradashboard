@@ -91,18 +91,26 @@
                 <h3 class="text-base font-medium text-gray-800 dark:text-white">{{ __('Status & Visibility') }}</h3>
             </div>
             <div class="p-3 space-y-2 sm:p-4">
-                <!-- Status -->
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Status') }}</label>
-                    <select name="status" id="status"
-                        class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">
-                        <option value="draft" {{ old('status', $post->status ?? 'draft') === 'draft' ? 'selected' : '' }}>{{ __('Draft') }}</option>
-                        <option value="publish" {{ old('status', $post->status ?? '') === 'publish' ? 'selected' : '' }}>{{ __('Published') }}</option>
-                        <option value="pending" {{ old('status', $post->status ?? '') === 'pending' ? 'selected' : '' }}>{{ __('Pending Review') }}</option>
-                        <option value="future" {{ old('status', $post->status ?? '') === 'future' ? 'selected' : '' }}>{{ __('Scheduled') }}</option>
-                        <option value="private" {{ old('status', $post->status ?? '') === 'private' ? 'selected' : '' }}>{{ __('Private') }}</option>
-                    </select>
-                </div>
+                <!-- Status with Combobox -->
+                @php
+                    $statusOptions = [
+                        ['value' => 'draft', 'label' => __('Draft')],
+                        ['value' => 'publish', 'label' => __('Published')],
+                        ['value' => 'pending', 'label' => __('Pending Review')],
+                        ['value' => 'future', 'label' => __('Scheduled')],
+                        ['value' => 'private', 'label' => __('Private')],
+                    ];
+                    $currentStatus = old('status', $post->status ?? 'draft');
+                @endphp
+
+                <x-inputs.combobox
+                    name="status"
+                    label="{{ __('Status') }}"
+                    :options="$statusOptions"
+                    :selected="$currentStatus"
+                    :multiple="false"
+                    :searchable="false" />
+
                 {!! ld_apply_filters('post_form_after_status', '') !!}
 
                 <!-- Publish Date (for scheduled posts) -->
@@ -113,7 +121,7 @@
                     </div>
                     <div x-show="showSchedule" class="mt-2">
                         <label for="published_at" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Publish Date') }}</label>
-                        <input type="datetime-local" name="published_at" id="published_at" 
+                        <input type="datetime-local" name="published_at" id="published_at"
                             value="{{ old('published_at', isset($post) && $post->published_at ? $post->published_at->format('Y-m-d\TH:i') : '') }}"
                             class="form-control">
                     </div>
@@ -183,7 +191,7 @@
                                 
                                 @if($hasTerms)
                                     @if($taxonomy->hierarchical)
-                                        <div class="space-y-1">
+                                        <div class="space-y-1 px-1">
                                             @foreach($parentTerms as $parentTerm)
                                                 @include('backend.pages.posts.partials.hierarchical-terms', [
                                                     'term' => $parentTerm,
@@ -196,8 +204,8 @@
                                     @else
                                         @foreach($terms as $term)
                                             <div class="flex items-start mb-2">
-                                                <input type="checkbox" name="taxonomy_{{ $taxonomy->name }}[]" id="term_{{ $term->id }}" value="{{ $term->id }}" 
-                                                    class="mt-1 h-4 w-4 text-brand-500 border-gray-300 rounded focus:ring-brand-400 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-brand-500" 
+                                                <input type="checkbox" name="taxonomy_{{ $taxonomy->name }}[]" id="term_{{ $term->id }}" value="{{ $term->id }}"
+                                                    class="mt-1 h-4 w-4 text-brand-500 border-gray-300 rounded focus:ring-brand-400 dark:border-gray-700 dark:bg-gray-900 dark:focus:ring-brand-500"
                                                     {{ in_array($term->id, old('taxonomy_' . $taxonomy->name, $selectedTerms[$taxonomy->name] ?? [])) ? 'checked' : '' }}>
                                                 <label for="term_{{ $term->id }}" class="ml-2 block text-sm text-gray-700 dark:text-gray-400">
                                                     {{ $term->name }}
