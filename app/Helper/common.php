@@ -8,6 +8,7 @@ use App\Services\MenuService\AdminMenuItem;
 use App\Services\MenuService\AdminMenuService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 function get_module_asset_paths(): array
 {
@@ -303,5 +304,33 @@ if (!function_exists('get_taxonomy_icon')) {
             'tag' => 'bi bi-tags',
             default => 'bi bi-bookmark'
         };
+    }
+}
+
+if (!function_exists('svg_icon')) {
+    function svg_icon(string $name, string $classes = '', string $fallback = ''): string
+    {
+        // if name includes .svg, remove it
+        $name = Str::replaceLast('.svg', '', $name);
+
+        $path = public_path("images/icons/{$name}.svg");
+
+        if (file_exists($path)) {
+            $svg = file_get_contents($path);
+
+            return Str::replaceFirst(
+                '<svg',
+                '<svg class="' . e($classes) . '"',
+                $svg
+            );
+        }
+
+        // Fallback: Bootstrap icon
+        if ($fallback) {
+            return '<i class="bi bi-' . e($fallback) . ' ' . e($classes) . '"></i>';
+        }
+
+        // If no SVG and no fallback.
+        return '';
     }
 }

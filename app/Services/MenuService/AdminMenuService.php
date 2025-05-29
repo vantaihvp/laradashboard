@@ -116,7 +116,7 @@ class AdminMenuService
             'label' => __('Roles & Permissions'),
             'icon' => 'key.svg',
             'id' => 'roles-submenu',
-            'active' => Route::is('admin.roles.*'),
+            'active' => Route::is('admin.roles.*') || Route::is('admin.permissions.*'),
             'priority' => 20,
             'permissions' => ['role.create', 'role.view', 'role.edit', 'role.delete'],
             'children' => [
@@ -318,7 +318,7 @@ class AdminMenuService
                 'iconClass' => get_post_type_icon($typeName),
                 'id' => 'post-type-' . $typeName,
                 'active' => request()->is('admin/posts/' . $typeName . '*') ||
-                    (!empty($type->taxonomies) && request()->is('admin/terms/' . implode('*|admin/terms/', $type->taxonomies) . '*')),
+                    (!empty($type->taxonomies) && $this->isCurrentTermBelongsToPostType($type->taxonomies)),
                 'priority' => 10,
                 'permissions' => 'post.view',
                 'children' => $children
@@ -326,6 +326,21 @@ class AdminMenuService
 
             $this->addMenuItem($menuItem, 'Content');
         }
+    }
+
+    /**
+     * Check if the current term route belongs to the given taxonomies
+     */
+    protected function isCurrentTermBelongsToPostType(array $taxonomies): bool
+    {
+        if (!request()->is('admin/terms/*')) {
+            return false;
+        }
+
+        // Get the current taxonomy from the route
+        $currentTaxonomy = request()->segment(3); // admin/terms/{taxonomy}
+
+        return in_array($currentTaxonomy, $taxonomies);
     }
 
     protected function sortMenuItemsByPriority(): void

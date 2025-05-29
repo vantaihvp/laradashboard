@@ -25,7 +25,7 @@
             <span class="menu-item-text">{!! $item->label !!}</span>
             <img src="{{ asset('images/icons/chevron-down.svg') }}" alt="Arrow" class="menu-item-arrow dark:invert transition-transform duration-300 {{ $rotateClass }}">
         </button>
-        <ul id="{{ $submenuId }}" class="submenu pl-12 mt-2 space-y-2 overflow-hidden {{ $showSubmenu ? '' : 'hidden' }}">
+        <ul id="{{ $submenuId }}" class="submenu pl-12 mt-2 overflow-hidden {{ $showSubmenu ? '' : 'hidden' }}">
             @foreach($item->children as $child)
                 @include('backend.layouts.partials.menu-item', ['item' => $child])
             @endforeach
