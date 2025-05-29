@@ -17,6 +17,7 @@ class AdminMenuItem
     public ?string $target = null;
     public int $priority = 1;
     public array $permissions = [];
+    public ?string $itemStyles = '';
     public ?string $htmlData = null;
     public string $title = '';
 
@@ -91,6 +92,12 @@ class AdminMenuItem
     public function setPermissions(string|array $permissions): self
     {
         $this->permissions = is_array($permissions) ? $permissions : [$permissions];
+        return $this;
+    }
+
+    public function setItemStyles(?string $styles): self
+    {
+        $this->itemStyles = $styles;
         return $this;
     }
 
