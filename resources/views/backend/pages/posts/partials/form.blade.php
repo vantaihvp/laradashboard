@@ -81,6 +81,8 @@
                 {!! ld_apply_filters('post_form_after_featured_image', '') !!}
             </div>
         </div>
+
+        <x-advanced-fields :post-meta="isset($post) ? $post->getAllMeta() : []" />
     </div>
 
     <!-- Sidebar Area -->

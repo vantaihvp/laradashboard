@@ -6,6 +6,7 @@ namespace App\Http\Requests\Post;
 
 use App\Http\Requests\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class StorePostRequest extends FormRequest
 {
@@ -16,6 +17,24 @@ class StorePostRequest extends FormRequest
     public function authorize(): bool
     {
         return $this->checkAuthorization(Auth::user(), ['post.create']);
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        // Sanitize meta keys by slugifying them
+        if ($this->has('meta_keys')) {
+            $metaKeys = $this->input('meta_keys', []);
+            $sanitizedKeys = array_map(function ($key) {
+                return !empty($key) ? Str::slug($key, '_') : $key;
+            }, $metaKeys);
+
+            $this->merge([
+                'meta_keys' => $sanitizedKeys
+            ]);
+        }
     }
 
     /**
@@ -34,6 +53,10 @@ class StorePostRequest extends FormRequest
             'featured_image' => 'nullable|file|image|max:5120',
             'parent_id' => 'nullable|exists:posts,id',
             'published_at' => 'nullable|date',
+            'meta_keys.*' => 'nullable|string|max:255|regex:/^[a-z0-9_]+$/',
+            'meta_values.*' => 'nullable|string',
+            'meta_types.*' => 'nullable|string|in:input,textarea,number,email,url,text,date,checkbox,select',
+            'meta_default_values.*' => 'nullable|string',
         ]);
     }
 }

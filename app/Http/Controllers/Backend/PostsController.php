@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
@@ -8,6 +10,7 @@ use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\Term;
 use App\Services\Content\ContentService;
+use App\Services\PostMetaService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,8 +19,10 @@ use Illuminate\Support\Str;
 
 class PostsController extends Controller
 {
-    public function __construct(private readonly ContentService $contentService)
-    {
+    public function __construct(
+        private readonly ContentService $contentService,
+        private readonly PostMetaService $postMetaService
+    ) {
     }
 
     public function index(Request $request, string $postType = 'post'): RedirectResponse|Renderable
@@ -127,6 +132,9 @@ class PostsController extends Controller
 
         $post->save();
 
+        // Handle post meta.
+        $this->handlePostMeta($request, $post);
+
         // Handle taxonomies
         $this->handleTaxonomies($request, $post);
 
@@ -151,8 +159,10 @@ class PostsController extends Controller
     {
         $this->checkAuthorization(Auth::user(), ['post.edit']);
 
-        // Get post
-        $post = Post::where('post_type', $postType)->findOrFail($id);
+        // Get post with postMeta relationship.
+        $post = Post::with(['postMeta', 'terms'])
+            ->where('post_type', $postType)
+            ->findOrFail($id);
 
         // Get post type
         $postTypeModel = $this->contentService->getPostType($postType);
@@ -232,6 +242,9 @@ class PostsController extends Controller
 
         $post->save();
 
+        // Handle post meta.
+        $this->handlePostMeta($request, $post);
+
         // Handle taxonomies.
         $this->handleTaxonomies($request, $post);
 
@@ -282,5 +295,29 @@ class PostsController extends Controller
 
         // Sync terms.
         $post->terms()->sync($termIds);
+    }
+
+    protected function handlePostMeta(Request $request, Post $post)
+    {
+        $metaKeys = $request->input('meta_keys', []);
+        $metaValues = $request->input('meta_values', []);
+        $metaTypes = $request->input('meta_types', []);
+        $metaDefaultValues = $request->input('meta_default_values', []);
+
+        // Clear existing meta for this post.
+        $post->postMeta()->delete();
+
+        // Add new meta.
+        foreach ($metaKeys as $index => $key) {
+            if (!empty($key) && isset($metaValues[$index])) {
+                $this->postMetaService->setMeta(
+                    $post->id,
+                    $key,
+                    $metaValues[$index],
+                    $metaTypes[$index] ?? 'input',
+                    $metaDefaultValues[$index] ?? null
+                );
+            }
+        }
     }
 }

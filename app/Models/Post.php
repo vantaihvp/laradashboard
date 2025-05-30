@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -92,6 +94,90 @@ class Post extends Model
     public function terms(): BelongsToMany
     {
         return $this->belongsToMany(Term::class, 'term_relationships');
+    }
+
+    /**
+     * Get the post meta.
+     */
+    public function postMeta(): HasMany
+    {
+        return $this->hasMany(PostMeta::class);
+    }
+
+    /**
+     * Get a specific meta value
+     * 
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getMeta(string $key, $default = null)
+    {
+        $meta = $this->postMeta()->where('meta_key', $key)->first();
+        return $meta ? $meta->meta_value : $default;
+    }
+
+    /**
+     * Set a meta value
+     * 
+     * @param string $key
+     * @param mixed $value
+     * @return PostMeta
+     */
+    public function setMeta(string $key, $value): PostMeta
+    {
+        return $this->postMeta()->updateOrCreate(
+            ['meta_key' => $key],
+            ['meta_value' => $value]
+        );
+    }
+
+    /**
+     * Delete a meta value
+     * 
+     * @param string $key
+     * @return bool
+     */
+    public function deleteMeta(string $key): bool
+    {
+        return $this->postMeta()->where('meta_key', $key)->delete() > 0;
+    }
+
+    /**
+     * Get all meta as array with full info
+     * 
+     * @return array
+     */
+    public function getAllMeta(): array
+    {
+        // Make sure we're loading the postMeta relationship
+        if (!$this->relationLoaded('postMeta')) {
+            $this->load('postMeta');
+        }
+
+        return $this->postMeta
+            ->mapWithKeys(function ($meta) {
+                return [
+                    $meta->meta_key => [
+                        'value' => $meta->meta_value ?? '',
+                        'type' => $meta->type ?? 'input',
+                        'default_value' => $meta->default_value ?? ''
+                    ]
+                ];
+            })
+            ->toArray();
+    }
+
+    /**
+     * Get all meta as simple key-value pairs
+     * 
+     * @return array
+     */
+    public function getAllMetaValues(): array
+    {
+        return $this->postMeta()
+            ->pluck('meta_value', 'meta_key')
+            ->toArray();
     }
 
     /**
