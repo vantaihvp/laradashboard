@@ -242,14 +242,14 @@ class PermissionService
      */
     public function getPaginatedPermissionsWithRoleCount(string $search = null, ?int $perPage): LengthAwarePaginator
     {
-        $query = Permission::query();
+        $filters = [
+            'search' => $search,
+            'sort_field' => 'name',
+            'sort_direction' => 'asc'
+        ];
 
-        if ($search) {
-            $query->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('group_name', 'like', '%' . $search . '%');
-        }
-
-        $permissions = $query->paginate($perPage ?? config('settings.default_pagination'));
+        $permissions = \App\Models\Permission::applyFilters($filters)
+            ->paginateData(['per_page' => $perPage ?? config('settings.default_pagination')]);
 
         // Add role count and roles information to each permission.
         foreach ($permissions as $permission) {

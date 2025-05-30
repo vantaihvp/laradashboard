@@ -125,13 +125,14 @@ class RolesService
      */
     public function getPaginatedRolesWithUserCount(string $search = null, int $perPage = 10): LengthAwarePaginator
     {
-        $query = Role::query();
+        $filters = [
+            'search' => $search,
+            'sort_field' => 'name',
+            'sort_direction' => 'asc'
+        ];
 
-        if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
-        }
-
-        $roles = $query->paginate($perPage);
+        $roles = \App\Models\Role::applyFilters($filters)
+            ->paginateData(['per_page' => $perPage]);
 
         // Add user count to each role
         foreach ($roles as $role) {
