@@ -18,4 +18,14 @@ class Permission extends SpatiePermission
     {
         return ['name', 'group_name'];
     }
+    
+    /**
+     * Get columns that should be excluded from sorting.
+     *
+     * @return array
+     */
+    protected function getExcludedSortColumns(): array
+    {
+        return ['role_count'];
+    }
 }

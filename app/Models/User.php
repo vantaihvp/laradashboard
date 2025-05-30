@@ -103,4 +103,14 @@ class User extends Authenticatable
     {
         return ['name', 'email', 'username'];
     }
+    
+    /**
+     * Get columns that should be excluded from sorting.
+     *
+     * @return array
+     */
+    protected function getExcludedSortColumns(): array
+    {
+        return [];
+    }
 }

@@ -18,4 +18,14 @@ class Role extends SpatieRole
     {
         return ['name'];
     }
+    
+    /**
+     * Get columns that should be excluded from sorting.
+     *
+     * @return array
+     */
+    protected function getExcludedSortColumns(): array
+    {
+        return ['user_count'];
+    }
 }

@@ -58,7 +58,14 @@ trait QueryBuilderTrait
                 $field = substr($sort, 1);
             }
             
-            $query->orderBy($field, $direction);
+            // Check if the field is in the excluded sort columns
+            $excludedSortColumns = method_exists($this, 'getExcludedSortColumns') 
+                ? $this->getExcludedSortColumns() 
+                : [];
+                
+            if (!in_array($field, $excludedSortColumns)) {
+                $query->orderBy($field, $direction);
+            }
         } else {
             // Default sorting
             $sortField = $filters['sort_field'] ?? 'created_at';

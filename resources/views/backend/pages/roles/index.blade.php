@@ -60,7 +60,20 @@
                                     </a>
                                 </div>
                             </th>
-                            <th width="8%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Users') }}</th>
+                            <th width="8%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Users') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'user_count' ? '-user_count' : 'user_count']) }}" class="ml-1">
+                                        @if(request()->sort === 'user_count')
+                                            <i class="bi bi-sort-numeric-down text-primary"></i>
+                                        @elseif(request()->sort === '-user_count')
+                                            <i class="bi bi-sort-numeric-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
                             <th width="35%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white">{{ __('Permissions') }}</th>
                             <th width="12%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white">{{ __('Action') }}</th>
                         </tr>

@@ -64,7 +64,20 @@
                                     </a>
                                 </div>
                             </th>
-                            <th width="45%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Roles') }}</th>
+                            <th width="45%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Roles') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'role_count' ? '-role_count' : 'role_count']) }}" class="ml-1">
+                                        @if(request()->sort === 'role_count')
+                                            <i class="bi bi-sort-numeric-down text-primary"></i>
+                                        @elseif(request()->sort === '-role_count')
+                                            <i class="bi bi-sort-numeric-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
                             <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white">{{ __('Action') }}</th>
                         </tr>
                     </thead>
