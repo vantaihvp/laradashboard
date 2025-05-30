@@ -58,7 +58,7 @@
                                     {{ __('All Roles') }}
                                 </li>
                                 @foreach ($roles as $id => $name)
-                                    <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded {{ $name === request('role') ? 'bg-gray-200 dark:bg-gray-600' : '' }}"
+                                    <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded {{ request('role') === $name ? 'bg-gray-200 dark:bg-gray-600' : '' }}"
                                         onclick="handleRoleFilter('{{ $name }}')">
                                         {{ ucfirst($name) }}
                                     </li>
@@ -80,8 +80,34 @@
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
                             <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Sl') }}</th>
-                            <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
-                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Email') }}</th>
+                            <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Name') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'name' ? '-name' : 'name']) }}" class="ml-1">
+                                        @if(request()->sort === 'name')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-name')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
+                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Email') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'email' ? '-email' : 'email']) }}" class="ml-1">
+                                        @if(request()->sort === 'email')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-email')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
                             <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Roles') }}</th>
                             @php ld_apply_filters('user_list_page_table_header_before_action', '') @endphp
                             <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Action') }}</th>
@@ -191,12 +217,27 @@
 </div>
 
 @push('scripts')
-    <script>
-        function handleRoleFilter(value) {
-            let currentUrl = new URL(window.location.href);
+<script>
+    function handleRoleFilter(value) {
+        let currentUrl = new URL(window.location.href);
+
+        // Preserve sort parameter if it exists.
+        const sortParam = currentUrl.searchParams.get('sort');
+
+        // Reset the search params but keep the sort if it exists.
+        currentUrl.search = '';
+
+        if (value) {
             currentUrl.searchParams.set('role', value);
-            window.location.href = currentUrl.toString();
         }
-    </script>
+
+        // Re-add sort parameter if it existed.
+        if (sortParam) {
+            currentUrl.searchParams.set('sort', sortParam);
+        }
+
+        window.location.href = currentUrl.toString();
+    }
+</script>
 @endpush
 @endsection
