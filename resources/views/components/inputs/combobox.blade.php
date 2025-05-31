@@ -29,14 +29,14 @@
         setLabelText() {
             if (this.multiple) {
                 const count = this.selectedOptions.length;
-                if (count === 0) return '{{ $placeholder }}';
+                if (count === 0) return '{{ __($placeholder) }}';
                 if (count === 1) {
                     const option = this.allOptions.find(opt => opt.value == this.selectedOptions[0]);
                     return option ? option.label : this.selectedOptions[0];
                 }
                 return count + ' items selected';
             } else {
-                if (!this.selectedOption) return '{{ $placeholder }}';
+                if (!this.selectedOption) return '{{ __($placeholder) }}';
                 const option = this.allOptions.find(opt => opt.value == this.selectedOption);
                 return option ? option.label : this.selectedOption;
             }
@@ -92,7 +92,8 @@
     x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
     
     @if($label)
-        <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ $label }}</label>
+        <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __($label) }} @if($required) <span class="crm:text-red-500">*</span> @endif</label>
+        
     @endif
     
     <div class="relative">
@@ -143,7 +144,7 @@
             <div class="border-b border-gray-200 dark:border-gray-700 p-2">
                 <input type="text" 
                     class="w-full px-3 py-2 text-sm border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"
-                    placeholder="Search..." 
+                    placeholder="{{ __('Search...') }}" 
                     x-on:input="getFilteredOptions($el.value)"
                     x-ref="searchField" />
             </div>
@@ -182,7 +183,7 @@
                 </template>
                 
                 <li x-show="options.length === 0" class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
-                    No options found
+                    {{ __('No options found') }}
                 </li>
             </ul>
         </div>
