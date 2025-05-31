@@ -7,6 +7,7 @@
     }" 
     class="relative" 
     @keydown.escape.window="open = false"
+    @close-drawer.window="close()"
     :id="$id('drawer')"
 >
     <!-- Trigger Button -->
