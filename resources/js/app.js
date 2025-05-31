@@ -193,4 +193,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Toast notification helper function
+window.showToast = function(variant, title, message) {
+    // Dispatch the notify event that the toast component listens for
+    window.dispatchEvent(new CustomEvent('notify', {
+        detail: {
+            variant, // 'success', 'error', 'warning', 'info'
+            title,
+            message
+        }
+    }));
+};
 
+// Import term drawer functionality
+import './term-drawer.js';

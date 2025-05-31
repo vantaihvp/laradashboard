@@ -12,6 +12,7 @@
 
     <form action="{{ route('admin.posts.store', $postType) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         @include('backend.pages.posts.partials.form', [
             'post' => null,
             'selectedTerms' => [],

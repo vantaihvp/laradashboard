@@ -188,13 +188,14 @@
         @if(!empty($taxonomies))
             @foreach($taxonomies as $taxonomy)
                 <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-                    <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800">
+                    <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
                         <h3 class="text-base font-medium text-gray-800 dark:text-white">{{ $taxonomy->label }}</h3>
+                        <x-term-drawer :taxonomy="$taxonomy" :taxonomyName="$taxonomy->name" />
                     </div>
-                    <div class="p-3 space-y-2 sm:p-4">
+                    <div class="p-3 space-y-2 sm:p-4" data-taxonomy="{{ $taxonomy->name }}">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Select') }} {{ strtolower($taxonomy->label) }}</label>
-                            <div class="mt-2 max-h-60 overflow-y-auto">
+                            <div class="mt-2 max-h-60 overflow-y-auto terms-list">
                                 @php
                                     if ($taxonomy->hierarchical) {
                                         // For hierarchical taxonomies, get parent terms first (terms with no parent)
@@ -240,8 +241,7 @@
                                         @endforeach
                                     @endif
                                 @else
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('No') }} {{ strtolower($taxonomy->label) }} {{ __('found.') }}</p>
-                                    <a href="{{ route('admin.terms.index', $taxonomy->name) }}" class="text-sm text-primary hover:underline mt-2 inline-block">{{ __('Add a new') }} {{ strtolower($taxonomy->label_singular) }}</a>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 no-terms-message">{{ __('No') }} {{ strtolower($taxonomy->label) }} {{ __('found.') }}</p>
                                 @endif
                             </div>
                         </div>

@@ -26,7 +26,7 @@ class StoreTermRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:terms,name',
             'slug' => 'nullable|string|max:255|unique:terms,slug',
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:terms,id',

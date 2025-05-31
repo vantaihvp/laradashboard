@@ -76,7 +76,7 @@ password - 12345678
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🔄 Versions:
-Latest version `v1.3.0` - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.3.0
+Latest version `v1.5.0` - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.5.0
 
 <details>
 <summary>View Old versions</summary>
@@ -104,6 +104,8 @@ Latest version `v1.3.0` - https://github.com/ManiruzzamanAkash/laravel-role/rele
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.0.0
 - v1.2.0 - Translation Management, Dashboard Redesign, Role/User List improvements
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.2.0
+- v1.3.0 - Admin Menu architecture, Permission List and detail page
+    - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.3.0
 
 More release tags - https://github.com/laradashboard/laradashboard/releases
 </details>

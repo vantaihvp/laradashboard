@@ -13,6 +13,7 @@
     <form action="{{ route('admin.posts.update', [$postType, $post->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         @include('backend.pages.posts.partials.form')
     </form>
 

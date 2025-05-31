@@ -1,4 +1,4 @@
-@props(['btn' => 'Open Drawer', 'isOpen' => false, 'title' => null])
+@props(['btn' => 'Open Drawer', 'isOpen' => false, 'title' => null, 'btnClass' => 'btn-primary', 'btnIcon' => 'bi bi-plus-circle', 'width' => 'sm:w-96'])
 
 <div 
     x-data="{ 
@@ -11,10 +11,24 @@
     :id="$id('drawer')"
 >
     <!-- Trigger Button -->
-    <button type="button" @click="open = true" class="btn-primary">
-        <i class="bi bi-plus-circle mr-2"></i>
+    <button type="button" @click="open = true" class="{{ $btnClass }}">
+        @if($btnIcon)
+        <i class="{{ $btnIcon }} mr-2"></i>
+        @endif
         {{ $btn }}
     </button>
+
+    <!-- Overlay Background -->
+    <div x-show="open" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="close()"
+         class="fixed inset-0 bg-gray-900/30 backdrop-blur-sm z-40">
+    </div>
 
     <!-- Drawer Sidebar -->
     <div x-show="open"
@@ -24,7 +38,8 @@
          x-transition:leave="transition ease-in duration-300"
          x-transition:leave-start="translate-x-0"
          x-transition:leave-end="translate-x-full"
-         class="fixed top-0 right-0 bottom-0 sm:w-96 max-w-md z-50 overflow-y-auto crm:bg-white dark:bg-gray-800 bg-white shadow-xl border-l border-gray-200 dark:border-gray-700">
+         @click.stop
+         class="fixed top-0 right-0 bottom-0 {{ $width }} max-w-md z-50 flex flex-col crm:bg-white dark:bg-gray-800 bg-white shadow-xl border-l border-gray-200 dark:border-gray-700">
         
         <!-- Header with built-in close button -->
         <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
@@ -42,5 +57,12 @@
         <div class="p-5 space-y-3 flex-1 overflow-y-auto" x-data="{}" x-bind="$data">
             {{ $slot }}
         </div>
+
+        <!-- Footer Slot if provided -->
+        @if(isset($footer))
+        <div class="px-5 py-4 sm:px-6 sm:py-5 border-t border-gray-200 dark:border-gray-700">
+            {{ $footer }}
+        </div>
+        @endif
     </div>
 </div>

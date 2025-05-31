@@ -28,13 +28,13 @@ class UpdateTermRequest extends FormRequest
         $termId = $this->route('id');
 
         $rules = [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:terms,name,' . $termId,
             'slug' => 'nullable|string|max:255|unique:terms,slug,' . $termId,
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:terms,id',
         ];
 
-        // Add featured image validation if taxonomy supports it
+        // Add featured image validation if taxonomy supports it.
         $taxonomyName = $this->route('taxonomy');
         $taxonomyModel = app(ContentService::class)->getTaxonomies()->where('name', $taxonomyName)->first();
 

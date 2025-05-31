@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use App\Traits\HasUniqueSlug;
 use App\Traits\QueryBuilderTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 class Term extends Model
 {
-    use HasFactory, QueryBuilderTrait;
+    use HasFactory, QueryBuilderTrait, HasUniqueSlug;
 
     protected $fillable = [
         'name',
@@ -24,14 +25,27 @@ class Term extends Model
         'parent_id'
     ];
 
-    /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
+    protected function getSlugSourceField($model): string
     {
-        static::creating(function (Term $term) {
-            if (empty($term->slug)) {
-                $term->slug = Str::slug($term->name);
+        return 'name';
+    }
+
+    /**
+     * Boot method to auto-generate slug.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->slug)) {
+                $model->slug = $model->generateUniqueSlug($model);
+            }
+        });
+
+        static::updating(function ($model) {
+            if ($model->isDirty('name') && empty($model->slug)) {
+                $model->slug = $model->generateUniqueSlug($model);
             }
         });
     }
@@ -93,7 +107,7 @@ class Term extends Model
     {
         return ['name', 'slug', 'description'];
     }
-    
+
     /**
      * Get columns that should be excluded from sorting.
      *

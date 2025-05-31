@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name'))</title>
 
     <link rel="icon" href="{{ config('settings.site_favicon') ?? asset('favicon.ico') }}" type="image/x-icon">
@@ -108,7 +109,7 @@ x-init="
                     updateHeaderBg();
                 });
             }
-            
+
             // Initialize sidebar state from localStorage if it exists
             if (window.Alpine) {
                 const sidebarState = localStorage.getItem('sidebarToggle');
@@ -132,5 +133,7 @@ x-init="
         {!! config('settings.global_custom_js') !!}
     </script>
     @endif
+
+    <x-toast-notifications />
 </body>
 </html>

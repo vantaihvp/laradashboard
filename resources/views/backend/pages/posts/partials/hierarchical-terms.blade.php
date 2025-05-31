@@ -15,7 +15,7 @@
 @endphp
 
 @if($childTerms->count() > 0)
-    <div class="ml-6 border-l border-gray-200 dark:border-gray-700 pl-2 space-y-1">
+    <div class="ml-6 border-l border-gray-200 dark:border-gray-700 pl-2 space-y-1" data-term-children="{{ $term->id }}">
         @foreach($childTerms as $childTerm)
             @include('backend.pages.posts.partials.hierarchical-terms', [
                 'term' => $childTerm,
