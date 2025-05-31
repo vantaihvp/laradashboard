@@ -87,7 +87,7 @@
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
-                            <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('ID') }}</th>
+                            <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Sl') }}</th>
                             <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
                                 <div class="flex items-center">
                                     {{ __('Title') }}
@@ -140,15 +140,24 @@
                     <tbody>
                         @forelse ($posts as $post)
                             <tr class="{{ $loop->index + 1 != count($posts) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
-                                <td class="px-5 py-4 sm:px-6">{{ $post->id }}</td>
+                                <td class="px-5 py-4 sm:px-6">{{ $loop->index + 1 }}</td>
                                 <td class="px-5 py-4 sm:px-6">
-                                    @if (auth()->user()->can('post.edit'))
-                                        <a href="{{ route('admin.posts.edit', [$postType, $post->id]) }}" class="text-gray-800 dark:text-white font-medium hover:text-primary dark:hover:text-primary">
+                                    <div class="flex gap-0.5 items-center">
+                                        @if($post->featured_image)
+                                            <img src="{{ asset($post->featured_image) }}" alt="{{ $post->title }}" class="h-12 w-16 object-cover rounded mr-3">
+                                        @else
+                                            <div class="h-12 w-16 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center mr-3">
+                                                <i class="bi bi-image text-gray-400"></i>
+                                            </div>
+                                        @endif
+                                        @if (auth()->user()->can('post.edit'))
+                                            <a href="{{ route('admin.posts.edit', [$postType, $post->id]) }}" class="text-gray-800 dark:text-white font-medium hover:text-primary dark:hover:text-primary">
+                                                {{ $post->title }}
+                                            </a>
+                                        @else
                                             {{ $post->title }}
-                                        </a>
-                                    @else
-                                        {{ $post->title }}
-                                    @endif
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="px-5 py-4 sm:px-6">
                                     {{ $post->user->name }}
