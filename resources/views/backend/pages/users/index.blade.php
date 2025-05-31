@@ -35,8 +35,8 @@
     <div class="space-y-6">
         <x-messages />
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-          <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
-                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Users') }}</h3>
+          <div class="px-5 py-4 sm:px-6 sm:py-5 flex gap-3 md:gap-1 flex-col md:flex-row justify-between items-center">
+                <h3 class="text-base font-medium text-gray-800 dark:text-white/90 hidden md:block">{{ __('Users') }}</h3>
 
                 @include('backend.partials.search-form', [
                     'placeholder' => __('Search by name or email'),
@@ -75,7 +75,7 @@
                     @endif
                 </div>
             </div>
-            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
+            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
@@ -149,52 +149,47 @@
                                     @endforeach
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_before_action', '', $user) @endphp
-                                <td class="flex items-center px-5 py-4 sm:px-6 text-center gap-1">
-                                    @if (auth()->user()->canBeModified($user))
-                                        <div>
-                                            <a data-tooltip-target="tooltip-edit-user-{{ $user->id }}" class="btn-default !p-3" href="{{ route('admin.users.edit', $user->id) }}">
-                                                <i class="bi bi-pencil text-sm"></i>
-                                            </a>
-                                            <div id="tooltip-edit-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Edit User') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if (auth()->user()->canBeModified($user, 'user.delete'))
-                                        <div x-data="{ deleteModalOpen: false }">
-                                            <a x-on:click="deleteModalOpen = true" data-tooltip-target="tooltip-delete-user-{{ $user->id }}" class="btn-danger !p-3" href="javascript:void(0);">
-                                                <i class="bi bi-trash text-sm"></i>
-                                            </a>
-
-                                            <div id="tooltip-delete-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Delete User') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-
-                                            <x-modals.confirm-delete
-                                                id="delete-modal-{{ $user->id }}"
-                                                title="{{ __('Delete User') }}"
-                                                content="{{ __('Are you sure you want to delete this user?') }}"
-                                                formId="delete-form-{{ $user->id }}"
-                                                formAction="{{ route('admin.users.destroy', $user->id) }}"
-                                                modalTrigger="deleteModalOpen"
-                                                cancelButtonText="{{ __('No, cancel') }}"
-                                                confirmButtonText="{{ __('Yes, Confirm') }}"
+                                <td class="px-5 py-4 sm:px-6 flex justify-center">
+                                    <x-buttons.action-buttons :label="__('Actions')" :show-label="false" align="right">
+                                        @if (auth()->user()->canBeModified($user))
+                                            <x-buttons.action-item 
+                                                :href="route('admin.users.edit', $user->id)" 
+                                                icon="pencil" 
+                                                :label="__('Edit')" 
                                             />
-                                        </div>
-                                    @endif
-                                    @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)
-                                        <div>
-                                            <a data-tooltip-target="tooltip-login-as-user-{{ $user->id }}" class="btn-warning !p-3" href="{{ route('admin.users.login-as', $user->id) }}">
-                                                <i class="bi bi-box-arrow-in-right text-sm"></i>
-                                            </a>
-                                            <div id="tooltip-login-as-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Login as') }} {{ $user->name }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                        @endif
+                                        
+                                        @if (auth()->user()->canBeModified($user, 'user.delete'))
+                                            <div x-data="{ deleteModalOpen: false }">
+                                                <x-buttons.action-item 
+                                                    type="modal-trigger"
+                                                    modal-target="deleteModalOpen"
+                                                    icon="trash" 
+                                                    :label="__('Delete')" 
+                                                    class="text-red-600 dark:text-red-400"
+                                                />
+                                                
+                                                <x-modals.confirm-delete
+                                                    id="delete-modal-{{ $user->id }}"
+                                                    title="{{ __('Delete User') }}"
+                                                    content="{{ __('Are you sure you want to delete this user?') }}"
+                                                    formId="delete-form-{{ $user->id }}"
+                                                    formAction="{{ route('admin.users.destroy', $user->id) }}"
+                                                    modalTrigger="deleteModalOpen"
+                                                    cancelButtonText="{{ __('No, cancel') }}"
+                                                    confirmButtonText="{{ __('Yes, Confirm') }}"
+                                                />
                                             </div>
-                                        </div>
-                                    @endif
+                                        @endif
+                                        
+                                        @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)
+                                            <x-buttons.action-item 
+                                                :href="route('admin.users.login-as', $user->id)" 
+                                                icon="box-arrow-in-right" 
+                                                :label="__('Login as')" 
+                                            />
+                                        @endif
+                                    </x-buttons.action-buttons>
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_after_action', '', $user) @endphp
                             </tr>

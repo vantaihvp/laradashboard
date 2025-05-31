@@ -51,7 +51,7 @@
                         ])
                     </div>
                 </div>
-                <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
+                <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                     <table id="dataTable" class="w-full dark:text-gray-400">
                         <thead class="bg-light text-capitalize">
                             <tr class="border-b border-gray-100 dark:border-gray-800">
@@ -133,39 +133,39 @@
                                     <td class="px-5 py-4 sm:px-6">
                                         {{ $termItem->posts_count ?? $termItem->posts->count() }}
                                     </td>
-                                    <td class="px-5 py-4 sm:px-6 text-center flex items-center justify-center gap-1">
-                                        @if (auth()->user()->can('term.edit'))
-                                            <a data-tooltip-target="tooltip-edit-{{ $termItem->id }}" class="btn-default !p-3" href="{{ route('admin.terms.edit', ['taxonomy' => $taxonomy, 'term' => $termItem->id]) }}">
-                                                <i class="bi bi-pencil text-sm"></i>
-                                            </a>
-                                            <div id="tooltip-edit-{{ $termItem->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Edit') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-                                        @endif
-
-                                        @if (auth()->user()->can('term.delete'))
-                                            <div x-data="{ deleteModalOpen: false }">
-                                                <a x-on:click="deleteModalOpen = true" data-tooltip-target="tooltip-delete-{{ $termItem->id }}" class="btn-danger !p-3" href="javascript:void(0);">
-                                                    <i class="bi bi-trash text-sm"></i>
-                                                </a>
-                                                <div id="tooltip-delete-{{ $termItem->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                    {{ __('Delete') }}
-                                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                                                </div>
-
-                                                <x-modals.confirm-delete
-                                                    id="delete-modal-{{ $termItem->id }}"
-                                                    title="{{ __('Delete') }} {{ strtolower($taxonomyModel->label_singular) }}"
-                                                    content="{{ __('Are you sure you want to delete this') }} {{ strtolower($taxonomyModel->label_singular) }}?"
-                                                    formId="delete-form-{{ $termItem->id }}"
-                                                    formAction="{{ route('admin.terms.destroy', [$taxonomy, $termItem->id]) }}"
-                                                    modalTrigger="deleteModalOpen"
-                                                    cancelButtonText="{{ __('No, cancel') }}"
-                                                    confirmButtonText="{{ __('Yes, Confirm') }}"
+                                    <td class="px-5 py-4 sm:px-6 text-center">
+                                        <x-buttons.action-buttons :label="__('Actions')" :show-label="false" align="right">
+                                            @if (auth()->user()->can('term.edit'))
+                                                <x-buttons.action-item
+                                                    :href="route('admin.terms.edit', ['taxonomy' => $taxonomy, 'term' => $termItem->id])"
+                                                    icon="pencil"
+                                                    :label="__('Edit')"
                                                 />
-                                            </div>
-                                        @endif
+                                            @endif
+
+                                            @if (auth()->user()->can('term.delete'))
+                                                <div x-data="{ deleteModalOpen: false }">
+                                                    <x-buttons.action-item 
+                                                        type="modal-trigger"
+                                                        modal-target="deleteModalOpen"
+                                                        icon="trash"
+                                                        :label="__('Delete')"
+                                                        class="text-red-600 dark:text-red-400"
+                                                    />
+
+                                                    <x-modals.confirm-delete
+                                                        id="delete-modal-{{ $termItem->id }}"
+                                                        title="{{ __('Delete') }} {{ strtolower($taxonomyModel->label_singular) }}"
+                                                        content="{{ __('Are you sure you want to delete this') }} {{ strtolower($taxonomyModel->label_singular) }}?"
+                                                        formId="delete-form-{{ $termItem->id }}"
+                                                        formAction="{{ route('admin.terms.destroy', [$taxonomy, $termItem->id]) }}"
+                                                        modalTrigger="deleteModalOpen"
+                                                        cancelButtonText="{{ __('No, cancel') }}"
+                                                        confirmButtonText="{{ __('Yes, Confirm') }}"
+                                                    />
+                                                </div>
+                                            @endif
+                                        </x-buttons.action-buttons>
                                     </td>
                                 </tr>
                             @empty

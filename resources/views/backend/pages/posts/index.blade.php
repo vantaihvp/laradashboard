@@ -83,7 +83,7 @@
                     @endif
                 </div>
             </div>
-            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
+            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
@@ -189,49 +189,50 @@
                                         {{ $post->created_at->format('M d, Y') }}
                                     @endif
                                 </td>
-                                <td class="px-5 py-4 sm:px-6 text-center flex items-center justify-center gap-1">
-                                    @if (auth()->user()->can('post.edit'))
-                                        <a data-tooltip-target="tooltip-edit-{{ $post->id }}" class="btn-default !p-3" href="{{ route('admin.posts.edit', [$postType, $post->id]) }}">
-                                            <i class="bi bi-pencil text-sm"></i>
-                                        </a>
-                                        <div id="tooltip-edit-{{ $post->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                            {{ __('Edit') }}
-                                            <div class="tooltip-arrow" data-popper-arrow></div>
-                                        </div>
-                                    @endif
-
-                                    @if (auth()->user()->can('post.view'))
-                                        <a data-tooltip-target="tooltip-view-{{ $post->id }}" class="btn-success !p-3" href="{{ route('admin.posts.show', [$postType, $post->id]) }}">
-                                            <i class="bi bi-eye text-sm"></i>
-                                        </a>
-                                        <div id="tooltip-view-{{ $post->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                            {{ __('View') }}
-                                            <div class="tooltip-arrow" data-popper-arrow></div>
-                                        </div>
-                                    @endif
-
-                                    @if (auth()->user()->can('post.delete'))
-                                        <div x-data="{ deleteModalOpen: false }">
-                                            <a x-on:click="deleteModalOpen = true" data-tooltip-target="tooltip-delete-{{ $post->id }}" class="btn-danger !p-3" href="javascript:void(0);">
-                                                <i class="bi bi-trash text-sm"></i>
-                                            </a>
-                                            <div id="tooltip-delete-{{ $post->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Delete') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-
-                                            <x-modals.confirm-delete
-                                                id="delete-modal-{{ $post->id }}"
-                                                title="{{ __('Delete') }} {{ strtolower($postTypeModel->label_singular) }}"
-                                                content="{{ __('Are you sure you want to delete this') }} {{ strtolower($postTypeModel->label_singular) }}?"
-                                                formId="delete-form-{{ $post->id }}"
-                                                formAction="{{ route('admin.posts.destroy', [$postType, $post->id]) }}"
-                                                modalTrigger="deleteModalOpen"
-                                                cancelButtonText="{{ __('No, cancel') }}"
-                                                confirmButtonText="{{ __('Yes, Confirm') }}"
+                                <td class="px-5 py-4 sm:px-6 flex justify-center">
+                                    <x-buttons.action-buttons :label="__('Actions')" :show-label="false" align="right">
+                                        @if (auth()->user()->can('post.edit'))
+                                            <x-buttons.action-item 
+                                                :href="route('admin.posts.edit', [$postType, $post->id])" 
+                                                icon="pencil" 
+                                                :label="__('Edit')" 
                                             />
-                                        </div>
-                                    @endif
+                                        @endif
+                                        {!! ld_apply_filters('admin_post_actions_after_edit', '', $post, $postType) !!}
+                                        
+                                        @if (auth()->user()->can('post.view'))
+                                            <x-buttons.action-item 
+                                                :href="route('admin.posts.show', [$postType, $post->id])" 
+                                                icon="eye" 
+                                                :label="__('View')" 
+                                            />
+                                        @endif
+                                        {!! ld_apply_filters('admin_post_actions_after_view', '', $post, $postType) !!}
+
+                                        @if (auth()->user()->can('post.delete'))
+                                            <div x-data="{ deleteModalOpen: false }">
+                                                <x-buttons.action-item 
+                                                    type="modal-trigger"
+                                                    modal-target="deleteModalOpen"
+                                                    icon="trash" 
+                                                    :label="__('Delete')" 
+                                                    class="text-red-600 dark:text-red-400"
+                                                />
+                                                
+                                                <x-modals.confirm-delete
+                                                    id="delete-modal-{{ $post->id }}"
+                                                    title="{{ __('Delete') }} {{ strtolower($postTypeModel->label_singular) }}"
+                                                    content="{{ __('Are you sure you want to delete this') }} {{ strtolower($postTypeModel->label_singular) }}?"
+                                                    formId="delete-form-{{ $post->id }}"
+                                                    formAction="{{ route('admin.posts.destroy', [$postType, $post->id]) }}"
+                                                    modalTrigger="deleteModalOpen"
+                                                    cancelButtonText="{{ __('No, cancel') }}"
+                                                    confirmButtonText="{{ __('Yes, Confirm') }}"
+                                                />
+                                            </div>
+                                        @endif
+                                        {!! ld_apply_filters('admin_post_actions_after_delete', '', $post, $postType) !!}
+                                    </x-buttons.action-buttons>
                                 </td>
                             </tr>
                         @empty

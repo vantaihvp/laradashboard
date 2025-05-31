@@ -27,7 +27,7 @@
     <div class="space-y-6">
         <x-messages />
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-            <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
+            <div class="px-5 py-4 sm:px-6 sm:py-5 flex flex-col md:flex-row justify-between items-center gap-1">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Roles') }}</h3>
 
                 @include('backend.partials.search-form', [
@@ -41,7 +41,7 @@
                     </a>
                 @endif
             </div>
-            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
+            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
@@ -136,42 +136,45 @@
                                         @endif
                                     </div>
                                 </td>
-                                <td class="flex items-center justify-center px-5 py-4 sm:px-6 text-center gap-1">
-                                    @if (auth()->user()->can('role.edit') && $role->name != 'Superadmin')
-                                        <div>
-                                            <a data-tooltip-target="tooltip-edit-role-{{ $role->id }}" class="btn-default !p-3" href="{{ route('admin.roles.edit', $role->id) }}">
-                                                <i class="bi bi-pencil text-sm"></i>
-                                            </a>
-                                            <div id="tooltip-edit-role-{{ $role->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Edit Role') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    @if (auth()->user()->can('role.delete') && $role->name != 'Superadmin')
-                                        <div x-data="{ deleteModalOpen: false }">
-                                            <a x-on:click="deleteModalOpen = true" data-tooltip-target="tooltip-delete-role-{{ $role->id }}" class="btn-danger !p-3" href="javascript:void(0);">
-                                                <i class="bi bi-trash text-sm"></i>
-                                            </a>
-
-                                            <div id="tooltip-delete-role-{{ $role->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Delete Role') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-
-                                            <x-modals.confirm-delete
-                                                id="delete-modal-{{ $role->id }}"
-                                                title="{{ __('Delete Role') }}"
-                                                content="{{ __('Are you sure you want to delete this role?') }}"
-                                                formId="delete-form-{{ $role->id }}"
-                                                formAction="{{ route('admin.roles.destroy', $role->id) }}"
-                                                modalTrigger="deleteModalOpen"
-                                                cancelButtonText="{{ __('No, cancel') }}"
-                                                confirmButtonText="{{ __('Yes, Confirm') }}"
+                                <td class="px-5 py-4 sm:px-6 flex justify-center">
+                                    <x-buttons.action-buttons :label="__('Actions')" :show-label="false" align="right">
+                                        @if (auth()->user()->can('role.edit') && $role->name != 'Superadmin')
+                                            <x-buttons.action-item 
+                                                :href="route('admin.roles.edit', $role->id)" 
+                                                icon="pencil" 
+                                                :label="__('Edit')" 
                                             />
-                                        </div>
-                                    @endif
+                                        @endif
+
+                                        @if (auth()->user()->can('role.delete') && $role->name != 'Superadmin')
+                                            <div x-data="{ deleteModalOpen: false }">
+                                                <x-buttons.action-item 
+                                                    type="modal-trigger"
+                                                    modal-target="deleteModalOpen"
+                                                    icon="trash" 
+                                                    :label="__('Delete')" 
+                                                    class="text-red-600 dark:text-red-400"
+                                                />
+                                                
+                                                <x-modals.confirm-delete
+                                                    id="delete-modal-{{ $role->id }}"
+                                                    title="{{ __('Delete Role') }}"
+                                                    content="{{ __('Are you sure you want to delete this role?') }}"
+                                                    formId="delete-form-{{ $role->id }}"
+                                                    formAction="{{ route('admin.roles.destroy', $role->id) }}"
+                                                    modalTrigger="deleteModalOpen"
+                                                    cancelButtonText="{{ __('No, cancel') }}"
+                                                    confirmButtonText="{{ __('Yes, Confirm') }}"
+                                                />
+                                            </div>
+                                        @endif
+                                        
+                                        <x-buttons.action-item 
+                                            :href="route('admin.users.index', ['role' => $role->name])" 
+                                            icon="people" 
+                                            :label="__('View Users')" 
+                                        />
+                                    </x-buttons.action-buttons>
                                 </td>
                             </tr>
                         @empty

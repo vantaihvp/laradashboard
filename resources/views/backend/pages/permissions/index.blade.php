@@ -30,7 +30,7 @@
                     'placeholder' => __('Search by name or group'),
                 ])
             </div>
-            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
+            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                 <x-messages />
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
@@ -107,14 +107,14 @@
                                         <span class="text-gray-400">{{ __('No roles assigned') }}</span>
                                     @endif
                                 </td>
-                                <td class="px-5 py-4 sm:px-6 text-center">
-                                    <a data-tooltip-target="tooltip-view-permission-{{ $permission->id }}" class="btn-default !p-3" href="{{ route('admin.permissions.show', $permission->id) }}">
-                                        <i class="bi bi-eye text-sm"></i>
-                                    </a>
-                                    <div id="tooltip-view-permission-{{ $permission->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                        {{ __('View Permission') }}
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                    </div>
+                                <td class="px-5 py-4 sm:px-6 flex justify-center">
+                                    <x-buttons.action-buttons :label="__('Actions')" :show-label="false" align="right">
+                                        <x-buttons.action-item 
+                                            :href="route('admin.permissions.show', $permission->id)" 
+                                            icon="eye" 
+                                            :label="__('View Details')" 
+                                        />
+                                    </x-buttons.action-buttons>
                                 </td>
                             </tr>
                         @empty
