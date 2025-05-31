@@ -35,13 +35,9 @@ Alpine.data('advancedFields', (initialMeta = {}) => {
         initialized: false,
         
         init() {
-            console.log('Advanced Fields Init - Initial meta:', initialMeta);
-            
-            // Convert initial meta object to array format
+            // Convert initial meta object to array format.
             if (initialMeta && Object.keys(initialMeta).length > 0) {
                 this.fields = Object.entries(initialMeta).map(([key, data]) => {
-                    console.log('Processing field:', key, data);
-                    
                     if (typeof data === 'object' && data !== null && data.value !== undefined) {
                         return {
                             key: key,
@@ -61,13 +57,12 @@ Alpine.data('advancedFields', (initialMeta = {}) => {
                 });
             }
             
-            // If no fields exist, add one empty field
+            // If no fields exist, add one empty field.
             if (this.fields.length === 0) {
                 this.addField();
             }
             
             this.initialized = true;
-            console.log('Final processed fields:', this.fields);
         },
         
         addField() {
@@ -77,14 +72,12 @@ Alpine.data('advancedFields', (initialMeta = {}) => {
                 type: 'input',
                 default_value: ''
             });
-            console.log('Added field, total fields:', this.fields.length);
         },
         
         removeField(index) {
             if (this.fields.length > 1) {
                 this.fields.splice(index, 1);
             }
-            console.log('Removed field, total fields:', this.fields.length);
         },
         
         get fieldsJson() {

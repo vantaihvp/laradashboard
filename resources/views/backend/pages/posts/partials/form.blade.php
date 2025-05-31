@@ -111,21 +111,37 @@
                     :options="$statusOptions"
                     :selected="$currentStatus"
                     :multiple="false"
-                    :searchable="false" />
+                    :searchable="false"
+                    x-model="status" />
 
                 {!! ld_apply_filters('post_form_after_status', '') !!}
 
                 <!-- Publish Date (for scheduled posts) -->
-                <div x-data="{ showSchedule: {{ isset($post) && (old('status', $post->status) === 'future' || $post->published_at) ? 'true' : 'false' }} }">
+                <div x-data="{ 
+                    showSchedule: {{ isset($post) && (old('status', $post->status) === 'future' || $post->published_at) ? 'true' : 'false' }},
+                    status: '{{ old('status', $post->status ?? 'draft') }}',
+                    init() {
+                        this.$watch('status', value => {
+                            if (value === 'future') {
+                                this.showSchedule = true;
+                            }
+                        });
+                    }
+                }">
                     <div class="mb-2">
-                        <input type="checkbox" id="schedule_post" name="schedule_post" x-model="showSchedule" class="mr-2">
+                        <input type="checkbox" id="schedule_post" name="schedule_post" x-model="showSchedule" 
+                            x-on:change="if(showSchedule && status !== 'future') status = 'future'; $dispatch('input', status)" class="mr-2">
                         <label for="schedule_post" class="text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Schedule this post') }}</label>
                     </div>
                     <div x-show="showSchedule" class="mt-2">
-                        <label for="published_at" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Publish Date') }}</label>
-                        <input type="datetime-local" name="published_at" id="published_at"
-                            value="{{ old('published_at', isset($post) && $post->published_at ? $post->published_at->format('Y-m-d\TH:i') : '') }}"
-                            class="form-control">
+                        <x-inputs.datetime-picker
+                            id="published_at"
+                            name="published_at"
+                            :label="__('Publish Date')"
+                            :value="old('published_at', isset($post) && $post->published_at ? $post->published_at->format('Y-m-d H:i') : now()->addDay()->format('Y-m-d H:i'))"
+                            :min-date="now()->format('Y-m-d')"
+                            :help-text="__('Schedule when this post should be published')"
+                        />
                     </div>
                 </div>
                 {!! ld_apply_filters('post_form_after_publish_date', '') !!}

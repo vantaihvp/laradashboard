@@ -12,6 +12,7 @@ use App\Models\Term;
 use App\Services\Content\ContentService;
 use App\Services\PostMetaService;
 use App\Services\PostService;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -127,13 +128,20 @@ class PostsController extends Controller
         }
 
         // Handle publish date
-        if ($request->status === 'future' && !empty($request->published_at)) {
-            $post->published_at = $request->published_at;
+        if ($request->has('schedule_post') && $request->schedule_post && !empty($request->published_at)) {
+            $post->status = 'future';
+            $post->published_at = Carbon::parse($request->published_at);
+        } elseif ($request->status === 'future' && !empty($request->published_at)) {
+            $post->published_at = Carbon::parse($request->published_at);
         } elseif ($request->status === 'publish') {
             $post->published_at = now();
         }
 
+        $post = ld_apply_filters('before_post_save', $post, $request);
+
         $post->save();
+
+        $post = ld_apply_filters('after_post_save', $post, $request);
 
         // Handle post meta.
         $this->handlePostMeta($request, $post);
@@ -259,13 +267,19 @@ class PostsController extends Controller
         }
 
         // Handle publish date.
-        if ($request->status === 'future' && !empty($request->published_at)) {
-            $post->published_at = $request->published_at;
+        if ($request->has('schedule_post') && $request->schedule_post && !empty($request->published_at)) {
+            $post->status = 'future';
+            $post->published_at = \Carbon\Carbon::parse($request->published_at);
+        } elseif ($request->status === 'future' && !empty($request->published_at)) {
+            $post->published_at = \Carbon\Carbon::parse($request->published_at);
         } elseif ($request->status === 'publish' && !$post->published_at) {
             $post->published_at = now();
         }
 
+        $post = ld_apply_filters('before_post_update', $post, $request);
+
         $post->save();
+        $post = ld_apply_filters('after_post_update', $post, $request);
 
         // Handle post meta.
         $this->handlePostMeta($request, $post);
@@ -288,7 +302,11 @@ class PostsController extends Controller
             deleteImageFromPublic($post->featured_image);
         }
 
+        ld_do_action('post_before_deleted', $post);
+
         $post->delete();
+
+        ld_do_action('post_deleted', $post);
 
         return redirect()->route('admin.posts.index', $postType)
             ->with('success', __('Post deleted successfully'));
@@ -320,6 +338,8 @@ class PostsController extends Controller
 
         // Sync terms.
         $post->terms()->sync($termIds);
+
+        ld_do_action('post_taxonomies_updated', $post, $termIds);
     }
 
     protected function handlePostMeta(Request $request, Post $post)
@@ -344,5 +364,7 @@ class PostsController extends Controller
                 );
             }
         }
+
+        ld_do_action('post_meta_updated', $post, $metaKeys, $metaValues, $metaTypes, $metaDefaultValues);
     }
 }
