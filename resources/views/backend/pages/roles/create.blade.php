@@ -8,7 +8,7 @@
 <div class="p-6 mx-auto max-w-7xl">
     <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-    {!! ld_apply_filters('roles_after_breadcrumbs', '') !!}
+    {!! ld_apply_filters('roles_create_after_breadcrumbs', '') !!}
 
     <form action="{{ route('admin.roles.store') }}" method="POST">
         @csrf

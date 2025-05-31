@@ -9,7 +9,7 @@
 <div class="p-4 mx-auto max-w-[var(--breakpoint-2xl)] md:p-6">
     <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-    {!! ld_apply_filters('roles_after_breadcrumbs', '') !!}
+    {!! ld_apply_filters('roles_edit_after_breadcrumbs', '') !!}
 
     <form action="{{ route('admin.roles.update', $role->id) }}" method="POST">
         @method('PUT')

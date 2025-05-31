@@ -1,25 +1,14 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Permissions') }} | {{ config('app.name') }}
+    {{ $breadcrumbs['title'] }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Permissions') }}</h2>
-        <nav>
-            <ol class="flex items-center gap-1.5">
-                <li>
-                    <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.dashboard') }}">
-                        {{ __('Home') }}
-                        <i class="bi bi-chevron-right"></i>
-                    </a>
-                </li>
-                <li class="text-sm text-gray-800 dark:text-white/90">{{ __('Permissions') }}</li>
-            </ol>
-        </nav>
-    </div>
+    <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
+
+    {!! ld_apply_filters('permissions_after_breadcrumbs', '') !!}
 
     <div class="space-y-6">
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -31,7 +20,6 @@
                 ])
             </div>
             <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
-                <x-messages />
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">

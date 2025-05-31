@@ -33,7 +33,7 @@
     <div class="mt-2">
         <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Description') }}</label>
         <textarea name="description" id="description" rows="3" 
-            class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">{{ old('description', $term ? $term->description : '') }}</textarea>
+            class="form-control !h-30">{{ old('description', $term ? $term->description : '') }}</textarea>
     </div>
 
     @if($taxonomyModel->show_featured_image)

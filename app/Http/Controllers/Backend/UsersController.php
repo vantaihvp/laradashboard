@@ -40,7 +40,6 @@ class UsersController extends Controller
             'roles' => $this->rolesService->getRolesDropdown(),
             'breadcrumbs' => [
                 'title' => __('Users'),
-                'title_after' => request('role') ? '<span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">' . ucfirst(request('role')) . '</span>' : null,
             ]
         ]);
     }

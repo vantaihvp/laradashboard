@@ -52,7 +52,12 @@ class PostsController extends Controller
         // Get categories for filter.
         $categories = Term::where('taxonomy', 'category')->get();
 
-        return view('backend.pages.posts.index', compact('posts', 'postType', 'postTypeModel', 'categories'));
+        return view('backend.pages.posts.index', compact('posts', 'postType', 'postTypeModel', 'categories'))
+            ->with([
+                'breadcrumbs' => [
+                    'title' => $postTypeModel->label,
+                ]
+            ]);
     }
 
     public function create(string $postType = 'post'): RedirectResponse|Renderable
@@ -82,7 +87,18 @@ class PostsController extends Controller
                 ->toArray();
         }
 
-        return view('backend.pages.posts.create', compact('postType', 'postTypeModel', 'taxonomies', 'parentPosts'));
+        return view('backend.pages.posts.create', compact('postType', 'postTypeModel', 'taxonomies', 'parentPosts'))
+            ->with([
+                'breadcrumbs' => [
+                    'title' => __('New :postType', ['postType' => $postTypeModel->label_singular]),
+                    'items' => [
+                        [
+                            'label' => $postTypeModel->label,
+                            'url' => route('admin.posts.index', $postType),
+                        ]
+                    ]
+                ]
+            ]);
     }
 
     public function store(StorePostRequest $request, string $postType = 'post'): RedirectResponse
@@ -139,7 +155,18 @@ class PostsController extends Controller
         $post = Post::where('post_type', $postType)->findOrFail($id);
         $postTypeModel = $this->contentService->getPostType($postType);
 
-        return view('backend.pages.posts.show', compact('post', 'postType', 'postTypeModel'));
+        return view('backend.pages.posts.show', compact('post', 'postType', 'postTypeModel'))
+            ->with([
+                'breadcrumbs' => [
+                    'title' => __('View :postName', ['postName' => $post->title]),
+                    'items' => [
+                        [
+                            'label' => $postTypeModel->label,
+                            'url' => route('admin.posts.index', $postType),
+                        ]
+                    ]
+                ]
+            ]);
     }
 
     public function edit(string $postType, string $id): RedirectResponse|Renderable
@@ -184,7 +211,18 @@ class PostsController extends Controller
             $selectedTerms[$term->taxonomy][] = $term->id;
         }
 
-        return view('backend.pages.posts.edit', compact('post', 'postType', 'postTypeModel', 'taxonomies', 'parentPosts', 'selectedTerms'));
+        return view('backend.pages.posts.edit', compact('post', 'postType', 'postTypeModel', 'taxonomies', 'parentPosts', 'selectedTerms'))
+            ->with([
+                'breadcrumbs' => [
+                    'title' => __('Edit :postType', ['postType' => $postTypeModel->label_singular]),
+                    'items' => [
+                        [
+                            'label' => $postTypeModel->label,
+                            'url' => route('admin.posts.index', $postType),
+                        ]
+                    ]
+                ]
+            ]);
     }
 
     /**

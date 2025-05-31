@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Dashboard') }} | {{ config('app.name') }}
+   {{ $breadcrumbs['title'] }} | {{ config('app.name') }}
 @endsection
 
 @section('before_vite_build')
@@ -15,10 +15,7 @@
     <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
         <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-        {!! ld_apply_filters('dashboard_before', '') !!}
-
-
-        {!! ld_apply_filters('dashboard_cards_before', '') !!}
+        {!! ld_apply_filters('dashboard_after_breadcrumbs', '') !!}
 
         <div class="grid grid-cols-12 gap-4 md:gap-6">
             <div class="col-span-12 space-y-6">

@@ -1,28 +1,15 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ $taxonomyModel->label }} | {{ config('app.name') }}
+    {{ $breadcrumbs['title'] }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ $taxonomyModel->label }}</h2>
-        <nav>
-            <ol class="flex items-center gap-1.5">
-                <li>
-                    <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.dashboard') }}">
-                        {{ __('Home') }}
-                        <i class="bi bi-chevron-right"></i>
-                    </a>
-                </li>
-                <li class="text-sm text-gray-800 dark:text-white/90">{{ $taxonomyModel->label }}</li>
-            </ol>
-        </nav>
-    </div>
+    <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-    <!-- Two Column Layout: Form and List -->
-    <x-messages />
+    {!! ld_apply_filters('terms_after_breadcrumbs', '', $taxonomyModel) !!}
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Form Column -->
         <div class="lg:col-span-1 space-y-6">

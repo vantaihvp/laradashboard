@@ -23,6 +23,9 @@ class ModulesController extends Controller
 
         return view('backend.pages.modules.index', [
             'modules' => $this->moduleService->getModules(),
+            'breadcrumbs' => [
+                'title' => __('Modules'),
+            ]
         ]);
     }
 
