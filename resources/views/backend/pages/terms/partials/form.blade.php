@@ -1,14 +1,15 @@
 @csrf
 
 <div x-data="slugGenerator('{{ old('name', $term ? $term->name : '') }}', '{{ old('slug', $term ? $term->slug : '') }}')">
-    <!-- Name -->
     <div>
-        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Name') }}</label>
+        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-400">
+            {{ __('Name') }}
+            <span class="text-red-500">*</span>
+        </label>
         <input type="text" name="name" id="name" required x-model="title"
             class="form-control">
     </div>
 
-    <!-- Slug -->
     <div class="mt-2">
         <label for="slug" class="block text-sm font-medium text-gray-700 dark:text-gray-400">
             {{ __('Slug') }}
@@ -57,37 +58,15 @@
     @endif
 
     @if($taxonomyModel->hierarchical)
-    <!-- Parent -->
     <div class="mt-2">
-        @php
-            function buildHierarchicalOptions($terms, $parentId = null, $depth = 0, $currentTermId = null) {
-                $options = [];
-                foreach ($terms as $term) {
-                    if ($term->parent_id == $parentId && (!$currentTermId || $term->id !== $currentTermId)) {
-                        $indent = str_repeat('— ', $depth);
-                        $options[] = [
-                            'value' => $term->id,
-                            'label' => $indent . $term->name
-                        ];
-                        $childOptions = buildHierarchicalOptions($terms, $term->id, $depth + 1, $currentTermId);
-                        $options = array_merge($options, $childOptions);
-                    }
-                }
-                return $options;
-            }
-            
-            $parentOptions = [];
-            $hierarchicalOptions = buildHierarchicalOptions($parentTerms, null, 0, $term ? $term->id : null);
-            $parentOptions = array_merge($parentOptions, $hierarchicalOptions);
-        @endphp
-        
-        <x-inputs.combobox 
+        <x-posts.term-selector
             name="parent_id"
-            :label="__('Parent') . ' ' . $taxonomyModel->label_singular"
-            :placeholder="__('Select Parent')"
-            :options="$parentOptions"
-            :selected="old('parent_id', $term ? $term->parent_id : null)"
-            :searchable="false"
+            :taxonomyModel="$taxonomyModel"
+            :term="$term"
+            :parentTerms="$parentTerms"
+            :placeholder="__('Select Parent' . ' ' . $taxonomyModel->label_singular)"
+            :label="__('Parent ' . $taxonomyModel->label_singular)"
+            searchable="false"
         />
     </div>
     @endif

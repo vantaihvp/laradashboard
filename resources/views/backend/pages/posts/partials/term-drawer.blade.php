@@ -106,31 +106,16 @@
             </div>
 
             @if($taxonomy->hierarchical)
-            <div>
-                <label
-                    for="term_parent"
-                    class="block text-sm font-medium text-gray-700 dark:text-gray-400"
-                    >{{ __("Parent") }}</label
-                >
-                <select
-                    id="term_parent"
-                    x-model="formData.parent_id"
-                    class="form-control"
-                >
-                    <option value="">{{ __("None") }}</option>
-                    @php $parentTerms = App\Models\Term::where('taxonomy',
-                    $taxonomyName) ->orderBy('name', 'asc') ->get(); @endphp
-                    @foreach($parentTerms as $parentTerm)
-                    <option value="{{ $parentTerm->id }}">
-                        {{ $parentTerm->name }}
-                    </option>
-                    @endforeach
-                </select>
-                <p
-                    x-show="errors.parent_id"
-                    x-text="errors.parent_id"
-                    class="mt-1 text-sm text-red-600"
-                ></p>
+            @php $parentTerms = App\Models\Term::where('taxonomy', $taxonomyName)->orderBy('name', 'asc')->get(); @endphp
+            <div class="mt-2">
+                <x-posts.term-selector
+                    name="term_parent"
+                    :taxonomyModel="$taxonomy"
+                    :term="$term ?? null"
+                    :parentTerms="$parentTerms"
+                    :placeholder="__('Select Parent' . ' ' . $taxonomy->label_singular)"
+                    :label="__('Parent ' . $taxonomy->label_singular)"
+                />
             </div>
             @endif
         </div>

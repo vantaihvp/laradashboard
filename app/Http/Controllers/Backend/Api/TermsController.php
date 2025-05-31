@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Term\StoreTermRequest;
-use App\Models\Term;
 use App\Services\Content\ContentService;
 use App\Services\TermService;
 use Illuminate\Http\JsonResponse;
@@ -26,8 +25,8 @@ class TermsController extends Controller
     {
         $this->checkAuthorization(Auth::user(), ['term.create']);
 
-        // Get taxonomy.
-        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        // Check if taxonomy exists
+        $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
         if (!$taxonomyModel) {
             return response()->json([
@@ -35,22 +34,13 @@ class TermsController extends Controller
             ], 404);
         }
 
-        // Create term.
-        $term = new Term();
-        $term->name = $request->name;
-        if ($request->slug) {
-            $term->slug = $term->generateUniqueSlug($request->slug);
-        }
-        $term->taxonomy = $taxonomy;
-        $term->description = $request->description;
-        $term->parent_id = $request->parent_id ?: null;
-        $term->save();
+        $term = $this->termService->createTerm($request->validated(), $taxonomy);
 
-        // Get taxonomy label for message
-        $taxLabel = $taxonomyModel->label_singular ?? Str::title($taxonomy);
+        // Get taxonomy label for message.
+        $taxLabel = $this->termService->getTaxonomyLabel($taxonomy, true);
 
         return response()->json([
-            'message' => __(':taxLabel created successfully', ['taxLabel' => $taxLabel]),
+            'message' => __(':taxLabel created successfully.', ['taxLabel' => $taxLabel]),
             'term' => $term
         ], 201);
     }

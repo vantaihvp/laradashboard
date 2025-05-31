@@ -9,8 +9,6 @@ use App\Models\Term;
 use App\Services\Content\ContentService;
 use App\Services\TermService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class TermsController extends Controller
 {
@@ -24,8 +22,8 @@ class TermsController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['term.view']);
 
-        // Get taxonomy.
-        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        // Get taxonomy using service
+        $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
         if (!$taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
@@ -64,31 +62,18 @@ class TermsController extends Controller
 
     public function store(StoreTermRequest $request, string $taxonomy)
     {
-        // Get taxonomy.
-        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        // Get taxonomy using service
+        $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
         if (!$taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
-        // Create term.
-        $term = new Term();
-        $term->name = $request->name;
-        $term->slug = $request->slug ?: Str::slug($request->name);
-        $term->taxonomy = $taxonomy;
-        $term->description = $request->description;
-        $term->parent_id = $request->parent_id;
+        // Create term using service
+        $term = $this->termService->createTerm($request->validated(), $taxonomy);
 
-        // Handle featured image upload.
-        if ($request->hasFile('featured_image') && $taxonomyModel->show_featured_image) {
-            $imagePath = $request->file('featured_image')->store('terms', 'public');
-            $term->featured_image = $imagePath;
-        }
-
-        $term->save();
-
-        // Get taxonomy label for message.
-        $taxLabel = $taxonomyModel->label_singular ?? Str::title($taxonomy);
+        // Get taxonomy label for message
+        $taxLabel = $this->termService->getTaxonomyLabel($taxonomy, true);
 
         return redirect()->route('admin.terms.index', $taxonomy)
             ->with('success', __(':taxLabel created successfully', ['taxLabel' => $taxLabel]));
@@ -96,43 +81,21 @@ class TermsController extends Controller
 
     public function update(UpdateTermRequest $request, string $taxonomy, string $id)
     {
-        // Get taxonomy model.
-        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        // Get taxonomy using service
+        $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
         if (!$taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
-        // Get term.
-        $term = Term::where('taxonomy', $taxonomy)->findOrFail($id);
+        // Get term using service
+        $term = $this->termService->getTermById((int)$id, $taxonomy);
 
-        // Update term.
-        $term->name = $request->name;
-        $term->slug = $request->slug ?: Str::slug($request->name);
-        $term->description = $request->description;
-        $term->parent_id = $request->parent_id;
+        // Update term using service
+        $this->termService->updateTerm($term, $request->validated());
 
-        // Handle featured image upload.
-        if ($request->hasFile('featured_image') && $taxonomyModel->show_featured_image) {
-            // Delete old image if exists.
-            if ($term->featured_image) {
-                Storage::disk('public')->delete($term->featured_image);
-            }
-
-            $imagePath = $request->file('featured_image')->store('terms', 'public');
-            $term->featured_image = $imagePath;
-        }
-
-        // Handle image removal.
-        if ($request->has('remove_featured_image') && $request->remove_featured_image && $term->featured_image) {
-            Storage::disk('public')->delete($term->featured_image);
-            $term->featured_image = null;
-        }
-
-        $term->save();
-
-        // Get taxonomy label for message.
-        $taxLabel = $taxonomyModel->label_singular ?? Str::title($taxonomy);
+        // Get taxonomy label for message
+        $taxLabel = $this->termService->getTaxonomyLabel($taxonomy, true);
 
         return redirect()->route('admin.terms.index', $taxonomy)
             ->with('success', __(':taxLabel updated successfully', ['taxLabel' => $taxLabel]));
@@ -142,36 +105,34 @@ class TermsController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['term.delete']);
 
-        // Get taxonomy model.
-        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        // Get taxonomy using service
+        $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
         if (!$taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
-        $term = Term::where('taxonomy', $taxonomy)->findOrFail($id);
+        // Get term using service
+        $term = $this->termService->getTermById((int)$id, $taxonomy);
 
-        // Get taxonomy label for messages.
-        $taxLabel = $taxonomyModel->label_singular ?? Str::title($taxonomy);
+        // Get taxonomy label for messages
+        $taxLabel = $this->termService->getTaxonomyLabel($taxonomy, true);
 
-        // Check if term has posts.
-        if ($term->posts()->count() > 0) {
+        // Check if term can be deleted
+        $errors = $this->termService->canDeleteTerm($term);
+
+        if (in_array('has_posts', $errors)) {
             return redirect()->route('admin.terms.index', $taxonomy)
                 ->with('error', __('Cannot delete :taxLabel as it is associated with posts', ['taxLabel' => $taxLabel]));
         }
 
-        // Check if term has children.
-        if ($term->children()->count() > 0) {
+        if (in_array('has_children', $errors)) {
             return redirect()->route('admin.terms.index', $taxonomy)
                 ->with('error', __('Cannot delete :taxLabel as it has child items', ['taxLabel' => $taxLabel]));
         }
 
-        // Delete featured image if exists.
-        if ($term->featured_image) {
-            Storage::disk('public')->delete($term->featured_image);
-        }
-
-        $term->delete();
+        // Delete term using service
+        $this->termService->deleteTerm($term);
 
         return redirect()->route('admin.terms.index', $taxonomy)
             ->with('success', __(':taxLabel deleted successfully', ['taxLabel' => $taxLabel]));
@@ -181,15 +142,15 @@ class TermsController extends Controller
     {
         $this->checkAuthorization(auth()->user(), ['term.edit']);
 
-        // Get taxonomy.
-        $taxonomyModel = $this->contentService->getTaxonomies()->where('name', $taxonomy)->first();
+        // Get taxonomy using service
+        $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
         if (!$taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
-        // Get term.
-        $term = Term::where('taxonomy', $taxonomy)->findOrFail($term);
+        // Get term using service
+        $term = $this->termService->getTermById((int)$term, $taxonomy);
 
         // Get parent terms for hierarchical taxonomies.
         $parentTerms = [];
