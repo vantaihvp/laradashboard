@@ -45,23 +45,64 @@
             <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
                 <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
                     <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ $taxonomyModel->label }}</h3>
-                    @include('backend.partials.search-form', [
-                        'placeholder' => __('Search') . ' ' . strtolower($taxonomyModel->label),
-                    ])
+                    <div class="flex items-center gap-2">
+                        @include('backend.partials.search-form', [
+                            'placeholder' => __('Search') . ' ' . strtolower($taxonomyModel->label),
+                        ])
+                    </div>
                 </div>
                 <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
                     <table id="dataTable" class="w-full dark:text-gray-400">
                         <thead class="bg-light text-capitalize">
                             <tr class="border-b border-gray-100 dark:border-gray-800">
-                                <th width="25%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
-                                <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Slug') }}</th>
+                                <th width="25%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                    <div class="flex items-center">
+                                        {{ __('Name') }}
+                                        <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'name' ? '-name' : 'name']) }}" class="ml-1">
+                                            @if(request()->sort === 'name')
+                                                <i class="bi bi-sort-alpha-down text-primary"></i>
+                                            @elseif(request()->sort === '-name')
+                                                <i class="bi bi-sort-alpha-up text-primary"></i>
+                                            @else
+                                                <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                            @endif
+                                        </a>
+                                    </div>
+                                </th>
+                                <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                    <div class="flex items-center">
+                                        {{ __('Slug') }}
+                                        <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'slug' ? '-slug' : 'slug']) }}" class="ml-1">
+                                            @if(request()->sort === 'slug')
+                                                <i class="bi bi-sort-alpha-down text-primary"></i>
+                                            @elseif(request()->sort === '-slug')
+                                                <i class="bi bi-sort-alpha-up text-primary"></i>
+                                            @else
+                                                <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                            @endif
+                                        </a>
+                                    </div>
+                                </th>
                                 @if($taxonomyModel->hierarchical)
                                 <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Parent') }}</th>
                                 @endif
                                 @if($taxonomyModel->show_featured_image)
                                 <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Image') }}</th>
                                 @endif
-                                <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Count') }}</th>
+                                <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                    <div class="flex items-center">
+                                        {{ __('Count') }}
+                                        <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'post_count' ? '-post_count' : 'post_count']) }}" class="ml-1">
+                                            @if(request()->sort === 'post_count')
+                                                <i class="bi bi-sort-numeric-down text-primary"></i>
+                                            @elseif(request()->sort === '-post_count')
+                                                <i class="bi bi-sort-numeric-up text-primary"></i>
+                                            @else
+                                                <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                            @endif
+                                        </a>
+                                    </div>
+                                </th>
                                 <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-center px-5">{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -105,7 +146,7 @@
                                     </td>
                                     @endif
                                     <td class="px-5 py-4 sm:px-6">
-                                        {{ $termItem->posts->count() }}
+                                        {{ $termItem->posts_count ?? $termItem->posts->count() }}
                                     </td>
                                     <td class="px-5 py-4 sm:px-6 text-center flex items-center justify-center gap-1">
                                         @if (auth()->user()->can('term.edit'))
@@ -153,14 +194,11 @@
                     </table>
 
                     <div class="my-4 px-4 sm:px-6">
-                        {{ $terms->withQueryString()->links() }}
+                        {{ $terms->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-@push('scripts')
-@endpush
 @endsection

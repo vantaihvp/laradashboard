@@ -64,7 +64,18 @@ trait QueryBuilderTrait
                 : [];
                 
             if (!in_array($field, $excludedSortColumns)) {
-                $query->orderBy($field, $direction);
+                // Handle special sorting cases
+                $methodName = 'sortBy' . ucfirst($field);
+                if (method_exists($this, $methodName)) {
+                    $this->$methodName($query, $direction);
+                } else {
+                    // Special case for post_count (legacy support)
+                    if ($field === 'post_count') {
+                        $query->withCount('posts')->orderBy('posts_count', $direction);
+                    } else {
+                        $query->orderBy($field, $direction);
+                    }
+                }
             }
         } else {
             // Default sorting

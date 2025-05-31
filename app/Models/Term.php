@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use App\Traits\QueryBuilderTrait;
+use Illuminate\Database\Eloquent\Builder;
 
 class Term extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryBuilderTrait;
 
     protected $fillable = [
         'name',
@@ -64,5 +66,41 @@ class Term extends Model
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'term_relationships');
+    }
+
+    /**
+     * Custom sort method for post_count (alias for posts_count)
+     */
+    public function sortByPostCount(Builder $query, string $direction = 'asc'): void
+    {
+        $query->withCount('posts')->orderBy('posts_count', $direction);
+    }
+
+    /**
+     * Custom sort method for posts_count
+     */
+    public function sortByPostsCount(Builder $query, string $direction = 'asc'): void
+    {
+        $query->withCount('posts')->orderBy('posts_count', $direction);
+    }
+
+    /**
+     * Get searchable columns for the model.
+     *
+     * @return array
+     */
+    protected function getSearchableColumns(): array
+    {
+        return ['name', 'slug', 'description'];
+    }
+    
+    /**
+     * Get columns that should be excluded from sorting.
+     *
+     * @return array
+     */
+    protected function getExcludedSortColumns(): array
+    {
+        return ['description'];
     }
 }

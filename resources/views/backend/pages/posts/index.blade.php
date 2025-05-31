@@ -88,13 +88,52 @@
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
                             <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('ID') }}</th>
-                            <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Title') }}</th>
+                            <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Title') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'title' ? '-title' : 'title']) }}" class="ml-1">
+                                        @if(request()->sort === 'title')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-title')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
                             <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Author') }}</th>
                             @if($postType === 'post')
                                 <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Categories') }}</th>
                             @endif
-                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Status') }}</th>
-                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Date') }}</th>
+                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Status') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'status' ? '-status' : 'status']) }}" class="ml-1">
+                                        @if(request()->sort === 'status')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-status')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
+                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Date') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'created_at' ? '-created_at' : 'created_at']) }}" class="ml-1">
+                                        @if(request()->sort === 'created_at')
+                                            <i class="bi bi-sort-numeric-down text-primary"></i>
+                                        @elseif(request()->sort === '-created_at')
+                                            <i class="bi bi-sort-numeric-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
                             <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-center px-5">{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -197,7 +236,7 @@
                 </table>
 
                 <div class="my-4 px-4 sm:px-6">
-                    {{ $posts->withQueryString()->links() }}
+                    {{ $posts->links() }}
                 </div>
             </div>
         </div>
