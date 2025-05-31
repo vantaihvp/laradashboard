@@ -35,8 +35,8 @@
     <div class="space-y-6">
         <x-messages />
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-          <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center">
-                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Users') }}</h3>
+          <div class="px-5 py-4 sm:px-6 sm:py-5 flex gap-3 md:gap-1 flex-col md:flex-row justify-between items-center">
+                <h3 class="text-base font-medium text-gray-800 dark:text-white/90 hidden md:block">{{ __('Users') }}</h3>
 
                 @include('backend.partials.search-form', [
                     'placeholder' => __('Search by name or email'),
@@ -58,7 +58,7 @@
                                     {{ __('All Roles') }}
                                 </li>
                                 @foreach ($roles as $id => $name)
-                                    <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded {{ $name === request('role') ? 'bg-gray-200 dark:bg-gray-600' : '' }}"
+                                    <li class="cursor-pointer text-sm text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded {{ request('role') === $name ? 'bg-gray-200 dark:bg-gray-600' : '' }}"
                                         onclick="handleRoleFilter('{{ $name }}')">
                                         {{ ucfirst($name) }}
                                     </li>
@@ -75,13 +75,39 @@
                     @endif
                 </div>
             </div>
-            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
+            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
                             <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Sl') }}</th>
-                            <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
-                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Email') }}</th>
+                            <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Name') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'name' ? '-name' : 'name']) }}" class="ml-1">
+                                        @if(request()->sort === 'name')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-name')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
+                            <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Email') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'email' ? '-email' : 'email']) }}" class="ml-1">
+                                        @if(request()->sort === 'email')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-email')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
                             <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Roles') }}</th>
                             @php ld_apply_filters('user_list_page_table_header_before_action', '') @endphp
                             <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Action') }}</th>
@@ -123,52 +149,47 @@
                                     @endforeach
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_before_action', '', $user) @endphp
-                                <td class="flex items-center px-5 py-4 sm:px-6 text-center gap-1">
-                                    @if (auth()->user()->canBeModified($user))
-                                        <div>
-                                            <a data-tooltip-target="tooltip-edit-user-{{ $user->id }}" class="btn-default !p-3" href="{{ route('admin.users.edit', $user->id) }}">
-                                                <i class="bi bi-pencil text-sm"></i>
-                                            </a>
-                                            <div id="tooltip-edit-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Edit User') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if (auth()->user()->canBeModified($user, 'user.delete'))
-                                        <div x-data="{ deleteModalOpen: false }">
-                                            <a x-on:click="deleteModalOpen = true" data-tooltip-target="tooltip-delete-user-{{ $user->id }}" class="btn-danger !p-3" href="javascript:void(0);">
-                                                <i class="bi bi-trash text-sm"></i>
-                                            </a>
-
-                                            <div id="tooltip-delete-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Delete User') }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
-                                            </div>
-
-                                            <x-modals.confirm-delete
-                                                id="delete-modal-{{ $user->id }}"
-                                                title="{{ __('Delete User') }}"
-                                                content="{{ __('Are you sure you want to delete this user?') }}"
-                                                formId="delete-form-{{ $user->id }}"
-                                                formAction="{{ route('admin.users.destroy', $user->id) }}"
-                                                modalTrigger="deleteModalOpen"
-                                                cancelButtonText="{{ __('No, cancel') }}"
-                                                confirmButtonText="{{ __('Yes, Confirm') }}"
+                                <td class="px-5 py-4 sm:px-6 flex justify-center">
+                                    <x-buttons.action-buttons :label="__('Actions')" :show-label="false" align="right">
+                                        @if (auth()->user()->canBeModified($user))
+                                            <x-buttons.action-item 
+                                                :href="route('admin.users.edit', $user->id)" 
+                                                icon="pencil" 
+                                                :label="__('Edit')" 
                                             />
-                                        </div>
-                                    @endif
-                                    @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)
-                                        <div>
-                                            <a data-tooltip-target="tooltip-login-as-user-{{ $user->id }}" class="btn-warning !p-3" href="{{ route('admin.users.login-as', $user->id) }}">
-                                                <i class="bi bi-box-arrow-in-right text-sm"></i>
-                                            </a>
-                                            <div id="tooltip-login-as-user-{{ $user->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                                {{ __('Login as') }} {{ $user->name }}
-                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                        @endif
+                                        
+                                        @if (auth()->user()->canBeModified($user, 'user.delete'))
+                                            <div x-data="{ deleteModalOpen: false }">
+                                                <x-buttons.action-item 
+                                                    type="modal-trigger"
+                                                    modal-target="deleteModalOpen"
+                                                    icon="trash" 
+                                                    :label="__('Delete')" 
+                                                    class="text-red-600 dark:text-red-400"
+                                                />
+                                                
+                                                <x-modals.confirm-delete
+                                                    id="delete-modal-{{ $user->id }}"
+                                                    title="{{ __('Delete User') }}"
+                                                    content="{{ __('Are you sure you want to delete this user?') }}"
+                                                    formId="delete-form-{{ $user->id }}"
+                                                    formAction="{{ route('admin.users.destroy', $user->id) }}"
+                                                    modalTrigger="deleteModalOpen"
+                                                    cancelButtonText="{{ __('No, cancel') }}"
+                                                    confirmButtonText="{{ __('Yes, Confirm') }}"
+                                                />
                                             </div>
-                                        </div>
-                                    @endif
+                                        @endif
+                                        
+                                        @if (auth()->user()->can('user.login_as') && $user->id != auth()->user()->id)
+                                            <x-buttons.action-item 
+                                                :href="route('admin.users.login-as', $user->id)" 
+                                                icon="box-arrow-in-right" 
+                                                :label="__('Login as')" 
+                                            />
+                                        @endif
+                                    </x-buttons.action-buttons>
                                 </td>
                                 @php ld_apply_filters('user_list_page_table_row_after_action', '', $user) @endphp
                             </tr>
@@ -191,12 +212,27 @@
 </div>
 
 @push('scripts')
-    <script>
-        function handleRoleFilter(value) {
-            let currentUrl = new URL(window.location.href);
+<script>
+    function handleRoleFilter(value) {
+        let currentUrl = new URL(window.location.href);
+
+        // Preserve sort parameter if it exists.
+        const sortParam = currentUrl.searchParams.get('sort');
+
+        // Reset the search params but keep the sort if it exists.
+        currentUrl.search = '';
+
+        if (value) {
             currentUrl.searchParams.set('role', value);
-            window.location.href = currentUrl.toString();
         }
-    </script>
+
+        // Re-add sort parameter if it existed.
+        if (sortParam) {
+            currentUrl.searchParams.set('sort', sortParam);
+        }
+
+        window.location.href = currentUrl.toString();
+    }
+</script>
 @endpush
 @endsection

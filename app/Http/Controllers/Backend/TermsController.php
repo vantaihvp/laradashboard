@@ -7,14 +7,17 @@ use App\Http\Requests\Term\StoreTermRequest;
 use App\Http\Requests\Term\UpdateTermRequest;
 use App\Models\Term;
 use App\Services\Content\ContentService;
+use App\Services\TermService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TermsController extends Controller
 {
-    public function __construct(private readonly ContentService $contentService)
-    {
+    public function __construct(
+        private readonly ContentService $contentService,
+        private readonly TermService $termService
+    ) {
     }
 
     public function index(Request $request, string $taxonomy)
@@ -28,17 +31,14 @@ class TermsController extends Controller
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
-        // Query terms.
-        $query = Term::where('taxonomy', $taxonomy);
+        // Prepare filters
+        $filters = [
+            'taxonomy' => $taxonomy,
+            'search' => $request->search
+        ];
 
-        // Handle search
-        if ($request->has('search') && !empty($request->search)) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        // Get terms with pagination.
-        $terms = $query->orderBy('name', 'asc')
-            ->paginate(config('settings.default_pagination', 20));
+        // Get terms with pagination using service
+        $terms = $this->termService->getTerms($filters);
 
         // Get parent terms for hierarchical taxonomies.
         $parentTerms = [];

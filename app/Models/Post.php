@@ -14,10 +14,11 @@ use App\Services\Content\PostType;
 use App\Services\Content\ContentService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use App\Traits\QueryBuilderTrait;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryBuilderTrait;
 
     protected $fillable = [
         'user_id',
@@ -217,6 +218,17 @@ class Post extends Model
     }
 
     /**
+     * Apply category filter to the query
+     */
+    public function scopeFilterByCategory(Builder $query, $categoryId): void
+    {
+        $query->whereHas('terms', function ($q) use ($categoryId) {
+            $q->where('id', $categoryId)
+              ->where('taxonomy', 'category');
+        });
+    }
+
+    /**
      * Check if this post type supports a specific feature
      * 
      * @param string $feature Feature name (e.g., 'editor', 'thumbnail', 'excerpt')
@@ -226,5 +238,25 @@ class Post extends Model
     {
         $postType = $this->getPostTypeObject();
         return $postType ? $postType->supports($feature) : false;
+    }
+
+    /**
+     * Get searchable columns for the model.
+     *
+     * @return array
+     */
+    protected function getSearchableColumns(): array
+    {
+        return ['title', 'excerpt', 'content'];
+    }
+    
+    /**
+     * Get columns that should be excluded from sorting.
+     *
+     * @return array
+     */
+    protected function getExcludedSortColumns(): array
+    {
+        return ['content', 'excerpt', 'meta'];
     }
 }

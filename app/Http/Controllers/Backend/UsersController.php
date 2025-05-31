@@ -28,8 +28,15 @@ class UsersController extends Controller
     {
         $this->checkAuthorization(Auth::user(), ['user.view']);
 
+        $filters = [
+            'search' => request('search'),
+            'role' => request('role'),
+            'sort_field' => null,
+            'sort_direction' => null
+        ];
+        
         return view('backend.pages.users.index', [
-            'users' => $this->userService->getUsers(),
+            'users' => $this->userService->getUsers($filters),
             'roles' => $this->rolesService->getRolesDropdown(),
         ]);
     }

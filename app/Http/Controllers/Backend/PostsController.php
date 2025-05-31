@@ -11,6 +11,7 @@ use App\Models\Post;
 use App\Models\Term;
 use App\Services\Content\ContentService;
 use App\Services\PostMetaService;
+use App\Services\PostService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,7 +22,8 @@ class PostsController extends Controller
 {
     public function __construct(
         private readonly ContentService $contentService,
-        private readonly PostMetaService $postMetaService
+        private readonly PostMetaService $postMetaService,
+        private readonly PostService $postService
     ) {
     }
 
@@ -36,31 +38,16 @@ class PostsController extends Controller
             return redirect()->route('admin.posts.index')->with('error', 'Post type not found');
         }
 
-        // Query posts.
-        $query = Post::where('post_type', $postType)
-            ->with(['user', 'terms']);
+        // Prepare filters
+        $filters = [
+            'post_type' => $postType,
+            'search' => $request->search,
+            'status' => $request->status,
+            'category' => $request->category
+        ];
 
-        // Handle search.
-        if ($request->has('search') && !empty($request->search)) {
-            $query->where('title', 'like', '%' . $request->search . '%');
-        }
-
-        // Handle status filter.
-        if ($request->has('status') && !empty($request->status)) {
-            $query->where('status', $request->status);
-        }
-
-        // Handle category filter.
-        if ($request->has('category') && !empty($request->category)) {
-            $query->whereHas('terms', function ($q) use ($request) {
-                $q->where('id', $request->category)
-                    ->where('taxonomy', 'category');
-            });
-        }
-
-        // Get posts with pagination.
-        $posts = $query->orderBy('created_at', 'desc')
-            ->paginate(config('settings.default_pagination', 10));
+        // Get posts with pagination using service
+        $posts = $this->postService->getPosts($filters);
 
         // Get categories for filter.
         $categories = Term::where('taxonomy', 'category')->get();

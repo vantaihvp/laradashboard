@@ -88,7 +88,7 @@ x-init="init()"
                         <img src="{{ auth()->user()->getGravatarUrl() }}" alt="User" />
                     </span>
 
-                    <span class="mr-1 block font-medium" :style="`color: ${textColor}`">
+                    <span class="mr-1 block font-medium w-[100px]" :style="`color: ${textColor}`">
                         {{ auth()->user()->name }}
                     </span>
 

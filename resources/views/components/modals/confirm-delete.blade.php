@@ -26,7 +26,7 @@
         x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity" 
         x-transition:enter-start="opacity-0 scale-50" 
         x-transition:enter-end="opacity-100 scale-100" 
-        class="flex max-w-md flex-col gap-4 overflow-hidden rounded-lg border border-outline bg-white text-on-surface dark:border-outline-dark dark:bg-gray-700 dark:text-gray-400"
+        class="flex max-w-md flex-col gap-4 overflow-hidden rounded-lg border border-outline border-gray-100 dark:border-gray-800 bg-white text-on-surface dark:border-outline-dark dark:bg-gray-700 dark:text-gray-400"
     >
         <div class="flex items-center justify-between border-b border-gray-100 px-4 py-2 dark:border-gray-800">
             <div class="flex items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 p-1">

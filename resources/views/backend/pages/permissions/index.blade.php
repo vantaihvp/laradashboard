@@ -30,15 +30,54 @@
                     'placeholder' => __('Search by name or group'),
                 ])
             </div>
-            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto">
+            <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                 <x-messages />
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
                             <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Sl') }}</th>
-                            <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Name') }}</th>
-                            <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Group') }}</th>
-                            <th width="45%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Roles') }}</th>
+                            <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Name') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'name' ? '-name' : 'name']) }}" class="ml-1">
+                                        @if(request()->sort === 'name')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-name')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
+                            <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Group') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'group_name' ? '-group_name' : 'group_name']) }}" class="ml-1">
+                                        @if(request()->sort === 'group_name')
+                                            <i class="bi bi-sort-alpha-down text-primary"></i>
+                                        @elseif(request()->sort === '-group_name')
+                                            <i class="bi bi-sort-alpha-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
+                            <th width="45%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <div class="flex items-center">
+                                    {{ __('Roles') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'role_count' ? '-role_count' : 'role_count']) }}" class="ml-1">
+                                        @if(request()->sort === 'role_count')
+                                            <i class="bi bi-sort-numeric-down text-primary"></i>
+                                        @elseif(request()->sort === '-role_count')
+                                            <i class="bi bi-sort-numeric-up text-primary"></i>
+                                        @else
+                                            <i class="bi bi-arrow-down-up text-gray-400"></i>
+                                        @endif
+                                    </a>
+                                </div>
+                            </th>
                             <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white">{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -68,14 +107,14 @@
                                         <span class="text-gray-400">{{ __('No roles assigned') }}</span>
                                     @endif
                                 </td>
-                                <td class="px-5 py-4 sm:px-6 text-center">
-                                    <a data-tooltip-target="tooltip-view-permission-{{ $permission->id }}" class="btn-default !p-3" href="{{ route('admin.permissions.show', $permission->id) }}">
-                                        <i class="bi bi-eye text-sm"></i>
-                                    </a>
-                                    <div id="tooltip-view-permission-{{ $permission->id }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                                        {{ __('View Permission') }}
-                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                    </div>
+                                <td class="px-5 py-4 sm:px-6 flex justify-center">
+                                    <x-buttons.action-buttons :label="__('Actions')" :show-label="false" align="right">
+                                        <x-buttons.action-item 
+                                            :href="route('admin.permissions.show', $permission->id)" 
+                                            icon="eye" 
+                                            :label="__('View Details')" 
+                                        />
+                                    </x-buttons.action-buttons>
                                 </td>
                             </tr>
                         @empty

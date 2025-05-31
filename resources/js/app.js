@@ -18,6 +18,10 @@ import map01 from "./components/map-01";
 import "./components/calendar-init.js";
 import "./components/image-resize";
 import SlugGenerator from "./components/slug-generator";
+import * as Popper from '@popperjs/core';
+
+// Make Popper available globally with the correct structure
+window.Popper = Popper;
 
 // Register slug generator component with Alpine.
 Alpine.data('slugGenerator', (initialTitle = '', initialSlug = '') => {
@@ -195,3 +199,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
