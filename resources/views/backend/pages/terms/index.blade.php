@@ -55,7 +55,7 @@
                     <table id="dataTable" class="w-full dark:text-gray-400">
                         <thead class="bg-light text-capitalize">
                             <tr class="border-b border-gray-100 dark:border-gray-800">
-                                <th width="25%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                <th width="40%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
                                     <div class="flex items-center">
                                         {{ __('Name') }}
                                         <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'name' ? '-name' : 'name']) }}" class="ml-1">
@@ -69,25 +69,8 @@
                                         </a>
                                     </div>
                                 </th>
-                                <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
-                                    <div class="flex items-center">
-                                        {{ __('Slug') }}
-                                        <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'slug' ? '-slug' : 'slug']) }}" class="ml-1">
-                                            @if(request()->sort === 'slug')
-                                                <i class="bi bi-sort-alpha-down text-primary"></i>
-                                            @elseif(request()->sort === '-slug')
-                                                <i class="bi bi-sort-alpha-up text-primary"></i>
-                                            @else
-                                                <i class="bi bi-arrow-down-up text-gray-400"></i>
-                                            @endif
-                                        </a>
-                                    </div>
-                                </th>
                                 @if($taxonomyModel->hierarchical)
                                 <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Parent') }}</th>
-                                @endif
-                                @if($taxonomyModel->show_featured_image)
-                                <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Image') }}</th>
                                 @endif
                                 <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
                                     <div class="flex items-center">
@@ -110,16 +93,27 @@
                             @forelse ($terms as $termItem)
                                 <tr class="{{ $loop->index + 1 != count($terms) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
                                     <td class="px-5 py-4 sm:px-6">
-                                        @if (auth()->user()->can('term.edit'))
-                                            <a href="{{ route('admin.terms.edit', ['taxonomy' => $taxonomy, 'term' => $termItem->id]) }}" class="hover:text-primary transition-colors">
-                                                {{ $termItem->name }}
-                                            </a>
-                                        @else
-                                            {{ $termItem->name }}
-                                        @endif
-                                    </td>
-                                    <td class="px-5 py-4 sm:px-6">
-                                        <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">{{ $termItem->slug }}</code>
+                                        <div class="flex items-center">
+                                            <div>
+                                            @if($taxonomyModel->show_featured_image && $termItem->featured_image)
+                                                    <img src="{{ Storage::url($termItem->featured_image) }}" alt="{{ $termItem->name }}" class="h-10 w-auto rounded mr-3">
+                                                @elseif($taxonomyModel->show_featured_image)
+                                                    <div class="h-10 w-10 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center mr-3">
+                                                        <i class="bi bi-image text-gray-400"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="flex flex-col gap-1">
+                                                @if (auth()->user()->can('term.edit'))
+                                                    <a href="{{ route('admin.terms.edit', ['taxonomy' => $taxonomy, 'term' => $termItem->id]) }}" class="hover:text-primary transition-colors">
+                                                        {{ $termItem->name }}
+                                                    </a>
+                                                @else
+                                                    {{ $termItem->name }}
+                                                @endif
+                                                <code class="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">{{ $termItem->slug }}</code>
+                                            </div>
+                                        </div>
                                     </td>
                                     @if($taxonomyModel->hierarchical)
                                     <td class="px-5 py-4 sm:px-6">
@@ -133,15 +127,6 @@
                                             @endif
                                         @else
                                             <span class="text-sm text-gray-400">{{ __('None') }}</span>
-                                        @endif
-                                    </td>
-                                    @endif
-                                    @if($taxonomyModel->show_featured_image)
-                                    <td class="px-5 py-4 sm:px-6">
-                                        @if($termItem->featured_image)
-                                            <img src="{{ Storage::url($termItem->featured_image) }}" alt="{{ $termItem->name }}" class="h-10 w-auto rounded">
-                                        @else
-                                            <span class="text-gray-400">{{ __('None') }}</span>
                                         @endif
                                     </td>
                                     @endif
