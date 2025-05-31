@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Vite as ViteFacade;
 use App\Services\LanguageService;
 use App\Services\MenuService\AdminMenuItem;
 use App\Services\MenuService\AdminMenuService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -332,5 +333,88 @@ if (!function_exists('svg_icon')) {
 
         // If no SVG and no fallback.
         return '';
+    }
+}
+
+if (!function_exists('generate_unique_slug')) {
+    /**
+     * Generate a unique slug for a given string
+     *
+     * @param string $string The string to convert to slug
+     * @param string $table The table name to check for uniqueness
+     * @param string $column The column name to check against (default: 'slug')
+     * @param string|null $except_id ID to exclude from uniqueness check (for updates)
+     * @param string $id_column The primary key column name (default: 'id')
+     * @return string Unique slug
+     */
+    function generate_unique_slug(string $string, string $table, string $column = 'slug', ?string $except_id = null, string $id_column = 'id'): string
+    {
+        $slug = Str::slug($string);
+        
+        if (empty($slug)) {
+            $slug = 'item-' . uniqid();
+        }
+        
+        $original_slug = $slug;
+        $i = 1;
+        
+        $query = DB::table($table)->where($column, $slug);
+        
+        if ($except_id !== null) {
+            $query->where($id_column, '!=', $except_id);
+        }
+        
+        while ($query->exists()) {
+            $slug = $original_slug . '-' . $i++;
+            $query = DB::table($table)->where($column, $slug);
+            
+            if ($except_id !== null) {
+                $query->where($id_column, '!=', $except_id);
+            }
+        }
+        
+        return $slug;
+    }
+}
+
+if (!function_exists('generate_secure_password')) {
+    /**
+     * Generate a secure random password
+     * 
+     * @param int $length Password length (default: 12)
+     * @param bool $includeSpecialChars Whether to include special characters (default: true)
+     * @return string Generated password
+     */
+    function generate_secure_password(int $length = 12, bool $includeSpecialChars = true): string
+    {
+        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        $numbers = '0123456789';
+        $specialChars = '!@#$%^&*()-_=+[]{}|;:,.<>?';
+        
+        $characterPool = $uppercase . $lowercase . $numbers;
+        if ($includeSpecialChars) {
+            $characterPool .= $specialChars;
+        }
+        
+        $password = '';
+        $poolLength = strlen($characterPool);
+        
+        // Ensure at least one of each character type
+        $password .= $uppercase[random_int(0, strlen($uppercase) - 1)];
+        $password .= $lowercase[random_int(0, strlen($lowercase) - 1)];
+        $password .= $numbers[random_int(0, strlen($numbers) - 1)];
+        
+        if ($includeSpecialChars) {
+            $password .= $specialChars[random_int(0, strlen($specialChars) - 1)];
+        }
+        
+        // Fill the rest of the password
+        for ($i = strlen($password); $i < $length; $i++) {
+            $password .= $characterPool[random_int(0, $poolLength - 1)];
+        }
+        
+        // Shuffle the password to avoid predictable pattern
+        return str_shuffle($password);
     }
 }
