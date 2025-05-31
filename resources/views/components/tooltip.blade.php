@@ -3,6 +3,7 @@
     'title' => '',
     'description' => '',
     'position' => 'top', // top, bottom, left, right
+    'width' => ''
 ])
 
 @php
@@ -15,7 +16,7 @@ $positions = [
 $positionClass = $positions[$position] ?? $positions['top'];
 @endphp
 
-<div class="relative w-fit">
+<div class="relative {{ !$width ? 'w-fit' : '' }}" style="{{ $width ? "width: {$width};" : '' }}">
     <div data-tooltip-target="{{ $id }}">
         {{ $slot }}
     </div>
