@@ -34,10 +34,14 @@ class UsersController extends Controller
             'sort_field' => null,
             'sort_direction' => null
         ];
-        
+
         return view('backend.pages.users.index', [
             'users' => $this->userService->getUsers($filters),
             'roles' => $this->rolesService->getRolesDropdown(),
+            'breadcrumbs' => [
+                'title' => __('Users'),
+                'title_after' => request('role') ? '<span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">' . ucfirst(request('role')) . '</span>' : null,
+            ]
         ]);
     }
 
@@ -49,6 +53,15 @@ class UsersController extends Controller
 
         return view('backend.pages.users.create', [
             'roles' => $this->rolesService->getRolesDropdown(),
+            'breadcrumbs' => [
+                'title' => __('New User'),
+                'items' => [
+                    [
+                        'label' => __('Users'),
+                        'url' => route('admin.users.index'),
+                    ]
+                ]
+            ]
         ]);
     }
 
@@ -92,6 +105,15 @@ class UsersController extends Controller
         return view('backend.pages.users.edit', [
             'user' => $user,
             'roles' => $this->rolesService->getRolesDropdown(),
+            'breadcrumbs' => [
+                'title' => __('Edit User'),
+                'items' => [
+                    [
+                        'label' => __('Users'),
+                        'url' => route('admin.users.index'),
+                    ]
+                ]
+            ]
         ]);
     }
 

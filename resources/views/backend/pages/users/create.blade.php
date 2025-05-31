@@ -1,44 +1,19 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('User Create') }} - {{ config('app.name') }}
+    {{ $breadcrumbs['title'] }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
 
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-    <div x-data="{ pageName: '{{ __('New User') }}' }">
-        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('New User') }}</h2>
-            <nav>
-                <ol class="flex items-center gap-1.5">
-                    <li>
-                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.dashboard') }}">
-                            {{ __('Home') }}
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.users.index') }}">
-                            {{ __('Users') }}
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90">
-                        {{ __('New User') }}
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+   <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
+
+    {!! ld_apply_filters('users_after_breadcrumbs', '') !!}
 
     <div class="space-y-6">
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-            <div class="px-5 py-4 sm:px-6 sm:py-5">
-                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Create New User') }}</h3>
-            </div>
             <div class="p-5 space-y-6 border-t border-gray-100 dark:border-gray-800 sm:p-6">
-                <x-messages />
                 <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">

@@ -1,31 +1,16 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ __('Roles') }} | {{ config('app.name') }}
+    {{ $breadcrumbs['title'] }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-    <div x-data="{ pageName: '{{ __('Roles') }}' }">
-        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">{{ __('Roles') }}</h2>
-            <nav>
-                <ol class="flex items-center gap-1.5">
-                    <li>
-                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="{{ route('admin.dashboard') }}">
-                            {{ __('Home') }}
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                    <li class="text-sm text-gray-800 dark:text-white/90">{{ __('Roles') }}</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+    <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
 
-    <!-- Roles Table -->
+    {!! ld_apply_filters('roles_after_breadcrumbs', '') !!}
+
     <div class="space-y-6">
-        <x-messages />
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
             <div class="px-5 py-4 sm:px-6 sm:py-5 flex flex-col md:flex-row justify-between items-center gap-1">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __('Roles') }}</h3>

@@ -31,6 +31,9 @@ class RolesController extends Controller
 
         return view('backend.pages.roles.index', [
             'roles' => $this->rolesService->getPaginatedRolesWithUserCount($search, intval($perPage)),
+            'breadcrumbs' => [
+                'title' => __('Roles'),
+            ]
         ]);
     }
 
@@ -42,6 +45,15 @@ class RolesController extends Controller
             'roleService' => $this->rolesService,
             'all_permissions' => $this->permissionService->getAllPermissionModels(),
             'permission_groups' => $this->permissionService->getDatabasePermissionGroups(),
+            'breadcrumbs' => [
+                'title' => __('New Role'),
+                'items' => [
+                    [
+                        'label' => __('Roles'),
+                        'url' => route('admin.roles.index'),
+                    ]
+                ]
+            ]
         ]);
     }
 
@@ -72,6 +84,15 @@ class RolesController extends Controller
             'roleService' => $this->rolesService,
             'all_permissions' => $this->permissionService->getAllPermissionModels(),
             'permission_groups' => $this->permissionService->getDatabasePermissionGroups(),
+            'breadcrumbs' => [
+                'title' => __('Edit Role'),
+                'items' => [
+                    [
+                        'label' => __('Roles'),
+                        'url' => route('admin.roles.index'),
+                    ]
+                ]
+            ]
         ]);
     }
 
