@@ -229,6 +229,17 @@ class Post extends Model
     }
 
     /**
+     * Apply tag filter to the query
+     */
+    public function scopeFilterByTag(Builder $query, $tagId): void
+    {
+        $query->whereHas('terms', function ($q) use ($tagId) {
+            $q->where('id', $tagId)
+              ->where('taxonomy', 'tag');
+        });
+    }
+
+    /**
      * Check if this post type supports a specific feature
      * 
      * @param string $feature Feature name (e.g., 'editor', 'thumbnail', 'excerpt')

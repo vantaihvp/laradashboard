@@ -44,16 +44,18 @@ class PostsController extends Controller
             'post_type' => $postType,
             'search' => $request->search,
             'status' => $request->status,
-            'category' => $request->category
+            'category' => $request->category,
+            'tag' => $request->tag
         ];
 
-        // Get posts with pagination using service
+        // Get posts with pagination using service.
         $posts = $this->postService->getPosts($filters);
 
-        // Get categories for filter.
-        $categories = Term::where('taxonomy', 'category')->get();
+        // Get categories and tags for filters.
+        $categories = Term::where('taxonomy', 'category')->select('id', 'name')->get();
+        $tags = Term::where('taxonomy', 'tag')->select('id', 'name')->get();
 
-        return view('backend.pages.posts.index', compact('posts', 'postType', 'postTypeModel', 'categories'))
+        return view('backend.pages.posts.index', compact('posts', 'postType', 'postTypeModel', 'categories', 'tags'))
             ->with([
                 'breadcrumbs' => [
                     'title' => $postTypeModel->label,

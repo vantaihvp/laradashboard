@@ -32,6 +32,12 @@ class PostService
             unset($filters['category']); // Remove to prevent double filtering
         }
 
+        // Handle tag filter separately.
+        if (isset($filters['tag']) && !empty($filters['tag'])) {
+            $query->filterByTag($filters['tag']);
+            unset($filters['tag']); // Remove to prevent double filtering
+        }
+
         return $query->applyFilters($filters)
             ->paginateData([
                 'per_page' => config('settings.default_pagination') ?? 10

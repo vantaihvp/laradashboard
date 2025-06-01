@@ -9,6 +9,12 @@
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
     <x-breadcrumbs :breadcrumbs="$breadcrumbs">
         <x-slot name="title_after">
+            @if (auth()->user()->can('user.edit'))
+                <a href="{{ route('admin.users.create') }}" class="btn-primary ml-2">
+                    <i class="bi bi-plus-circle mr-2"></i>
+                    {{ __('New User') }}
+                </a>
+            @endif
             @if (request('role'))
                 <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white">{{ ucfirst(request('role')) }}</span>
             @endif
@@ -50,13 +56,6 @@
                             </ul>
                         </div>
                     </div>
-
-                    @if (auth()->user()->can('user.edit'))
-                        <a href="{{ route('admin.users.create') }}" class="btn-primary">
-                            <i class="bi bi-plus-circle mr-2"></i>
-                            {{ __('New User') }}
-                        </a>
-                    @endif
                 </div>
             </div>
             <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">

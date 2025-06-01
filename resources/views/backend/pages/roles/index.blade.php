@@ -6,7 +6,16 @@
 
 @section('admin-content')
 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-    <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
+    <x-breadcrumbs :breadcrumbs="$breadcrumbs">
+        <x-slot name="title_after">
+            @if (auth()->user()->can('role.create'))
+                <a href="{{ route('admin.roles.create') }}" class="btn-primary ml-2">
+                    <i class="bi bi-plus-circle mr-2"></i>
+                    {{ __('New Role') }}
+                </a>
+            @endif
+        </x-slot>
+    </x-breadcrumbs>
 
     {!! ld_apply_filters('roles_after_breadcrumbs', '') !!}
 
@@ -18,13 +27,6 @@
                 @include('backend.partials.search-form', [
                     'placeholder' => __('Search by role name'),
                 ])
-
-                @if (auth()->user()->can('role.create'))
-                    <a href="{{ route('admin.roles.create') }}" class="btn-primary">
-                        <i class="bi bi-plus-circle mr-2"></i>
-                        {{ __('New Role') }}
-                    </a>
-                @endif
             </div>
             <div class="space-y-3 border-t border-gray-100 dark:border-gray-800 overflow-x-auto overflow-y-visible">
                 <table id="dataTable" class="w-full dark:text-gray-400">
