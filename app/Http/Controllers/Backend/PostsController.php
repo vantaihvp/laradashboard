@@ -293,25 +293,58 @@ class PostsController extends Controller
             ->with('success', 'Post updated successfully');
     }
 
+    /**
+     * Delete a post
+     */
     public function destroy(string $postType, string $id): RedirectResponse
     {
         $this->checkAuthorization(Auth::user(), ['post.delete']);
-
         $post = Post::where('post_type', $postType)->findOrFail($id);
 
-        // Delete featured image if exists.
+        // Delete featured image if exists
         if (!empty($post->featured_image)) {
             deleteImageFromPublic($post->featured_image);
         }
 
         ld_do_action('post_before_deleted', $post);
-
         $post->delete();
-
         ld_do_action('post_deleted', $post);
 
         return redirect()->route('admin.posts.index', $postType)
             ->with('success', __('Post deleted successfully'));
+    }
+
+    /**
+     * Delete multiple posts at once
+     */
+    public function bulkDelete(Request $request, string $postType): RedirectResponse
+    {
+        $this->checkAuthorization(Auth::user(), ['post.delete']);
+
+        $ids = $request->input('ids', []);
+
+        if (empty($ids)) {
+            return redirect()->route('admin.posts.index', $postType)
+                ->with('error', __('No posts selected for deletion'));
+        }
+
+        $posts = Post::where('post_type', $postType)->whereIn('id', $ids)->get();
+
+        foreach ($posts as $post) {
+            // Delete featured image if exists.
+            if (!empty($post->featured_image)) {
+                deleteImageFromPublic($post->featured_image);
+            }
+
+            ld_do_action('post_before_deleted', $post);
+
+            $post->delete();
+
+            ld_do_action('post_deleted', $post);
+        }
+
+        return redirect()->route('admin.posts.index', $postType)
+            ->with('success', __(':count posts deleted successfully', ['count' => count($posts)]));
     }
 
     /**

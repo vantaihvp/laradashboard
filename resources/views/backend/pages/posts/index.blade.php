@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin-content')
-<div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+<div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6" x-data="{ selectedPosts: [], selectAll: false, bulkDeleteModalOpen: false }">
     <x-breadcrumbs :breadcrumbs="$breadcrumbs">
         <x-slot name="title_after">
             @if (auth()->user()->can('post.create'))
@@ -31,6 +31,26 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                    <!-- Bulk Actions dropdown -->
+                    <div class="flex items-center justify-center" x-show="selectedPosts.length > 0">
+                        <button id="bulkActionsButton" data-dropdown-toggle="bulkActionsDropdown" class="btn-danger flex items-center justify-center gap-2 text-sm" type="button">
+                            <i class="bi bi-trash"></i>
+                            <span>{{ __('Bulk Actions') }} (<span x-text="selectedPosts.length"></span>)</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
+
+                        <!-- Bulk Actions dropdown menu -->
+                        <div id="bulkActionsDropdown" class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                            <h6 class="mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Bulk Actions') }}</h6>
+                            <ul class="space-y-2">
+                                <li class="cursor-pointer text-sm text-red-600 dark:text-red-400 hover:bg-gray-200 dark:hover:bg-gray-600 px-2 py-1 rounded"
+                                    @click="bulkDeleteModalOpen = true">
+                                    <i class="bi bi-trash mr-1"></i> {{ __('Delete Selected') }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <!-- Status Filter dropdown -->
                     <div class="flex items-center justify-center">
                         <button id="statusDropdownButton" data-dropdown-toggle="statusDropdown" class="btn-default flex items-center justify-center gap-2 text-sm" type="button">
@@ -136,6 +156,21 @@
                     <table id="dataTable" class="w-full dark:text-gray-400 min-w-full">
                         <thead class="bg-light text-capitalize">
                             <tr class="border-b border-gray-100 dark:border-gray-800">
+                                <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                                    <div class="flex items-center">
+                                        <input 
+                                            type="checkbox" 
+                                            class="form-checkbox h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
+                                            x-model="selectAll"
+                                            @click="
+                                                selectAll = !selectAll;
+                                                selectedPosts = selectAll ? 
+                                                    [...document.querySelectorAll('.post-checkbox')].map(cb => cb.value) : 
+                                                    [];
+                                            "
+                                        >
+                                    </div>
+                                </th>
                                 <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
                                     <div class="flex items-center">
                                         {{ __('Title') }}
@@ -188,6 +223,14 @@
                         <tbody>
                             @forelse ($posts as $post)
                                 <tr class="{{ $loop->index + 1 != count($posts) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <input 
+                                            type="checkbox" 
+                                            class="post-checkbox form-checkbox h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
+                                            value="{{ $post->id }}"
+                                            x-model="selectedPosts"
+                                        >
+                                    </td>
                                     <td class="px-5 py-4 sm:px-6">
                                         <div class="flex gap-0.5 items-center">
                                             @if($post->featured_image)
@@ -306,6 +349,79 @@
                 <div class="my-4 px-4 sm:px-6">
                     {{ $posts->links() }}
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Delete Confirmation Modal -->
+    <div 
+        x-cloak 
+        x-show="bulkDeleteModalOpen" 
+        x-transition.opacity.duration.200ms 
+        x-trap.inert.noscroll="bulkDeleteModalOpen" 
+        x-on:keydown.esc.window="bulkDeleteModalOpen = false" 
+        x-on:click.self="bulkDeleteModalOpen = false" 
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4 backdrop-blur-md" 
+        role="dialog" 
+        aria-modal="true" 
+        aria-labelledby="bulk-delete-modal-title"
+    >
+        <div 
+            x-show="bulkDeleteModalOpen" 
+            x-transition:enter="transition ease-out duration-200 delay-100 motion-reduce:transition-opacity" 
+            x-transition:enter-start="opacity-0 scale-50" 
+            x-transition:enter-end="opacity-100 scale-100" 
+            class="flex max-w-md flex-col gap-4 overflow-hidden rounded-lg border border-outline border-gray-100 dark:border-gray-800 bg-white text-on-surface dark:border-outline-dark dark:bg-gray-700 dark:text-gray-400"
+        >
+            <div class="flex items-center justify-between border-b border-gray-100 px-4 py-2 dark:border-gray-800">
+                <div class="flex items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 p-1">
+                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                </div>
+                <h3 id="bulk-delete-modal-title" class="font-semibold tracking-wide text-gray-800 dark:text-white">
+                    {{ __('Delete Selected') }} {{ $postTypeModel->label }}
+                </h3>
+                <button 
+                    x-on:click="bulkDeleteModalOpen = false" 
+                    aria-label="close modal" 
+                    class="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-1 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="1.4" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="px-4 text-center">
+                <p class="text-gray-500 dark:text-gray-400">
+                    {{ __('Are you sure you want to delete the selected') }} {{ strtolower($postTypeModel->label) }}? 
+                    {{ __('This action cannot be undone.') }}
+                </p>
+            </div>
+            <div class="flex items-center justify-end gap-3 border-t border-gray-100 p-4 dark:border-gray-800">
+                <form id="bulk-delete-form" action="{{ route('admin.posts.bulk-delete', $postType) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    
+                    <template x-for="id in selectedPosts" :key="id">
+                        <input type="hidden" name="ids[]" :value="id">
+                    </template>
+
+                    <button 
+                        type="button" 
+                        x-on:click="bulkDeleteModalOpen = false" 
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+                    >
+                        {{ __('No, Cancel') }}
+                    </button>
+
+                    <button 
+                        type="submit" 
+                        class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-300 dark:focus:ring-red-800"
+                    >
+                        {{ __('Yes, Delete') }}
+                    </button>
+                </form>
             </div>
         </div>
     </div>

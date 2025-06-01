@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::get('/posts/{postType}/{id}/edit', [PostsController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{postType}/{id}', [PostsController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{postType}/{id}', [PostsController::class, 'destroy'])->name('posts.destroy');
+    Route::delete('/posts/{postType}/delete/bulk-delete', [PostsController::class, 'bulkDelete'])->name('posts.bulk-delete');
     
     // Terms Routes (Categories, Tags, etc.)
     Route::get('/terms/{taxonomy}', [TermsController::class, 'index'])->name('terms.index');
