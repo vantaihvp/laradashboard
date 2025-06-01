@@ -63,8 +63,7 @@
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
-                            <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Sl') }}</th>
-                            <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
+                            <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
                                 <div class="flex items-center">
                                     {{ __('Name') }}
                                     <a href="{{ request()->fullUrlWithQuery(['sort' => request()->sort === 'name' ? '-name' : 'name']) }}" class="ml-1">
@@ -101,11 +100,13 @@
                     <tbody>
                         @forelse ($users as $user)
                             <tr class="{{ $loop->index + 1 != count($users) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
-                                <td class="px-5 py-4 sm:px-6">{{ $loop->index + 1 }}</td>
                                 <td class="px-5 py-4 sm:px-6 flex items-center md:min-w-[200px]">
                                     <a data-tooltip-target="tooltip-user-{{ $user->id }}" href="{{ auth()->user()->canBeModified($user) ? route('admin.users.edit', $user->id) : '#' }}" class="flex items-center">
                                         <img src="{{ ld_apply_filters('user_list_page_avatar_item', $user->getGravatarUrl(40), $user) }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full mr-3">
-                                        {{ $user->name }}
+                                        <div class="flex flex-col">
+                                            <span>{{ $user->name }}</span>
+                                            <span class="text-xs text-gray-500 dark:text-gray-400">{{ $user->username }}</span>
+                                        </div>
                                     </a>
                                     @if (auth()->user()->canBeModified($user))
                                     <div id="tooltip-user-{{ $user->id }}" href="{{ route('admin.users.edit', $user->id) }}" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">

@@ -74,7 +74,6 @@
                 <table id="dataTable" class="w-full dark:text-gray-400">
                     <thead class="bg-light text-capitalize">
                         <tr class="border-b border-gray-100 dark:border-gray-800">
-                            <th width="5%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Sl') }}</th>
                             <th width="30%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
                                 <div class="flex items-center">
                                     {{ __('Title') }}
@@ -91,7 +90,7 @@
                             </th>
                             <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Author') }}</th>
                             @if($postType === 'post')
-                                <th width="15%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Categories') }}</th>
+                                <th width="20%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">{{ __('Categories') }}</th>
                             @endif
                             <th width="10%" class="p-2 bg-gray-50 dark:bg-gray-800 dark:text-white text-left px-5">
                                 <div class="flex items-center">
@@ -127,7 +126,6 @@
                     <tbody>
                         @forelse ($posts as $post)
                             <tr class="{{ $loop->index + 1 != count($posts) ?  'border-b border-gray-100 dark:border-gray-800' : '' }}">
-                                <td class="px-5 py-4 sm:px-6">{{ $loop->index + 1 }}</td>
                                 <td class="px-5 py-4 sm:px-6">
                                     <div class="flex gap-0.5 items-center">
                                         @if($post->featured_image)
