@@ -39,7 +39,7 @@ class UpdateTermRequest extends FormRequest
         $taxonomyModel = app(ContentService::class)->getTaxonomies()->where('name', $taxonomyName)->first();
 
         if ($taxonomyModel && $taxonomyModel->show_featured_image) {
-            $rules['featured_image'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048';
+            $rules['featured_image'] = 'nullable|image|max:2048';
         }
 
         return ld_apply_filters('term.update.validation.rules', $rules, $taxonomyName);
