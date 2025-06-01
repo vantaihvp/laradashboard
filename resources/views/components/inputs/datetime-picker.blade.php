@@ -36,6 +36,22 @@
                 onChange: function(selectedDates, dateStr, instance) {
                     // Dispatch an input event to ensure Alpine.js and other listeners are notified
                     instance.element.dispatchEvent(new Event('input', { bubbles: true }));
+                },
+                // Fix for the form validation issue with unnamed inputs
+                onReady: function(selectedDates, dateStr, instance) {
+                    // Add names to hour and minute inputs to prevent validation errors
+                    const hourInput = instance.hourElement;
+                    const minuteInput = instance.minuteElement;
+                    
+                    if (hourInput) {
+                        hourInput.name = '{{ $name }}_hour';
+                        hourInput.setAttribute('form', 'none'); // Prevent it from being included in form submission
+                    }
+                    
+                    if (minuteInput) {
+                        minuteInput.name = '{{ $name }}_minute';
+                        minuteInput.setAttribute('form', 'none'); // Prevent it from being included in form submission
+                    }
                 }
             };
             
