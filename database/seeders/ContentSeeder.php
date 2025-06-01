@@ -31,6 +31,7 @@ class ContentSeeder extends Seeder
 
         $this->registerPostTypesAndTaxonomies();
         $this->createSampleCategories();
+        $this->createSampleTags();
         $this->createSamplePosts();
         $this->createSamplePages();
 
@@ -122,6 +123,44 @@ class ContentSeeder extends Seeder
         }
     }
 
+    protected function createSampleTags(): void
+    {
+        $this->command->info('Creating sample tags...');
+
+        // Make sure storage directory exists
+        Storage::disk('public')->makeDirectory('tags', 0755, true);
+
+        $tags = [
+            [
+                'name' => 'Sample Tag',
+                'slug' => 'sample-tag',
+                'description' => 'A sample tag for demonstration purposes.',
+                'featured_image' => 'tags/sample-tag.jpg'
+            ],
+        ];
+
+        foreach ($tags as $tag) {
+            try {
+                // Generate a placeholder image instead of trying to copy
+                $this->generatePlaceholderImage('public/' . $tag['featured_image'], pathinfo($tag['featured_image'], PATHINFO_BASENAME));
+
+                Term::firstOrCreate([
+                    'name' => $tag['name'],
+                    'taxonomy' => 'tag',
+                    'slug' => \Illuminate\Support\Str::slug($tag['name']),
+                ], [
+                    'description' => $tag['description'],
+                    'featured_image' => $tag['featured_image'],
+                ]);
+
+                $this->command->info("Created tag: {$tag['name']}");
+            } catch (\Exception $e) {
+                $this->command->error("Error creating tag {$tag['name']}: " . $e->getMessage());
+                Log::error("Error in ContentSeeder creating tag {$tag['name']}: " . $e->getMessage());
+            }
+        }
+    }
+
     /**
      * Generate a placeholder image directly to storage
      *
@@ -207,6 +246,7 @@ class ContentSeeder extends Seeder
             ],
         ];
 
+        Post::factory()->count(50)->create();
         foreach ($posts as $postData) {
             // Create post.
             $post = Post::firstOrCreate([
@@ -218,7 +258,7 @@ class ContentSeeder extends Seeder
                 'excerpt' => $postData['excerpt'],
                 'status' => $postData['status'],
                 'user_id' => 1, // Assuming user ID 1 exists
-                'published_at' => now(),
+                'published_at' => now()->subDays(rand(0, 30)),
             ]);
 
             // Attach categories.

@@ -5,16 +5,6 @@
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ __('Post Activity') }}</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('Posts created over time') }}</p>
             </div>
-            <div class="flex items-center justify-end">
-                <div class="flex items-center">
-                    <span class="mr-2 h-3 w-3 rounded-full bg-primary"></span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('Published') }}</span>
-                </div>
-                <div class="ml-4 flex items-center">
-                    <span class="mr-2 h-3 w-3 rounded-full bg-orange-400"></span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('Draft') }}</span>
-                </div>
-            </div>
         </div>
         <div id="post-activity-chart" class="h-80"></div>
     </div>
