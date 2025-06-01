@@ -17,6 +17,11 @@
         updateColor() {
             this.isDark = document.documentElement.classList.contains('dark');
             this.textColor = this.isDark ? '{{ $sidebarTextDark }}' : '{{ $sidebarTextLite }}';
+        },
+        openDrawer(drawerId) {
+            if (typeof window.openDrawer === 'function') {
+                window.openDrawer(drawerId);
+            }
         }
     }"
     x-init="init()"
@@ -39,3 +44,25 @@
         {!! ld_apply_filters('sidebar_menu_group_after_' . Str::slug($groupName), '') !!}
     @endforeach
 </nav>
+
+<script>
+    // Ensure drawer triggers work in the sidebar
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle drawer trigger clicks
+        document.querySelectorAll('[data-drawer-trigger]').forEach(function(element) {
+            element.addEventListener('click', function(e) {
+                const drawerId = this.getAttribute('data-drawer-trigger');
+                if (drawerId) {
+                    e.preventDefault();
+                    if (typeof window.openDrawer === 'function') {
+                        window.openDrawer(drawerId);
+                    } else {
+                        // Fallback if the global function isn't available yet
+                        window.dispatchEvent(new CustomEvent('open-drawer-' + drawerId));
+                    }
+                    return false;
+                }
+            });
+        });
+    });
+</script>
