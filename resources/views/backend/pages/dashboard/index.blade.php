@@ -81,7 +81,21 @@
                 </div>
             </div>
         </div>
+        
+        <div class="mt-6">
+            <div class="grid grid-cols-12 gap-4 md:gap-6">
+                <div class="col-span-12">
+                    <div class="grid grid-cols-12 gap-4 md:gap-6">
+                        @include('backend.pages.dashboard.partials.post-chart')
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {!! ld_apply_filters('dashboard_after', '') !!}
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+@endpush

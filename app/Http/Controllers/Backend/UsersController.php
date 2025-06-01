@@ -13,6 +13,7 @@ use App\Services\UserService;
 use App\Services\RolesService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -167,5 +168,47 @@ class UsersController extends Controller
         ld_do_action('user_delete_after', $user);
 
         return back();
+    }
+    
+    /**
+     * Delete multiple users at once
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $this->checkAuthorization(Auth::user(), ['user.delete']);
+        
+        $ids = $request->input('ids', []);
+        
+        if (empty($ids)) {
+            return redirect()->route('admin.users.index')
+                ->with('error', __('No users selected for deletion'));
+        }
+        
+        $users = User::whereIn('id', $ids)->get();
+        $deletedCount = 0;
+        
+        foreach ($users as $user) {
+            // Skip super admin users
+            if ($user->hasRole('superadmin')) {
+                continue;
+            }
+            
+            $user = ld_apply_filters('user_delete_before', $user);
+            $user->delete();
+            ld_apply_filters('user_delete_after', $user);
+            
+            $this->storeActionLog(ActionType::DELETED, ['user' => $user]);
+            ld_do_action('user_delete_after', $user);
+            
+            $deletedCount++;
+        }
+        
+        if ($deletedCount > 0) {
+            session()->flash('success', __(':count users deleted successfully', ['count' => $deletedCount]));
+        } else {
+            session()->flash('error', __('No users were deleted. Selected users may include protected accounts.'));
+        }
+        
+        return redirect()->route('admin.users.index');
     }
 }

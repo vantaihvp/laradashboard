@@ -6,7 +6,13 @@
 
 @section('admin-content')
 
-<div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+<div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6"
+    x-data="{ showUploadArea: false }"
+    x-init="showUploadArea = {{ count($modules) > 0 ? 'false' : 'true' }}"
+    x-cloak
+    x-on:keydown.escape.window="showUploadArea = false"
+    x-on:click.away="showUploadArea = false"
+>
     <x-breadcrumbs :breadcrumbs="$breadcrumbs">
         <x-slot name="title_after">
             @if(count($modules) > 0)

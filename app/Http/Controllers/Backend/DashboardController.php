@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\Charts\PostChartService;
 use App\Services\Charts\UserChartService;
 use App\Services\LanguageService;
 use Spatie\Permission\Models\Permission;
@@ -15,7 +16,8 @@ class DashboardController extends Controller
 {
     public function __construct(
         private readonly UserChartService $userChartService,
-        private readonly LanguageService $languageService
+        private readonly LanguageService $languageService,
+        private readonly PostChartService $postChartService
     ) {
     }
 
@@ -37,6 +39,9 @@ class DashboardController extends Controller
                     request()->get('chart_filter_period', 'last_12_months')
                 )->getData(true),
                 'user_history_data' => $this->userChartService->getUserHistoryData(),
+                'post_stats' => $this->postChartService->getPostActivityData(
+                    request()->get('post_chart_filter_period', 'last_6_months')
+                ),
                 'breadcrumbs' => [
                     'title' => __('Dashboard'),
                     'show_home' => false,
