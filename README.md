@@ -9,7 +9,7 @@
 
 <img width="100%" alt="Lara Dashboard" src="https://github.com/user-attachments/assets/c56009a4-718f-43dc-bd1e-caad5417b05b"  />
 
-**Lara Dashboard** - A project which manages Role, Permissions and every actions of your Laravel application. A complete solution for Role based Access Control in Laravel with Tailwind CSS integrated with all starting features including dark/lite mode, charts, tables, logs, forms and so on...
+**⚡ Lara Dashboard** CMS By Laravel (7.x - 12.x) - Manages Users, Roles, Permissions, Modules, Settings, Translations, Contents(Post, Page, Category, Tags), System logs, Monitoring and every actions of your Laravel application. A complete CMS solution for Laravel application with Tailwind CSS integrated with all starting features including modules, dark/lite mode, charts, tables, forms, lots of components and many more. By our preimium modules, you can get more features like CRM, HRM, Course Management and so on.
 
 **Demo:** https://demo.laradashboard.com/
 ```
@@ -35,10 +35,25 @@ password - 12345678
 * [![Alpine JS][AlpineJS.com]][AlpineJS-url]
 * [![React][React.js]][React-url]
 * [![MySQL][MySQL.com]][MySQL-url]
+* <a href="https://penguinui.com/">
+    <img src="https://res.cloudinary.com/ds8pgw1pf/image/upload/v1721401292/penguinui/main-assets/Logo.png" alt="Penguin UI" style="height: 30px;">
+   </a>
+* <a href="https://tailadmin.com" style="display: flex; align-items: center; text-decoration: none; color: #3d51e0;">
+    <img src="https://avatars.githubusercontent.com/u/95587422?v=4" alt="Tail Admin" style="height: 20px;"> <span style="color:#3d51e0; margin-left: 5px;">Tail Admin</span>
+   </a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📝 Changelog
+**[v1.5.0] - 2025-06-01**
+- **Feature**: Content Management System (CMS) with Content(Post/Page), Content Category, Content Tag management.
+- **Feature**: Post/Page activity chart in Dashboard.
+- **Feature**: Bulk delete for Users, Roles, Posts, Categories, Tags.
+- **Enhancement**: Sorting features for Users, Roles, Permissions, Posts, Categories, Tags.
+- **Enhancement**: Components - Confirm delete, Success/Error messages, Toast, Text Editor, Breadcrumbs, Action dropdown.
+- **Fix**: System dark mode issues.
+- **Fix**: Modules refactorring in demo mode.
+
 **[v1.3.0] - 2025-05-18**
 - **Feature**: Admin Menu architecture with more extendible way.
 - **Feature**: Permission List and detail page.
@@ -70,6 +85,11 @@ password - 12345678
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🔄 Versions:
+Latest version `v1.5.0` - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.5.0
+
+<details>
+<summary>View Old versions</summary>
+
 - Laravel `7.x` & PHP -`7.x`
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/Laravel7.x
     - Branch - https://github.com/ManiruzzamanAkash/laravel-role/tree/Laravel7.x
@@ -91,8 +111,14 @@ password - 12345678
 
 - v1.0.0 - Settings, Forget password and lots of refactorring
     - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.0.0
+- v1.2.0 - Translation Management, Dashboard Redesign, Role/User List improvements
+    - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.2.0
+- v1.3.0 - Admin Menu architecture, Permission List and detail page
+    - Tag - https://github.com/ManiruzzamanAkash/laravel-role/releases/tag/v1.3.0
 
 More release tags - https://github.com/laradashboard/laradashboard/releases
+</details>
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -130,7 +156,7 @@ php artisan serve
 npm run dev
 ```
 
-So, You've got the project of Laravel Role & Permission Management on your http://localhost:8000
+So, You've got the project of Lara Dashboard on your local machine - http://localhost:8000
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -157,6 +183,12 @@ git remote set-url origin git@github.com:laradashboard/laradashboard.git
 1. Module Based Development - Custom Module Add/Enable/Disable/Delete
 1. Monitoring - Logging of every action of your application
 1. Monitoring - Laravel Pulse
+1. Translation Management - Add/Edit/Delete Language, Add/Edit/Delete Translation
+1. Settings - General, Site Appearance, Content, Integration settings
+1. Admin Menu - Add/Edit/Delete Menu, Submenu, Link
+1. Admin Impersonation - Login as another user and switch back to your original account
+1. Custom Error Pages - 404, 500, 503, 403
+1. Content Management System - Add/Edit/Delete Content, Content Category, Content Tag
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -188,11 +220,11 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>Login Page</strong><br/>
-      <img width="100%" alt="Login Page" src="/demo-screenshots/login.png"/>
+      <img width="100%" alt="Login Page" src="/demo-screenshots/00-Login-Page-Lite-Mode.png"/>
     </td>
     <td width="50%">
       <strong>Forget Password Page (Dark Mode)</strong><br/>
-      <img width="100%" alt="Forget Password Page" src="/demo-screenshots/Forget-password.png"/>
+      <img width="100%" alt="Forget Password Page" src="/demo-screenshots/01-Forget-password.png"/>
     </td>
   </tr>
 </table>
@@ -202,11 +234,17 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>Dashboard (Light Mode)</strong><br/>
-      <img width="100%" alt="Dashboard Light Mode" src="/demo-screenshots/Dashboard%20Page%20white%20Mode.png"/>
+      <img width="100%" alt="Dashboard Light Mode" src="/demo-screenshots/03-Dashboard-Page-lite-Mode.png"/>
     </td>
     <td width="50%">
       <strong>Dashboard (Dark Mode)</strong><br/>
-      <img width="100%" alt="Dashboard Dark Mode" src="/demo-screenshots/Dashboard%20Page%20Dark%20Mode.png"/>
+      <img width="100%" alt="Dashboard Dark Mode" src="/demo-screenshots/04-Dashboard-Page-Dark-Mode.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Dashboard Collapsed Sidebar</strong><br/>
+      <img width="100%" alt="Dashboard Collapsed Sidebar" src="/demo-screenshots/04_1-Dashboard-Collapsed-Sidebar.png"/>
     </td>
   </tr>
 </table>
@@ -216,21 +254,27 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>Role List (Light Mode)</strong><br/>
-      <img width="100%" alt="Role List" src="/demo-screenshots/Role%20List.png"/>
+      <img width="100%" alt="Role List" src="/demo-screenshots/05-Role-List-Lite.png"/>
     </td>
     <td width="50%">
       <strong>Role List (Dark Mode)</strong><br/>
-      <img width="100%" alt="Role List Dark" src="/demo-screenshots/Role%20List%20Dark.png"/>
+      <img width="100%" alt="Role List Dark" src="/demo-screenshots/06-Role-List-Dark.png"/>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <strong>Role Create</strong><br/>
-      <img width="100%" alt="Role Create" src="/demo-screenshots/Role%20Create.png"/>
+      <img width="100%" alt="Role Create" src="/demo-screenshots/07-Role-Create.png"/>
     </td>
     <td width="50%">
+      <strong>Role Edit</strong><br/>
+      <img width="100%" alt="Role Edit" src="/demo-screenshots/08-Role-Edit.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
       <strong>Permission List</strong><br/>
-      <img width="100%" alt="Permission List" src="/demo-screenshots/Permission List.png"/>
+      <img width="100%" alt="Permission List" src="/demo-screenshots/09-Permissions-List-Lite-Mode.png"/>
     </td>
   </tr>
 </table>
@@ -240,21 +284,65 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>Users List (Light mode)</strong><br/>
-      <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/Users%20List.png"/>
+      <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/10-User-List-Lite-Mode.png"/>
     </td>
     <td width="50%">
       <strong>Users List (Dark mode)</strong><br/>
-      <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/User List Dark.png" />
+      <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/11-User-List-Dark-Mode.png" />
     </td>
   </tr>
   <tr>
     <td width="50%">
       <strong>User Create</strong><br/>
-      <img width="100%" alt="User Create" src="/demo-screenshots/User%20Create.png"/>
+      <img width="100%" alt="User Create" src="/demo-screenshots/12-User-Create-Lite-Mode.png"/>
     </td>
     <td width="50%">
       <strong>User Delete</strong><br/>
-      <img width="100%" alt="User Delete" src="/demo-screenshots/User Delete.png" />
+      <img width="100%" alt="User Delete" src="/demo-screenshots/13-User-Delete-Lite-Mode.png" />
+    </td>
+  </tr>
+</table>
+
+### 📝 Content Management - CMS
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Posts List</strong><br/>
+      <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/31-Post-List-Lite-Mode.png"/>
+    </td>
+    <td width="50%">
+      <strong>Post Create</strong><br/>
+      <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/30-Post-List-Dark-Mode.png" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Pages List</strong><br/>
+      <img width="100%" alt="Users List (Light mode)" src="/demo-screenshots/38-Pages-List-Lite-Mode.png"/>
+    </td>
+    <td width="50%">
+      <strong>Page Delete</strong><br/>
+      <img width="100%" alt="Users List (Dark mode)" src="/demo-screenshots/39-Pages-Edit-Dark-Mode.png" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Category List & Create</strong><br/>
+      <img width="100%" alt="Category List & Create" src="/demo-screenshots/34-Category-List-Lite-Mode.png"/>
+    </td>
+    <td width="50%">
+      <strong>Category Edit</strong><br/>
+      <img width="100%" alt="Category Edit" src="/demo-screenshots/35-Category-Edit-Dark-Mode.png" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Tag List & Create</strong><br/>
+      <img width="100%" alt="Tag Create" src="/demo-screenshots/36-Tags-List-Lite-Mode.png"/>
+    </td>
+    <td width="50%">
+      <strong>Tag Edit</strong><br/>
+      <img width="100%" alt="Tag Delete" src="/demo-screenshots/37-Tags-Edit-Dark-Mode.png" />
     </td>
   </tr>
 </table>
@@ -264,11 +352,11 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>Module List</strong><br/>
-      <img width="100%" alt="Module List" src="/demo-screenshots/Module%20List.png"/>
+      <img width="100%" alt="Module List" src="/demo-screenshots/14-Module-List.png"/>
     </td>
     <td width="50%">
       <strong>Upload Module</strong><br/>
-      <img width="100%" alt="Upload Module" src="/demo-screenshots/Upload%20Module.png"/>
+      <img width="100%" alt="Upload Module" src="/demo-screenshots/15-Module-Upload.png"/>
     </td>
   </tr>
 </table>
@@ -278,21 +366,21 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>General Settings</strong><br/>
-      <img width="100%" alt="General Settings" src="/demo-screenshots/Settings-General.png"/>
+      <img width="100%" alt="General Settings" src="/demo-screenshots/40-Settings-General.png"/>
     </td>
     <td width="50%">
       <strong>Site Appearance</strong><br/>
-      <img width="100%" alt="Site Appearance" src="/demo-screenshots/Settings-Site-Appearance.png"/>
+      <img width="100%" alt="Site Appearance" src="/demo-screenshots/41-Settings-Site-Appearance-Dark-Mode.png"/>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <strong>Content Settings</strong><br/>
-      <img width="100%" alt="Content Settings" src="/demo-screenshots/Settings-Content.png"/>
+      <img width="100%" alt="Content Settings" src="/demo-screenshots/42-Settings-Content.png"/>
     </td>
     <td width="50%">
       <strong>Integration Settings</strong><br/>
-      <img width="100%" alt="Integration Settings" src="/demo-screenshots/Settings-Google-Analytics.png"/>
+      <img width="100%" alt="Integration Settings" src="/demo-screenshots/43-Settings-Integration.png"/>
     </td>
   </tr>
 </table>
@@ -302,17 +390,17 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>Translations List</strong><br/>
-      <img width="100%" alt="Translations List" src="/demo-screenshots/Translations List.png" />
+      <img width="100%" alt="Translations List" src="/demo-screenshots/50-Translation-List-Lite-Mode.png" />
     </td>
     <td width="50%">
       <strong>Add Language</strong><br/>
-      <img width="100%" alt="Create Translation" src="/demo-screenshots/Translations List Dark.png" />
+      <img width="100%" alt="Create Translation" src="/demo-screenshots/51-Translation-Create-Dark-Mode.png" />
     </td>
   </tr>
   <tr>
     <td width="50%">
       <strong>Language Switcher</strong><br/>
-      <img width="100%" alt="Language Switcher" src="/demo-screenshots/Language switcher.png" />
+      <img width="100%" alt="Language Switcher" src="/demo-screenshots/90-Language-Switcher.png" />
     </td>
     <td width="50%">
       <!-- Reserved for future screenshot -->
@@ -325,24 +413,25 @@ https://laradashboard.com/docs/
   <tr>
     <td width="50%">
       <strong>Action Logs</strong><br/>
-      <img width="100%" alt="Action Logs" src="/demo-screenshots/Action%20Log%20List.png"/>
+      <img width="100%" alt="Action Logs" src="/demo-screenshots/20-Action-Log-List.png"/>
     </td>
     <td width="50%">
       <strong>Laravel Pulse</strong><br/>
-      <img width="100%" alt="Laravel Pulse" src="/demo-screenshots/Laravel%20Pulse%20Dashboard%20for%20Monitoring.png"/>
+      <img width="100%" alt="Laravel Pulse" src="/demo-screenshots/91-Laravel-Pulse-Dashboard-for-Monitoring.png"/>
     </td>
   </tr>
 </table>
 
-### 🔧 Other Pages
+### 🔧 Other Pages / Sections
 <table>
   <tr>
     <td width="50%">
       <strong>Custom Error Pages</strong><br/>
-      <img width="100%" alt="Custom Error Pages" src="/demo-screenshots/Custom%20Error%20Pages.png"/>
+      <img width="100%" alt="Custom Error Pages" src="/demo-screenshots/100-Custom-Error-Pages.png"/>
     </td>
     <td width="50%">
-      <!-- Reserved for future screenshot -->
+      <strong>Post activity Chart</strong><br/>
+      <img width="100%" alt="Post activity Chart" src="/demo-screenshots/102-Post-activity-Chart.png"/>
     </td>
   </tr>
 </table>
@@ -360,7 +449,7 @@ Please visit at Lara Dashboard to get more premium moduels - https://laradashboa
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🧩 Core modules
-- **User Avatar** - https://github.com/laradashboard/UserAvatar - A very simple module create an avatar for a user. Handle migration, entries/updates in user forms and so on. 
+- **User Avatar** - https://github.com/laradashboard/UserAvatar - A very simple module create an avatar for a user. Handle migration, entries/updates in user forms and so on.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -386,8 +475,9 @@ If you like my work you may consider buying me a ☕ / 🍕
 
 ## 📞 Connect
 
-- Facebook Community - https://www.facebook.com/groups/laradashboard
+- Join Facebook Community (For any questions, latest updates) - https://www.facebook.com/groups/laradashboard
 - Linkedin Community - https://www.linkedin.com/groups/14690156
+- Youtube channel (For tutorials) - https://www.youtube.com/@laradashboard
 - Maniruzzaman Akash - [@LinkedIn](https://www.linkedin.com/in/maniruzzamanakash) | manirujjamanakash@gmail.com
 
 

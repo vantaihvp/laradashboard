@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name'))</title>
 
     <link rel="icon" href="{{ config('settings.site_favicon') ?? asset('favicon.ico') }}" type="image/x-icon">
@@ -70,6 +71,8 @@ x-init="
         </div>
     </div>
 
+    {!! ld_apply_filters('admin_footer_before', '') !!}
+
     @stack('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -108,7 +111,7 @@ x-init="
                     updateHeaderBg();
                 });
             }
-            
+
             // Initialize sidebar state from localStorage if it exists
             if (window.Alpine) {
                 const sidebarState = localStorage.getItem('sidebarToggle');
@@ -132,5 +135,57 @@ x-init="
         {!! config('settings.global_custom_js') !!}
     </script>
     @endif
+
+    <!-- Global drawer handling script -->
+    <script>
+        // Define the global drawer opener function
+        window.openDrawer = function(drawerId) {
+            console.log('Opening drawer:', drawerId);
+            
+            // Method 1: Try using the LaraDrawers registry if available
+            if (window.LaraDrawers && window.LaraDrawers[drawerId]) {
+                console.log('Opening drawer via registry');
+                window.LaraDrawers[drawerId].open = true;
+                return;
+            }
+            
+            // Method 2: Try using Alpine.js directly
+            const drawerEl = document.querySelector(`[data-drawer-id="${drawerId}"]`);
+            if (drawerEl && window.Alpine) {
+                console.log('Opening drawer via Alpine');
+                try {
+                    const alpineInstance = Alpine.getComponent(drawerEl);
+                    if (alpineInstance) {
+                        alpineInstance.open = true;
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Alpine error:', e);
+                }
+            }
+            
+            // Method 3: Dispatch a custom event as fallback
+            console.log('Opening drawer via event dispatch');
+            window.dispatchEvent(new CustomEvent('open-drawer-' + drawerId));
+        };
+        
+        // Initialize all drawer triggers on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[data-drawer-trigger]').forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    const drawerId = this.getAttribute('data-drawer-trigger');
+                    if (drawerId) {
+                        e.preventDefault();
+                        window.openDrawer(drawerId);
+                        return false;
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <x-toast-notifications />
+
+    {!! ld_apply_filters('admin_footer_after', '') !!}
 </body>
 </html>

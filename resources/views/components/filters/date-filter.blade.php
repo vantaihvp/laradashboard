@@ -1,25 +1,33 @@
-<div class="flex items-center space-x-4">
-    <!-- Badge for selected filter -->
+<div class="flex items-center space-x-4" x-data="{ open: false }">
     <span
         class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-gray-700 dark:text-gray-200"
     >
         {{ __(ucfirst(str_replace("_", " ", $currentFilter))) }}
     </span>
 
-    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="btn-primary flex items-center justify-center gap-2" type="button">
+    <button 
+        id="dropdownDefaultButton" 
+        @click="open = !open"
+        class="btn-primary flex items-center justify-center gap-2" 
+        type="button"
+    >
         <i class="bi bi-sliders"></i>
         {{ __('Filter') }}
         <i class="bi bi-chevron-down"></i>
     </button>
 
-    <!-- Dropdown menu -->
     <div
         id="dropdown"
-        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700"
+        x-show="open"
+        x-trap="open"
+        @click.outside="open = false"
+        @keydown.escape="open = false"
+        class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700"
     >
         <ul
             class="py-2 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownDefaultButton"
+            role="menu"
         >
             <li>
                 <a

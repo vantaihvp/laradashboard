@@ -13,6 +13,8 @@ use App\Http\Controllers\Backend\ProfilesController;
 use App\Http\Controllers\Backend\TranslationController;
 use App\Http\Controllers\Backend\UserLoginAsController;
 use App\Http\Controllers\Backend\LocaleController;
+use App\Http\Controllers\Backend\PostsController;
+use App\Http\Controllers\Backend\TermsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +37,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('roles', RolesController::class);
+    Route::delete('roles/delete/bulk-delete', [RolesController::class, 'bulkDelete'])->name('roles.bulk-delete');
     
     // Permissions Routes.
     Route::get('/permissions', [PermissionsController::class, 'index'])->name('permissions.index');
@@ -57,11 +60,35 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     // Login as & Switch back
     Route::resource('users', UsersController::class);
+    Route::delete('users/delete/bulk-delete', [UsersController::class, 'bulkDelete'])->name('users.bulk-delete');
     Route::get('users/{id}/login-as', [UserLoginAsController::class, 'loginAs'])->name('users.login-as');
     Route::post('users/switch-back', [UserLoginAsController::class, 'switchBack'])->name('users.switch-back');
 
     // Action Log Routes.
     Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlog.index');
+    
+    // Content Management Routes
+    
+    // Posts/Pages Routes - Dynamic post types
+    Route::get('/posts/{postType?}', [PostsController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{postType}/create', [PostsController::class, 'create'])->name('posts.create');
+    Route::post('/posts/{postType}', [PostsController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{postType}/{id}', [PostsController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{postType}/{id}/edit', [PostsController::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{postType}/{id}', [PostsController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{postType}/{id}', [PostsController::class, 'destroy'])->name('posts.destroy');
+    Route::delete('/posts/{postType}/delete/bulk-delete', [PostsController::class, 'bulkDelete'])->name('posts.bulk-delete');
+    
+    // Terms Routes (Categories, Tags, etc.)
+    Route::get('/terms/{taxonomy}', [TermsController::class, 'index'])->name('terms.index');
+    Route::get('/terms/{taxonomy}/{term}/edit', [TermsController::class, 'edit'])->name('terms.edit');
+    Route::post('/terms/{taxonomy}', [TermsController::class, 'store'])->name('terms.store');
+    Route::put('/terms/{taxonomy}/{id}', [TermsController::class, 'update'])->name('terms.update');
+    Route::delete('/terms/{taxonomy}/{id}', [TermsController::class, 'destroy'])->name('terms.destroy');
+    Route::delete('/terms/{taxonomy}/delete/bulk-delete', [TermsController::class, 'bulkDelete'])->name('terms.bulk-delete');
+
+    // Editor Upload Route
+    Route::post('/editor/upload', [App\Http\Controllers\Backend\EditorController::class, 'upload'])->name('editor.upload');
 });
 
 /**
