@@ -71,9 +71,7 @@ x-init="
         </div>
     </div>
 
-    @if(auth()->check() && auth()->user()->can('contact.create'))
-        @include('crm::pages.contacts.partials._sidebar-form', ['hideButton' => true])
-    @endif
+    {!! ld_apply_filters('admin_footer_before', '') !!}
 
     @stack('scripts')
     <script>
@@ -187,5 +185,7 @@ x-init="
     </script>
     
     <x-toast-notifications />
+
+    {!! ld_apply_filters('admin_footer_after', '') !!}
 </body>
 </html>
