@@ -234,10 +234,10 @@
                                     <td class="px-5 py-4 sm:px-6">
                                         <div class="flex gap-0.5 items-center">
                                             @if($post->featured_image)
-                                                <img src="{{ asset($post->featured_image) }}" alt="{{ $post->title }}" class="h-8 w-12 object-cover rounded mr-3">
+                                                <img src="{{ asset($post->featured_image) }}" alt="{{ $post->title }}" class="w-12 object-cover rounded mr-3">
                                             @else
-                                                <div class="h-8 w-12 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center mr-3">
-                                                    <i class="bi bi-image text-gray-400"></i>
+                                                <div class="bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center mr-3">
+                                                    <i class="w-12 text-center bi bi-image text-gray-400"></i>
                                                 </div>
                                             @endif
                                             @if (auth()->user()->can('post.edit'))

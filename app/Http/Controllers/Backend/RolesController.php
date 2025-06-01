@@ -12,6 +12,7 @@ use App\Services\PermissionService;
 use App\Services\RolesService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RolesController extends Controller
@@ -132,6 +133,49 @@ class RolesController extends Controller
         $this->storeActionLog(ActionType::DELETED, ['role' => $role]);
         session()->flash('success', __('Role has been deleted.'));
 
+        return redirect()->route('admin.roles.index');
+    }
+    
+    /**
+     * Delete multiple roles at once
+     */
+    public function bulkDelete(Request $request): RedirectResponse
+    {
+        $this->checkAuthorization(Auth::user(), ['role.delete']);
+        
+        $ids = $request->input('ids', []);
+        
+        if (empty($ids)) {
+            return redirect()->route('admin.roles.index')
+                ->with('error', __('No roles selected for deletion'));
+        }
+        
+        $deletedCount = 0;
+        
+        foreach ($ids as $id) {
+            $role = $this->rolesService->findRoleById((int)$id);
+            
+            if (!$role) {
+                continue;
+            }
+            
+            // Skip Superadmin role.
+            if ($role->name === 'Superadmin') {
+                continue;
+            }
+            
+            $this->rolesService->deleteRole($role);
+            $this->storeActionLog(ActionType::DELETED, ['role' => $role]);
+            
+            $deletedCount++;
+        }
+        
+        if ($deletedCount > 0) {
+            session()->flash('success', __(':count roles deleted successfully', ['count' => $deletedCount]));
+        } else {
+            session()->flash('error', __('No roles were deleted. Selected roles may include protected roles.'));
+        }
+        
         return redirect()->route('admin.roles.index');
     }
 }
