@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ $breadcrumbs['title'] }} | {{ config('app.name') }}
+    {{ __($breadcrumbs['title']) }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
@@ -16,7 +16,7 @@
             <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
                 <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800">
                     <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                        {{ $term ? __('Edit') : __('Add New') }} {{ $taxonomyModel->label_singular }}
+                        {{ $term ? __("Edit {$taxonomyModel->label_singular}") : __("Add New {$taxonomyModel->label_singular}") }}
                     </h3>
                 </div>
                 <div class="p-5 space-y-5 sm:p-6">
@@ -31,7 +31,7 @@
         <div class="lg:col-span-2 space-y-6">
             <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
                 <div class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
-                    <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ $taxonomyModel->label }}</h3>
+                    <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __($taxonomyModel->label) }}</h3>
                     <div class="flex items-center gap-2">
                         <!-- Bulk Actions dropdown -->
                         <div class="flex items-center justify-center" x-show="selectedTerms.length > 0">
@@ -54,7 +54,7 @@
                         </div>
                         
                         @include('backend.partials.search-form', [
-                            'placeholder' => __('Search') . ' ' . strtolower($taxonomyModel->label),
+                            'placeholder' => __("Search {$taxonomyModel->label}"),
                         ])
                     </div>
                 </div>

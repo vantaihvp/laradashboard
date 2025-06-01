@@ -16,7 +16,7 @@
 <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
     @if(!empty($title))
     <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">
-        {{ $title }}
+        {{ __($title) }}
 
         {!! $title_after !!}
     </h2>
@@ -43,7 +43,7 @@
                         class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
                         href="{{ $item['url'] }}"
                     >
-                        {{ $item['label'] }}
+                        {{ __($item['label']) }}
                         <i class="bi bi-chevron-right"></i>
                     </a>
                 </li>
@@ -51,7 +51,7 @@
 
             @if($show_current)
                 <li class="text-sm text-gray-800 dark:text-white/90">
-                    {{ $title }}
+                    {{ __($title) }}
                 </li>
             @endif
         </ol>

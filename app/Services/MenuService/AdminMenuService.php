@@ -277,7 +277,7 @@ class AdminMenuService
             // Create children menu items.
             $children = [
                 [
-                    'title' => __('All') . ' ' . $type->label,
+                    'title' => __("All {$type->label}"),
                     'route' => 'admin.posts.index',
                     'params' => $typeName,
                     'active' => request()->is('admin/posts/' . $typeName) ||
@@ -302,7 +302,7 @@ class AdminMenuService
 
                 foreach ($taxonomies as $taxonomy) {
                     $children[] = [
-                        'title' => $taxonomy->label,
+                        'title' => __($taxonomy->label),
                         'route' => 'admin.terms.index',
                         'params' => $taxonomy->name,
                         'active' => request()->is('admin/terms/' . $taxonomy->name . '*'),
@@ -314,7 +314,7 @@ class AdminMenuService
 
             // Set up menu item with all children.
             $menuItem = [
-                'title' => $type->label,
+                'title' => __($type->label),
                 'iconClass' => get_post_type_icon($typeName),
                 'id' => 'post-type-' . $typeName,
                 'active' => request()->is('admin/posts/' . $typeName . '*') ||

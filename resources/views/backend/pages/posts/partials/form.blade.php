@@ -20,7 +20,7 @@
 
                     <!-- Compact Slug UI -->
                     <div class="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                        <span class="mr-1">{{ __('Permalink:') }}</span>
+                        <span class="mr-1">{{ __('Permalink') }}:</span>
                         <span class="flex-1 truncate" x-show="!showSlugEdit">
                             <span class="text-gray-400">{{ url('/') }}/</span><span class="font-medium text-primary" x-text="slug || '{{ __('auto-generated') }}'"></span>
                         </span>
@@ -121,16 +121,16 @@
 
                 <!-- Publish Date (for scheduled posts) -->
                 <div x-data="{ 
-                    showSchedule: {{ isset($post) && (old('status', $post->status) === 'future' || $post->published_at) ? 'true' : 'false' }},
-                    status: '{{ old('status', $post->status ?? 'draft') }}',
-                    init() {
-                        this.$watch('status', value => {
-                            if (value === 'future') {
-                                this.showSchedule = true;
-                            }
-                        });
-                    }
-                }">
+                        showSchedule: {{ isset($post) && (old('status', $post->status) === 'future' || $post->published_at) ? 'true' : 'false' }},
+                        status: '{{ old('status', $post->status ?? 'draft') }}',
+                        init() {
+                            this.$watch('status', value => {
+                                if (value === 'future') {
+                                    this.showSchedule = true;
+                                }
+                            });
+                        }
+                    }">
                     <div class="mb-2">
                         <input type="checkbox" id="schedule_post" name="schedule_post" x-model="showSchedule" 
                             x-on:change="if(showSchedule && status !== 'future') status = 'future'; $dispatch('input', status)" class="mr-2">
@@ -176,7 +176,7 @@
                 
                 <x-inputs.combobox 
                     name="parent_id"
-                    :label="__('Parent') . ' ' . $postTypeModel->label_singular"
+                    :label="__('Parent {$postTypeModel->label_singular}')"
                     :placeholder="__('Select Parent')"
                     :options="$parentOptions"
                     :selected="old('parent_id', $post->parent_id ?? '')"

@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 @section('title')
-    {{ $breadcrumbs['title'] }} | {{ config('app.name') }}
+    {{ __($breadcrumbs['title']) }} | {{ config('app.name') }}
 @endsection
 
 @section('admin-content')
@@ -11,7 +11,7 @@
             @if (auth()->user()->can('post.create'))
                 <a href="{{ route('admin.posts.create', $postType) }}" class="btn-primary ml-2">
                     <i class="bi bi-plus-circle mr-2"></i>
-                    {{ __('New') }} {{ $postTypeModel->label_singular }}
+                    {{ __("New {$postTypeModel->label_singular}") }}
                 </a>
             @endif
         </x-slot>
@@ -22,7 +22,7 @@
     <div class="space-y-6">
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
             <div class="px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ $postTypeModel->label }}</h3>
+                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">{{ __($postTypeModel->label) }}</h3>
 
                 <div class="w-full sm:w-auto">
                     @include('backend.partials.search-form', [
