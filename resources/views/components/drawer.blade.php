@@ -1,22 +1,44 @@
-@props(['btn' => 'Open Drawer', 'isOpen' => false, 'title' => null, 'btnClass' => 'btn-primary', 'btnIcon' => 'bi bi-plus-circle', 'width' => 'sm:w-96'])
+@props(['btn' => 'Open Drawer', 'isOpen' => false, 'title' => null, 'btnClass' => 'btn-primary', 'btnIcon' => 'bi bi-plus-circle', 'width' => 'sm:w-96', 'drawerId' => null])
+
+@php
+    // Generate a consistent ID for this drawer
+    $actualDrawerId = $drawerId ?? ('drawer-' . uniqid());
+@endphp
 
 <div 
     x-data="{ 
-        open: {{ $isOpen ? 'true' : 'false' }},
-        close() { this.open = false; }
+        open: false,
+        close() { this.open = false; },
+        init() {
+            // Register this drawer instance globally
+            if (!window.LaraDrawers) window.LaraDrawers = {};
+            const drawerId = '{{ $actualDrawerId }}';
+            this.$el.setAttribute('data-drawer-id', drawerId);
+            window.LaraDrawers[drawerId] = this;
+            
+            // Listen for direct open events with this drawer's ID
+            window.addEventListener('open-drawer-' + drawerId, () => {
+                console.log('Drawer event received:', drawerId);
+                this.open = true;
+            });
+        }
     }" 
     class="relative" 
     @keydown.escape.window="open = false"
     @close-drawer.window="close()"
+    @open-drawer.window="open = true"
     :id="$id('drawer')"
+    data-drawer-id="{{ $actualDrawerId }}"
 >
     <!-- Trigger Button -->
+    @if($btn)
     <button type="button" @click="open = true" class="{{ $btnClass }}">
         @if($btnIcon)
         <i class="{{ $btnIcon }} mr-2"></i>
         @endif
         {{ $btn }}
     </button>
+    @endif
 
     <!-- Overlay Background -->
     <div x-show="open" 
@@ -66,3 +88,21 @@
         @endif
     </div>
 </div>
+
+<script>
+    (function() {
+        if (typeof window.openDrawer !== 'function') {
+            window.openDrawer = function(drawerId) {
+                console.log('Opening drawer (local):', drawerId);
+                
+                if (window.LaraDrawers && window.LaraDrawers[drawerId]) {
+                    console.log('Drawer found in registry');
+                    window.LaraDrawers[drawerId].open = true;
+                } else {
+                    console.log('Drawer not found in registry, dispatching event');
+                    window.dispatchEvent(new CustomEvent('open-drawer-' + drawerId));
+                }
+            };
+        }
+    })();
+</script>
