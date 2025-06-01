@@ -92,7 +92,7 @@
     <div class="lg:col-span-1 space-y-6">
         <!-- Status and Visibility -->
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-            <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800">
+            <div class="px-4 py-3 sm:px-6 border-b border-gray-100 dark:border-gray-800">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white">{{ __('Status & Visibility') }}</h3>
             </div>
             <div class="p-3 space-y-2 sm:p-4">
@@ -160,7 +160,7 @@
         @if($postTypeModel->hierarchical)
         <!-- Parent -->
         <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-            <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800">
+            <div class="px-4 py-3 sm:px-6 sm:py-3 border-b border-gray-100 dark:border-gray-800">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white">{{ __('Parent') }}</h3>
             </div>
             <div class="p-3 space-y-2 sm:p-4">

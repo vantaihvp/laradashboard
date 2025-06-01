@@ -51,8 +51,12 @@ class PostService
      * @param string|null $postType
      * @return Post|null
      */
-    public function getPostById(int $id, ?string $postType = null): ?Post
+    public function getPostById(?int $id, ?string $postType = null): ?Post
     {
+        if (empty($id)) {
+            return null;
+        }
+
         $query = Post::query();
 
         if ($postType) {
