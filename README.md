@@ -224,7 +224,7 @@ https://laradashboard.com/docs/
     </td>
     <td width="50%">
       <strong>Forget Password Page (Dark Mode)</strong><br/>
-      <img width="100%" alt="Forget Password Page" src="/demo-screenshots/#01 Forget-password.png"/>
+      <img width="100%" alt="Forget Password Page" src="/demo-screenshots/01-Forget-password.png"/>
     </td>
   </tr>
 </table>
