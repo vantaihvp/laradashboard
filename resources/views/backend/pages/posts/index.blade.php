@@ -169,9 +169,19 @@
                                 </td>
                                 <td class="px-5 py-4 sm:px-6">
                                     @if($post->published_at)
-                                        {{ $post->published_at->format('M d, Y') }}
+                                        <span 
+                                            class="cursor-help" 
+                                            title="{{ $post->published_at->format('F d, Y \a\t g:i A') }}"
+                                        >
+                                            {{ $post->published_at->format('M d, Y') }}
+                                        </span>
                                     @else
-                                        {{ $post->created_at->format('M d, Y') }}
+                                        <span 
+                                            class="cursor-help" 
+                                            title="{{ $post->created_at->format('F d, Y \a\t g:i A') }}"
+                                        >
+                                            {{ $post->created_at->format('M d, Y') }}
+                                        </span>
                                     @endif
                                 </td>
                                 <td class="px-5 py-4 sm:px-6 flex justify-center">
