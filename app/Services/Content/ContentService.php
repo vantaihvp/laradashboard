@@ -155,7 +155,7 @@ class ContentService
         return $postTypes;
     }
 
-    public function getPostType(string $name): ?PostType
+    public function getPostType(?string $name): ?PostType
     {
         $postTypes = $this->getPostTypes();
         return $postTypes[$name] ?? null;

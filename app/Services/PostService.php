@@ -50,7 +50,8 @@ class PostService
         $query = Post::query();
 
         if ($postType) {
-            $query->where('post_type', $postType);
+            $query->where('post_type', $postType)
+                ->with(['user', 'terms']);
         }
 
         return $query->findOrFail($id);

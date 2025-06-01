@@ -1,6 +1,8 @@
-@props(['taxonomy', 'taxonomyName'])
+@props(['taxonomy', 'taxonomyName', 'post_id' => null, 'post_type' => null])
 
-<div x-data="termDrawer('{{ $taxonomyName }}')" x-trap="isOpen" class="relative">
+<div x-data="termDrawer('{{ $taxonomyName }}')" x-trap="isOpen" class="relative" 
+     data-post-id="{{ $post_id }}" data-post-type="{{ $post_type }}">
+
     <button
         type="button"
         @click="openDrawer"
@@ -39,7 +41,7 @@
             class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center border-b border-gray-200 dark:border-gray-700"
         >
             <h3 class="text-base font-medium text-gray-900 dark:text-white">
-                {{ __("Add New") }} {{ $taxonomy->label_singular }}
+                {{ __("Add New :taxonomy", ['taxonomy' => $taxonomy->label_singular]) }}
             </h3>
             <button
                 type="button"
@@ -109,7 +111,7 @@
             @php $parentTerms = App\Models\Term::where('taxonomy', $taxonomyName)->orderBy('name', 'asc')->get(); @endphp
             <div class="mt-2">
                 <x-posts.term-selector
-                    name="term_parent"
+                    name="parent_term"
                     :taxonomyModel="$taxonomy"
                     :term="$term ?? null"
                     :parentTerms="$parentTerms"
@@ -119,6 +121,10 @@
             </div>
             @endif
         </div>
+
+        <!-- Hidden inputs -->
+        <input type="hidden" name="drawer_post_id" value="{{ $post_id ?? '' }}">
+        <input type="hidden" name="drawer_post_type" value="{{ $post_type ?? '' }}">
 
         <!-- Footer -->
         <div class="px-5 py-4 sm:px-6 sm:py-5 border-t border-gray-200 dark:border-gray-700">

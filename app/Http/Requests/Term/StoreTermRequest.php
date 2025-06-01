@@ -30,6 +30,8 @@ class StoreTermRequest extends FormRequest
             'slug' => 'nullable|string|max:255|unique:terms,slug',
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:terms,id',
+            'post_type' => 'nullable|string',
+            'post_id' => 'nullable|numeric',
         ];
 
         // Add featured image validation if taxonomy supports it

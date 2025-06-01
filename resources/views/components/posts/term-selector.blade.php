@@ -36,4 +36,5 @@
     :placeholder="$placeholder"
     :options="$parentOptions"
     :searchable="$searchable"
+    x-model="formData.{{ $name }}"
 />
