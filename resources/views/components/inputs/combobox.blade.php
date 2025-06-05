@@ -9,6 +9,9 @@
     'required' => false,
     'class' => '',
     'disabled' => false,
+    // New functional props
+    'queryParam' => null,
+    'refreshPage' => false,
 ])
 
 @php
@@ -25,6 +28,9 @@
         selectedOption: {{ $multiple ? 'null' : json_encode($selectedValues[0] ?? null) }},
         multiple: {{ $multiple ? 'true' : 'false' }},
         searchable: {{ $searchable ? 'true' : 'false' }},
+        queryParam: '{{ $queryParam }}',
+        refreshPage: {{ $refreshPage ? 'true' : 'false' }},
+        searchQuery: '',
         
         setLabelText() {
             if (this.multiple) {
@@ -50,6 +56,22 @@
                 this.isOpen = false;
                 this.openedWithKeyboard = false;
                 this.$refs.hiddenTextField.value = option.value;
+                
+                // Handle URL update if needed
+                if (this.queryParam) {
+                    this.updateUrlParam(this.queryParam, option.value);
+                }
+                
+                // Dispatch custom event
+                const event = new CustomEvent('combobox-change', {
+                    detail: {
+                        name: '{{ $name }}',
+                        value: option.value,
+                        option: option
+                    },
+                    bubbles: true
+                });
+                this.$el.dispatchEvent(event);
             }
         },
         
@@ -61,15 +83,55 @@
             } else {
                 this.selectedOptions = this.selectedOptions.filter(val => val !== optionValue);
             }
+            
+            // Handle URL update for multiple select
+            if (this.queryParam) {
+                this.updateUrlParam(this.queryParam, this.selectedOptions.join(','));
+            }
+            
+            // Dispatch custom event for multiple select
+            const option = this.allOptions.find(opt => opt.value == optionValue);
+            if (option) {
+                const event = new CustomEvent('combobox-change', {
+                    detail: {
+                        name: '{{ $name }}',
+                        value: this.selectedOptions,
+                        option: option,
+                        allSelected: this.selectedOptions
+                    },
+                    bubbles: true
+                });
+                this.$el.dispatchEvent(event);
+            }
         },
         
         getFilteredOptions(query) {
+            this.searchQuery = query;
+            
             if (!this.searchable || !query) {
                 this.options = this.allOptions;
             } else {
                 this.options = this.allOptions.filter(option =>
                     option.label.toLowerCase().includes(query.toLowerCase())
                 );
+            }
+        },
+        
+        updateUrlParam(param, value) {
+            if (!param) return;
+            
+            const url = new URL(window.location.href);
+            if (value && value !== '') {
+                url.searchParams.set(param, value);
+            } else {
+                url.searchParams.delete(param);
+            }
+            
+            // Update URL and refresh page if needed
+            if (this.refreshPage) {
+                window.location.href = url.toString();
+            } else {
+                window.history.pushState({}, '', url.toString());
             }
         },
         
@@ -85,11 +147,29 @@
                     allOptions[index].focus();
                 }
             }
+        },
+        
+        init() {
+            // If queryParam is provided, check URL for initial value
+            if (this.queryParam) {
+                const url = new URL(window.location.href);
+                const paramValue = url.searchParams.get(this.queryParam);
+                
+                if (paramValue) {
+                    if (this.multiple) {
+                        this.selectedOptions = paramValue.split(',');
+                    } else {
+                        this.selectedOption = paramValue;
+                        this.$refs.hiddenTextField.value = paramValue;
+                    }
+                }
+            }
         }
     }" 
     class="w-full flex flex-col gap-1 {{ $class }}" 
     x-on:keydown="highlightFirstMatchingOption($event.key)" 
-    x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false">
+    x-on:keydown.esc.window="isOpen = false, openedWithKeyboard = false"
+    {{ $attributes->whereStartsWith('x-on:') }}>
     
     @if($label)
         <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __($label) }} @if($required) <span class="crm:text-red-500">*</span> @endif</label>
