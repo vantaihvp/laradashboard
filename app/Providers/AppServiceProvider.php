@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (!app()->runningInConsole() || $this->app->runningUnitTests()) {
+        if ($this->app->runningUnitTests()) {
             return;
         }
 
@@ -36,12 +36,22 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
+        // Skip database checks in CI environment
+        if (env('SKIP_DB_CHECK_IN_CI') === 'true') {
+            return;
+        }
+
         // Check if settings table schema is present.
-        if (Schema::hasTable('settings')) {
-            $settings = Setting::pluck('option_value', 'option_name')->toArray();
-            foreach ($settings as $key => $value) {
-                config(['settings.' . $key => $value]);
+        try {
+            if (Schema::hasTable('settings')) {
+                $settings = Setting::pluck('option_value', 'option_name')->toArray();
+                foreach ($settings as $key => $value) {
+                    config(['settings.' . $key => $value]);
+                }
             }
+        } catch (\Exception $e) {
+            // Skip loading settings if database connection fails
+            // This prevents errors during package discovery in CI environment
         }
 
         // Only allowed people can view the pulse.
