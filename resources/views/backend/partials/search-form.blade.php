@@ -1,11 +1,13 @@
 <form action="{{ url()->current() }}" method="GET" class="flex items-center">
-    @if(request()->has('sort'))
-        <input type="hidden" name="sort" value="{{ request()->sort }}">
-    @endif
-
-    @if(request()->has('filter') && isset(request()->filter['role']))
-        <input type="hidden" name="filter[role]" value="{{ request()->filter['role'] }}">
-    @endif
+    @foreach(request()->except('search') as $key => $value)
+        @if(is_array($value))
+            @foreach($value as $subKey => $subValue)
+                <input type="hidden" name="{{ $key }}[{{ $subKey }}]" value="{{ $subValue }}">
+            @endforeach
+        @else
+            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+        @endif
+    @endforeach
 
     <div class="relative">
         <span
