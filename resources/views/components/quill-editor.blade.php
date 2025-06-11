@@ -2,6 +2,8 @@
     'editorId' => 'editor',
     'height' => '200px',
     'maxHeight' => '500px',
+    'type' => 'full', // Options: 'full', 'basic', 'minimal'
+    'customToolbar' => null, // For custom toolbar configuration
 ])
 
 @once
@@ -54,7 +56,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const editorId = '{{ $editorId }}';
+        const editorType = '{{ $type }}';
         const textareaElement = document.getElementById(editorId);
+        const customToolbar = @json($customToolbar);
 
         if (!textareaElement) {
             console.error(`Textarea with ID "${editorId}" not found`);
@@ -70,22 +74,41 @@
         // Store original textarea content
         const initialContent = textareaElement.value || '';
 
+        // Define toolbar configurations based on type
+        const toolbarConfigs = {
+            full: [
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['blockquote'],
+                [{ 'align': [] }],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{ 'indent': '-1' }, { 'indent': '+1' }],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'font': [] }],
+                ['link', 'image', 'video', 'code-block']
+            ],
+            basic: [
+                ['bold', 'italic', 'underline'],
+                [{ 'header': [1, 2, 3, false] }],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                ['link']
+            ],
+            minimal: [
+                ['bold', 'italic'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }]
+            ]
+        };
+
+        // Select toolbar configuration based on type or use custom if provided
+        const toolbarConfig = customToolbar ? JSON.parse(customToolbar) :
+                             (toolbarConfigs[editorType] || toolbarConfigs.basic);
+
         // Initialize Quill on the container div
         const quill = new Quill(`#quill-${editorId}`, {
             theme: "snow",
             placeholder: '{{ __('Type here...') }}',
             modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                    ['blockquote'],
-                    [{ 'align': [] }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'font': [] }],
-                    ['link', 'image', 'video', 'code-block']
-                ]
+                toolbar: toolbarConfig
             }
         });
 

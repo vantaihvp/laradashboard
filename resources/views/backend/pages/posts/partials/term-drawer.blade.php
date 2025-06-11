@@ -35,7 +35,7 @@
         x-transition:leave-end="translate-x-full"
         @click.stop
         @keydown.escape.window="closeDrawer"
-        class="fixed top-0 right-0 bottom-0 sm:w-96 max-w-md z-50 flex flex-col bg-white dark:bg-gray-800 shadow-xl border-l border-gray-200 dark:border-gray-700"
+        class="fixed top-0 right-0 bottom-0 sm:w-120 max-w-3xl z-50 flex flex-col bg-white dark:bg-gray-800 shadow-xl border-l border-gray-200 dark:border-gray-700"
     >
         <div
             class="px-5 py-4 sm:px-6 sm:py-5 flex justify-between items-center border-b border-gray-200 dark:border-gray-700"
