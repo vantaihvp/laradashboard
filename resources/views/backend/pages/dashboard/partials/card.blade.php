@@ -2,7 +2,7 @@
     $enable_full_div_click = $enable_full_div_click ?? true;
 @endphp
 
-<div class="{{ $class ?? 'bg-white' }} dark:bg-slate-800 w-full h-[160px] rounded-2xl border border-light-purple dark:border-slate-800 overflow-hidden p-6 pb-0 {{ $enable_full_div_click ? 'cursor-pointer hover:shadow-lg transition-shadow duration-300' : '' }}"
+<div class="{{ $class ?? 'bg-white' }} dark:bg-slate-800 w-full h-[160px] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden p-6 pb-0 {{ $enable_full_div_click ? 'cursor-pointer hover:shadow-lg transition-shadow duration-300' : '' }}"
     @if($enable_full_div_click)
         onclick="window.location.href='{{ $url ?? '#' }}'"
     @endif

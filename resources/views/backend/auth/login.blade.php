@@ -70,11 +70,42 @@
             </button>
           </div>
           @if (config('app.demo_mode', false))
-          <div class="relative">
-            <button type="button" id="fill-demo-credentials" class="absolute top-0 right-0 px-3 py-1 text-xs font-medium text-white bg-gray-500 rounded shadow hover:bg-gray-600">
-              {{ __('Fill with Demo') }}
-              <i class="bi bi-key-fill"></i>
+          <div x-data="{ showDemoCredentials: false }" class="mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+            <button 
+              type="button" 
+              @click="showDemoCredentials = !showDemoCredentials" 
+              class="flex justify-between items-center w-full px-4 py-3 text-sm font-medium text-left text-brand-600 dark:text-brand-400 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <span>
+                <i class="bi bi-info-circle mr-2"></i>
+                {{ __('Demo Credentials') }}
+              </span>
+              <i :class="showDemoCredentials ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
             </button>
+            
+            <div x-show="showDemoCredentials" x-transition class="px-4 py-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+              <div class="mb-3">
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('Use these credentials to explore the demo:') }}</p>
+              </div>
+              <div class="grid grid-cols-1 gap-2 mb-3">
+                <div class="flex items-center">
+                  <span class="w-20 text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Email:') }}</span>
+                  <code class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-gray-800 rounded">superadmin@example.com</code>
+                </div>
+                <div class="flex items-center">
+                  <span class="w-20 text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Password:') }}</span>
+                  <code class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-gray-800 rounded">12345678</code>
+                </div>
+              </div>
+              <button 
+                type="button" 
+                id="fill-demo-credentials" 
+                class="w-full px-3 py-2 text-xs font-medium text-white bg-brand-500 rounded shadow hover:bg-brand-600 transition"
+              >
+                {{ __('Login with Demo Credentials') }}
+                <i class="bi bi-box-arrow-in-right ml-1"></i>
+              </button>
+            </div>
           </div>
           @endif
         </div>

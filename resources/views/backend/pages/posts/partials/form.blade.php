@@ -44,16 +44,6 @@
                     {!! ld_apply_filters('post_form_after_slug', '') !!}
                 </div>
 
-                @if($postTypeModel->supports_excerpt)
-                <div class="mt-1">
-                    <label for="excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Excerpt') }}</label>
-                    <textarea name="excerpt" id="excerpt" rows="3"
-                        class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
-                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('A short summary of the content') }}</p>
-                </div>
-                @endif
-                {!! ld_apply_filters('post_form_after_excerpt', '') !!}
-
                 @if($postTypeModel->supports_editor)
                 <div class="mt-1">
                     <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Content') }}</label>
@@ -61,6 +51,16 @@
                 </div>
                 @endif
                 {!! ld_apply_filters('post_form_after_content', '') !!}
+
+                @if($postTypeModel->supports_excerpt)
+                <div class="mt-1">
+                    <label for="excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Excerpt') }}</label>
+                    <textarea name="excerpt" id="excerpt" rows="3"
+                        class="w-full rounded-lg border border-gray-300 bg-transparent p-4 text-sm text-gray-800 focus:ring-brand-500/10 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('A short summary of the content') }}. {{ __('Leave empty to auto-generate from content') }}</p>
+                </div>
+                @endif
+                {!! ld_apply_filters('post_form_after_excerpt', '') !!}
 
                 @if($postTypeModel->supports_thumbnail)
                 <div class="mt-1">

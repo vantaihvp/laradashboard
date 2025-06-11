@@ -118,7 +118,7 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->slug = $request->slug ?: Str::slug($request->title);
         $post->content = $request->content;
-        $post->excerpt = $request->excerpt;
+        $post->excerpt = $request->excerpt ?: Str::limit(strip_tags($request->content), 200);
         $post->status = $request->status;
         $post->post_type = $postType;
         $post->user_id = Auth::id();
@@ -249,7 +249,7 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->slug = $request->slug ?: Str::slug($request->title);
         $post->content = $request->content;
-        $post->excerpt = $request->excerpt;
+        $post->excerpt = $request->excerpt ?: Str::limit(strip_tags($request->content), 200);
         $post->status = $request->status;
         $post->parent_id = $request->parent_id;
 
