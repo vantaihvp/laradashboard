@@ -15,7 +15,7 @@ class UserService
         // Use the QueryBuilderTrait methods directly from the User model
         return User::applyFilters($filters)
             ->paginateData([
-                'per_page' => config('settings.default_pagination') ?? 10
+                'per_page' => config('settings.default_pagination') ?? 10,
             ]);
     }
 

@@ -15,8 +15,7 @@ class TermsController extends Controller
     public function __construct(
         private readonly ContentService $contentService,
         private readonly TermService $termService
-    ) {
-    }
+    ) {}
 
     public function index(Request $request, string $taxonomy)
     {
@@ -25,14 +24,14 @@ class TermsController extends Controller
         // Get taxonomy using service
         $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
-        if (!$taxonomyModel) {
+        if (! $taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
         // Prepare filters
         $filters = [
             'taxonomy' => $taxonomy,
-            'search' => $request->search
+            'search' => $request->search,
         ];
 
         // Get terms with pagination using service
@@ -56,7 +55,7 @@ class TermsController extends Controller
             ->with([
                 'breadcrumbs' => [
                     'title' => $taxonomyModel->label,
-                ]
+                ],
             ]);
     }
 
@@ -65,7 +64,7 @@ class TermsController extends Controller
         // Get taxonomy using service
         $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
-        if (!$taxonomyModel) {
+        if (! $taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
@@ -84,12 +83,12 @@ class TermsController extends Controller
         // Get taxonomy using service
         $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
-        if (!$taxonomyModel) {
+        if (! $taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
         // Get term using service
-        $term = $this->termService->getTermById((int)$id, $taxonomy);
+        $term = $this->termService->getTermById((int) $id, $taxonomy);
 
         // Update term using service
         $this->termService->updateTerm($term, $request->validated());
@@ -108,12 +107,12 @@ class TermsController extends Controller
         // Get taxonomy using service
         $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
-        if (!$taxonomyModel) {
+        if (! $taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
         // Get term using service
-        $term = $this->termService->getTermById((int)$id, $taxonomy);
+        $term = $this->termService->getTermById((int) $id, $taxonomy);
 
         // Get taxonomy label for messages
         $taxLabel = $this->termService->getTaxonomyLabel($taxonomy, true);
@@ -145,12 +144,12 @@ class TermsController extends Controller
         // Get taxonomy using service
         $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
 
-        if (!$taxonomyModel) {
+        if (! $taxonomyModel) {
             return redirect()->route('admin.posts.index')->with('error', __('Taxonomy not found'));
         }
 
         // Get term using service
-        $term = $this->termService->getTermById((int)$term, $taxonomy);
+        $term = $this->termService->getTermById((int) $term, $taxonomy);
 
         // Get parent terms for hierarchical taxonomies.
         $parentTerms = [];
@@ -166,80 +165,80 @@ class TermsController extends Controller
                 'items' => [
                     [
                         'label' => $taxonomyModel->label,
-                        'url' => route('admin.terms.index', $taxonomy)
+                        'url' => route('admin.terms.index', $taxonomy),
                     ],
-                ]
+                ],
             ]);
     }
-    
+
     /**
      * Delete multiple terms at once
      */
     public function bulkDelete(Request $request, string $taxonomy)
     {
         $this->checkAuthorization(auth()->user(), ['term.delete']);
-        
+
         // Get taxonomy using service
         $taxonomyModel = $this->termService->getTaxonomy($taxonomy);
-        
-        if (!$taxonomyModel) {
+
+        if (! $taxonomyModel) {
             return redirect()->route('admin.posts.index')
                 ->with('error', __('Taxonomy not found'));
         }
-        
+
         $ids = $request->input('ids', []);
-        
+
         if (empty($ids)) {
             return redirect()->route('admin.terms.index', $taxonomy)
                 ->with('error', __('No terms selected for deletion'));
         }
-        
+
         // Get taxonomy label for messages
         $taxLabel = $this->termService->getTaxonomyLabel($taxonomy, true);
         $deletedCount = 0;
         $errorMessages = [];
-        
+
         foreach ($ids as $id) {
             // Get term using service
-            $term = $this->termService->getTermById((int)$id, $taxonomy);
-            
-            if (!$term) {
+            $term = $this->termService->getTermById((int) $id, $taxonomy);
+
+            if (! $term) {
                 continue;
             }
-            
+
             // Check if term can be deleted
             $errors = $this->termService->canDeleteTerm($term);
-            
-            if (!empty($errors)) {
+
+            if (! empty($errors)) {
                 if (in_array('has_posts', $errors)) {
                     $errorMessages[] = __('":name" cannot be deleted as it is associated with posts', ['name' => $term->name]);
                 }
-                
+
                 if (in_array('has_children', $errors)) {
                     $errorMessages[] = __('":name" cannot be deleted as it has child items', ['name' => $term->name]);
                 }
-                
+
                 continue;
             }
-            
+
             // Delete term using service
             $this->termService->deleteTerm($term);
             $deletedCount++;
         }
-        
+
         if ($deletedCount > 0) {
             session()->flash('success', __(':count :taxLabel deleted successfully', [
                 'count' => $deletedCount,
-                'taxLabel' => strtolower($taxonomyModel->label)
+                'taxLabel' => strtolower($taxonomyModel->label),
             ]));
         }
-        
-        if (!empty($errorMessages)) {
+
+        if (! empty($errorMessages)) {
             session()->flash('error', implode('<br>', $errorMessages));
         } elseif ($deletedCount === 0) {
             session()->flash('error', __('No :taxLabel were deleted', ['taxLabel' => strtolower($taxonomyModel->label)]));
         }
-        
+
         return redirect()->route('admin.terms.index', $taxonomy);
     }
 }

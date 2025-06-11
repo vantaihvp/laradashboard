@@ -14,8 +14,7 @@ class PermissionsController extends Controller
 {
     public function __construct(
         private readonly PermissionService $permissionService
-    ) {
-    }
+    ) {}
 
     public function index(): Renderable
     {
@@ -28,7 +27,7 @@ class PermissionsController extends Controller
             'permissions' => $this->permissionService->getPaginatedPermissionsWithRoleCount($search, intval($perPage)),
             'breadcrumbs' => [
                 'title' => __('Permissions'),
-            ]
+            ],
         ]);
     }
 
@@ -48,9 +47,9 @@ class PermissionsController extends Controller
                     [
                         'label' => __('Permissions'),
                         'url' => route('admin.permissions.index'),
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 }

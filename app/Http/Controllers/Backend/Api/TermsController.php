@@ -8,9 +8,7 @@ use App\Services\Content\ContentService;
 use App\Services\PostService;
 use App\Services\TermService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Str;
 
 class TermsController extends Controller
 {
@@ -18,8 +16,7 @@ class TermsController extends Controller
         private readonly ContentService $contentService,
         private readonly TermService $termService,
         private readonly PostService $postService
-    ) {
-    }
+    ) {}
 
     /**
      * Store a new term via API
@@ -28,22 +25,22 @@ class TermsController extends Controller
     {
         // Check if taxonomy exists
         $taxonomy = $this->termService->getTaxonomy($taxonomyName);
-        if (!$taxonomy) {
+        if (! $taxonomy) {
             return response()->json([
-                'message' => __('Taxonomy not found')
+                'message' => __('Taxonomy not found'),
             ], 404);
         }
 
         $taxonomies = [];
         $post_type = $request->input('post_type', null);
         $postTypeModel = $this->contentService->getPostType($post_type);
-        if (!$postTypeModel) {
+        if (! $postTypeModel) {
             return response()->json([
-                'message' => __('Post type not found')
+                'message' => __('Post type not found'),
             ], 404);
         }
 
-        if (!empty($postTypeModel->taxonomies)) {
+        if (! empty($postTypeModel->taxonomies)) {
             $taxonomies = $this->contentService->getTaxonomies()
                 ->whereIn('name', $postTypeModel->taxonomies)
                 ->all();

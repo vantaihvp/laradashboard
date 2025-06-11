@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Spatie\Permission\Models\Role;
 
 trait AuthorizationChecker
@@ -15,11 +15,11 @@ trait AuthorizationChecker
      *
      * @param  Authenticatable  $user
      * @param  array|string  $permissions
-     * @param  bool $ownPermissionCheck
+     * @param  bool  $ownPermissionCheck
      */
     public function checkAuthorization($user, $permissions, $ownPermissionCheck = false): bool
     {
-        if (is_null($user) || !$user->can($permissions)) {
+        if (is_null($user) || ! $user->can($permissions)) {
             abort(403, 'Sorry !! You are unauthorized to perform this action.');
         }
 
@@ -34,11 +34,11 @@ trait AuthorizationChecker
      * Prevent modification of the super admin in demo mode.
      *
      * @param  User  $user
-     * @param  string|array $additionalPermission
+     * @param  string|array  $additionalPermission
      */
-    public function preventSuperAdminModification(User|Authenticatable $user = null, $additionalPermission = 'user.edit'): void
+    public function preventSuperAdminModification(User|Authenticatable|null $user = null, $additionalPermission = 'user.edit'): void
     {
-        if ($user && !$this->canBeModified($user, $additionalPermission)) {
+        if ($user && ! $this->canBeModified($user, $additionalPermission)) {
             abort(403, 'Superadmin cannot be modified in demo mode.');
         }
     }

@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ContentSeeder extends Seeder
 {
-    public function __construct(private readonly ContentService $contentService)
-    {
-    }
+    public function __construct(private readonly ContentService $contentService) {}
 
     /**
      * Run the database seeds.
@@ -22,8 +20,9 @@ class ContentSeeder extends Seeder
     public function run(): void
     {
         // Check if required tables exist.
-        if (!Schema::hasTable('taxonomies') || !Schema::hasTable('posts') || !Schema::hasTable('terms')) {
+        if (! Schema::hasTable('taxonomies') || ! Schema::hasTable('posts') || ! Schema::hasTable('terms')) {
             $this->command->info('Content tables not yet migrated. Skipping content seeding.');
+
             return;
         }
 
@@ -49,7 +48,7 @@ class ContentSeeder extends Seeder
             'label' => 'Posts',
             'label_singular' => 'Post',
             'description' => 'Default post type for blog entries',
-            'taxonomies' => ['category', 'tag']
+            'taxonomies' => ['category', 'tag'],
         ]);
 
         // Register page type.
@@ -61,7 +60,7 @@ class ContentSeeder extends Seeder
             'has_archive' => false,
             'hierarchical' => true,
             'supports_excerpt' => false,
-            'taxonomies' => []
+            'taxonomies' => [],
         ]);
 
         // Register category taxonomy.
@@ -97,14 +96,14 @@ class ContentSeeder extends Seeder
                 'name' => 'Uncategorized',
                 'slug' => 'uncategorized',
                 'description' => 'Default category for posts that do not belong to any other category.',
-                'featured_image' => 'categories/uncategorized.jpg'
+                'featured_image' => 'categories/uncategorized.jpg',
             ],
         ];
 
         foreach ($categories as $category) {
             try {
                 // Generate a placeholder image instead of trying to copy
-                $this->generatePlaceholderImage('public/' . $category['featured_image'], pathinfo($category['featured_image'], PATHINFO_BASENAME));
+                $this->generatePlaceholderImage('public/'.$category['featured_image'], pathinfo($category['featured_image'], PATHINFO_BASENAME));
 
                 Term::firstOrCreate([
                     'name' => $category['name'],
@@ -117,8 +116,8 @@ class ContentSeeder extends Seeder
 
                 $this->command->info("Created category: {$category['name']}");
             } catch (\Exception $e) {
-                $this->command->error("Error creating category {$category['name']}: " . $e->getMessage());
-                Log::error("Error in ContentSeeder creating category {$category['name']}: " . $e->getMessage());
+                $this->command->error("Error creating category {$category['name']}: ".$e->getMessage());
+                Log::error("Error in ContentSeeder creating category {$category['name']}: ".$e->getMessage());
             }
         }
     }
@@ -135,14 +134,14 @@ class ContentSeeder extends Seeder
                 'name' => 'Sample Tag',
                 'slug' => 'sample-tag',
                 'description' => 'A sample tag for demonstration purposes.',
-                'featured_image' => 'tags/sample-tag.jpg'
+                'featured_image' => 'tags/sample-tag.jpg',
             ],
         ];
 
         foreach ($tags as $tag) {
             try {
                 // Generate a placeholder image instead of trying to copy
-                $this->generatePlaceholderImage('public/' . $tag['featured_image'], pathinfo($tag['featured_image'], PATHINFO_BASENAME));
+                $this->generatePlaceholderImage('public/'.$tag['featured_image'], pathinfo($tag['featured_image'], PATHINFO_BASENAME));
 
                 Term::firstOrCreate([
                     'name' => $tag['name'],
@@ -155,8 +154,8 @@ class ContentSeeder extends Seeder
 
                 $this->command->info("Created tag: {$tag['name']}");
             } catch (\Exception $e) {
-                $this->command->error("Error creating tag {$tag['name']}: " . $e->getMessage());
-                Log::error("Error in ContentSeeder creating tag {$tag['name']}: " . $e->getMessage());
+                $this->command->error("Error creating tag {$tag['name']}: ".$e->getMessage());
+                Log::error("Error in ContentSeeder creating tag {$tag['name']}: ".$e->getMessage());
             }
         }
     }
@@ -164,9 +163,8 @@ class ContentSeeder extends Seeder
     /**
      * Generate a placeholder image directly to storage
      *
-     * @param string $path Full path including disk name
-     * @param string $text Text to display on image
-     * @return void
+     * @param  string  $path  Full path including disk name
+     * @param  string  $text  Text to display on image
      */
     protected function generatePlaceholderImage(string $path, string $text): void
     {
@@ -182,8 +180,9 @@ class ContentSeeder extends Seeder
             }
 
             // Skip if GD library is not available
-            if (!extension_loaded('gd')) {
+            if (! extension_loaded('gd')) {
                 $this->command->warn('GD library not available. Skipping image creation.');
+
                 return;
             }
 
@@ -228,8 +227,8 @@ class ContentSeeder extends Seeder
 
             $this->command->info("Generated placeholder image: $imagePath");
         } catch (\Exception $e) {
-            $this->command->error("Error generating image: " . $e->getMessage());
-            Log::error("Error generating image: " . $e->getMessage());
+            $this->command->error('Error generating image: '.$e->getMessage());
+            Log::error('Error generating image: '.$e->getMessage());
         }
     }
 

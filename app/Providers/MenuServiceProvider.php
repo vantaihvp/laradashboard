@@ -13,7 +13,7 @@ class MenuServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('admin.menu', function ($app) {
-            return new AdminMenuService();
+            return new AdminMenuService;
         });
     }
 

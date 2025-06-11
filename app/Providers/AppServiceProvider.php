@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable('settings')) {
             $settings = Setting::pluck('option_value', 'option_name')->toArray();
             foreach ($settings as $key => $value) {
-                config(['settings.' . $key => $value]);
+                config(['settings.'.$key => $value]);
             }
         }
 

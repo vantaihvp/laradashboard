@@ -15,8 +15,7 @@ class TermService
 {
     public function __construct(
         private readonly ContentService $contentService
-    ) {
-    }
+    ) {}
 
     /**
      * Get terms with filters.
@@ -24,7 +23,7 @@ class TermService
     public function getTerms(array $filters = []): LengthAwarePaginator
     {
         // Set default taxonomy if not provided.
-        if (!isset($filters['taxonomy'])) {
+        if (! isset($filters['taxonomy'])) {
             $filters['taxonomy'] = 'category';
         }
 
@@ -33,7 +32,7 @@ class TermService
 
         return $query->applyFilters($filters)
             ->paginateData([
-                'per_page' => config('settings.default_pagination') ?? 20
+                'per_page' => config('settings.default_pagination') ?? 20,
             ]);
     }
 
@@ -61,7 +60,6 @@ class TermService
             ->get();
     }
 
-
     /**
      * Get taxonomy model by name.
      */
@@ -75,7 +73,7 @@ class TermService
      */
     public function createTerm(array $data, string $taxonomy): Term
     {
-        $term = new Term();
+        $term = new Term;
         $term->name = $data['name'];
         $term->slug = $term->generateSlugFromString($data['slug'] ?? $data['name'] ?? '');
         $term->taxonomy = $taxonomy;

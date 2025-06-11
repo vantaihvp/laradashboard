@@ -10,19 +10,15 @@ trait QueryBuilderTrait
 {
     /**
      * Apply filters to the query builder.
-     *
-     * @param Builder $query
-     * @param array $filters
-     * @return Builder
      */
     public function scopeApplyFilters(Builder $query, array $filters = []): Builder
     {
         // Apply search filter if provided
-        if (isset($filters['search']) && !empty($filters['search'])) {
+        if (isset($filters['search']) && ! empty($filters['search'])) {
             $searchColumns = $this->getSearchableColumns();
             $query->where(function ($q) use ($searchColumns, $filters) {
                 foreach ($searchColumns as $column) {
-                    $q->orWhere($column, 'LIKE', '%' . $filters['search'] . '%');
+                    $q->orWhere($column, 'LIKE', '%'.$filters['search'].'%');
                 }
             });
         }
@@ -33,18 +29,18 @@ trait QueryBuilderTrait
         }
 
         // Apply role filter if provided
-        if (isset($filters['role']) && !empty($filters['role'])) {
+        if (isset($filters['role']) && ! empty($filters['role'])) {
             $query->whereHas('roles', function ($q) use ($filters) {
                 $q->where('name', $filters['role']);
             });
         }
 
         // Apply date range filter if provided
-        if (isset($filters['date_from']) && !empty($filters['date_from'])) {
+        if (isset($filters['date_from']) && ! empty($filters['date_from'])) {
             $query->whereDate('created_at', '>=', $filters['date_from']);
         }
 
-        if (isset($filters['date_to']) && !empty($filters['date_to'])) {
+        if (isset($filters['date_to']) && ! empty($filters['date_to'])) {
             $query->whereDate('created_at', '<=', $filters['date_to']);
         }
 
@@ -53,21 +49,21 @@ trait QueryBuilderTrait
         if ($sort) {
             $direction = 'asc';
             $field = $sort;
-            
+
             // Check if it's a descending sort (prefixed with -)
             if (strpos($sort, '-') === 0) {
                 $direction = 'desc';
                 $field = substr($sort, 1);
             }
-            
+
             // Check if the field is in the excluded sort columns
-            $excludedSortColumns = method_exists($this, 'getExcludedSortColumns') 
-                ? $this->getExcludedSortColumns() 
+            $excludedSortColumns = method_exists($this, 'getExcludedSortColumns')
+                ? $this->getExcludedSortColumns()
                 : [];
-                
-            if (!in_array($field, $excludedSortColumns)) {
+
+            if (! in_array($field, $excludedSortColumns)) {
                 // Handle special sorting cases
-                $methodName = 'sortBy' . ucfirst($field);
+                $methodName = 'sortBy'.ucfirst($field);
                 if (method_exists($this, $methodName)) {
                     $this->$methodName($query, $direction);
                 } else {
@@ -92,21 +88,18 @@ trait QueryBuilderTrait
     /**
      * Apply pagination to the query.
      *
-     * @param Builder $query
-     * @param array $options
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function scopePaginateData(Builder $query, array $options = [])
     {
         $perPage = $options['per_page'] ?? 15;
+
         return $query->paginate($perPage);
     }
 
     /**
      * Get searchable columns for the model.
      * Override this method in your model to define searchable columns.
-     *
-     * @return array
      */
     protected function getSearchableColumns(): array
     {

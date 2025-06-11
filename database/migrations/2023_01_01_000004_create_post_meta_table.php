@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('type')->default('input'); // input, textarea, select, number, email, url, etc.
             $table->text('default_value')->nullable();
             $table->timestamps();
-            
+
             $table->index(['post_id', 'meta_key']);
         });
     }

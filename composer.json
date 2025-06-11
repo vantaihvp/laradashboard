@@ -21,10 +21,11 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
-        "laravel/pint": "^1.21",
+        "laravel/pint": "^1.22",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
+        "larastan/larastan": "^3.0",
         "phpunit/phpunit": "^11.5.3",
         "spatie/laravel-ignition": "^2.9"
     },
@@ -79,6 +80,23 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "pint": [
+            "./vendor/bin/pint"
+        ],
+        "phpstan": [
+            "./vendor/bin/phpstan analyse --memory-limit=5G"
+        ],
+        "phpunit": [
+            "./vendor/bin/phpunit"
+        ],
+        "test": [
+            "./vendor/bin/pint --test",
+            "./vendor/bin/phpunit",
+            "./vendor/bin/phpstan analyse --memory-limit=5G"
+        ],
+        "format": [
+            "./vendor/bin/pint"
         ]
     }
 }

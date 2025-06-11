@@ -18,8 +18,7 @@ class DashboardController extends Controller
         private readonly UserChartService $userChartService,
         private readonly LanguageService $languageService,
         private readonly PostChartService $postChartService
-    ) {
-    }
+    ) {}
 
     public function index()
     {
@@ -32,9 +31,9 @@ class DashboardController extends Controller
                 'total_roles' => number_format(Role::count()),
                 'total_permissions' => number_format(Permission::count()),
                 'languages' => [
-                        'total' => number_format(count($this->languageService->getLanguages())),
-                        'active' => number_format(count($this->languageService->getActiveLanguages())),
-                    ],
+                    'total' => number_format(count($this->languageService->getLanguages())),
+                    'active' => number_format(count($this->languageService->getActiveLanguages())),
+                ],
                 'user_growth_data' => $this->userChartService->getUserGrowthData(
                     request()->get('chart_filter_period', 'last_12_months')
                 )->getData(true),
@@ -46,7 +45,7 @@ class DashboardController extends Controller
                     'title' => __('Dashboard'),
                     'show_home' => false,
                     'show_current' => false,
-                ]
+                ],
             ]
         );
     }

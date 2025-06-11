@@ -16,8 +16,7 @@ class TermDrawer extends Component
     public function __construct(
         public $taxonomy,
         public $taxonomyName
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

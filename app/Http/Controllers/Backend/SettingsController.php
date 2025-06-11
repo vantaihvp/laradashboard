@@ -19,8 +19,7 @@ class SettingsController extends Controller
         private readonly SettingService $settingService,
         private readonly EnvWriter $envWriter,
         private readonly CacheService $cacheService
-    ) {
-    }
+    ) {}
 
     public function index($tab = null): Renderable
     {
@@ -28,7 +27,7 @@ class SettingsController extends Controller
 
         $tab = $tab ?? request()->input('tab', 'general');
 
-        return view('backend.pages.settings.index', compact("tab"))
+        return view('backend.pages.settings.index', compact('tab'))
             ->with([
                 'breadcrumbs' => [
                     'title' => __('Settings'),
