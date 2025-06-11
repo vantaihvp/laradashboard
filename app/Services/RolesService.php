@@ -11,7 +11,9 @@ use Spatie\Permission\Models\Role;
 
 class RolesService
 {
-    public function __construct(private readonly PermissionService $permissionService) {}
+    public function __construct(private readonly PermissionService $permissionService)
+    {
+    }
 
     public function getAllRoles()
     {

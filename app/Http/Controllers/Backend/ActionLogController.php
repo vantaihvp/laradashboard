@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ActionLogController extends Controller
 {
-    public function __construct(private readonly ActionLogService $actionLogService) {}
+    public function __construct(private readonly ActionLogService $actionLogService)
+    {
+    }
 
     public function index()
     {

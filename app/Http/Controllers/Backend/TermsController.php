@@ -15,7 +15,8 @@ class TermsController extends Controller
     public function __construct(
         private readonly ContentService $contentService,
         private readonly TermService $termService
-    ) {}
+    ) {
+    }
 
     public function index(Request $request, string $taxonomy)
     {

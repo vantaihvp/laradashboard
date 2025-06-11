@@ -22,7 +22,8 @@ class UsersController extends Controller
     public function __construct(
         private readonly UserService $userService,
         private readonly RolesService $rolesService
-    ) {}
+    ) {
+    }
 
     public function index(): Renderable
     {
@@ -66,7 +67,7 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        $user = new User;
+        $user = new User();
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;

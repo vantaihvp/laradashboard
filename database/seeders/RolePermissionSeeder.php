@@ -20,7 +20,8 @@ class RolePermissionSeeder extends Seeder
     public function __construct(
         private readonly PermissionService $permissionService,
         private readonly RolesService $rolesService
-    ) {}
+    ) {
+    }
 
     /**
      * Run the database seeds.

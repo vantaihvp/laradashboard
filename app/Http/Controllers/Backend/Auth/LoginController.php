@@ -25,7 +25,9 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    public function __construct(private readonly DemoAppService $demoAppService) {}
+    public function __construct(private readonly DemoAppService $demoAppService)
+    {
+    }
 
     /**
      * Where to redirect users after login.

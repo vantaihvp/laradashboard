@@ -19,7 +19,8 @@ class SettingsController extends Controller
         private readonly SettingService $settingService,
         private readonly EnvWriter $envWriter,
         private readonly CacheService $cacheService
-    ) {}
+    ) {
+    }
 
     public function index($tab = null): Renderable
     {

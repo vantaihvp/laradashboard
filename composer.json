@@ -91,12 +91,12 @@
             "./vendor/bin/phpunit"
         ],
         "test": [
-            "./vendor/bin/pint --test",
+            "./vendor/bin/pint --preset psr12 --test",
             "./vendor/bin/phpunit",
             "./vendor/bin/phpstan analyse --memory-limit=5G"
         ],
         "format": [
-            "./vendor/bin/pint"
+            "./vendor/bin/pint --preset psr12"
         ]
     }
 }

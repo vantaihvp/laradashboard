@@ -17,7 +17,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_has_fillable_attributes()
     {
-        $user = new User;
+        $user = new User();
         $this->assertEquals([
             'name',
             'email',
@@ -29,7 +29,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_has_hidden_attributes()
     {
-        $user = new User;
+        $user = new User();
         $this->assertEquals([
             'password',
             'remember_token',
@@ -40,7 +40,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_has_casted_attributes()
     {
-        $user = new User;
+        $user = new User();
         $casts = $user->getCasts();
         $this->assertArrayHasKey('email_verified_at', $casts);
         $this->assertEquals('datetime', $casts['email_verified_at']);
@@ -96,7 +96,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_has_searchable_columns()
     {
-        $user = new User;
+        $user = new User();
         $reflection = new \ReflectionClass($user);
         $method = $reflection->getMethod('getSearchableColumns');
         $method->setAccessible(true);
@@ -107,7 +107,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_has_excluded_sort_columns()
     {
-        $user = new User;
+        $user = new User();
         $reflection = new \ReflectionClass($user);
         $method = $reflection->getMethod('getExcludedSortColumns');
         $method->setAccessible(true);

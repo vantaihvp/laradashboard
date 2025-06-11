@@ -41,7 +41,7 @@ class AdminMenuService
             return $data;
         }
 
-        $menuItem = new AdminMenuItem;
+        $menuItem = new AdminMenuItem();
 
         if (isset($data['children']) && is_array($data['children'])) {
             $data['children'] = array_map(

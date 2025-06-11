@@ -13,7 +13,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Term extends Model
 {
-    use HasFactory, HasUniqueSlug, QueryBuilderTrait;
+    use HasFactory;
+    use HasUniqueSlug;
+    use QueryBuilderTrait;
 
     protected $fillable = [
         'name',

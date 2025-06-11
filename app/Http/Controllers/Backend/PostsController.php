@@ -25,7 +25,8 @@ class PostsController extends Controller
         private readonly ContentService $contentService,
         private readonly PostMetaService $postMetaService,
         private readonly PostService $postService
-    ) {}
+    ) {
+    }
 
     public function index(Request $request, string $postType = 'post'): RedirectResponse|Renderable
     {
@@ -113,7 +114,7 @@ class PostsController extends Controller
         }
 
         // Create post
-        $post = new Post;
+        $post = new Post();
         $post->title = $request->title;
         $post->slug = $request->slug ?: Str::slug($request->title);
         $post->content = $request->content;

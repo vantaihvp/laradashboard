@@ -85,7 +85,7 @@ class ModuleService
 
         // Extract and install the module.
         $modulePath = storage_path('app/'.$filePath);
-        $zip = new \ZipArchive;
+        $zip = new \ZipArchive();
 
         if (! $zip->open($modulePath)) {
             throw new ModuleException(__('Module upload failed. The file may not be a valid zip archive.'));

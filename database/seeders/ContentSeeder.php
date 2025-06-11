@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ContentSeeder extends Seeder
 {
-    public function __construct(private readonly ContentService $contentService) {}
+    public function __construct(private readonly ContentService $contentService)
+    {
+    }
 
     /**
      * Run the database seeds.

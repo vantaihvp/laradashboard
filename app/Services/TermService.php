@@ -15,7 +15,8 @@ class TermService
 {
     public function __construct(
         private readonly ContentService $contentService
-    ) {}
+    ) {
+    }
 
     /**
      * Get terms with filters.
@@ -73,7 +74,7 @@ class TermService
      */
     public function createTerm(array $data, string $taxonomy): Term
     {
-        $term = new Term;
+        $term = new Term();
         $term->name = $data['name'];
         $term->slug = $term->generateSlugFromString($data['slug'] ?? $data['name'] ?? '');
         $term->taxonomy = $taxonomy;

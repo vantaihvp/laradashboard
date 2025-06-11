@@ -16,7 +16,8 @@ class TermsController extends Controller
         private readonly ContentService $contentService,
         private readonly TermService $termService,
         private readonly PostService $postService
-    ) {}
+    ) {
+    }
 
     /**
      * Store a new term via API

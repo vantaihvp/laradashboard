@@ -13,21 +13,21 @@ class RoleTest extends TestCase
     /** @test */
     public function it_extends_spatie_role()
     {
-        $role = new Role;
+        $role = new Role();
         $this->assertInstanceOf(\Spatie\Permission\Models\Role::class, $role);
     }
 
     /** @test */
     public function it_uses_query_builder_trait()
     {
-        $role = new Role;
+        $role = new Role();
         $this->assertTrue(in_array('App\Traits\QueryBuilderTrait', class_uses_recursive($role)));
     }
 
     /** @test */
     public function it_has_searchable_columns()
     {
-        $role = new Role;
+        $role = new Role();
         $reflection = new \ReflectionClass($role);
         $method = $reflection->getMethod('getSearchableColumns');
         $method->setAccessible(true);
@@ -38,7 +38,7 @@ class RoleTest extends TestCase
     /** @test */
     public function it_has_excluded_sort_columns()
     {
-        $role = new Role;
+        $role = new Role();
         $reflection = new \ReflectionClass($role);
         $method = $reflection->getMethod('getExcludedSortColumns');
         $method->setAccessible(true);

@@ -17,7 +17,8 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use HasFactory, QueryBuilderTrait;
+    use HasFactory;
+    use QueryBuilderTrait;
 
     protected $fillable = [
         'user_id',
@@ -142,7 +143,7 @@ class Post extends Model
     public function getAllMeta(): array
     {
         // Make sure we're loading the postMeta relationship
-        if (! $this->relationLoaded('postMeta')) {
+        if (!$this->relationLoaded('postMeta')) {
             $this->load('postMeta');
         }
 

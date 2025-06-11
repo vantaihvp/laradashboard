@@ -16,7 +16,12 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use AuthorizationChecker, HasFactory, HasGravatar, HasRoles, Notifiable, QueryBuilderTrait;
+    use AuthorizationChecker;
+    use HasFactory;
+    use HasGravatar;
+    use HasRoles;
+    use Notifiable;
+    use QueryBuilderTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -14,7 +14,8 @@ class PermissionsController extends Controller
 {
     public function __construct(
         private readonly PermissionService $permissionService
-    ) {}
+    ) {
+    }
 
     public function index(): Renderable
     {

@@ -15,7 +15,7 @@ class TermTest extends TestCase
     /** @test */
     public function it_has_fillable_attributes()
     {
-        $term = new Term;
+        $term = new Term();
         $this->assertEquals([
             'name',
             'slug',
@@ -161,7 +161,7 @@ class TermTest extends TestCase
         $term2->posts()->attach([$post1->id, $post2->id]);
 
         // Sort by post count ascending
-        $termModel = new Term;
+        $termModel = new Term();
         $query = Term::where('taxonomy', 'category');
         $termModel->sortByPostCount($query, 'asc');
         $ascTerms = $query->get();
@@ -181,7 +181,7 @@ class TermTest extends TestCase
     /** @test */
     public function it_has_searchable_columns()
     {
-        $term = new Term;
+        $term = new Term();
         $reflection = new \ReflectionClass($term);
         $method = $reflection->getMethod('getSearchableColumns');
         $method->setAccessible(true);
@@ -192,7 +192,7 @@ class TermTest extends TestCase
     /** @test */
     public function it_has_excluded_sort_columns()
     {
-        $term = new Term;
+        $term = new Term();
         $reflection = new \ReflectionClass($term);
         $method = $reflection->getMethod('getExcludedSortColumns');
         $method->setAccessible(true);

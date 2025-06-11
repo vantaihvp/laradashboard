@@ -16,7 +16,7 @@ class PostTest extends TestCase
     /** @test */
     public function it_has_fillable_attributes()
     {
-        $post = new Post;
+        $post = new Post();
         $this->assertEquals([
             'user_id',
             'post_type',
@@ -35,7 +35,7 @@ class PostTest extends TestCase
     /** @test */
     public function it_has_casted_attributes()
     {
-        $post = new Post;
+        $post = new Post();
         $casts = $post->getCasts();
         $this->assertArrayHasKey('meta', $casts);
         $this->assertEquals('array', $casts['meta']);
@@ -315,7 +315,7 @@ class PostTest extends TestCase
     /** @test */
     public function it_has_searchable_columns()
     {
-        $post = new Post;
+        $post = new Post();
         $reflection = new \ReflectionClass($post);
         $method = $reflection->getMethod('getSearchableColumns');
         $method->setAccessible(true);
@@ -326,7 +326,7 @@ class PostTest extends TestCase
     /** @test */
     public function it_has_excluded_sort_columns()
     {
-        $post = new Post;
+        $post = new Post();
         $reflection = new \ReflectionClass($post);
         $method = $reflection->getMethod('getExcludedSortColumns');
         $method->setAccessible(true);

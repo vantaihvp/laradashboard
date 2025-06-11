@@ -12,7 +12,7 @@ class ContentServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(ContentService::class, function ($app) {
-            return new ContentService;
+            return new ContentService();
         });
     }
 

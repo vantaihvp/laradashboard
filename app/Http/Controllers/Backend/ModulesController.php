@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ModulesController extends Controller
 {
-    public function __construct(private readonly ModuleService $moduleService) {}
+    public function __construct(private readonly ModuleService $moduleService)
+    {
+    }
 
     public function index()
     {
