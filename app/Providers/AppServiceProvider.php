@@ -28,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (!app()->runningInConsole() || $this->app->runningUnitTests()) {
+            return;
+        }
 
         if (env('REDIRECT_HTTPS')) {
             URL::forceScheme('https');
@@ -37,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable('settings')) {
             $settings = Setting::pluck('option_value', 'option_name')->toArray();
             foreach ($settings as $key => $value) {
-                config(['settings.'.$key => $value]);
+                config(['settings.' . $key => $value]);
             }
         }
 
