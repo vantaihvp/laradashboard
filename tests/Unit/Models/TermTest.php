@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models;
 
 use PHPUnit\Framework\Attributes\Test;
-
 use App\Models\Post;
 use App\Models\Taxonomy;
 use App\Models\Term;

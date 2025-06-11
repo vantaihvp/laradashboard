@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models;
 
 use PHPUnit\Framework\Attributes\Test;
-
 use App\Models\User;
 use App\Notifications\AdminResetPasswordNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
