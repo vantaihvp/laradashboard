@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use App\Models\User;
 use App\Notifications\AdminResetPasswordNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -14,7 +16,7 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_has_fillable_attributes()
     {
         $user = new User();
@@ -26,7 +28,7 @@ class UserTest extends TestCase
         ], $user->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_hidden_attributes()
     {
         $user = new User();
@@ -37,7 +39,7 @@ class UserTest extends TestCase
         ], $user->getHidden());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_casted_attributes()
     {
         $user = new User();
@@ -46,7 +48,7 @@ class UserTest extends TestCase
         $this->assertEquals('datetime', $casts['email_verified_at']);
     }
 
-    /** @test */
+    #[Test]
     public function it_sends_admin_reset_password_notification_for_admin_routes()
     {
         Notification::fake();
@@ -62,7 +64,7 @@ class UserTest extends TestCase
         Notification::assertSentTo($user, AdminResetPasswordNotification::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_sends_default_reset_password_notification_for_non_admin_routes()
     {
         Notification::fake();
@@ -78,7 +80,7 @@ class UserTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_check_if_user_has_any_permission()
     {
         $user = User::factory()->create();
@@ -93,7 +95,7 @@ class UserTest extends TestCase
         $this->assertTrue($user->hasAnyPermission([])); // Empty permissions should return true
     }
 
-    /** @test */
+    #[Test]
     public function it_has_searchable_columns()
     {
         $user = new User();
@@ -104,7 +106,7 @@ class UserTest extends TestCase
         $this->assertEquals(['name', 'email', 'username'], $method->invoke($user));
     }
 
-    /** @test */
+    #[Test]
     public function it_has_excluded_sort_columns()
     {
         $user = new User();

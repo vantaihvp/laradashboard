@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Term;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -42,7 +43,7 @@ class ContentManagementTest extends TestCase
         $this->admin->assignRole($adminRole);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_view_posts_list()
     {
         $this->withoutExceptionHandling();
@@ -54,7 +55,7 @@ class ContentManagementTest extends TestCase
             ->assertViewIs('admin.posts.index');
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_create_post()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -96,7 +97,7 @@ class ContentManagementTest extends TestCase
         $this->assertTrue($post->terms()->where('taxonomy', 'tag')->exists());
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_update_post()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -126,7 +127,7 @@ class ContentManagementTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_delete_post()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -146,7 +147,7 @@ class ContentManagementTest extends TestCase
         $this->assertDatabaseMissing('posts', ['id' => $post->id]);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_view_categories()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -157,7 +158,7 @@ class ContentManagementTest extends TestCase
             ->assertViewIs('admin.terms.index');
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_create_category()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -179,7 +180,7 @@ class ContentManagementTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_update_category()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -207,7 +208,7 @@ class ContentManagementTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_delete_category()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -224,7 +225,7 @@ class ContentManagementTest extends TestCase
         $this->assertDatabaseMissing('terms', ['id' => $category->id]);
     }
 
-    /** @test */
+    #[Test]
     public function user_without_permission_cannot_manage_content()
     {
         $this->markTestSkipped('Route not implemented in test environment');

@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -38,7 +39,7 @@ class RoleManagementTest extends TestCase
         $this->admin->assignRole($adminRole);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_view_roles_list()
     {
         $this->markTestSkipped('View name mismatch in test environment');
@@ -49,7 +50,7 @@ class RoleManagementTest extends TestCase
             ->assertViewIs('admin.roles.index');
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_create_role()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -69,7 +70,7 @@ class RoleManagementTest extends TestCase
         $this->assertTrue($role->hasPermissionTo('role.view'));
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_update_role()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -95,7 +96,7 @@ class RoleManagementTest extends TestCase
         $this->assertTrue($updatedRole->hasPermissionTo('role.edit'));
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_delete_role()
     {
         $role = Role::create(['name' => 'temporary']);
@@ -107,7 +108,7 @@ class RoleManagementTest extends TestCase
         $this->assertDatabaseMissing('roles', ['name' => 'temporary']);
     }
 
-    /** @test */
+    #[Test]
     public function admin_cannot_delete_superadmin_role()
     {
         $this->markTestSkipped('Route not implemented in test environment');
@@ -121,7 +122,7 @@ class RoleManagementTest extends TestCase
         $this->assertDatabaseHas('roles', ['name' => 'superadmin']);
     }
 
-    /** @test */
+    #[Test]
     public function user_without_permission_cannot_manage_roles()
     {
         $regularUser = User::factory()->create();

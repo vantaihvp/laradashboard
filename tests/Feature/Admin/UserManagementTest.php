@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -38,7 +39,7 @@ class UserManagementTest extends TestCase
         $this->admin->assignRole($adminRole);
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_view_users_list()
     {
         $this->markTestSkipped('View name mismatch in test environment');
@@ -49,7 +50,7 @@ class UserManagementTest extends TestCase
             ->assertViewIs('admin.users.index');
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_create_user()
     {
         $role = Role::create(['name' => 'editor']);
@@ -75,7 +76,7 @@ class UserManagementTest extends TestCase
         $this->assertTrue($user->hasRole('editor'));
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_update_user()
     {
         $user = User::factory()->create([
@@ -105,7 +106,7 @@ class UserManagementTest extends TestCase
         $this->assertTrue($updatedUser->hasRole('editor'));
     }
 
-    /** @test */
+    #[Test]
     public function admin_can_delete_user()
     {
         $user = User::factory()->create();
@@ -117,7 +118,7 @@ class UserManagementTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
     }
 
-    /** @test */
+    #[Test]
     public function admin_cannot_delete_themselves()
     {
         $this->markTestSkipped('Database issue in test environment');
@@ -129,7 +130,7 @@ class UserManagementTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $this->admin->id]);
     }
 
-    /** @test */
+    #[Test]
     public function user_without_permission_cannot_manage_users()
     {
         $regularUser = User::factory()->create();
@@ -148,7 +149,7 @@ class UserManagementTest extends TestCase
             ->assertStatus(403);
     }
 
-    /** @test */
+    #[Test]
     public function validation_works_when_creating_user()
     {
         $response = $this->actingAs($this->admin)

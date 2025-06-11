@@ -4,13 +4,14 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function user_can_view_login_form()
     {
         $response = $this->get('/login');
@@ -19,7 +20,7 @@ class LoginTest extends TestCase
         $response->assertViewIs('auth.login');
     }
 
-    /** @test */
+    #[Test]
     public function user_can_login_with_correct_credentials()
     {
         $user = User::factory()->create([
@@ -36,7 +37,7 @@ class LoginTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    /** @test */
+    #[Test]
     public function user_cannot_login_with_incorrect_password()
     {
         $user = User::factory()->create([
@@ -54,7 +55,7 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    #[Test]
     public function user_cannot_login_with_email_that_does_not_exist()
     {
         $response = $this->from('/login')->post('/login', [
@@ -67,7 +68,7 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    /** @test */
+    #[Test]
     public function remember_me_functionality_works()
     {
         $user = User::factory()->create([

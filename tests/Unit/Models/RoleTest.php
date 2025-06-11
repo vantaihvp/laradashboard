@@ -4,27 +4,28 @@ namespace Tests\Unit\Models;
 
 use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_extends_spatie_role()
     {
         $role = new Role();
         $this->assertInstanceOf(\Spatie\Permission\Models\Role::class, $role);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_query_builder_trait()
     {
         $role = new Role();
         $this->assertTrue(in_array('App\Traits\QueryBuilderTrait', class_uses_recursive($role)));
     }
 
-    /** @test */
+    #[Test]
     public function it_has_searchable_columns()
     {
         $role = new Role();
@@ -35,7 +36,7 @@ class RoleTest extends TestCase
         $this->assertEquals(['name'], $method->invoke($role));
     }
 
-    /** @test */
+    #[Test]
     public function it_has_excluded_sort_columns()
     {
         $role = new Role();
@@ -46,7 +47,7 @@ class RoleTest extends TestCase
         $this->assertEquals(['user_count'], $method->invoke($role));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_role_with_permissions()
     {
         // Create permissions
@@ -62,7 +63,7 @@ class RoleTest extends TestCase
         $this->assertTrue($role->hasPermissionTo('test.permission2'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_assigned_to_users()
     {
         $role = Role::create(['name' => 'test-role']);

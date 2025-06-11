@@ -7,13 +7,14 @@ use App\Models\PostMeta;
 use App\Models\Term;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PostTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_has_fillable_attributes()
     {
         $post = new Post();
@@ -32,7 +33,7 @@ class PostTest extends TestCase
         ], $post->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_casted_attributes()
     {
         $post = new Post();
@@ -43,7 +44,7 @@ class PostTest extends TestCase
         $this->assertEquals('datetime', $casts['published_at']);
     }
 
-    /** @test */
+    #[Test]
     public function it_auto_generates_slug_when_creating()
     {
         $user = User::factory()->create();
@@ -59,7 +60,7 @@ class PostTest extends TestCase
         $this->assertEquals('test-post-title', $post->slug);
     }
 
-    /** @test */
+    #[Test]
     public function it_sets_user_id_from_authenticated_user_when_creating()
     {
         $user = User::factory()->create();
@@ -75,7 +76,7 @@ class PostTest extends TestCase
         $this->assertEquals($user->id, $post->user_id);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_user_relationship()
     {
         $user = User::factory()->create();
@@ -91,7 +92,7 @@ class PostTest extends TestCase
         $this->assertEquals($user->id, $post->user->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_parent_and_children_relationships()
     {
         $user = User::factory()->create();
@@ -120,7 +121,7 @@ class PostTest extends TestCase
         $this->assertEquals($child->id, $parent->children->first()->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_terms_relationship()
     {
         $user = User::factory()->create();
@@ -156,7 +157,7 @@ class PostTest extends TestCase
         $this->assertCount(1, $tags);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_manage_post_meta()
     {
         $user = User::factory()->create();
@@ -192,7 +193,7 @@ class PostTest extends TestCase
         $this->assertNull($post->getMeta('test_key'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_published_status()
     {
         $user = User::factory()->create();
@@ -231,7 +232,7 @@ class PostTest extends TestCase
         $this->assertEquals('Published Post', $publishedPosts->first()->title);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_post_type()
     {
         $user = User::factory()->create();
@@ -264,7 +265,7 @@ class PostTest extends TestCase
         $this->assertEquals('About Page', $pages->first()->title);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_category_and_tag()
     {
         $user = User::factory()->create();
@@ -312,7 +313,7 @@ class PostTest extends TestCase
         $this->assertEquals('Post 2', $tagPosts->first()->title);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_searchable_columns()
     {
         $post = new Post();
@@ -323,7 +324,7 @@ class PostTest extends TestCase
         $this->assertEquals(['title', 'excerpt', 'content'], $method->invoke($post));
     }
 
-    /** @test */
+    #[Test]
     public function it_has_excluded_sort_columns()
     {
         $post = new Post();

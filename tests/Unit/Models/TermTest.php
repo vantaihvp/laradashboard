@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
+
 use App\Models\Post;
 use App\Models\Taxonomy;
 use App\Models\Term;
@@ -12,7 +14,7 @@ class TermTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_has_fillable_attributes()
     {
         $term = new Term();
@@ -26,7 +28,7 @@ class TermTest extends TestCase
         ], $term->getFillable());
     }
 
-    /** @test */
+    #[Test]
     public function it_auto_generates_slug_when_creating()
     {
         $term = Term::create([
@@ -37,7 +39,7 @@ class TermTest extends TestCase
         $this->assertEquals('test-term', $term->slug);
     }
 
-    /** @test */
+    #[Test]
     public function it_auto_generates_slug_when_updating_name_with_empty_slug()
     {
         $term = Term::create([
@@ -57,7 +59,7 @@ class TermTest extends TestCase
         $this->assertEquals('updated-term', $term->fresh()->slug);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_taxonomy_relationship()
     {
         // Create taxonomy
@@ -77,7 +79,7 @@ class TermTest extends TestCase
         $this->assertEquals($taxonomy->name, $taxonomyModel->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_parent_and_children_relationships()
     {
         $parent = Term::create([
@@ -98,7 +100,7 @@ class TermTest extends TestCase
         $this->assertEquals($child->id, $parent->children->first()->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_posts_relationship()
     {
         $user = \App\Models\User::factory()->create();
@@ -123,7 +125,7 @@ class TermTest extends TestCase
         $this->assertEquals($post->id, $posts->first()->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_sort_by_post_count()
     {
         $user = \App\Models\User::factory()->create();
@@ -178,7 +180,7 @@ class TermTest extends TestCase
         $this->assertEquals('Term 1', $descTerms->last()->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_searchable_columns()
     {
         $term = new Term();
@@ -189,7 +191,7 @@ class TermTest extends TestCase
         $this->assertEquals(['name', 'slug', 'description'], $method->invoke($term));
     }
 
-    /** @test */
+    #[Test]
     public function it_has_excluded_sort_columns()
     {
         $term = new Term();
