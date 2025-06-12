@@ -25,6 +25,7 @@ password - 12345678
 -   Tailwind CSS >= 4.x
 -   Laravel Modules - https://laravelmodules.com/docs/12/getting-started/introduction
 -   Laravel Events (A WordPress like action/filter hooks) - https://github.com/tormjens/eventy
+-   PHP 8.3 or 8.4
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

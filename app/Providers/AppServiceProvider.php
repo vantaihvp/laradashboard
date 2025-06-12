@@ -18,7 +18,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Handle PHP 8.4 deprecation notices for development
+        if (PHP_VERSION_ID >= 80400) {
+            error_reporting(E_ALL & ~E_DEPRECATED);
+        }
     }
 
     /**

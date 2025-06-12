@@ -75,4 +75,4 @@ jobs:
         run: php artisan migrate:fresh --seed --force
 
       - name: Run Tests
-        run: php artisan test
+        run: composer run test
