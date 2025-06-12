@@ -16,6 +16,7 @@ class TermsController extends Controller
         private readonly ContentService $contentService,
         private readonly TermService $termService
     ) {
+        // ContentService is used for post type and taxonomy operations
     }
 
     public function index(Request $request, string $taxonomy)

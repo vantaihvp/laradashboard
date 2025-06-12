@@ -85,7 +85,7 @@
             "@php artisan key:generate --ansi"
         ],
         "pint": [
-            "./vendor/bin/pint"
+            "./vendor/bin/pint --preset psr12"
         ],
         "phpstan": [
             "./vendor/bin/phpstan analyse --memory-limit=5G"

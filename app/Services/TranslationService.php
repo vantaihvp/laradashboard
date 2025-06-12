@@ -81,6 +81,7 @@ class TranslationService
             // Create file with empty translations or copy English structure
             $this->createGroupTranslationFile($lang, $group, $enTranslations);
 
+            // Check again after creating the file.
             if (File::exists($path)) {
                 return include $path;
             }

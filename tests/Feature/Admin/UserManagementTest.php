@@ -43,11 +43,13 @@ class UserManagementTest extends TestCase
     public function admin_can_view_users_list()
     {
         $this->markTestSkipped('View name mismatch in test environment');
-
+        // Code below is skipped
+        /*
         $this->actingAs($this->admin)
             ->get('/admin/users')
             ->assertStatus(200)
             ->assertViewIs('admin.users.index');
+        */
     }
 
     #[Test]
@@ -122,12 +124,14 @@ class UserManagementTest extends TestCase
     public function admin_cannot_delete_themselves()
     {
         $this->markTestSkipped('Database issue in test environment');
-
+        // Code below is skipped
+        /*
         $response = $this->actingAs($this->admin)
             ->delete("/admin/users/{$this->admin->id}");
 
         $response->assertRedirect();
         $this->assertDatabaseHas('users', ['id' => $this->admin->id]);
+        */
     }
 
     #[Test]

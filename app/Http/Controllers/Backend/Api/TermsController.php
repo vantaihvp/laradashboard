@@ -52,6 +52,10 @@ class TermsController extends Controller
         // Get taxonomy label for message.
         $taxLabel = $this->termService->getTaxonomyLabel($taxonomyName, true);
 
+        // Get post if post_id is provided.
+        $postId = $request->input('post_id');
+        $post = $postId ? $this->postService->getPostById($postId) : null;
+
         return response()->json([
             'message' => __(':taxLabel created successfully.', ['taxLabel' => $taxLabel]),
             'term' => $term,
@@ -59,8 +63,8 @@ class TermsController extends Controller
             'post_type' => $postTypeModel->name,
             'content' => Blade::render('backend.pages.posts.partials.post-taxonomy-chooser', [
                 'taxonomy' => $taxonomy,
-                'post' => $this->postService->getPostById($request->input('post_id')),
-                'post_id' => $post->id ?? null,
+                'post' => $post,
+                'post_id' => $post ? $post->id : null,
                 'post_type' => $postTypeModel->name,
             ]),
         ], 201);

@@ -6,7 +6,7 @@ namespace App\Services;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 
 class PermissionService
 {
@@ -238,12 +238,16 @@ class PermissionService
             // Add role count to each permission
             foreach ($allPermissions as $permission) {
                 $roles = $permission->roles()->get();
-                $permission->role_count = $roles->count();
-                $permission->roles_list = $roles->pluck('name')->take(5)->implode(', ');
+                $roleCount = $roles->count();
+                $rolesList = $roles->pluck('name')->take(5)->implode(', ');
 
-                if ($permission->role_count > 5) {
-                    $permission->roles_list .= ', ...';
+                if ($roleCount > 5) {
+                    $rolesList .= ', ...';
                 }
+
+                // Use dynamic properties instead of undefined properties
+                $permission->setAttribute('role_count', $roleCount);
+                $permission->setAttribute('roles_list', $rolesList);
             }
 
             // Sort the collection by role_count
@@ -275,18 +279,22 @@ class PermissionService
             'sort_direction' => 'asc',
         ];
 
-        $permissions = \App\Models\Permission::applyFilters($filters)
-            ->paginateData(['per_page' => $perPage ?? config('settings.default_pagination')]);
+        $query = \App\Models\Permission::applyFilters($filters);
+        $permissions = $query->paginateData(['per_page' => $perPage ?? config('settings.default_pagination')]);
 
         // Add role count and roles information to each permission.
-        foreach ($permissions as $permission) {
+        foreach ($permissions->items() as $permission) {
             $roles = $permission->roles()->get();
-            $permission->role_count = $roles->count();
-            $permission->roles_list = $roles->pluck('name')->take(5)->implode(', ');
+            $roleCount = $roles->count();
+            $rolesList = $roles->pluck('name')->take(5)->implode(', ');
 
-            if ($permission->role_count > 5) {
-                $permission->roles_list .= ', ...';
+            if ($roleCount > 5) {
+                $rolesList .= ', ...';
             }
+
+            // Use dynamic properties instead of undefined properties
+            $permission->setAttribute('role_count', $roleCount);
+            $permission->setAttribute('roles_list', $rolesList);
         }
 
         return $permissions;

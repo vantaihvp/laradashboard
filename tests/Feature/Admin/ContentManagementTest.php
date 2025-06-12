@@ -48,18 +48,21 @@ class ContentManagementTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $this->actingAs($this->admin)
             ->get('/admin/posts')
             ->assertStatus(200)
             ->assertViewIs('admin.posts.index');
+        */
     }
 
     #[Test]
     public function admin_can_create_post()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $category = Term::create([
             'name' => 'Test Category',
             'taxonomy' => 'category',
@@ -95,13 +98,15 @@ class ContentManagementTest extends TestCase
         $post = Post::where('title', 'Test Post Title')->first();
         $this->assertTrue($post->terms()->where('taxonomy', 'category')->exists());
         $this->assertTrue($post->terms()->where('taxonomy', 'tag')->exists());
+        */
     }
 
     #[Test]
     public function admin_can_update_post()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $post = Post::create([
             'title' => 'Original Title',
             'content' => 'Original content',
@@ -125,13 +130,15 @@ class ContentManagementTest extends TestCase
             'content' => 'Updated content',
             'status' => 'publish',
         ]);
+        */
     }
 
     #[Test]
     public function admin_can_delete_post()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $post = Post::create([
             'title' => 'Post to Delete',
             'content' => 'Content to delete',
@@ -145,24 +152,28 @@ class ContentManagementTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseMissing('posts', ['id' => $post->id]);
+        */
     }
 
     #[Test]
     public function admin_can_view_categories()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $this->actingAs($this->admin)
             ->get('/admin/categories')
             ->assertStatus(200)
             ->assertViewIs('admin.terms.index');
+        */
     }
 
     #[Test]
     public function admin_can_create_category()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $response = $this->actingAs($this->admin)
             ->post('/admin/categories', [
                 'name' => 'New Category',
@@ -178,13 +189,15 @@ class ContentManagementTest extends TestCase
             'description' => 'New category description',
             'taxonomy' => 'category',
         ]);
+        */
     }
 
     #[Test]
     public function admin_can_update_category()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $category = Term::create([
             'name' => 'Original Category',
             'taxonomy' => 'category',
@@ -206,13 +219,15 @@ class ContentManagementTest extends TestCase
             'slug' => 'updated-category',
             'description' => 'Updated description',
         ]);
+        */
     }
 
     #[Test]
     public function admin_can_delete_category()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $category = Term::create([
             'name' => 'Category to Delete',
             'taxonomy' => 'category',
@@ -223,12 +238,14 @@ class ContentManagementTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseMissing('terms', ['id' => $category->id]);
+        */
     }
 
     #[Test]
     public function user_without_permission_cannot_manage_content()
     {
         $this->markTestSkipped('Route not implemented in test environment');
+        /*
 
         $regularUser = User::factory()->create();
 
@@ -244,5 +261,6 @@ class ContentManagementTest extends TestCase
                 'status' => 'publish',
             ])
             ->assertStatus(403);
+        */
     }
 }

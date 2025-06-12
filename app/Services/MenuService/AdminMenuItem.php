@@ -168,8 +168,8 @@ class AdminMenuItem
 
     public function setAttributes(array $attributes): self
     {
-        foreach (is_object($attributes) ? (array) $attributes : $attributes as $key => $value) {
-            $method = 'set'.ucfirst($key);
+        foreach ($attributes as $key => $value) {
+            $method = 'set' . ucfirst($key);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             } elseif (property_exists($this, $key)) {
@@ -195,7 +195,7 @@ class AdminMenuItem
             'priority' => $this->priority,
             'htmlData' => $this->htmlData,
             'children' => array_map(function ($child) {
-                return $child instanceof self ? $child->toArray() : $child;
+                return $child->toArray();
             }, $this->children),
         ];
     }

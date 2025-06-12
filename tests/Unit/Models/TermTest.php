@@ -49,13 +49,19 @@ class TermTest extends TestCase
 
         $this->assertEquals('custom-slug', $term->slug);
 
+        // Ensure term exists and has required properties.
+        $this->assertNotNull($term);
+        $this->assertInstanceOf(Term::class, $term);
+
         // Update with empty slug
         $term->update([
             'name' => 'Updated Term',
             'slug' => '',
         ]);
 
-        $this->assertEquals('updated-term', $term->fresh()->slug);
+        $refreshedTerm = $term->fresh();
+        $this->assertNotNull($refreshedTerm);
+        $this->assertEquals('updated-term', $refreshedTerm->slug);
     }
 
     #[Test]
@@ -117,11 +123,25 @@ class TermTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $post->terms()->attach($term->id);
+        // Ensure models were created successfully.
+        $this->assertNotNull($term);
+        $this->assertNotNull($post);
+        $this->assertInstanceOf(Term::class, $term);
+        $this->assertInstanceOf(Post::class, $post);
+
+        // Get IDs safely.
+        $termId = $term->getKey();
+        $postId = $post->getKey();
+
+        $this->assertNotNull($termId);
+        $this->assertNotNull($postId);
+
+        // Now attach the post to the term.
+        $post->terms()->attach($termId);
 
         $posts = $term->posts()->get();
         $this->assertCount(1, $posts);
-        $this->assertEquals($post->id, $posts->first()->id);
+        $this->assertEquals($postId, $posts->first()->getKey());
     }
 
     #[Test]
@@ -157,9 +177,26 @@ class TermTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        // Attach posts to terms
-        $term1->posts()->attach($post1->id);
-        $term2->posts()->attach([$post1->id, $post2->id]);
+        // Ensure models were created successfully.
+        $this->assertNotNull($term1);
+        $this->assertNotNull($term2);
+        $this->assertNotNull($post1);
+        $this->assertNotNull($post2);
+
+        // Get IDs safely.
+        $term1Id = $term1->getKey();
+        $term2Id = $term2->getKey();
+        $post1Id = $post1->getKey();
+        $post2Id = $post2->getKey();
+
+        $this->assertNotNull($term1Id);
+        $this->assertNotNull($term2Id);
+        $this->assertNotNull($post1Id);
+        $this->assertNotNull($post2Id);
+
+        // Attach posts to terms.
+        $term1->posts()->attach($post1Id);
+        $term2->posts()->attach([$post1Id, $post2Id]);
 
         // Sort by post count ascending
         $termModel = new Term();

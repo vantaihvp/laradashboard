@@ -62,8 +62,16 @@ class RolesService
         return true;
     }
 
-    public function createRole(string $name, array $permissions = []): Role
+    /**
+     * Create a new role with permissions
+     *
+     * @param string $name
+     * @param array $permissions
+     * @return \Spatie\Permission\Models\Role
+     */
+    public function createRole(string $name, array $permissions = []): \Spatie\Permission\Models\Role
     {
+        /** @var \Spatie\Permission\Models\Role $role */
         $role = Role::create(['name' => $name, 'guard_name' => 'web']);
 
         if (! empty($permissions)) {
@@ -73,9 +81,16 @@ class RolesService
         return $role;
     }
 
-    public function findRoleById(int $id): ?Role
+    /**
+     * Find a role by ID
+     *
+     * @param int $id
+     * @return \Spatie\Permission\Models\Role|null
+     */
+    public function findRoleById(int $id): ?\Spatie\Permission\Models\Role
     {
-        return Role::findById($id);
+        $role = Role::findById($id);
+        return $role instanceof \Spatie\Permission\Models\Role ? $role : null;
     }
 
     public function updateRole(Role $role, string $name, array $permissions = []): Role
@@ -134,7 +149,8 @@ class RolesService
 
             // Add user count to each role
             foreach ($allRoles as $role) {
-                $role->user_count = $this->countUsersInRole($role);
+                $userCount = $this->countUsersInRole($role);
+                $role->setAttribute('user_count', $userCount);
             }
 
             // Sort the collection by user_count
@@ -165,12 +181,13 @@ class RolesService
             'sort_direction' => 'asc',
         ];
 
-        $roles = \App\Models\Role::applyFilters($filters)
-            ->paginateData(['per_page' => $perPage]);
+        $query = \App\Models\Role::applyFilters($filters);
+        $roles = $query->paginateData(['per_page' => $perPage]);
 
         // Add user count to each role
-        foreach ($roles as $role) {
-            $role->user_count = $this->countUsersInRole($role);
+        foreach ($roles->items() as $role) {
+            $userCount = $this->countUsersInRole($role);
+            $role->setAttribute('user_count', $userCount);
         }
 
         return $roles;

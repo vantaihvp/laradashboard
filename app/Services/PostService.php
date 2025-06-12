@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Post;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class PostService
 {
     /**
      * Get posts with filters
+     *
+     * @param array $filters
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getPosts(array $filters = []): LengthAwarePaginator
+    public function getPosts(array $filters = [])
     {
         // Set default post type if not provided.
         if (! isset($filters['post_type'])) {
@@ -35,10 +37,10 @@ class PostService
             unset($filters['tag']); // Remove to prevent double filtering
         }
 
-        return $query->applyFilters($filters)
-            ->paginateData([
-                'per_page' => config('settings.default_pagination') ?? 10,
-            ]);
+        $query = $query->applyFilters($filters);
+        return $query->paginateData([
+            'per_page' => config('settings.default_pagination') ?? 10,
+        ]);
     }
 
     /**

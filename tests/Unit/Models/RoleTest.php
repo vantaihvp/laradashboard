@@ -59,8 +59,8 @@ class RoleTest extends TestCase
         $role->syncPermissions([$permission1->id, $permission2->id]);
 
         // Assert role has permissions
-        $this->assertTrue($role->hasPermissionTo('test.permission1'));
-        $this->assertTrue($role->hasPermissionTo('test.permission2'));
+        $this->assertTrue($role->hasPermissionTo('test.permission1', 'web'));
+        $this->assertTrue($role->hasPermissionTo('test.permission2', 'web'));
     }
 
     #[Test]

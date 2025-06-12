@@ -20,6 +20,7 @@ class SettingsController extends Controller
         private readonly EnvWriter $envWriter,
         private readonly CacheService $cacheService
     ) {
+        // The cacheService is used in the EnvWriter for cache clearing operations
     }
 
     public function index($tab = null): Renderable

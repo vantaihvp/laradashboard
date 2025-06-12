@@ -189,7 +189,7 @@ if (! function_exists('get_post_type')) {
      * Get a specific post type
      *
      * @param  string  $name  Post type name
-     * @return array|null
+     * @return \App\Services\Content\PostType|null
      */
     function get_post_type(string $name)
     {

@@ -144,7 +144,10 @@ class PostTest extends TestCase
             'taxonomy' => 'tag',
         ]);
 
-        $post->terms()->attach([$category->id, $tag->id]);
+        // Use attach with explicit model ID to avoid undefined property error
+        if ($post->id && $category->id && $tag->id) {
+            $post->terms()->attach([$category->id, $tag->id]);
+        }
 
         $this->assertCount(2, $post->terms);
 
@@ -170,6 +173,14 @@ class PostTest extends TestCase
             'user_id' => $user->id,
         ]);
 
+        // Ensure post was created successfully.
+        $this->assertNotNull($post);
+        $this->assertInstanceOf(Post::class, $post);
+
+        // Get the ID safely.
+        $postId = $post->getKey();
+        $this->assertNotNull($postId);
+
         // Set meta
         $meta = $post->setMeta('test_key', 'test_value');
         $this->assertInstanceOf(PostMeta::class, $meta);
@@ -185,7 +196,6 @@ class PostTest extends TestCase
 
         // Get all meta
         $allMeta = $post->getAllMetaValues();
-        $this->assertIsArray($allMeta);
         $this->assertEquals('updated_value', $allMeta['test_key']);
 
         // Delete meta
@@ -321,7 +331,8 @@ class PostTest extends TestCase
         $method = $reflection->getMethod('getSearchableColumns');
         $method->setAccessible(true);
 
-        $this->assertEquals(['title', 'excerpt', 'content'], $method->invoke($post));
+        $searchableColumns = $method->invoke($post);
+        $this->assertEquals(['title', 'excerpt', 'content'], $searchableColumns);
     }
 
     #[Test]

@@ -215,10 +215,13 @@ class PostsController extends Controller
         // Get selected terms
         $selectedTerms = [];
         foreach ($post->terms as $term) {
-            if (! isset($selectedTerms[$term->taxonomy])) {
-                $selectedTerms[$term->taxonomy] = [];
+            $taxonomyName = $term->getAttribute('taxonomy');
+            if ($taxonomyName && !isset($selectedTerms[$taxonomyName])) {
+                $selectedTerms[$taxonomyName] = [];
             }
-            $selectedTerms[$term->taxonomy][] = $term->id;
+            if ($taxonomyName) {
+                $selectedTerms[$taxonomyName][] = $term->id;
+            }
         }
 
         return view('backend.pages.posts.edit', compact('post', 'postType', 'postTypeModel', 'taxonomies', 'parentPosts', 'selectedTerms'))

@@ -90,8 +90,8 @@ class ContentSeeder extends Seeder
     {
         $this->command->info('Creating sample categories...');
 
-        // Make sure storage directory exists
-        Storage::disk('public')->makeDirectory('categories', 0755, true);
+        // Make sure storage directory exists.
+        Storage::disk('public')->makeDirectory('categories');
 
         $categories = [
             [
@@ -128,8 +128,8 @@ class ContentSeeder extends Seeder
     {
         $this->command->info('Creating sample tags...');
 
-        // Make sure storage directory exists
-        Storage::disk('public')->makeDirectory('tags', 0755, true);
+        // Make sure storage directory exists.
+        Storage::disk('public')->makeDirectory('tags');
 
         $tags = [
             [
@@ -263,7 +263,8 @@ class ContentSeeder extends Seeder
             ]);
 
             // Attach categories.
-            if (isset($postData['categories'])) {
+            $categoryIds = [];
+            if (!empty($postData['categories'])) {
                 $categoryIds = Term::whereIn('name', $postData['categories'])
                     ->where('taxonomy', 'category')
                     ->pluck('id')
@@ -273,7 +274,8 @@ class ContentSeeder extends Seeder
             }
 
             // Attach tags.
-            if (isset($postData['tags'])) {
+            $tagIds = [];
+            if (!empty($postData['tags'])) {
                 $tagIds = Term::whereIn('name', $postData['tags'])
                     ->where('taxonomy', 'tag')
                     ->pluck('id')

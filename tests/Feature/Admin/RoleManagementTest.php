@@ -43,18 +43,21 @@ class RoleManagementTest extends TestCase
     public function admin_can_view_roles_list()
     {
         $this->markTestSkipped('View name mismatch in test environment');
-
+        // Code below is skipped
+        /*
         $this->actingAs($this->admin)
             ->get('/admin/roles')
             ->assertStatus(200)
             ->assertViewIs('admin.roles.index');
+        */
     }
 
     #[Test]
     public function admin_can_create_role()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $response = $this->actingAs($this->admin)
             ->post('/admin/roles', [
                 'name' => 'editor',
@@ -68,13 +71,15 @@ class RoleManagementTest extends TestCase
 
         $role = Role::where('name', 'editor')->first();
         $this->assertTrue($role->hasPermissionTo('role.view'));
+        */
     }
 
     #[Test]
     public function admin_can_update_role()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $role = Role::create(['name' => 'editor']);
         $role->givePermissionTo('role.view');
 
@@ -94,6 +99,7 @@ class RoleManagementTest extends TestCase
         $updatedRole = Role::find($role->id);
         $this->assertTrue($updatedRole->hasPermissionTo('role.view'));
         $this->assertTrue($updatedRole->hasPermissionTo('role.edit'));
+        */
     }
 
     #[Test]
@@ -112,7 +118,8 @@ class RoleManagementTest extends TestCase
     public function admin_cannot_delete_superadmin_role()
     {
         $this->markTestSkipped('Route not implemented in test environment');
-
+        // Code below is skipped
+        /*
         $superadminRole = Role::create(['name' => 'superadmin']);
 
         $response = $this->actingAs($this->admin)
@@ -120,6 +127,7 @@ class RoleManagementTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseHas('roles', ['name' => 'superadmin']);
+        */
     }
 
     #[Test]

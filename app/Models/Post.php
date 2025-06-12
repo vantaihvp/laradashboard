@@ -113,20 +113,23 @@ class Post extends Model
     {
         $meta = $this->postMeta()->where('meta_key', $key)->first();
 
-        return $meta ? $meta->meta_value : $default;
+        return $meta ? $meta->getAttribute('meta_value') : $default;
     }
 
     /**
      * Set a meta value
      *
      * @param  mixed  $value
+     * @return \App\Models\PostMeta
      */
     public function setMeta(string $key, $value): PostMeta
     {
-        return $this->postMeta()->updateOrCreate(
+        $meta = $this->postMeta()->updateOrCreate(
             ['meta_key' => $key],
             ['meta_value' => $value]
         );
+
+        return $meta instanceof PostMeta ? $meta : new PostMeta($meta->getAttributes());
     }
 
     /**
@@ -150,10 +153,10 @@ class Post extends Model
         return $this->postMeta
             ->mapWithKeys(function ($meta) {
                 return [
-                    $meta->meta_key => [
-                        'value' => $meta->meta_value ?? '',
-                        'type' => $meta->type ?? 'input',
-                        'default_value' => $meta->default_value ?? '',
+                    $meta->getAttribute('meta_key') => [
+                        'value' => $meta->getAttribute('meta_value') ?? '',
+                        'type' => $meta->getAttribute('type') ?? 'input',
+                        'default_value' => $meta->getAttribute('default_value') ?? '',
                     ],
                 ];
             })
