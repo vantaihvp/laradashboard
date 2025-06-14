@@ -15,7 +15,7 @@ class PostTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function it_has_fillable_attributes()
+    public function it_has_fillable_attributes(): void
     {
         $post = new Post();
         $this->assertEquals([
@@ -34,7 +34,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_has_casted_attributes()
+    public function it_has_casted_attributes(): void
     {
         $post = new Post();
         $casts = $post->getCasts();
@@ -45,7 +45,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_auto_generates_slug_when_creating()
+    public function it_auto_generates_slug_when_creating(): void
     {
         $user = User::factory()->create();
 
@@ -61,7 +61,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_sets_user_id_from_authenticated_user_when_creating()
+    public function it_sets_user_id_from_authenticated_user_when_creating(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -77,7 +77,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_has_user_relationship()
+    public function it_has_user_relationship(): void
     {
         $user = User::factory()->create();
         $post = Post::create([
@@ -93,7 +93,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_has_parent_and_children_relationships()
+    public function it_has_parent_and_children_relationships(): void
     {
         $user = User::factory()->create();
 
@@ -122,7 +122,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_has_terms_relationship()
+    public function it_has_terms_relationship(): void
     {
         $user = User::factory()->create();
 
@@ -161,7 +161,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_can_manage_post_meta()
+    public function it_can_manage_post_meta(): void
     {
         $user = User::factory()->create();
 
@@ -204,7 +204,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_can_filter_by_published_status()
+    public function it_can_filter_by_published_status(): void
     {
         $user = User::factory()->create();
 
@@ -243,7 +243,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_can_filter_by_post_type()
+    public function it_can_filter_by_post_type(): void
     {
         $user = User::factory()->create();
 
@@ -276,7 +276,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_can_filter_by_category_and_tag()
+    public function it_can_filter_by_category_and_tag(): void
     {
         $user = User::factory()->create();
 
@@ -324,7 +324,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_has_searchable_columns()
+    public function it_has_searchable_columns(): void
     {
         $post = new Post();
         $reflection = new \ReflectionClass($post);
@@ -336,7 +336,7 @@ class PostTest extends TestCase
     }
 
     #[Test]
-    public function it_has_excluded_sort_columns()
+    public function it_has_excluded_sort_columns(): void
     {
         $post = new Post();
         $reflection = new \ReflectionClass($post);

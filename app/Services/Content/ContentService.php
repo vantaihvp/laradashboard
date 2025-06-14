@@ -168,12 +168,12 @@ class ContentService
         });
     }
 
-    public function clearPostTypesCache()
+    public function clearPostTypesCache(): void
     {
         Cache::forget('post_types');
     }
 
-    public function clearTaxonomiesCache()
+    public function clearTaxonomiesCache(): void
     {
         Cache::forget('taxonomies');
     }

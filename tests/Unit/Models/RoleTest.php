@@ -12,21 +12,21 @@ class RoleTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function it_extends_spatie_role()
+    public function it_extends_spatie_role(): void
     {
         $role = new Role();
         $this->assertInstanceOf(\Spatie\Permission\Models\Role::class, $role);
     }
 
     #[Test]
-    public function it_uses_query_builder_trait()
+    public function it_uses_query_builder_trait(): void
     {
         $role = new Role();
         $this->assertTrue(in_array('App\Traits\QueryBuilderTrait', class_uses_recursive($role)));
     }
 
     #[Test]
-    public function it_has_searchable_columns()
+    public function it_has_searchable_columns(): void
     {
         $role = new Role();
         $reflection = new \ReflectionClass($role);
@@ -37,7 +37,7 @@ class RoleTest extends TestCase
     }
 
     #[Test]
-    public function it_has_excluded_sort_columns()
+    public function it_has_excluded_sort_columns(): void
     {
         $role = new Role();
         $reflection = new \ReflectionClass($role);
@@ -48,7 +48,7 @@ class RoleTest extends TestCase
     }
 
     #[Test]
-    public function it_can_create_role_with_permissions()
+    public function it_can_create_role_with_permissions(): void
     {
         // Create permissions
         $permission1 = \Spatie\Permission\Models\Permission::create(['name' => 'test.permission1']);
@@ -64,7 +64,7 @@ class RoleTest extends TestCase
     }
 
     #[Test]
-    public function it_can_be_assigned_to_users()
+    public function it_can_be_assigned_to_users(): void
     {
         $role = Role::create(['name' => 'test-role']);
         $user = \App\Models\User::factory()->create();

@@ -64,9 +64,8 @@ class User extends Authenticatable
      * Send the password reset notification.
      *
      * @param  string  $token
-     * @return void
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         // Check if the request is for the admin panel
         if (request()->is('admin/*')) {

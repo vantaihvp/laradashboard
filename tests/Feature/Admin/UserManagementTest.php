@@ -40,7 +40,7 @@ class UserManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_view_users_list()
+    public function admin_can_view_users_list(): void
     {
         $this->markTestSkipped('View name mismatch in test environment');
         // Code below is skipped
@@ -53,7 +53,7 @@ class UserManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_create_user()
+    public function admin_can_create_user(): void
     {
         $role = Role::create(['name' => 'editor']);
 
@@ -79,7 +79,7 @@ class UserManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_update_user()
+    public function admin_can_update_user(): void
     {
         $user = User::factory()->create([
             'name' => 'Original Name',
@@ -109,7 +109,7 @@ class UserManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_delete_user()
+    public function admin_can_delete_user(): void
     {
         $user = User::factory()->create();
 
@@ -121,7 +121,7 @@ class UserManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_cannot_delete_themselves()
+    public function admin_cannot_delete_themselves(): void
     {
         $this->markTestSkipped('Database issue in test environment');
         // Code below is skipped
@@ -135,7 +135,7 @@ class UserManagementTest extends TestCase
     }
 
     #[Test]
-    public function user_without_permission_cannot_manage_users()
+    public function user_without_permission_cannot_manage_users(): void
     {
         $regularUser = User::factory()->create();
 
@@ -154,7 +154,7 @@ class UserManagementTest extends TestCase
     }
 
     #[Test]
-    public function validation_works_when_creating_user()
+    public function validation_works_when_creating_user(): void
     {
         $response = $this->actingAs($this->admin)
             ->post('/admin/users', [

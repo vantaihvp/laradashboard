@@ -18,11 +18,10 @@ class AdminMenuService
      *
      * @param  AdminMenuItem|array  $item  The menu item or configuration array
      * @param  string|null  $group  The group to add the item to
-     * @return void
      *
      * @throws \InvalidArgumentException
      */
-    public function addMenuItem(AdminMenuItem|array $item, ?string $group = null)
+    public function addMenuItem(AdminMenuItem|array $item, ?string $group = null): void
     {
         $group = $group ?: __('Main');
         $menuItem = $this->createAdminMenuItem($item);

@@ -216,7 +216,7 @@ class PostsController extends Controller
         $selectedTerms = [];
         foreach ($post->terms as $term) {
             $taxonomyName = $term->getAttribute('taxonomy');
-            if ($taxonomyName && !isset($selectedTerms[$taxonomyName])) {
+            if ($taxonomyName && ! isset($selectedTerms[$taxonomyName])) {
                 $selectedTerms[$taxonomyName] = [];
             }
             if ($taxonomyName) {

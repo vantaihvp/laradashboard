@@ -254,6 +254,12 @@ composer run test
 composer run format
 ```
 
+**Type Safety:** To improve type safety, we've used `rector`. You can run the following command to add type hints:
+
+```bash
+composer run type-check
+```
+
 You can also run individual commands for each tool (optional):
 
 ```bash

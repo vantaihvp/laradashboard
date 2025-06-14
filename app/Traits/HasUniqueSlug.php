@@ -65,7 +65,7 @@ trait HasUniqueSlug
      * Automatically generate slug before saving (if slug is empty)
      * Add this to your model's boot method or use model events
      */
-    public function setSlugAttribute($value)
+    public function setSlugAttribute($value): void
     {
         // If slug is provided, use it; otherwise generate one
         if (empty($value)) {

@@ -44,7 +44,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_view_posts_list()
+    public function admin_can_view_posts_list(): void
     {
         $this->withoutExceptionHandling();
         $this->markTestSkipped('Route not implemented in test environment');
@@ -58,7 +58,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_create_post()
+    public function admin_can_create_post(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -102,7 +102,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_update_post()
+    public function admin_can_update_post(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -134,7 +134,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_delete_post()
+    public function admin_can_delete_post(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -156,7 +156,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_view_categories()
+    public function admin_can_view_categories(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -169,7 +169,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_create_category()
+    public function admin_can_create_category(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -193,7 +193,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_update_category()
+    public function admin_can_update_category(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -223,7 +223,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_delete_category()
+    public function admin_can_delete_category(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -242,7 +242,7 @@ class ContentManagementTest extends TestCase
     }
 
     #[Test]
-    public function user_without_permission_cannot_manage_content()
+    public function user_without_permission_cannot_manage_content(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         /*

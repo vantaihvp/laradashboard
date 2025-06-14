@@ -12,7 +12,7 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function user_can_view_login_form()
+    public function user_can_view_login_form(): void
     {
         $response = $this->get('/login');
 
@@ -21,7 +21,7 @@ class LoginTest extends TestCase
     }
 
     #[Test]
-    public function user_can_login_with_correct_credentials()
+    public function user_can_login_with_correct_credentials(): void
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
@@ -38,7 +38,7 @@ class LoginTest extends TestCase
     }
 
     #[Test]
-    public function user_cannot_login_with_incorrect_password()
+    public function user_cannot_login_with_incorrect_password(): void
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
@@ -56,7 +56,7 @@ class LoginTest extends TestCase
     }
 
     #[Test]
-    public function user_cannot_login_with_email_that_does_not_exist()
+    public function user_cannot_login_with_email_that_does_not_exist(): void
     {
         $response = $this->from('/login')->post('/login', [
             'email' => 'nobody@example.com',
@@ -69,7 +69,7 @@ class LoginTest extends TestCase
     }
 
     #[Test]
-    public function remember_me_functionality_works()
+    public function remember_me_functionality_works(): void
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',

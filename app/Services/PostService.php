@@ -11,7 +11,6 @@ class PostService
     /**
      * Get posts with filters
      *
-     * @param array $filters
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getPosts(array $filters = [])
@@ -38,6 +37,7 @@ class PostService
         }
 
         $query = $query->applyFilters($filters);
+
         return $query->paginateData([
             'per_page' => config('settings.default_pagination') ?? 10,
         ]);

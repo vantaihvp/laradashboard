@@ -264,7 +264,7 @@ class ContentSeeder extends Seeder
 
             // Attach categories.
             $categoryIds = [];
-            if (!empty($postData['categories'])) {
+            if (! empty($postData['categories'])) {
                 $categoryIds = Term::whereIn('name', $postData['categories'])
                     ->where('taxonomy', 'category')
                     ->pluck('id')
@@ -275,7 +275,7 @@ class ContentSeeder extends Seeder
 
             // Attach tags.
             $tagIds = [];
-            if (!empty($postData['tags'])) {
+            if (! empty($postData['tags'])) {
                 $tagIds = Term::whereIn('name', $postData['tags'])
                     ->where('taxonomy', 'tag')
                     ->pluck('id')

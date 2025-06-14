@@ -120,7 +120,6 @@ class Post extends Model
      * Set a meta value
      *
      * @param  mixed  $value
-     * @return \App\Models\PostMeta
      */
     public function setMeta(string $key, $value): PostMeta
     {
@@ -146,7 +145,7 @@ class Post extends Model
     public function getAllMeta(): array
     {
         // Make sure we're loading the postMeta relationship
-        if (!$this->relationLoaded('postMeta')) {
+        if (! $this->relationLoaded('postMeta')) {
             $this->load('postMeta');
         }
 

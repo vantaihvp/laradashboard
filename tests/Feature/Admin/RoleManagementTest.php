@@ -40,7 +40,7 @@ class RoleManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_view_roles_list()
+    public function admin_can_view_roles_list(): void
     {
         $this->markTestSkipped('View name mismatch in test environment');
         // Code below is skipped
@@ -53,7 +53,7 @@ class RoleManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_create_role()
+    public function admin_can_create_role(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -75,7 +75,7 @@ class RoleManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_update_role()
+    public function admin_can_update_role(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -103,7 +103,7 @@ class RoleManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_can_delete_role()
+    public function admin_can_delete_role(): void
     {
         $role = Role::create(['name' => 'temporary']);
 
@@ -115,7 +115,7 @@ class RoleManagementTest extends TestCase
     }
 
     #[Test]
-    public function admin_cannot_delete_superadmin_role()
+    public function admin_cannot_delete_superadmin_role(): void
     {
         $this->markTestSkipped('Route not implemented in test environment');
         // Code below is skipped
@@ -131,7 +131,7 @@ class RoleManagementTest extends TestCase
     }
 
     #[Test]
-    public function user_without_permission_cannot_manage_roles()
+    public function user_without_permission_cannot_manage_roles(): void
     {
         $regularUser = User::factory()->create();
 

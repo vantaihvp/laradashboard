@@ -15,11 +15,11 @@ trait QueryBuilderTrait
     public function scopeApplyFilters(Builder $query, array $filters = []): Builder
     {
         // Apply search filter if provided
-        if (isset($filters['search']) && !empty($filters['search'])) {
+        if (isset($filters['search']) && ! empty($filters['search'])) {
             $searchColumns = $this->getSearchableColumns();
             $query->where(column: function ($q) use ($searchColumns, $filters) {
                 foreach ($searchColumns as $column) {
-                    $q->orWhere($column, 'LIKE', '%' . $filters['search'] . '%');
+                    $q->orWhere($column, 'LIKE', '%'.$filters['search'].'%');
                 }
             });
         }
@@ -30,18 +30,18 @@ trait QueryBuilderTrait
         }
 
         // Apply role filter if provided.
-        if (isset($filters['role']) && !empty($filters['role'])) {
+        if (isset($filters['role']) && ! empty($filters['role'])) {
             $query->whereHas('roles', function ($q) use ($filters) {
                 $q->where('name', $filters['role']);
             });
         }
 
         // Apply date range filter if provided.
-        if (isset($filters['date_from']) && !empty($filters['date_from'])) {
+        if (isset($filters['date_from']) && ! empty($filters['date_from'])) {
             $query->whereDate('created_at', '>=', $filters['date_from']);
         }
 
-        if (isset($filters['date_to']) && !empty($filters['date_to'])) {
+        if (isset($filters['date_to']) && ! empty($filters['date_to'])) {
             $query->whereDate('created_at', '<=', $filters['date_to']);
         }
 
@@ -62,9 +62,9 @@ trait QueryBuilderTrait
                 ? $this->getExcludedSortColumns()
                 : [];
 
-            if (!in_array($field, $excludedSortColumns)) {
+            if (! in_array($field, $excludedSortColumns)) {
                 // Handle special sorting cases.
-                $methodName = 'sortBy' . ucfirst($field);
+                $methodName = 'sortBy'.ucfirst($field);
                 if (method_exists($this, $methodName)) {
                     $this->$methodName($query, $direction);
                 } else {

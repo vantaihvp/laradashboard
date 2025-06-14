@@ -26,9 +26,7 @@ function ld_add_action(string $hookName, $callback, $priority = 20, $args = 1)
  *
  * @see https://github.com/tormjens/eventy
  *
- * @param  string  $hookName
  * @param  mixed  ...$args
- * @return void
  */
 function ld_do_action(string $hookName, ...$args): void
 {

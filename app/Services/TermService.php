@@ -20,7 +20,6 @@ class TermService
     /**
      * Get terms with filters.
      *
-     * @param array $filters
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getTerms(array $filters = [])
@@ -103,7 +102,7 @@ class TermService
         // Generate slug if needed
         $slug = $data['slug'] ?? '';
         if ($term->slug !== $slug) {
-            $slugSource = !empty($slug) ? $slug : $data['name'];
+            $slugSource = ! empty($slug) ? $slug : $data['name'];
             $term->slug = $term->generateSlugFromString($slugSource, $term->getKey());
         }
 

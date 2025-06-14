@@ -13,10 +13,8 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         // Handle PHP 8.4 deprecation notices for development
         if (PHP_VERSION_ID >= 80400) {
@@ -26,10 +24,8 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningUnitTests()) {
             return;
@@ -49,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
             if (Schema::hasTable('settings')) {
                 $settings = Setting::pluck('option_value', 'option_name')->toArray();
                 foreach ($settings as $key => $value) {
-                    config(['settings.' . $key => $value]);
+                    config(['settings.'.$key => $value]);
                 }
             }
         } catch (\Exception $e) {

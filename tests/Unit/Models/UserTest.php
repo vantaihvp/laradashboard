@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Notifications\AdminResetPasswordNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -16,7 +16,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function it_has_fillable_attributes()
+    public function it_has_fillable_attributes(): void
     {
         $user = new User();
         $this->assertEquals([
@@ -28,7 +28,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function it_has_hidden_attributes()
+    public function it_has_hidden_attributes(): void
     {
         $user = new User();
         $this->assertEquals([
@@ -39,7 +39,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function it_has_casted_attributes()
+    public function it_has_casted_attributes(): void
     {
         $user = new User();
         $casts = $user->getCasts();
@@ -48,7 +48,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function it_sends_admin_reset_password_notification_for_admin_routes()
+    public function it_sends_admin_reset_password_notification_for_admin_routes(): void
     {
         Notification::fake();
 
@@ -64,7 +64,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function it_sends_default_reset_password_notification_for_non_admin_routes()
+    public function it_sends_default_reset_password_notification_for_non_admin_routes(): void
     {
         Notification::fake();
 
@@ -80,7 +80,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function it_can_check_if_user_has_any_permission()
+    public function it_can_check_if_user_has_any_permission(): void
     {
         $user = User::factory()->create();
         $permission1 = Permission::create(['name' => 'test.permission1']);
@@ -95,7 +95,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function it_has_searchable_columns()
+    public function it_has_searchable_columns(): void
     {
         $user = new User();
         $reflection = new \ReflectionClass($user);
@@ -106,7 +106,7 @@ class UserTest extends TestCase
     }
 
     #[Test]
-    public function it_has_excluded_sort_columns()
+    public function it_has_excluded_sort_columns(): void
     {
         $user = new User();
         $reflection = new \ReflectionClass($user);

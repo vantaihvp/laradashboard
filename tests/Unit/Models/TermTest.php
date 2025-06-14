@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\Post;
 use App\Models\Taxonomy;
 use App\Models\Term;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class TermTest extends TestCase
@@ -14,7 +14,7 @@ class TermTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function it_has_fillable_attributes()
+    public function it_has_fillable_attributes(): void
     {
         $term = new Term();
         $this->assertEquals([
@@ -28,7 +28,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_auto_generates_slug_when_creating()
+    public function it_auto_generates_slug_when_creating(): void
     {
         $term = Term::create([
             'name' => 'Test Term',
@@ -39,7 +39,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_auto_generates_slug_when_updating_name_with_empty_slug()
+    public function it_auto_generates_slug_when_updating_name_with_empty_slug(): void
     {
         $term = Term::create([
             'name' => 'Test Term',
@@ -65,7 +65,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_has_taxonomy_relationship()
+    public function it_has_taxonomy_relationship(): void
     {
         // Create taxonomy
         $taxonomy = Taxonomy::create([
@@ -85,7 +85,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_has_parent_and_children_relationships()
+    public function it_has_parent_and_children_relationships(): void
     {
         $parent = Term::create([
             'name' => 'Parent Term',
@@ -106,7 +106,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_has_posts_relationship()
+    public function it_has_posts_relationship(): void
     {
         $user = \App\Models\User::factory()->create();
 
@@ -145,7 +145,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_can_sort_by_post_count()
+    public function it_can_sort_by_post_count(): void
     {
         $user = \App\Models\User::factory()->create();
 
@@ -217,7 +217,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_has_searchable_columns()
+    public function it_has_searchable_columns(): void
     {
         $term = new Term();
         $reflection = new \ReflectionClass($term);
@@ -228,7 +228,7 @@ class TermTest extends TestCase
     }
 
     #[Test]
-    public function it_has_excluded_sort_columns()
+    public function it_has_excluded_sort_columns(): void
     {
         $term = new Term();
         $reflection = new \ReflectionClass($term);

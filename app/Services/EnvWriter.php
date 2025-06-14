@@ -11,7 +11,7 @@ class EnvWriter
 {
     use HasActionLogTrait;
 
-    public function write($key, $value)
+    public function write($key, $value): void
     {
         // If the value didn't change, don't write it to the file.
         if ($this->get($key) === $value) {
@@ -51,7 +51,7 @@ class EnvWriter
         return isset($matches[1]) ? trim($matches[1]) : null;
     }
 
-    public function maybeWriteKeysToEnvFile($keys)
+    public function maybeWriteKeysToEnvFile($keys): void
     {
         $availableKeys = $this->getAvailableKeys();
 

@@ -64,10 +64,6 @@ class RolesService
 
     /**
      * Create a new role with permissions
-     *
-     * @param string $name
-     * @param array $permissions
-     * @return \Spatie\Permission\Models\Role
      */
     public function createRole(string $name, array $permissions = []): \Spatie\Permission\Models\Role
     {
@@ -83,13 +79,11 @@ class RolesService
 
     /**
      * Find a role by ID
-     *
-     * @param int $id
-     * @return \Spatie\Permission\Models\Role|null
      */
     public function findRoleById(int $id): ?\Spatie\Permission\Models\Role
     {
         $role = Role::findById($id);
+
         return $role instanceof \Spatie\Permission\Models\Role ? $role : null;
     }
 
