@@ -487,7 +487,7 @@ composer run phpunit
   </tr>
 </table>
 
-### 🔧 Other Pages / Sections
+### 🔧 Other Pages / Sections / Tests
 
 <table>
   <tr>
@@ -498,6 +498,12 @@ composer run phpunit
     <td width="50%">
       <strong>Post activity Chart</strong><br/>
       <img width="100%" alt="Post activity Chart" src="/demo-screenshots/102-Post-activity-Chart.png"/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>PHPUnit, Pint, Rector, PHPstan tests</strong><br/>
+      <img width="100%" alt="PHPUnit, Pint, Rector, PHPstan tests" src="/demo-screenshots/103-Unit-Tests-Demo.png"/>
     </td>
   </tr>
 </table>
