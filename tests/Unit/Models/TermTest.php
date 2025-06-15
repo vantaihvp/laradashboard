@@ -22,8 +22,9 @@ class TermTest extends TestCase
             'slug',
             'taxonomy',
             'description',
-            'featured_image',
             'parent_id',
+            'count',
+            'featured_image',
         ], $term->getFillable());
     }
 

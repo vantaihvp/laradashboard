@@ -22,8 +22,9 @@ class Term extends Model
         'slug',
         'taxonomy',
         'description',
-        'featured_image',
         'parent_id',
+        'count',
+        'featured_image',
     ];
 
     protected function getSlugSourceField($model): string

@@ -103,7 +103,7 @@ class TermService
         $slug = $data['slug'] ?? '';
         if ($term->slug !== $slug) {
             $slugSource = ! empty($slug) ? $slug : $data['name'];
-            $term->slug = $term->generateSlugFromString($slugSource, $term->getKey());
+            $term->slug = $term->generateSlugFromString($slugSource, 'slug');
         }
 
         $term->description = $data['description'] ?? null;
