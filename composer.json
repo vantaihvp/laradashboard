@@ -91,11 +91,11 @@
             "@php artisan key:generate --ansi"
         ],
         "format": [
-            "./vendor/bin/pint",
-            "./vendor/bin/rector process --dry-run"
+            "./vendor/bin/pint --config pint.json",
+            "./vendor/bin/rector process"
         ],
         "pint": [
-            "./vendor/bin/pint --test"
+            "./vendor/bin/pint --test --config pint.json"
         ],
         "phpstan": [
             "./vendor/bin/phpstan analyse --memory-limit=5G"
