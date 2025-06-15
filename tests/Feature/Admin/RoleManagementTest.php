@@ -7,8 +7,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use PHPUnit\Framework\Attributes\Test;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Permission;
+use App\Models\Role;
 use Tests\TestCase;
 
 class RoleManagementTest extends TestCase
@@ -37,7 +37,10 @@ class RoleManagementTest extends TestCase
 
         $adminRole = Role::create(['name' => 'Superadmin']);
         $adminRole->syncPermissions([
-            'role.view', 'role.create', 'role.edit', 'role.delete',
+            'role.view',
+            'role.create',
+            'role.edit',
+            'role.delete',
         ]);
         $this->admin->assignRole('Superadmin');
 
@@ -77,12 +80,7 @@ class RoleManagementTest extends TestCase
             $view->with([
                 'roleService' => app(\App\Services\RolesService::class),
                 'all_permissions' => Permission::all(),
-                'permission_groups' => Permission::select('group_name')
-                    ->distinct()
-                    ->get()
-                    ->map(function ($permission) {
-                        return (object) ['name' => $permission->group_name];
-                    }),
+                'permission_groups' => Permission::groupBy('group_name')->get(),
                 'breadcrumbs' => [
                     'title' => 'Create Role',
                     'items' => [],
@@ -97,12 +95,7 @@ class RoleManagementTest extends TestCase
             $view->with([
                 'roleService' => app(\App\Services\RolesService::class),
                 'all_permissions' => Permission::all(),
-                'permission_groups' => Permission::select('group_name')
-                    ->distinct()
-                    ->get()
-                    ->map(function ($permission) {
-                        return (object) ['name' => $permission->group_name ?: 'general'];
-                    }),
+                'permission_groups' => Permission::groupBy('group_name')->get(),
                 'breadcrumbs' => [
                     'title' => 'Edit Role',
                     'items' => [],
