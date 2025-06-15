@@ -158,6 +158,12 @@ class UsersController extends Controller
         // Prevent deletion of super admin in demo mode
         $this->preventSuperAdminModification($user);
 
+        // Prevent users from deleting themselves.
+        if (Auth::id() === $user->id) {
+            session()->flash('error', __('You cannot delete your own account.'));
+            return back();
+        }
+
         $user = ld_apply_filters('user_delete_before', $user);
         $user->delete();
         $user = ld_apply_filters('user_delete_after', $user);
@@ -182,6 +188,19 @@ class UsersController extends Controller
         if (empty($ids)) {
             return redirect()->route('admin.users.index')
                 ->with('error', __('No users selected for deletion'));
+        }
+
+        // Prevent deleting current user.
+        if (in_array(Auth::id(), $ids)) {
+            // Remove current user from the deletion list.
+            $ids = array_filter($ids, fn ($id) => $id != Auth::id());
+            session()->flash('error', __('You cannot delete your own account. Other selected users will be processed.'));
+
+            // If no users left to delete after filtering out current user.
+            if (empty($ids)) {
+                return redirect()->route('admin.users.index')
+                    ->with('error', __('No users were deleted.'));
+            }
         }
 
         $users = User::whereIn('id', $ids)->get();
