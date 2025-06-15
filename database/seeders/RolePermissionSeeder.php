@@ -25,10 +25,8 @@ class RolePermissionSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
@@ -52,9 +50,9 @@ class RolePermissionSeeder extends Seeder
         $this->command->info('Assigning random roles to other users...');
         $availableRoles = ['Admin', 'Editor', 'Subscriber']; // Exclude Superadmin from random assignment
         $users = User::all();
-        
+
         foreach ($users as $user) {
-            if (!$user->hasRole('Superadmin')) {
+            if (! $user->hasRole('Superadmin')) {
                 // Get a random role from the available roles
                 $randomRole = $availableRoles[array_rand($availableRoles)];
                 $user->assignRole($randomRole);

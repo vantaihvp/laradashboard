@@ -2,26 +2,29 @@
 
 namespace App\Models;
 
+use App\Traits\HasUniqueSlug;
+use App\Traits\QueryBuilderTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Traits\HasUniqueSlug;
-use App\Traits\QueryBuilderTrait;
-use Illuminate\Database\Eloquent\Builder;
 
 class Term extends Model
 {
-    use HasFactory, QueryBuilderTrait, HasUniqueSlug;
+    use HasFactory;
+    use HasUniqueSlug;
+    use QueryBuilderTrait;
 
     protected $fillable = [
         'name',
         'slug',
         'taxonomy',
         'description',
+        'parent_id',
+        'count',
         'featured_image',
-        'parent_id'
     ];
 
     protected function getSlugSourceField($model): string
@@ -99,8 +102,6 @@ class Term extends Model
 
     /**
      * Get searchable columns for the model.
-     *
-     * @return array
      */
     protected function getSearchableColumns(): array
     {
@@ -109,8 +110,6 @@ class Term extends Model
 
     /**
      * Get columns that should be excluded from sorting.
-     *
-     * @return array
      */
     protected function getExcludedSortColumns(): array
     {

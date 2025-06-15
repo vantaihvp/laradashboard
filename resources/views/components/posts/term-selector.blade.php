@@ -9,25 +9,46 @@
 ])
 
 @php
-    function buildHierarchicalOptions($terms, $parentId = null, $depth = 0, $currentTermId = null) {
+    // Create a recursive function that references itself and handles different term types
+    $buildOptions = function($terms, $parentId = null, $depth = 0, $currentTermId = null) use (&$buildOptions) {
         $options = [];
         foreach ($terms as $term) {
-            if ($term->parent_id == $parentId && (!$currentTermId || $term->id !== $currentTermId)) {
+            // Check if $term is an object or an array with parent_id property/key
+            $termParentId = null;
+            if (is_object($term)) {
+                $termParentId = $term->parent_id;
+                $termId = $term->id;
+                $termName = $term->name;
+            } elseif (is_array($term)) {
+                $termParentId = $term['parent_id'] ?? null;
+                $termId = $term['id'] ?? null;
+                $termName = $term['name'] ?? '';
+            } else {
+                // Skip this item if it's neither an object nor an array
+                continue;
+            }
+            
+            if ($termParentId == $parentId && (!$currentTermId || $termId !== $currentTermId)) {
                 $indent = str_repeat('— ', $depth);
                 $options[] = [
-                    'value' => $term->id,
-                    'label' => $indent . $term->name
+                    'value' => $termId,
+                    'label' => $indent . $termName
                 ];
-                $childOptions = buildHierarchicalOptions($terms, $term->id, $depth + 1, $currentTermId);
+                
+                $childOptions = $buildOptions($terms, $termId, $depth + 1, $currentTermId);
                 $options = array_merge($options, $childOptions);
             }
         }
         return $options;
-    }
+    };
     
     $parentOptions = [];
-    $hierarchicalOptions = buildHierarchicalOptions($parentTerms, null, 0, $term ? $term->id : null);
-    $parentOptions = array_merge($parentOptions, $hierarchicalOptions);
+    
+    // Handle different parentTerms formats
+    if (is_array($parentTerms) || $parentTerms instanceof \Traversable) {
+        $hierarchicalOptions = $buildOptions($parentTerms, null, 0, $term ? $term->id : null);
+        $parentOptions = array_merge($parentOptions, $hierarchicalOptions);
+    }
 @endphp
 
 <x-inputs.combobox 

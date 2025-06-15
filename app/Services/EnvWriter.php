@@ -11,7 +11,7 @@ class EnvWriter
 {
     use HasActionLogTrait;
 
-    public function write($key, $value)
+    public function write($key, $value): void
     {
         // If the value didn't change, don't write it to the file.
         if ($this->get($key) === $value) {
@@ -27,8 +27,8 @@ class EnvWriter
         $file = preg_replace("/^$key=.*/m", "$key=$formattedValue", $file);
 
         // If the key doesn't exist, append it
-        if (!preg_match("/^$key=/m", $file)) {
-            $file .= PHP_EOL . "$key=$formattedValue";
+        if (! preg_match("/^$key=/m", $file)) {
+            $file .= PHP_EOL."$key=$formattedValue";
         }
 
         // Use file locking to prevent race conditions
@@ -47,10 +47,11 @@ class EnvWriter
         $path = base_path('.env');
         $file = file_get_contents($path);
         preg_match("/^$key=(.*)/m", $file, $matches);
+
         return isset($matches[1]) ? trim($matches[1]) : null;
     }
 
-    public function maybeWriteKeysToEnvFile($keys)
+    public function maybeWriteKeysToEnvFile($keys): void
     {
         $availableKeys = $this->getAvailableKeys();
 
@@ -103,8 +104,8 @@ class EnvWriter
                     $formattedValue = "\"$value\"";
                     $file = preg_replace("/^$envKey=.*/m", "$envKey=$formattedValue", $file);
 
-                    if (!preg_match("/^$envKey=/m", $file)) {
-                        $file .= PHP_EOL . "$envKey=$formattedValue";
+                    if (! preg_match("/^$envKey=/m", $file)) {
+                        $file .= PHP_EOL."$envKey=$formattedValue";
                     }
 
                     $changesMade = true;
