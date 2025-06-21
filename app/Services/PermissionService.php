@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Permission;
+use Spatie\Permission\Models\Permission as SpatiePermission;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -303,7 +304,7 @@ class PermissionService
     /**
      * Get roles for permission
      */
-    public function getRolesForPermission(Permission $permission): Collection
+    public function getRolesForPermission(SpatiePermission $permission): Collection
     {
         return $permission->roles()->get();
     }
