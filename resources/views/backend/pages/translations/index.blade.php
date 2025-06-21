@@ -102,7 +102,7 @@
                                             <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                                 <textarea name="translations[{{ $key }}]" rows="1"
                                                     class="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                                                    placeholder="{{ $value }}">{{ $translations[$key] ?? '' }}</textarea>
+                                                    placeholder="">{{ $translations[$key] ?? '' }}</textarea>
                                             </td>
                                         </tr>
                                     @else
