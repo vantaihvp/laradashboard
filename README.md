@@ -48,6 +48,12 @@ password - 12345678
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📝 Changelog
+**[v1.6.0] - 2025-06-21**
+
+- **Enhancement:** Write/Update Standard Unit Tests, pint, rector, phpstan for the project.
+- **Fix:** Potential fix for code scanning alert no. 1: Workflow does not contain permissions.
+- **Fix:** Language switcher if no icon is selected.
+- **Fix:** Non-Translated keys keep empty instead the placeholder.
 
 **[v1.5.0] - 2025-06-01**
 
