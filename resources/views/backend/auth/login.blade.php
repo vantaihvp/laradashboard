@@ -64,13 +64,13 @@
           </div>
           <!-- Button -->
           <div>
-            <button type="submit" class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+            <button type="submit" class="btn-primary w-full ">
               {{ __('Sign In') }}
               <i class="bi bi-box-arrow-in-right ml-2"></i>
             </button>
           </div>
           @if (config('app.demo_mode', false))
-          <div x-data="{ showDemoCredentials: false }" class="mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+          <div x-data="{ showDemoCredentials: true }" class="mt-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             <button 
               type="button" 
               @click="showDemoCredentials = !showDemoCredentials" 
@@ -100,9 +100,9 @@
               <button 
                 type="button" 
                 id="fill-demo-credentials" 
-                class="w-full px-3 py-2 text-xs font-medium text-white bg-brand-500 rounded shadow hover:bg-brand-600 transition"
+                class="!text-xs btn-default"
               >
-                {{ __('Login with Demo Credentials') }}
+                {{ __('Login Now') }}
                 <i class="bi bi-box-arrow-in-right ml-1"></i>
               </button>
             </div>
