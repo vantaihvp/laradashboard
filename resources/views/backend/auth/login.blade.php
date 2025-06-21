@@ -87,13 +87,13 @@
               <div class="mb-3">
                 <p class="text-sm text-gray-600 dark:text-gray-400">{{ __('Use these credentials to explore the demo:') }}</p>
               </div>
-              <div class="grid grid-cols-1 gap-2 mb-3">
+              <div class="grid grid-cols-1 gap-2 mb-3 text-gray-500 dark:text-gray-400">
                 <div class="flex items-center">
-                  <span class="w-20 text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Email:') }}</span>
+                  <span class="w-20 text-xs font-medium">{{ __('Email:') }}</span>
                   <code class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-gray-800 rounded">superadmin@example.com</code>
                 </div>
                 <div class="flex items-center">
-                  <span class="w-20 text-xs font-medium text-gray-500 dark:text-gray-400">{{ __('Password:') }}</span>
+                  <span class="w-20 text-xs font-medium">{{ __('Password:') }}</span>
                   <code class="px-2 py-1 text-xs font-mono bg-gray-100 dark:bg-gray-800 rounded">12345678</code>
                 </div>
               </div>
