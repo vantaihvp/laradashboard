@@ -96,10 +96,10 @@
                                             <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                                                 {{ $key }}
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-400">
                                                 {{ $value }}
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-400">
                                                 <textarea name="translations[{{ $key }}]" rows="1"
                                                     class="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                                                     placeholder="">{{ $translations[$key] ?? '' }}</textarea>
@@ -123,7 +123,7 @@
                                                     <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                                         <textarea name="translations[{{ $key }}][{{ $nestedKey }}]" rows="1"
                                                             class="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                                                            placeholder="{{ $nestedValue }}">{{ $translations[$key][$nestedKey] ?? '' }}</textarea>
+                                                            placeholder="">{{ $translations[$key][$nestedKey] ?? '' }}</textarea>
                                                     </td>
                                                 </tr>
                                             @else
@@ -143,7 +143,7 @@
                                                         <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                                             <textarea name="translations[{{ $key }}][{{ $nestedKey }}][{{ $deepKey }}]" rows="1"
                                                                 class="w-full rounded-md border border-gray-300 p-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                                                                placeholder="{{ $deepValue }}">{{ $translations[$key][$nestedKey][$deepKey] ?? '' }}</textarea>
+                                                                placeholder="">{{ $translations[$key][$nestedKey][$deepKey] ?? '' }}</textarea>
                                                         </td>
                                                     </tr>
                                                 @endforeach
