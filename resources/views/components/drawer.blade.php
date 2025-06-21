@@ -1,4 +1,4 @@
-@props(['btn' => null, 'isOpen' => false, 'title' => null, 'btnClass' => 'btn-primary', 'btnIcon' => 'bi bi-plus-circle', 'width' => 'sm:w-96', 'drawerId' => null])
+@props(['btn' => null, 'isOpen' => false, 'title' => null, 'btnClass' => 'btn-primary', 'btnIcon' => 'bi bi-plus-circle', 'width' => 'sm:w-full', 'drawerId' => null])
 
 @php
     // Generate a consistent ID for this drawer
