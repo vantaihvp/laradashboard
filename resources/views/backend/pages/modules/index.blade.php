@@ -57,6 +57,7 @@
 
     {!! ld_apply_filters('modules_after_breadcrumbs', '') !!}
 
+    @if (!empty($modules))
     <div x-show="showUploadArea" class="mb-6 p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-600"
             @dragover.prevent
             @drop.prevent="$refs.uploadModule.files = $event.dataTransfer.files; $refs.uploadModule.dispatchEvent(new Event('change'))">
@@ -75,6 +76,7 @@
             <input type="file" name="module" accept=".zip" x-ref="uploadModule" @change="$event.target.form.submit()">
         </form>
     </div>
+    @endif
 
     <div class="space-y-6">
         @if (empty($modules))
@@ -87,7 +89,7 @@
             <p class="mt-4 text-gray-600 dark:text-gray-400">{{ __('Drag and drop your module file here, or') }}</p>
             <button
                 @click="$refs.uploadModule.click()"
-                class="mt-4 px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-600"
+                class="mt-4 btn-primary"
             >
                 <i class="bi bi-cloud-upload mr-2"></i>
                 {{ __('Upload') }}
