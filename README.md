@@ -530,6 +530,7 @@ Please visit at Lara Dashboard to get more premium moduels - https://laradashboa
 
 ## 🧩 Core modules
 
+-   **Task Manager** - https://github.com/laradashboard/TaskManager - Basic Task Manager module for Lara Dashboard | Standard Starter Module for Lara Dashboard.
 -   **User Avatar** - https://github.com/laradashboard/UserAvatar - A very simple module create an avatar for a user. Handle migration, entries/updates in user forms and so on.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
