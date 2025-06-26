@@ -23,7 +23,7 @@ class PermissionController extends ApiController
      */
     public function index(Request $request): JsonResponse
     {
-        $this->checkAuthorization(Auth::user(), ['permission.view']);
+        $this->checkAuthorization(Auth::user(), ['role.view']);
 
         $search = $request->input('search');
         $groupName = $request->input('group_name');
@@ -43,7 +43,7 @@ class PermissionController extends ApiController
      */
     public function show(int $id): JsonResponse
     {
-        $this->checkAuthorization(Auth::user(), ['permission.view']);
+        $this->checkAuthorization(Auth::user(), ['role.view']);
 
         $permission = $this->permissionService->getPermissionById($id);
 
@@ -64,7 +64,7 @@ class PermissionController extends ApiController
      */
     public function groups(): JsonResponse
     {
-        $this->checkAuthorization(Auth::user(), ['permission.view']);
+        $this->checkAuthorization(Auth::user(), ['role.view']);
 
         $groups = $this->permissionService->getDatabasePermissionGroups();
 
