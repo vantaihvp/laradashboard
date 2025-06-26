@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\ActionType;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
@@ -57,7 +58,10 @@ class RoleController extends ApiController
     {
         $role = $this->rolesService->create($request->validated());
 
-        $this->logAction('Role Created', $role);
+        $this->storeActionLog(
+            ActionType::CREATED,
+            ['role' => $role->toArray()],
+        );
 
         return $this->resourceResponse(
             new RoleResource($role->load('permissions')),
@@ -75,7 +79,10 @@ class RoleController extends ApiController
     {
         $this->checkAuthorization(Auth::user(), ['role.view']);
 
-        $role = Role::with('permissions')->findOrFail($id);
+        $role = Role::with('permissions')->find($id);
+        if (! $role) {
+            return $this->errorResponse('Role not found', 404);
+        }
 
         return $this->resourceResponse(
             new RoleResource($role),
@@ -93,7 +100,10 @@ class RoleController extends ApiController
         $role = Role::findOrFail($id);
         $updatedRole = $this->rolesService->update($role, $request->validated());
 
-        $this->logAction('Role Updated', $updatedRole);
+        $this->storeActionLog(
+            ActionType::UPDATED,
+            ['role' => $updatedRole->toArray()],
+        );
 
         return $this->resourceResponse(
             new RoleResource($updatedRole->load('permissions')),
@@ -110,7 +120,10 @@ class RoleController extends ApiController
     {
         $this->checkAuthorization(Auth::user(), ['role.delete']);
 
-        $role = Role::findOrFail($id);
+        $role = Role::find($id);
+        if (! $role) {
+            return $this->errorResponse('Role not found', 404);
+        }
 
         if ($role->users()->count() > 0) {
             return $this->errorResponse('Cannot delete role with assigned users', 400);
@@ -118,7 +131,10 @@ class RoleController extends ApiController
 
         $role->delete();
 
-        $this->logAction('Role Deleted', $role);
+        $this->storeActionLog(
+            ActionType::DELETED,
+            ['role' => $role->toArray()],
+        );
 
         return $this->successResponse(null, 'Role deleted successfully');
     }
@@ -147,7 +163,11 @@ class RoleController extends ApiController
 
         $deletedCount = Role::whereIn('id', $roleIds)->delete();
 
-        $this->logAction('Bulk Role Deletion', null, ['deleted_count' => $deletedCount]);
+        $this->storeActionLog(
+            ActionType::BULK_DELETED,
+            ['role_ids' => $roleIds],
+            'Bulk deleted roles'
+        );
 
         return $this->successResponse(
             ['deleted_count' => $deletedCount],
