@@ -67,4 +67,37 @@ class SettingService
 
         return Setting::where('autoload', (bool) $autoload)->get()->toArray();
     }
+
+    /**
+     * Get all settings with optional group filter
+     */
+    public function getAllSettings(?string $group = null)
+    {
+        $query = Setting::query();
+
+        if ($group) {
+            $query->where('group', $group);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * Update or create a setting
+     */
+    public function updateOrCreateSetting(string $key, mixed $value): Setting
+    {
+        return Setting::updateOrCreate(
+            ['option_name' => $key],
+            ['option_value' => $value ?? '']
+        );
+    }
+
+    /**
+     * Get setting by key
+     */
+    public function getSettingByKey(string $key): ?Setting
+    {
+        return Setting::where('option_name', $key)->first();
+    }
 }

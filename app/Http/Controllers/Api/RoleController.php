@@ -1,0 +1,157 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Requests\Role\StoreRoleRequest;
+use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Http\Resources\RoleResource;
+use App\Services\RolesService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+
+class RoleController extends ApiController
+{
+    public function __construct(private readonly RolesService $rolesService)
+    {
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @tags Roles
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $this->checkAuthorization(Auth::user(), ['role.view']);
+
+        $search = $request->input('search');
+        $perPage = (int) ($request->input('per_page') ?? config('settings.default_pagination', 10));
+
+        $roles = $this->rolesService->getPaginatedRolesWithUserCount($search, $perPage);
+
+        return $this->resourceResponse(
+            RoleResource::collection($roles)->additional([
+                'meta' => [
+                    'pagination' => [
+                        'current_page' => $roles->currentPage(),
+                        'last_page' => $roles->lastPage(),
+                        'per_page' => $roles->perPage(),
+                        'total' => $roles->total(),
+                    ],
+                ],
+            ]),
+            'Roles retrieved successfully'
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @tags Roles
+     */
+    public function store(StoreRoleRequest $request): JsonResponse
+    {
+        $role = $this->rolesService->create($request->validated());
+
+        $this->logAction('Role Created', $role);
+
+        return $this->resourceResponse(
+            new RoleResource($role->load('permissions')),
+            'Role created successfully',
+            201
+        );
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @tags Roles
+     */
+    public function show(int $id): JsonResponse
+    {
+        $this->checkAuthorization(Auth::user(), ['role.view']);
+
+        $role = Role::with('permissions')->findOrFail($id);
+
+        return $this->resourceResponse(
+            new RoleResource($role),
+            'Role retrieved successfully'
+        );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @tags Roles
+     */
+    public function update(UpdateRoleRequest $request, int $id): JsonResponse
+    {
+        $role = Role::findOrFail($id);
+        $updatedRole = $this->rolesService->update($role, $request->validated());
+
+        $this->logAction('Role Updated', $updatedRole);
+
+        return $this->resourceResponse(
+            new RoleResource($updatedRole->load('permissions')),
+            'Role updated successfully'
+        );
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @tags Roles
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        $this->checkAuthorization(Auth::user(), ['role.delete']);
+
+        $role = Role::findOrFail($id);
+
+        if ($role->users()->count() > 0) {
+            return $this->errorResponse('Cannot delete role with assigned users', 400);
+        }
+
+        $role->delete();
+
+        $this->logAction('Role Deleted', $role);
+
+        return $this->successResponse(null, 'Role deleted successfully');
+    }
+
+    /**
+     * Bulk delete roles.
+     *
+     * @tags Roles
+     */
+    public function bulkDelete(Request $request): JsonResponse
+    {
+        $this->checkAuthorization(Auth::user(), ['role.delete']);
+
+        $request->validate([
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'integer|exists:roles,id',
+        ]);
+
+        $roleIds = $request->input('ids');
+
+        // Check if any roles have users assigned
+        $rolesWithUsers = Role::whereIn('id', $roleIds)->whereHas('users')->count();
+        if ($rolesWithUsers > 0) {
+            return $this->errorResponse('Cannot delete roles with assigned users', 400);
+        }
+
+        $deletedCount = Role::whereIn('id', $roleIds)->delete();
+
+        $this->logAction('Bulk Role Deletion', null, ['deleted_count' => $deletedCount]);
+
+        return $this->successResponse(
+            ['deleted_count' => $deletedCount],
+            $deletedCount . " roles deleted successfully"
+        );
+    }
+}

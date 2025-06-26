@@ -9,9 +9,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ActionLogService
 {
-    public function getActionLogs(): LengthAwarePaginator
+    public function getPaginatedActionLogs(): LengthAwarePaginator
     {
-        $query = ActionLog::query();
+        $query = ActionLog::with('user');
         $search = request()->input('search');
 
         if ($search) {
@@ -34,5 +34,13 @@ class ActionLogService
         }
 
         return $query->latest()->paginate(20);
+    }
+
+    /**
+     * Get action log by ID
+     */
+    public function getActionLogById(int $id): ?ActionLog
+    {
+        return ActionLog::with('user')->find($id);
     }
 }

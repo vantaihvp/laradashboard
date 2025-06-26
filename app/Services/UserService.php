@@ -44,4 +44,25 @@ class UserService
     {
         return User::findOrFail($id);
     }
+
+    public function updateUser(User $user, array $data): User
+    {
+        $updateData = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'username' => $data['username'],
+        ];
+
+        if (isset($data['password']) && ! empty($data['password'])) {
+            $updateData['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($updateData);
+
+        if (isset($data['roles'])) {
+            $user->syncRoles($data['roles']);
+        }
+
+        return $user->refresh();
+    }
 }
