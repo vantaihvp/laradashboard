@@ -9,6 +9,7 @@
     'required' => false,
     'class' => '',
     'disabled' => false,
+    'isRefresh' => false,
 ])
 
 @php
@@ -25,6 +26,7 @@
         selectedOption: {{ $multiple ? 'null' : json_encode($selectedValues[0] ?? null) }},
         multiple: {{ $multiple ? 'true' : 'false' }},
         searchable: {{ $searchable ? 'true' : 'false' }},
+        isRefresh: {{ $isRefresh === true || $isRefresh === 'true' ? 'true' : 'false' }},
         
         setLabelText() {
             if (this.multiple) {
@@ -50,6 +52,19 @@
                 this.isOpen = false;
                 this.openedWithKeyboard = false;
                 this.$refs.hiddenTextField.value = option.value;
+                
+                // Only update URL and reload page if isRefresh is true
+                if (this.isRefresh === true || this.isRefresh === 'true') {
+                    // Update URL with query parameter and preserve hash
+                    const url = new URL(window.location.href);
+                    const currentHash = url.hash;
+                    url.searchParams.set(this.$refs.hiddenTextField.name, option.value);
+                    
+                    // Remove hash before setting location (will be added back)
+                    url.hash = '';
+                    const newUrl = url.toString() + (currentHash ? currentHash : '');
+                    window.location.href = newUrl;
+                }
             }
         },
         
@@ -60,6 +75,27 @@
                 }
             } else {
                 this.selectedOptions = this.selectedOptions.filter(val => val !== optionValue);
+            }
+            
+            // Only update URL and reload page if isRefresh is true
+            if (this.isRefresh === true || this.isRefresh === 'true') {
+                // Update URL with query parameter and preserve hash
+                const url = new URL(window.location.href);
+                const currentHash = url.hash;
+                const paramName = '{{ str_replace("[]", "", $name) }}';
+                
+                // Clear existing parameters with this name
+                url.searchParams.delete(paramName);
+                
+                // Add each selected option as a query parameter
+                this.selectedOptions.forEach(value => {
+                    url.searchParams.append(paramName, value);
+                });
+                
+                // Remove hash before setting location (will be added back)
+                url.hash = '';
+                const newUrl = url.toString() + (currentHash ? currentHash : '');
+                window.location.href = newUrl;
             }
         },
         
