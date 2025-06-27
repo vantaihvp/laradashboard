@@ -8,7 +8,13 @@ enum ActionType: string
     case UPDATED = 'updated';
     case DELETED = 'deleted';
     case VIEWED = 'viewed';
-    case APPROVED = 'approved';
-    case REJECTED = 'rejected';
-    case EXCEPTION = 'exception';
+    case EXPORTED = 'exported';
+    case IMPORTED = 'imported';
+    case COMPLETED = 'completed';
+    case CANCELLED = 'cancelled';
+    case ASSIGNED = 'assigned';
+    case UNASSIGNED = 'unassigned';
+    case COMMENTED = 'commented';
+    case ATTACHED = 'attached';
+    case DETACHED = 'detached';
 }
