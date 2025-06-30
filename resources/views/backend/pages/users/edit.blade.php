@@ -22,54 +22,45 @@
                                 <label for="name"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Full Name') }}</label>
                                 <input type="text" name="name" id="name" required value="{{ $user->name }}"
-                                    placeholder="{{ __('Enter Full Name') }}"
-                                    class="form-control">
+                                    placeholder="{{ __('Enter Full Name') }}" class="form-control">
                             </div>
                             <div>
                                 <label for="email"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('User Email') }}</label>
                                 <input type="email" name="email" id="email" required value="{{ $user->email }}"
-                                    placeholder="{{ __('Enter Email') }}"
-                                    class="form-control">
+                                    placeholder="{{ __('Enter Email') }}" class="form-control">
                             </div>
                             <div>
-                                <x-inputs.password
-                                    name="password"
-                                    label="{{ __('Password (Optional)') }}"
-                                    placeholder="{{ __('Enter Password') }}"
-                                />
+                                <x-inputs.password name="password" label="{{ __('Password (Optional)') }}"
+                                    placeholder="{{ __('Enter Password') }}" />
                             </div>
                             <div>
-                                <x-inputs.password
-                                    name="password_confirmation"
+                                <x-inputs.password name="password_confirmation"
                                     label="{{ __('Confirm Password (Optional)') }}"
-                                    placeholder="{{ __('Confirm Password') }}"
-                                />
+                                    placeholder="{{ __('Confirm Password') }}" />
                             </div>
                             <div>
-                                <x-inputs.combobox
-                                    name="roles[]"
-                                    label="{{ __('Assign Roles') }}"
-                                    placeholder="{{ __('Select Roles') }}"
-                                    :options="collect($roles)->map(fn($name, $id) => ['value' => $name, 'label' => ucfirst($name)])->values()->toArray()"
-                                    :selected="$user->roles->pluck('name')->toArray()"
-                                    :multiple="true"
-                                    :searchable="false"
-                                />
+                                <x-inputs.combobox name="roles[]" label="{{ __('Assign Roles') }}"
+                                    placeholder="{{ __('Select Roles') }}" :options="collect($roles)
+                                        ->map(fn($name, $id) => ['value' => $name, 'label' => ucfirst($name)])
+                                        ->values()
+                                        ->toArray()" :selected="$user->roles->pluck('name')->toArray()"
+                                    :multiple="true" :searchable="false" />
                             </div>
                             <div>
                                 <label for="username"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Username') }}</label>
 
                                 <input type="text" name="username" id="username" required value="{{ $user->username }}"
-                                    placeholder="{{ __('Enter Username') }}"
-                                    class="form-control">
+                                    placeholder="{{ __('Enter Username') }}" class="form-control">
                             </div>
                             {!! ld_apply_filters('after_username_field', '', $user) !!}
                         </div>
                         <div class="mt-6 flex justify-start gap-4">
                             <button type="submit" class="btn-primary">{{ __('Save') }}</button>
-                            <a href="{{ route('admin.users.index') }}" class="btn-default">{{ __('Cancel') }}</a>
+                            <a href="{{ route('admin.users.index') }}" class="btn-default">
+                                <i class="bi bi-x-circle mr-1"></i>
+                                {{ __('Cancel') }}</a>
                         </div>
                     </form>
                 </div>
