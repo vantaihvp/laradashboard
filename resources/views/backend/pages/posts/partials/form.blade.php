@@ -148,11 +148,7 @@
                     </div>
                 </div>
                 {!! ld_apply_filters('post_form_after_publish_date', '') !!}
-
-                <div class="flex justify-between gap-4 mt-3">
-                    <button type="submit" class="btn-primary">{{ isset($post) ? __('Update') : __('Save') }}</button>
-                    <a href="{{ route('admin.posts.index', $postType) }}" class="btn-default">{{ __('Cancel') }}</a>
-                </div>
+                <x-buttons.submit-buttons cancelUrl="{{ route('admin.posts.index', $postType) }}" />
                 {!! ld_apply_filters('post_form_after_submit_buttons', '') !!}
             </div>
         </div>

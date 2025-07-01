@@ -67,10 +67,7 @@
                             </div>
                             {!! ld_apply_filters('after_username_field', '', $user) !!}
                         </div>
-                        <div class="mt-6 flex justify-start gap-4">
-                            <button type="submit" class="btn-primary">{{ __('Save') }}</button>
-                            <a href="{{ route('admin.users.index') }}" class="btn-default">{{ __('Cancel') }}</a>
-                        </div>
+                        <x-buttons.submit-buttons cancelUrl="{{ route('admin.users.index') }}" />
                     </form>
                 </div>
             </div>
