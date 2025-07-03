@@ -65,16 +65,5 @@
                 :placeholder="__('Select Parent ' . $taxonomyModel->label_singular)" :label='__("Parent {$taxonomyModel->label_singular}")' searchable="false" />
         </div>
     @endif
-
-    <!-- Submit Button -->
-    <div class="flex gap-4 mt-4">
-        <button type="submit" class="btn-primary">
-            {{ $term ? __("Update {$taxonomyModel->label_singular}") : __("Add New $taxonomyModel->label_singular") }}
-        </button>
-        @if ($term)
-            <a href="{{ route('admin.terms.index', $taxonomy) }}" class="btn-default">
-                {{ __('Cancel') }}
-            </a>
-        @endif
-    </div>
+    <x-buttons.submit-buttons cancelUrl="{{ $term ? route('admin.terms.index', $taxonomy) : '' }}" />
 </div>

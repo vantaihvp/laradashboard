@@ -56,8 +56,11 @@
                                 <i class="bi bi-x-circle mr-1"></i>
                                 {{ __('Cancel') }}</a>
                         </div>
-                    </form>
-                </div>
+                        {!! ld_apply_filters('profile_edit_fields', '', $user) !!}
+                    </div>
+                    {!! ld_apply_filters('profile_edit_after_fields', '', $user) !!}
+                    <x-buttons.submit-buttons cancelUrl="{{ route('admin.dashboard') }}" />
+                </form>
             </div>
         </div>
     </div>
