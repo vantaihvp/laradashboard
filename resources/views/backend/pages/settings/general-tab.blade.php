@@ -26,62 +26,50 @@
             <!-- Column 1: Site Logo Full Lite and Dark -->
             <div>
                 <div class="mt-2">
-                    @if (config('settings.site_logo_lite') !== '' && !empty(config('settings.site_logo_lite')))
-                        <img src="{{ config('settings.site_logo_lite') ?? '' }}" alt=""
-                            class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
-                    @endif
-                    <div class="w-full mt-2">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            {{ __('Site Logo Full (Lite Version)') }}
-                        </label>
-                        <input type="file" name="site_logo_lite" class="form-control">
-                    </div>
+                    <x-inputs.file-input 
+                        name="site_logo_lite" 
+                        id="site_logo_lite"
+                        label="{{ __('Site Logo Full (Lite Version)') }}"
+                        :existingAttachment="config('settings.site_logo_lite') !== '' && !empty(config('settings.site_logo_lite')) ? config('settings.site_logo_lite') : null"
+                        :existingAltText="''"
+                    />
                 </div>
 
                 <div class="mt-2">
-                    @if (config('settings.site_logo_dark') !== '' && !empty(config('settings.site_logo_dark')))
-                        <img src="{{ config('settings.site_logo_dark') ?? '' }}" alt=""
-                            class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
-                    @endif
-                    <div class="w-full mt-4">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            {{ __('Site Logo Full (Dark Version)') }}
-                        </label>
-                        <input type="file" name="site_logo_dark" class="form-control">
-                    </div>
+                    <x-inputs.file-input 
+                        name="site_logo_dark" 
+                        id="site_logo_dark"
+                        label="{{ __('Site Logo Full (Dark Version)') }}"
+                        :existingAttachment="config('settings.site_logo_dark') !== '' && !empty(config('settings.site_logo_dark')) ? config('settings.site_logo_dark') : null"
+                        :existingAltText="''"
+                    />
                 </div>
             </div>
 
             <!-- Column 2: Site Icon and Favicon -->
             <div>
                 <div class="mt-2">
-                    @if (config('settings.site_icon') !== '' && !empty(config('settings.site_icon')))
-                        <img src="{{ config('settings.site_icon') ?? '' }}" alt=""
-                            class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
-                    @endif
-                    <div class="w-full">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            {{ __('Site Icon') }}
-                        </label>
-                        <input type="file" name="site_icon" class="form-control">
-                    </div>
+                    <x-inputs.file-input 
+                        name="site_icon" 
+                        id="site_icon"
+                        label="{{ __('Site Icon') }}"
+                        :existingAttachment="config('settings.site_icon') !== '' && !empty(config('settings.site_icon')) ? config('settings.site_icon') : null"
+                        :existingAltText="''"
+                    />
                 </div>
 
                 <div class="mt-2">
-                    @if (config('settings.site_favicon') !== '' && !empty(config('settings.site_favicon')))
-                        <img src="{{ config('settings.site_favicon') ?? '' }}" alt=""
-                            class="bg-gray-200 p-2 dark:bg-gray-800 max-h-[80px]">
-                    @endif
-                    <div class="w-full mt-4">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            {{ __('Site Favicon') }}
-                        </label>
-                        <input type="file" name="site_favicon" class="form-control">
-                    </div>
+                    <x-inputs.file-input 
+                        name="site_favicon" 
+                        id="site_favicon"
+                        label="{{ __('Site Favicon') }}"
+                        :existingAttachment="config('settings.site_favicon') !== '' && !empty(config('settings.site_favicon')) ? config('settings.site_favicon') : null"
+                        :existingAltText="''"
+                    />
                 </div>
             </div>
         </div>
     </div>
     @php echo ld_apply_filters('settings_general_tab_before_section_end', '') @endphp
 </div>
-@php echo ld_apply_filters('settings_general_tab_after_section_end', '') @endphp
+

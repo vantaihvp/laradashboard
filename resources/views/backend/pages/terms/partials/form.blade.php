@@ -35,27 +35,11 @@
             class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Description') }}</label>
         <textarea name="description" id="description" rows="3" class="form-control !h-30">{{ old('description', $term ? $term->description : '') }}</textarea>
     </div>
-
     @if ($taxonomyModel->show_featured_image)
-        <!-- Featured Image -->
-        <div class="mt-4">
-            <label for="featured_image"
-                class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Featured Image') }}</label>
-            @if ($term && $term->featured_image)
-                <div class="mb-4">
-                    <img src="{{ Storage::url($term->featured_image) }}" alt="{{ $term->name }}"
-                        class="max-h-48 rounded-lg border dark:border-gray-700">
-                    <div class="mt-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" name="remove_featured_image" id="remove_featured_image"
-                                value="1" class="mr-2">
-                            <span
-                                class="text-sm text-gray-700 dark:text-gray-400">{{ __('Remove featured image') }}</span>
-                        </label>
-                    </div>
-                </div>
-            @endif
-            <input type="file" name="featured_image" id="featured_image" accept="image/*" class="form-control">
+        <div class="mt-2">
+            <x-inputs.file-input name="featured_image" :existingAttachment="$term ? $term->featured_image : null"
+                :existingAltText="$term ? $term->featured_image_alt_text : ''" removeCheckboxName="remove_featured_image"
+                removeCheckboxLabel="{{ __('Remove featured image') }}" />
         </div>
     @endif
 

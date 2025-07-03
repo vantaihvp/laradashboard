@@ -71,28 +71,20 @@
                 {!! ld_apply_filters('post_form_after_excerpt', '') !!}
 
                 @if ($postTypeModel->supports_thumbnail)
-                    <div class="mt-1">
-                        <label for="featured_image"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-400">{{ __('Featured Image') }}</label>
-                        @if (isset($post) && $post->featured_image)
-                            <div class="mb-4">
-                                <img src="{{ $post->featured_image }}" alt="{{ $post->title }}"
-                                    class="max-h-48 rounded-lg">
-                                <div class="mt-2">
-                                    <label class="flex items-center">
-                                        <input type="checkbox" name="remove_featured_image" id="remove_featured_image"
-                                            class="mr-2">
-                                        <span
-                                            class="text-sm text-gray-700 dark:text-gray-400">{{ __('Remove featured image') }}</span>
-                                    </label>
-                                </div>
-                            </div>
-                        @endif
-                        <input type="file" name="featured_image" id="featured_image" accept="image/*"
-                            class="form-control">
+                    <x-inputs.file-input 
+                        name="featured_image" 
+                        id="featured_image" 
+                        accept="image/*"
+                        label="{{ __('Featured Image') }}"
+                        :existingAttachment="isset($post) && $post->featured_image ? $post->featured_image : null"
+                        :existingAltText="isset($post) ? $post->title : ''"
+                        :removeCheckboxLabel="__('Remove featured image')"
+                        class="mt-1"
+                    >
                         <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                            {{ __('Select an image to represent this post') }}</p>
-                    </div>
+                            {{ __('Select an image to represent this post') }}
+                        </p>
+                    </x-inputs.file-input>
                 @endif
                 {!! ld_apply_filters('post_form_after_featured_image', '') !!}
             </div>
@@ -185,8 +177,11 @@
                         }
                     @endphp
 
-                    <x-inputs.combobox name="parent_id" :label="__('Parent {$postTypeModel->label_singular}')" :placeholder="__('Select Parent')" :options="$parentOptions"
-                        :selected="old('parent_id', $post->parent_id ?? '')" :searchable="false" />
+                    <x-inputs.combobox name="parent_id" 
+                    :label="__('Parent ' . $postTypeModel->label_singular)" 
+                    :placeholder="__('Select Parent')" :options="$parentOptions"
+                    :selected="old('parent_id', $post->parent_id ?? '')" 
+                    :searchable="false" />
                 </div>
             </div>
         @endif
@@ -203,5 +198,3 @@
         @endif
     </div>
 </div>
-
-{!! ld_apply_filters('inside_post_form_end', '') !!}
