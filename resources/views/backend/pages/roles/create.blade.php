@@ -10,34 +10,27 @@
 
         {!! ld_apply_filters('roles_create_after_breadcrumbs', '') !!}
 
-        <form action="{{ route('admin.roles.store') }}" method="POST">
-            @csrf
-            <div class="space-y-8">
-                <!-- Role Details Section -->
-                <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
-                    <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                            {{ __('Role Details') }}
-                        </h3>
-                        <div class="flex gap-4">
-                            <button type="submit" class="btn-primary">
-                                {{ __('Save') }}
-                            </button>
-                            <a href="{{ route('admin.roles.index') }}" class="btn-default">
-                                <i class="bi bi-x-circle mr-1"></i>
-                                {{ __('Cancel') }}
-                            </a>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                    {{ __('Role Name') }}
-                                </label>
-                                <input required autofocus name="name" value="{{ old('name') }}" type="text"
-                                    placeholder="{{ __('Enter a Role Name') }}" class="mt-2 form-control">
-                            </div>
+    <form action="{{ route('admin.roles.store') }}" method="POST">
+        @csrf
+        <div class="space-y-8">
+            <!-- Role Details Section -->
+            <div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-800 dark:bg-gray-900">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                        {{ __('Role Details') }}
+                    </h3>
+                    <x-buttons.submit-buttons
+                        :classNames="['wrapper' => 'flex gap-4']"
+                        cancelUrl="{{ route('admin.roles.index') }}"
+                    />
+                </div>
+                <div class="p-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                {{ __('Role Name') }}
+                            </label>
+                            <input required autofocus name="name" value="{{ old('name') }}" type="text" placeholder="{{ __('Enter a Role Name') }}" class="mt-2 form-control">
                         </div>
                     </div>
                 </div>
@@ -88,20 +81,10 @@
                         @endforeach
                     </div>
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="flex justify-start gap-4">
-                    <button type="submit" class="btn-primary">
-                        {{ __('Save') }}
-                    </button>
-                    <a href="{{ route('admin.roles.index') }}" class="btn-default">
-                        <i class="bi bi-x-circle mr-1"></i>
-                        {{ __('Cancel') }}
-                    </a>
-                </div>
-            </div>
-        </form>
-    </div>
+            <x-buttons.submit-buttons cancelUrl="{{ route('admin.roles.index') }}" />
+        </div>
+    </form>
+</div>
 @endsection
 
 @push('scripts')
