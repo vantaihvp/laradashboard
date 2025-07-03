@@ -77,7 +77,6 @@ class RolesService
         return $role;
     }
 
-
     public function findRoleById(int $id): ?Role
     {
         $role = Role::findById($id);
@@ -85,15 +84,12 @@ class RolesService
         return $role instanceof Role ? $role : null;
     }
 
-
     public function findRoleByName(string $name): ?Role
     {
         $role = Role::findByName($name);
 
         return $role instanceof Role ? $role : null;
     }
-
-
 
     public function updateRole(Role $role, string $name, array $permissions = []): Role
     {
