@@ -7,7 +7,7 @@
     'width' => 'sm:w-120',
     'drawerId' => null,
     'headerBtn' => null,
-    'headerBtnClass' => 'btn-secondary',
+    'headerBtnClass' => 'btn-default',
     'footerBtn' => null,
     'footerBtnClass' => 'btn-primary',
     'footerText' => null,

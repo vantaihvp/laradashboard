@@ -231,7 +231,7 @@
         <div x-cloak 
             x-show="isOpen || openedWithKeyboard" 
             class="absolute z-50 left-0 top-full mt-1 w-full overflow-hidden rounded-lg border border-gray-300 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900"
-            x-on:click.outside="isOpen = false, openedWithKeyboard = false" 
+            @click.outside="isOpen = false; openedWithKeyboard = false;" 
             x-on:keydown.down.prevent="$focus.wrap().next()" 
             x-on:keydown.up.prevent="$focus.wrap().previous()" 
             x-transition 
