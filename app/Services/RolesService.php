@@ -244,6 +244,16 @@ class RolesService
 
         $roles['subscriber'] = $this->createRole('Subscriber', $subscriberPermissions);
 
+
+        $contactPermissions = [
+            'dashboard.view',
+            'profile.view',
+            'profile.edit',
+            'profile.update',
+        ];
+
+        $roles['contact'] = $this->createRole('Contact', $contactPermissions);
+
         return $roles;
     }
 
@@ -299,6 +309,15 @@ class RolesService
                 ];
 
             case 'subscriber':
+            case 'contact ':
+                return[
+                    'dashboard.view',
+                    'profile.view',
+                    'profile.edit',
+                    'profile.update',
+                    'post.view',
+                    'term.view',
+                ];
             default:
                 return [
                     'dashboard.view',
