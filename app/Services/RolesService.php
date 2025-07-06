@@ -54,7 +54,7 @@ class RolesService
     public function roleHasPermissions(Role $role, $permissions): bool
     {
         foreach ($permissions as $permission) {
-            if (!$role->hasPermissionTo($permission->name)) {
+            if (! $role->hasPermissionTo($permission->name)) {
                 return false;
             }
         }
@@ -70,7 +70,7 @@ class RolesService
         /** @var \Spatie\Permission\Models\Role $role */
         $role = Role::create(['name' => $name, 'guard_name' => 'web']);
 
-        if (!empty($permissions)) {
+        if (! empty($permissions)) {
             $role->syncPermissions($permissions);
         }
 
@@ -96,7 +96,7 @@ class RolesService
         $role->name = $name;
         $role->save();
 
-        if (!empty($permissions)) {
+        if (! empty($permissions)) {
             $role->syncPermissions($permissions);
         }
 
@@ -117,7 +117,7 @@ class RolesService
     {
         if (is_string($role)) {
             $role = Role::where('name', $role)->first();
-            if (!$role) {
+            if (! $role) {
                 return 0;
             }
         }
@@ -243,7 +243,6 @@ class RolesService
         ];
 
         $roles['subscriber'] = $this->createRole('Subscriber', $subscriberPermissions);
-
 
         $contactPermissions = [
             'dashboard.view',
