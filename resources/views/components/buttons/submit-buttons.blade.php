@@ -34,6 +34,12 @@
 
 
     @if (!empty($cancelLabel) && !empty($cancelUrl))
-        <a href="{{ $cancelUrl }}" class="{{ $classNames['cancel'] ?? 'btn-default' }}">{{ $cancelLabel }}</a>
+        <a href="{{ $cancelUrl }}" class="{{ $classNames['cancel'] ?? 'btn-default' }}">
+            @if ($showIcon)
+                <i class="bi bi-x-circle mr-2"></i>
+            @endif
+
+            {{ $cancelLabel }}
+        </a>
     @endif
 </div>
