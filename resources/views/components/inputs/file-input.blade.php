@@ -6,7 +6,7 @@
     'existingAttachment' => null,
     'existingAltText' => '',
     'removeCheckboxName' => 'remove_featured_image',
-    'removeCheckboxLabel' => 'Remove featured image',
+    'removeCheckboxLabel' => null,
 ])
 
 @php
@@ -19,14 +19,17 @@
     @if ($existingAttachment)
         <div class="mb-4">
             <img src="{{ $existingAttachment }}" alt="{{ $existingAltText }}" class="max-h-48 rounded-lg">
-            <div class="mt-2">
-                <label class="flex items-center">
-                    <input type="checkbox" name="{{ $removeCheckboxName }}" id="{{ $removeCheckboxName }}"
-                        class="mr-2">
-                    <span
-                        class="text-sm text-gray-700 dark:text-gray-400">{{ $removeCheckboxLabel }}</span>
-                </label>
-            </div>
+
+            @if($removeCheckboxLabel)
+                <div class="mt-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="{{ $removeCheckboxName }}" id="{{ $removeCheckboxName }}"
+                            class="mr-2">
+                        <span
+                            class="text-sm text-gray-700 dark:text-gray-400">{{ $removeCheckboxLabel }}</span>
+                    </label>
+                </div>
+            @endif
         </div>
     @endif
     <input type="file" name="{{ $name }}" id="{{ $id }}" {{ $multiple ? 'multiple' : '' }}

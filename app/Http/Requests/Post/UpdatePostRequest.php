@@ -54,7 +54,7 @@ class UpdatePostRequest extends FormRequest
             'featured_image' => 'nullable|file|image|max:5120',
             'parent_id' => 'nullable|exists:posts,id',
             'published_at' => 'nullable|date',
-            'remove_featured_image' => 'nullable|boolean',
+            'remove_featured_image' => 'nullable',
             'meta_keys.*' => 'nullable|string|max:255|regex:/^[a-z0-9_]+$/',
             'meta_values.*' => 'nullable|string',
             'meta_types.*' => 'nullable|string|in:input,textarea,number,email,url,text,date,checkbox,select',
