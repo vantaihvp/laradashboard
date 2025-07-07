@@ -135,7 +135,10 @@
                     class="btn-primary"
                     :disabled="isSubmitting"
                 >
-                    <span x-show="!isSubmitting">{{ __("Save") }}</span>
+                    <span x-show="!isSubmitting">
+                        <i class="bi bi-check-circle mr-2"></i>
+                        {{ __("Save") }}
+                    </span>
                     <span x-show="isSubmitting" class="flex items-center">
                         <svg
                             class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
@@ -165,6 +168,8 @@
                     @click="isOpen = false"
                     class="btn-default"
                 >
+                    <i class="bi bi-x-circle mr-2"></i>
+
                     {{ __("Cancel") }}
                 </button>
             </div>

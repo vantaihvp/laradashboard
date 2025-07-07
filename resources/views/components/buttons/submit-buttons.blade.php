@@ -12,7 +12,6 @@
     ],
 ])
 
-{{-- fix this line --}}
 <div class="{{ $classNames['wrapper'] ?? 'mt-6 flex justify-start gap-4' }}">
     @if ($showSubmit)
         <button type="submit" @if (!empty($id)) id="{{ $id }}" @endif
@@ -31,7 +30,6 @@
             @endif
         </button>
     @endif
-
 
     @if (!empty($cancelLabel) && !empty($cancelUrl))
         <a href="{{ $cancelUrl }}" class="{{ $classNames['cancel'] ?? 'btn-default' }}">
