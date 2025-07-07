@@ -79,10 +79,10 @@
                     </div>
                     @php $i++; @endphp
                     @endforeach
+
+                    <x-buttons.submit-buttons cancelUrl="{{ route('admin.roles.index') }}" />
                 </div>
             </div>
-
-            <x-buttons.submit-buttons cancelUrl="{{ route('admin.roles.index') }}" />
         </div>
     </form>
 </div>
