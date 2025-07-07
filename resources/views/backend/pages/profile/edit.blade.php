@@ -59,7 +59,6 @@
                         {!! ld_apply_filters('profile_edit_fields', '', $user) !!}
                     </div>
                     {!! ld_apply_filters('profile_edit_after_fields', '', $user) !!}
-                    <x-buttons.submit-buttons cancelUrl="{{ route('admin.dashboard') }}" />
                 </form>
             </div>
         </div>

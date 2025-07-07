@@ -128,14 +128,7 @@
 
         <!-- Footer -->
         <div class="px-5 py-4 sm:px-6 sm:py-5 border-t border-gray-200 dark:border-gray-700">
-            <div class="flex justify-end space-x-3">
-                <button
-                    type="button"
-                    @click="isOpen = false"
-                    class="btn-default"
-                >
-                    {{ __("Cancel") }}
-                </button>
+            <div class="flex space-x-3">
                 <button
                     type="button"
                     @click="saveTerm"
@@ -166,6 +159,13 @@
                         </svg>
                         {{ __("Saving...") }}
                     </span>
+                </button>
+                <button
+                    type="button"
+                    @click="isOpen = false"
+                    class="btn-default"
+                >
+                    {{ __("Cancel") }}
                 </button>
             </div>
         </div>

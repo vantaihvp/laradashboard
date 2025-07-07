@@ -77,10 +77,9 @@
                                 </div>
                                 @php $i++; @endphp
                             @endforeach
+
+                            <x-buttons.submit-buttons cancelUrl="{{ route('admin.roles.index') }}" />
                         </div>
-                    <div class="px-6 py-4  flex justify-end">
-                        <x-buttons.submit-buttons cancelUrl="{{ route('admin.roles.index') }}" />
-                    </div>
                     </div>
                 </div>
         </form>

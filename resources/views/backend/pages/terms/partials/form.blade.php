@@ -49,5 +49,7 @@
                 :placeholder="__('Select Parent ' . $taxonomyModel->label_singular)" :label='__("Parent {$taxonomyModel->label_singular}")' searchable="false" />
         </div>
     @endif
-    <x-buttons.submit-buttons cancelUrl="{{ $term ? route('admin.terms.index', $taxonomy) : '' }}" />
+    <div class="mt-4">
+        <x-buttons.submit-buttons cancelUrl="{{ $term ? route('admin.terms.index', $taxonomy) : '' }}" />
+    </div>
 </div>

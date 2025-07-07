@@ -148,7 +148,9 @@
                     </div>
                 </div>
                 {!! ld_apply_filters('post_form_after_publish_date', '') !!}
-                <x-buttons.submit-buttons cancelUrl="{{ route('admin.posts.index', $postType) }}" />
+                <div class="mt-4">
+                    <x-buttons.submit-buttons cancelUrl="{{ route('admin.posts.index', $postType) }}" />
+                </div>
                 {!! ld_apply_filters('post_form_after_submit_buttons', '') !!}
             </div>
         </div>

@@ -55,8 +55,8 @@
                             {!! ld_apply_filters('after_username_field', '', null) !!}
                         </div>
 
-                        <div class="px-6 py-4  flex justify-end">
-                        <x-buttons.submit-buttons cancelUrl="{{ route('admin.users.index') }}" />
+                        <div class="mt-6">
+                            <x-buttons.submit-buttons cancelUrl="{{ route('admin.users.index') }}" />
                         </div>
                     </form>
                 </div>
