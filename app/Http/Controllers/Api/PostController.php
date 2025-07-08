@@ -98,9 +98,8 @@ class PostController extends ApiController
      */
     public function update(UpdatePostRequest $request, string $postType, int $id): JsonResponse
     {
-        $post = Post::where('post_type', $postType)->findOrFail($id);
 
-        dump($post);
+        $post = Post::where('post_type', $postType)->findOrFail($id);
 
         $updatedPost = $this->postService->updatePost($post, $request->validated());
 
