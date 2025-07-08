@@ -196,7 +196,7 @@ class AdminMenuItem
             'htmlData' => $this->htmlData,
             'children' => array_map(function ($child) {
                 return $child->toArray();
-            }, $this->children),
+            }, is_array($this->children) ? $this->children : []),
         ];
     }
 }

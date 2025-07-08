@@ -26,6 +26,8 @@ class UpdatePostRequest extends FormRequest
         // Sanitize meta keys by slugifying them
         if ($this->has('meta_keys')) {
             $metaKeys = $this->input('meta_keys', []);
+            // Ensure $metaKeys is always an array
+            $metaKeys = is_array($metaKeys) ? $metaKeys : [];
             $sanitizedKeys = array_map(function ($key) {
                 return ! empty($key) ? Str::slug($key, '_') : $key;
             }, $metaKeys);

@@ -20,7 +20,7 @@ class PostController extends ApiController
     }
 
     /**
-     * Display a listing of posts for a specific post type.
+     * Display a listing of posts for a specific post-type.
      *
      * @tags Posts
      */
@@ -99,6 +99,8 @@ class PostController extends ApiController
     public function update(UpdatePostRequest $request, string $postType, int $id): JsonResponse
     {
         $post = Post::where('post_type', $postType)->findOrFail($id);
+
+        dump($post);
 
         $updatedPost = $this->postService->updatePost($post, $request->validated());
 
