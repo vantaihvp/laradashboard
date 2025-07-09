@@ -49,7 +49,6 @@ class TermsController extends Controller
                 ->all();
         }
 
-
         $term = $this->termService->createTerm($request->validated(), $taxonomyName);
 
         // Get taxonomy label for message.

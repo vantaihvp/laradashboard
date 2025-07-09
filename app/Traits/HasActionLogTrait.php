@@ -53,7 +53,7 @@ trait HasActionLogTrait
         }
 
         // Merge with additional data if provided
-        if (!empty($additionalData)) {
+        if (! empty($additionalData)) {
             $data = array_merge($data, $additionalData);
         }
 
