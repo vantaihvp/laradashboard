@@ -148,6 +148,8 @@ class RoleController extends ApiController
     {
         $this->checkAuthorization(Auth::user(), ['role.delete']);
 
+        dump($request->all());
+
         $request->validate([
             'ids' => 'required|array|min:1',
             'ids.*' => 'integer|exists:roles,id',

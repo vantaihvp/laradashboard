@@ -47,11 +47,11 @@ class SettingController extends ApiController
             'settings' => 'required|array',
         ]);
 
-        $settings = $request->input('settings');
+        $settings = $request->input('settings', []);
         $updatedSettings = [];
 
         foreach ($settings as $key => $value) {
-            $setting = $this->settingService->updateOrCreateSetting($key, $value);
+            $setting = $this->settingService->updateOrCreateSetting((string) $key, $value);
             $updatedSettings[] = $setting;
         }
 
